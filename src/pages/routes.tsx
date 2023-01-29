@@ -8,7 +8,7 @@ import NotFound from './not-found';
 const Router = () => {
   return(<Switch>
     <PrivateRoute exact key='home' path='/' component={Home} />
-    <Route path='/login' component={Login} />
+    <Route path='/signin' component={Login} />
     <Route path='/about' component={About} />
     <Route path='*' component={NotFound} />
   </Switch>);
