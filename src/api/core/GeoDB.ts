@@ -1,4 +1,4 @@
-import * as Http from '../Https';
+import * as Http from '../Http';
 import { LatLngLiteral } from "leaflet";
 import { City } from '../../@types';
 

@@ -64,3 +64,5 @@ export interface Rain {
 export interface Clouds {
   all: number;
 }
+
+export type { IUser } from './IUser';
