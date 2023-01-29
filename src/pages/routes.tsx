@@ -7,9 +7,6 @@ import NotFound from './not-found';
 
 const Router = () => {
   return(<Switch>
-    {/* <PrivateRoute exact key='home' path='/' >
-      <Home />
-    </PrivateRoute> */}
     <PrivateRoute exact key='home' path='/' component={Home} />
     <Route path='/login' component={Login} />
     <Route path='/about' component={About} />
