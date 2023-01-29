@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IUser } from "../@types";
 import { Login } from "../@types/IUser";
+import { login, logout } from "../api/core/Auth";
 
 export const useAuth =  () => {
   const [user, setUser] = useState<IUser | null>(null);
@@ -8,8 +9,8 @@ export const useAuth =  () => {
 
   const authenticate = async (params: Login): Promise<void> => {
     try {
-      // const result: IUser = await login(params);
-      // setUser(result);
+      const result: IUser = await login(params);
+      setUser(result);
       setIsAuthenticated(true);
     } catch (err) {
       throw err;
@@ -17,7 +18,7 @@ export const useAuth =  () => {
   };
 
   const unauthenticate = async (): Promise<void> => {
-    // await logout();
+    await logout();
     setUser(null);
     setIsAuthenticated(false);
   };
