@@ -12,12 +12,9 @@
     "@types/react-dom": "^18.0.10",
     "antd": "^5.1.5",
     "axios": "^1.2.2",
-    "leaflet": "^1.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
-    "react-leaflet": "^4.2.0",
-    "react-leaflet-markercluster": "^3.0.0-rc1",
     "react-loading": "^2.0.3",
     "react-router-dom": "^6.6.2",
     "react-scripts": "5.0.1",
@@ -55,9 +52,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@types/leaflet": "^1.9.0",
     "@types/react-helmet": "^6.1.6",
-    "@types/react-leaflet-markercluster": "^3.0.0",
     "@types/styled-components": "^5.1.26"
   }
 }
