@@ -1,13 +1,7 @@
 import { Button, Checkbox, Form, Input } from "antd";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
+import { useAuthContext } from "../../context/AuthContext";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -17,22 +11,38 @@ const LoginContainer = styled.div`
 `
 
 const Login = () => {
+  const auth = useAuthContext();
+  const [form] = Form.useForm();
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = async() => {
+    try {
+      const result = await auth.authenticate(values);
+      debugger;
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
   return(
     <LoginContainer>
       <Form
         name="basic"
+        form={form}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        initialValues={values}
+        onValuesChange={e => setValues({...values, ...e})}
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: 'Please input your username!' }]}
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: 'Please input your email.' }]}
         >
           <Input />
         </Form.Item>
@@ -40,17 +50,13 @@ const Login = () => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: 'Please input your password.' }]}
         >
           <Input.Password />
         </Form.Item>
 
-        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" onClick={handleSubmit}>
             Submit
           </Button>
         </Form.Item>
