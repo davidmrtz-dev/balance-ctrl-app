@@ -17,8 +17,8 @@ export default function PrivateRoute({ children, component: Component, ...rest }
       return auth.isAuthenticated
         ? children as JSX.Element || (Component &&  <Component {...props} />)
         : <Redirect to={{
-          pathname: redirectTo,
-          state: { from: props.location, backPrevious }
+            pathname: redirectTo,
+            state: { from: props.location, backPrevious }
         }} />
     }}/>
   );
