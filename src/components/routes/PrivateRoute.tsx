@@ -9,7 +9,7 @@ type PrivateRouteProps = RouteProps & {
 }
 
 export default function PrivateRoute({ children, component: Component, ...rest }: PrivateRouteProps) {
-  const { backPrevious = false, redirectTo = '/signin' } = rest;
+  const { backPrevious = false, redirectTo = '/login' } = rest;
   const auth = useAuthContext();
 
   return (
