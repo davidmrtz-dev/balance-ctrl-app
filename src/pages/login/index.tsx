@@ -1,44 +1,60 @@
-import { Button, Checkbox, Form, Input } from "antd";
-import { useEffect, useState } from "react";
+import { Alert, Button, Form, Input } from "antd";
+import { useState } from "react";
 import styled from "styled-components";
 import { useAuthContext } from "../../context/AuthContext";
 
 const LoginContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 50px;
 `
 
-const Login = () => {
+const SignIn = () => {
   const auth = useAuthContext();
   const [form] = Form.useForm();
+  const [error, setError] = useState('');
   const [values, setValues] = useState({
     email: '',
     password: ''
   });
 
   const handleSubmit = async() => {
+    if (Object.values(values).some(val => val === '')) {
+      setError('Please fill both fields.');
+      return;
+    }
+
     try {
-      const result = await auth.authenticate(values);
+      await auth.authenticate(values);
       debugger;
-    } catch(err) {
-      console.log(err);
+    } catch(err: any) {
+      setError(err.errors[0] || 'There was an error, please try again.')
+      setValues({ email: '', password: ''});
+      form.resetFields();
     }
   };
 
   return(
     <LoginContainer>
+      {error && <Alert
+        banner
+        message={error}
+        type="error"
+        closable
+        onClose={() => setError('')}
+      />}
       <Form
-        name="basic"
+        name="sign-in"
         form={form}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={values}
+        initialValues={{}}
         onValuesChange={e => setValues({...values, ...e})}
         autoComplete="off"
-      >
+        >
         <Form.Item
           label="Email"
           name="email"
@@ -46,7 +62,6 @@ const Login = () => {
         >
           <Input />
         </Form.Item>
-
         <Form.Item
           label="Password"
           name="password"
@@ -54,7 +69,6 @@ const Login = () => {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" onClick={handleSubmit}>
             Submit
@@ -65,4 +79,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;
