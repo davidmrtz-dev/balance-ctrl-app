@@ -9,26 +9,25 @@ const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
-    'X-RapidAPI-Key': process.env.REACT_APP_GEO_DB_KEY,
-    'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
+    accept: 'application/json'
   },
   validateStatus: (status: number): boolean => {
     return status < 400;
   }
 });
 
-axiosClient.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  return Promise.reject(error.response?.data);
-});
+// axiosClient.interceptors.response.use(function (response) {
+//   return response;
+// }, function (error) {
+//   return Promise.reject(error.response?.data);
+// });
 
 
 export const get = async (path: string, data?: any, headers?: any): Promise<HttpResult> => {
   return axiosClient.get(path, { params: data, headers });
 };
 
-export const post = async (path: string, data?: any, headers?: any): Promise<HttpResult> => {
+export const post = async (path: string, data?: any, headers?: any): Promise<any> => {
   return axiosClient.post(path, data, headers);
 };
 

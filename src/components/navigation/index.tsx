@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
 import { NavigationContainer } from '../containers/NavigationContainer';
@@ -10,6 +10,7 @@ import { useAuthContext } from '../../context/AuthContext';
 
 const Navigation = (): JSX.Element => {
   const auth = useAuthContext();
+  const history = useHistory();
   const [css] = useStyletron();
   const [show, setShow] = useState(false);
   const [date] = useState(new Date());
@@ -31,107 +32,117 @@ const Navigation = (): JSX.Element => {
     color: theme.colors.lighterWhite
   });
 
- return(
-  <NavigationContainer>
-    <Typography className={dateStyles}>Today, {date.toLocaleDateString()}</Typography>
-    {!show && (<FontAwesomeIcon
-      color={theme.colors.lighterWhite}
-      size='lg'
-      style={{ cursor: 'pointer' }}
-      icon={faBars} onClick={() => setShow(true)}/>)
+  const handleLogout = async() => {
+    try {
+      await auth.unauthenticate();
+      history.push('/login');
+    } catch(error) {
+      console.log(error);
     }
-    {show && (<FontAwesomeIcon
-      color={theme.colors.lighterWhite}
-      size='lg'
-      style={{ cursor: 'pointer' }}
-      icon={faTimes} onClick={() => setShow(false)}/>)
-    }
-    <Drawer
-      placement={'top'}
-      onClose={() => setShow(false)}
-      open={show}
-      key={'top'}
-      closable={false}
-      style={{
-        width: 360,
-        height: 'auto',
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        marginLeft: 'auto',
-        marginRight: 'auto'
-      }}
-      bodyStyle={{
-        display: 'flex',
-        flexDirection: 'column',
-        boxShadow: 'none !important',
-        background:`
-          linear-gradient(25deg,
-          ${theme.colors.blues.transitionBlue} 35%,
-          ${theme.colors.blues.fancyBlue} 100%)
-        `,
-        padding: 16
-      }}
-      contentWrapperStyle={{
-        boxShadow: 'none'
-      }}
-    >
-      {auth.isAuthenticated ?
-        <Space direction="vertical">
-          <Link to='/'>
-            <Button
-              block
-              onClick={() => setShow(false)}
-              className={menuBtnStyles}
-            >
-              Home
-            </Button>
-          </Link>
-          <Link to='/about'>
-            <Button
-              block
-              onClick={() => setShow(false)}
-              className={menuBtnStyles}
-            >
-              About
-            </Button>
-          </Link>
-          <Link to='/login'>
-            <Button
-              block
-              onClick={() => setShow(false)}
-              className={menuBtnStyles}
-            >
-              Logout
-            </Button>
-          </Link>
-          <FooterNav />
-        </Space> :
-        <Space direction="vertical">
-          <Link to='/login'>
-            <Button
-              block
-              onClick={() => setShow(false)}
-              className={menuBtnStyles}
-            >
-              Login
-            </Button>
-          </Link>
-          <Link to='/about'>
-            <Button
-              block
-              onClick={() => setShow(false)}
-              className={menuBtnStyles}
-            >
-              About
-            </Button>
-          </Link>
-          <FooterNav />
-        </Space>
+    setShow(false);
+  }
+
+  return(
+    <NavigationContainer>
+      <Typography className={dateStyles}>Today, {date.toLocaleDateString()}</Typography>
+      {!show && (<FontAwesomeIcon
+        color={theme.colors.lighterWhite}
+        size='lg'
+        style={{ cursor: 'pointer' }}
+        icon={faBars} onClick={() => setShow(true)}/>)
       }
-    </Drawer>
-  </NavigationContainer>
- );
+      {show && (<FontAwesomeIcon
+        color={theme.colors.lighterWhite}
+        size='lg'
+        style={{ cursor: 'pointer' }}
+        icon={faTimes} onClick={() => setShow(false)}/>)
+      }
+      <Drawer
+        placement={'top'}
+        onClose={() => setShow(false)}
+        open={show}
+        key={'top'}
+        closable={false}
+        style={{
+          width: 360,
+          height: 'auto',
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          marginLeft: 'auto',
+          marginRight: 'auto'
+        }}
+        bodyStyle={{
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: 'none !important',
+          background:`
+            linear-gradient(25deg,
+            ${theme.colors.blues.transitionBlue} 35%,
+            ${theme.colors.blues.fancyBlue} 100%)
+          `,
+          padding: 16
+        }}
+        contentWrapperStyle={{
+          boxShadow: 'none'
+        }}
+      >
+        {auth.isAuthenticated ?
+          <Space direction="vertical">
+            <Link to='/'>
+              <Button
+                block
+                onClick={() => setShow(false)}
+                className={menuBtnStyles}
+              >
+                Home
+              </Button>
+            </Link>
+            <Link to='/about'>
+              <Button
+                block
+                onClick={() => setShow(false)}
+                className={menuBtnStyles}
+              >
+                About
+              </Button>
+            </Link>
+            <Link to='/login'>
+              <Button
+                block
+                onClick={handleLogout}
+                className={menuBtnStyles}
+              >
+                Logout
+              </Button>
+            </Link>
+            <FooterNav />
+          </Space> :
+          <Space direction="vertical">
+            <Link to='/login'>
+              <Button
+                block
+                onClick={() => setShow(false)}
+                className={menuBtnStyles}
+              >
+                Login
+              </Button>
+            </Link>
+            <Link to='/about'>
+              <Button
+                block
+                onClick={() => setShow(false)}
+                className={menuBtnStyles}
+              >
+                About
+              </Button>
+            </Link>
+            <FooterNav />
+          </Space>
+        }
+      </Drawer>
+    </NavigationContainer>
+  );
 };
 
 const FooterNav = () => <div style={{
