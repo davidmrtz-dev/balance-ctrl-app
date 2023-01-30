@@ -8,13 +8,23 @@ import 'antd/dist/reset.css';
 import './assets/css/App.css';
 import Router from "./pages/routes";
 import { AppMainContainer } from "./components/containers";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuthContext } from "./context/AuthContext";
+import { useEffect } from "react";
 
 const debug =
   process.env.NODE_ENV === "production" ? void 0 : new DebugEngine();
 const engine = new Styletron();
 
 const App = (): JSX.Element => {
+  const auth = useAuthContext();
+
+  useEffect(() => {
+    if (auth) {
+      console.log('verify no loop')
+      auth.verifyLoggedIn();
+    }
+  }, [auth]);
+
   return(
     <StyletronProvider value={engine} debug={debug} debugAfterHydration>
       <ThemeProvider theme={theme}>

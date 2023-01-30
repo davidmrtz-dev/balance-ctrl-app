@@ -3,8 +3,7 @@ import * as Http from '../Http';
 
 export const login = async (params: Login): Promise<IUser> => {
   const result: any = await Http.post('/api/auth/sign_in', params);
-  debugger;
-  return result.data;
+  return result.data.data;
 };
 
 export const logout = async (): Promise<void> => {
