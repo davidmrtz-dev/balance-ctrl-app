@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faUmbrella } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
 import { NavigationContainer } from '../containers/NavigationContainer';
 import { useState } from 'react';
 import { Button, Drawer, Space, Typography } from 'antd';
 import { theme } from '../../Theme';
 import { useStyletron } from "styletron-react";
+import { useAuthContext } from '../../context/AuthContext';
 
 const Navigation = (): JSX.Element => {
+  const auth = useAuthContext();
   const [css] = useStyletron();
   const [show, setShow] = useState(false);
   const [date] = useState(new Date());
@@ -52,7 +54,7 @@ const Navigation = (): JSX.Element => {
       closable={false}
       style={{
         width: 360,
-        height: 150,
+        height: 'auto',
         position: 'absolute',
         left: 0,
         right: 0,
@@ -67,56 +69,94 @@ const Navigation = (): JSX.Element => {
           linear-gradient(25deg,
           ${theme.colors.blues.transitionBlue} 35%,
           ${theme.colors.blues.fancyBlue} 100%)
-        `
+        `,
+        padding: 16
       }}
       contentWrapperStyle={{
         boxShadow: 'none'
       }}
     >
-      <Space direction="vertical">
-        <Link to='/'>
-          <Button
-            block
-            onClick={() => setShow(false)}
-            className={menuBtnStyles}
-          >
-            Home
-          </Button>
-        </Link>
-        <Link to='/about'>
-          <Button
-            block
-            onClick={() => setShow(false)}
-            className={menuBtnStyles}
-          >
-            About
-          </Button>
-        </Link>
-        <div style={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          cursor: 'default'
-        }}>
-          <FontAwesomeIcon
-            color={theme.colors.lighterWhite}
-            fill={theme.colors.lighterWhite}
-            size='2x'
-            icon={faUmbrella}
-          />
-          <Typography style={{
-            ...theme.texts.brandSubFont,
-            color: theme.colors.lighterWhite,
-            padding: 5
-          }}
-          >
-            Weather App
-          </Typography>
-        </div>
-      </Space>
+      {auth.isAuthenticated ?
+        <Space direction="vertical">
+          <Link to='/'>
+            <Button
+              block
+              onClick={() => setShow(false)}
+              className={menuBtnStyles}
+            >
+              Home
+            </Button>
+          </Link>
+          <Link to='/about'>
+            <Button
+              block
+              onClick={() => setShow(false)}
+              className={menuBtnStyles}
+            >
+              About
+            </Button>
+          </Link>
+          <Link to='/login'>
+            <Button
+              block
+              onClick={() => setShow(false)}
+              className={menuBtnStyles}
+            >
+              Logout
+            </Button>
+          </Link>
+          <FooterNav />
+        </Space> :
+        <Space direction="vertical">
+          <Link to='/login'>
+            <Button
+              block
+              onClick={() => setShow(false)}
+              className={menuBtnStyles}
+            >
+              Login
+            </Button>
+          </Link>
+          <Link to='/about'>
+            <Button
+              block
+              onClick={() => setShow(false)}
+              className={menuBtnStyles}
+            >
+              About
+            </Button>
+          </Link>
+          <FooterNav />
+        </Space>
+      }
     </Drawer>
   </NavigationContainer>
  );
 };
+
+const FooterNav = () => <div style={{
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    cursor: 'default',
+    paddingTop: 10
+  }}>
+    <FontAwesomeIcon
+      color={theme.colors.lighterWhite}
+      fill={theme.colors.lighterWhite}
+      size='1x'
+      icon={faBalanceScale}
+    />
+    <Typography style={{
+      ...theme.texts.brandFont,
+      paddingLeft: 10,
+      color: theme.colors.lighterWhite
+    }}
+    >
+      Balance Ctrl
+    </Typography>
+</div>;
 
 export default Navigation;
