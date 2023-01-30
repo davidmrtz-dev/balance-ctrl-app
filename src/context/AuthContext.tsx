@@ -8,13 +8,15 @@ export interface IAuthContext {
   isAuthenticated: boolean;
   authenticate: (params: Login) => Promise<void>;
   unauthenticate: () => Promise<void>;
+  verifyLoggedIn: () => void;
 }
 
 export const authContext = createContext<IAuthContext>({
   user: null,
   isAuthenticated: false,
   authenticate: async () => {},
-  unauthenticate: async () => {}
+  unauthenticate: async () => {},
+  verifyLoggedIn: () => {}
 });
 
 export const useAuthContext = () => useContext(authContext);
@@ -22,10 +24,10 @@ export const useAuthContext = () => useContext(authContext);
 const { Provider } = authContext;
 
 export const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-  const { user, isAuthenticated, authenticate, unauthenticate } = useAuth();
+  const { user, isAuthenticated, authenticate, unauthenticate, verifyLoggedIn } = useAuth();
 
   return(
-    <Provider value={{ user, isAuthenticated, authenticate, unauthenticate }}>
+    <Provider value={{ user, isAuthenticated, authenticate, unauthenticate, verifyLoggedIn }}>
       {children}
     </Provider>
   );
