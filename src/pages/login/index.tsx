@@ -1,5 +1,6 @@
 import { Alert, Button, Form, Input } from "antd";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthContext } from "../../context/AuthContext";
 
@@ -13,6 +14,7 @@ const LoginContainer = styled.div`
 
 const SignIn = () => {
   const auth = useAuthContext();
+  const history = useHistory();
   const [form] = Form.useForm();
   const [error, setError] = useState('');
   const [values, setValues] = useState({
@@ -28,7 +30,7 @@ const SignIn = () => {
 
     try {
       await auth.authenticate(values);
-      debugger;
+      history.push('/');
     } catch(err: any) {
       setError(err.errors[0] || 'There was an error, please try again.')
       setValues({ email: '', password: ''});
