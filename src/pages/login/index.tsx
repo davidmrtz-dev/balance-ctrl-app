@@ -1,56 +1,76 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Alert, Button, Form, Input } from "antd";
+import { useState } from "react";
 import styled from "styled-components";
-
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
+import { useAuthContext } from "../../context/AuthContext";
 
 const LoginContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 50px;
 `
 
-const Login = () => {
+const SignIn = () => {
+  const auth = useAuthContext();
+  const [form] = Form.useForm();
+  const [error, setError] = useState('');
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = async() => {
+    if (Object.values(values).some(val => val === '')) {
+      setError('Please fill both fields.');
+      return;
+    }
+
+    try {
+      await auth.authenticate(values);
+      debugger;
+    } catch(err: any) {
+      setError(err.errors[0] || 'There was an error, please try again.')
+      setValues({ email: '', password: ''});
+      form.resetFields();
+    }
+  };
+
   return(
     <LoginContainer>
+      {error && <Alert
+        banner
+        message={error}
+        type="error"
+        closable
+        onClose={() => setError('')}
+      />}
       <Form
-        name="basic"
+        name="sign-in"
+        form={form}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        initialValues={{}}
+        onValuesChange={e => setValues({...values, ...e})}
         autoComplete="off"
-      >
+        >
         <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: 'Please input your username!' }]}
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: 'Please input your email.' }]}
         >
           <Input />
         </Form.Item>
-
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: 'Please input your password.' }]}
         >
           <Input.Password />
         </Form.Item>
-
-        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" onClick={handleSubmit}>
             Submit
           </Button>
         </Form.Item>
@@ -59,4 +79,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;

@@ -6,6 +6,7 @@ type HttpResult = {
 };
 
 const axiosClient = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
     'X-RapidAPI-Key': process.env.REACT_APP_GEO_DB_KEY,
