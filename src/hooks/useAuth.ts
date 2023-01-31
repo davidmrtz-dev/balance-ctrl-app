@@ -5,17 +5,17 @@ import { login, logout } from "../api/core/Auth";
 
 export const DEFAULT_USER_AUTH: IUser = { id: 0, email: "" };
 
+const getStoredAuth = (): IUser => {
+  const auth = window.sessionStorage.getItem('UserAuth');
+  if (auth) {
+    return JSON.parse(auth);
+  }
+  return DEFAULT_USER_AUTH;
+};
+
 export const useAuth =  () => {
   const [user, setUser] = useState<IUser>(DEFAULT_USER_AUTH);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const getStoredAuth = (): IUser => {
-    const auth = window.sessionStorage.getItem('UserAuth');
-    if (auth) {
-      return JSON.parse(auth);
-    }
-    return DEFAULT_USER_AUTH;
-  };
 
   const authenticate = async (params: Login): Promise<void> => {
     try {
@@ -29,7 +29,7 @@ export const useAuth =  () => {
   };
 
   const unauthenticate = async (): Promise<void> => {
-    await logout();
+    // await logout();
     setUser(DEFAULT_USER_AUTH);
     window.sessionStorage.clear();
     setIsAuthenticated(false);
@@ -43,6 +43,7 @@ export const useAuth =  () => {
         setUser(user);
         setIsAuthenticated(true);
       }
+
       resolve();
     })
   };
