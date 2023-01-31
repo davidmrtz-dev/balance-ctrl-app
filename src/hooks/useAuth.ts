@@ -9,9 +9,8 @@ export const useAuth =  () => {
   const [user, setUser] = useState<IUser>(DEFAULT_USER_AUTH);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const getStoredAuth = ():IUser => {
+  const getStoredAuth = (): IUser => {
     const auth = window.sessionStorage.getItem('UserAuth');
-
     if (auth) {
       return JSON.parse(auth);
     }
@@ -36,13 +35,16 @@ export const useAuth =  () => {
     setIsAuthenticated(false);
   };
 
-  const verifyLoggedIn = () => {
-    debugger;
-    const user = getStoredAuth();
-    if (!Object.values(user).every(e => !e)) {
-      setUser(user);
-      setIsAuthenticated(true);
-    }
+  const verifyLoggedIn = async (): Promise<void> => {
+    return new Promise ((resolve) => {
+      const user = getStoredAuth();
+
+      if (!Object.values(user).every(e => !e)) {
+        setUser(user);
+        setIsAuthenticated(true);
+      }
+      resolve();
+    })
   };
 
   return {
