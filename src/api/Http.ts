@@ -16,11 +16,11 @@ const axiosClient = axios.create({
   }
 });
 
-// axiosClient.interceptors.response.use(function (response) {
-//   return response;
-// }, function (error) {
-//   return Promise.reject(error.response?.data);
-// });
+axiosClient.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  return Promise.reject(error.response?.data);
+});
 
 
 export const get = async (path: string, data?: any, headers?: any): Promise<HttpResult> => {

@@ -14,27 +14,28 @@ const debug =
   process.env.NODE_ENV === "production" ? void 0 : new DebugEngine();
 const engine = new Styletron();
 
-const App = (): JSX.Element => {
-  return(
-    <StyletronProvider value={engine} debug={debug} debugAfterHydration>
-      <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <AppMainContainer>
-            <Layout>
-              <Helmet>
-                <title>Weather App</title>
-                <meta
-                  name="description"
-                  content="App that helps you take control of your finances."
-                />
-              </Helmet>
-              <Router />
-            </Layout>
-          </AppMainContainer>
-        </AuthProvider>
-      </ThemeProvider>
-    </StyletronProvider>
-  );
-};
+const App = (): JSX.Element =>
+<StyletronProvider
+  value={engine}
+  debug={debug}
+  debugAfterHydration
+>
+  <ThemeProvider theme={theme}>
+    <AuthProvider>
+      <AppMainContainer>
+        <Layout>
+          <Helmet>
+            <title>Weather App</title>
+            <meta
+              name="description"
+              content="App that helps you take control of your finances."
+            />
+          </Helmet>
+          <Router />
+        </Layout>
+      </AppMainContainer>
+    </AuthProvider>
+  </ThemeProvider>
+</StyletronProvider>
 
 export default App;
