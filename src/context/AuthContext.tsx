@@ -8,7 +8,7 @@ export interface IAuthContext {
   isAuthenticated: boolean;
   authenticate: (params: Login) => Promise<void>;
   unauthenticate: () => Promise<void>;
-  verifyLoggedIn: () => void;
+  verifyLoggedIn: () => Promise<void>;
 }
 
 export const authContext = createContext<IAuthContext>({
@@ -16,7 +16,7 @@ export const authContext = createContext<IAuthContext>({
   isAuthenticated: false,
   authenticate: async () => {},
   unauthenticate: async () => {},
-  verifyLoggedIn: () => {}
+  verifyLoggedIn: async () => {}
 });
 
 export const useAuthContext = () => useContext(authContext);
