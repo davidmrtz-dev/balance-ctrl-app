@@ -6,7 +6,7 @@ import { login, logout } from "../api/core/Auth";
 export const DEFAULT_USER_AUTH: IUser = { id: 0, email: "" };
 
 const getStoredAuth = (): IUser => {
-  const auth = window.sessionStorage.getItem('UserAuth');
+  const auth = sessionStorage.getItem('UserAuth');
   if (auth) {
     return JSON.parse(auth);
   }
@@ -21,7 +21,7 @@ export const useAuth =  () => {
     try {
       const result: IUser = await login(params);
       setUser(result);
-      window.sessionStorage.setItem('UserAuth', JSON.stringify(result))
+      sessionStorage.setItem('UserAuth', JSON.stringify(result))
       setIsAuthenticated(true);
     } catch (err) {
       throw err;
@@ -29,9 +29,9 @@ export const useAuth =  () => {
   };
 
   const unauthenticate = async (): Promise<void> => {
-    // await logout();
+    await logout();
     setUser(DEFAULT_USER_AUTH);
-    window.sessionStorage.clear();
+    sessionStorage.clear();
     setIsAuthenticated(false);
   };
 
