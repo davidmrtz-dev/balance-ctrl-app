@@ -6,7 +6,6 @@ const AboutContainer = styled.div`
   display: flex;
   width: 100%;
   height; 100%;
-  background-color: rgb(111, 120, 123, .4);
   align-items: center;
   padding: 10px;
   flex-direction: column;
@@ -16,23 +15,19 @@ const AboutContainer = styled.div`
 const About = (): JSX.Element => {
   return (<AboutContainer>
     <Typography style={{
-      ...theme.texts.brandH1,
-      color: theme.colors.whites.lighter
+      ...theme.texts.brandH1
     }}
     >
-      Weather App
+      Balance Ctrl
     </Typography>
     <Typography style={{
       ...theme.texts.brandFont,
-      color: theme.colors.whites.light,
       padding: 10
     }}>
-      Typescript and React based web application that displays the weather at the current location. <br/>
-      Also, you can pick another location in the bottom box that contains the cities near to your current location.<br />
+      Typescript and React based web application that will help you take control over your economy. <br/>
     </Typography>
-    <Typography style={{
+    {/* <Typography style={{
       ...theme.texts.brandSubFont,
-      color: theme.colors.whites.light,
       padding: 10
     }}>
       <strong>Built with:</strong><br/>
@@ -78,7 +73,7 @@ const About = (): JSX.Element => {
         href='https://david-martinez-dev.netlify.app/'
         text=' Portfolio'
       />.
-    </Typography>
+    </Typography> */}
 </AboutContainer>);
 };
 
