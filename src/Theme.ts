@@ -48,21 +48,21 @@ export const theme = {
   },
   texts: {
     brandFont: {
-      fontFamily: 'Poppins,Helvetica,Arial,sans-serif',
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
       fontSize: '16px'
     },
     brandSubFont: {
-      fontFamily: 'Lato,Helvetica,Arial,sans-serif'
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif'
     },
     brandH1: {
-      fontFamily: 'Lato,Helvetica,Arial,sans-serif',
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
       fontSize: '3em',
       fontWeight: 'bold',
       display: 'block',
       justify: 'left'
     },
     brandH2: {
-      fontFamily: 'Lato,Helvetica,Arial,sans-serif',
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
       fontSize: '2em',
       fontWeight: 'bold',
       lineHeight: 1.25,
@@ -70,7 +70,7 @@ export const theme = {
       justify: 'left',
     },
     brandH3: {
-      fontFamily: 'Lato,Helvetica,Arial,sans-serif',
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
       fontSize: '1.5em',
       fontWeight: 'bold',
       lineHeight: 1.25,
@@ -78,7 +78,7 @@ export const theme = {
       justify: 'center',
     },
     brandH4: {
-      fontFamily: 'Lato,Helvetica,Arial,sans-serif',
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
       fontSize: '22rpx',
       fontWeight: 'bold',
       lineHeight: 1.25,
@@ -86,14 +86,14 @@ export const theme = {
       justify: 'center',
     },
     brandH5: {
-      fontFamily: 'Lato,Helvetica,Arial,sans-serif',
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
       fontSize: '16pt',
       lineHeight: 1.25,
       display: 'block',
       justify: 'center',
     },
     errorMessage: {
-      fontFamily: 'Poppins,Helvetica,Arial,sans-serif',
+      fontFamily: 'Roboto,Helvetica,Arial,sans-serif',
       fontSize: '.9em',
       color: '#A10429'
     }

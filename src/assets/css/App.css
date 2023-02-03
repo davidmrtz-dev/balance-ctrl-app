@@ -1,28 +1,17 @@
 @font-face {
-  font-family: 'Lato';
-  src: url('../fonts/Lato-Regular.ttf') format('ttf');
-  font-weight: normal;
-}
-
-@font-face {
-  font-family: 'Lato';
-  src: url('../fonts/Lato-Bold.ttf') format('ttf');
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Bold.ttf') format('ttf');
   font-weight: bold;
 }
 
 @font-face {
-  font-family: 'Poppins';
-  src: url('../fonts/Poppins-Regular.ttf') format('ttf');
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf') format('ttf');
   font-weight: normal;
 }
 
 @font-face {
-  font-family: 'Poppins';
-  src: url('../fonts/Poppins-Bold.ttf') format('ttf');
-  font-weight: bold;
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Light.ttf') format('ttf');
+  font-weight: light;
 }
-
-.App {
-  padding: 20px;
-}
-
