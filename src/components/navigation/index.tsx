@@ -17,7 +17,6 @@ const Navigation = (): JSX.Element => {
 
   const menuBtnStyles = css({
     ...theme.texts.brandSubFont,
-    fontWeight: 'bold',
     backgroundColor: theme.colors.whites.lighter,
     borderColor: theme.colors.whites.lighter,
     textAlign: 'initial',
