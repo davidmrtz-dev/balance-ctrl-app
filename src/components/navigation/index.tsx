@@ -21,7 +21,7 @@ const Navigation = (): JSX.Element => {
     background: theme.colors.blues.fancyBlue,
     borderColor: theme.colors.blues.fancyBlue,
     textAlign: 'initial',
-    color: theme.colors.lighterWhite,
+    color: theme.colors.whites.lighter,
     ':hover': {
       color: theme.colors.blues.darkBlue
     }
@@ -29,7 +29,7 @@ const Navigation = (): JSX.Element => {
 
   const dateStyles = css({
     ...theme.texts.brandFont,
-    color: theme.colors.lighterWhite
+    color: theme.colors.whites.lighter
   });
 
   const handleLogout = async() => {
@@ -46,13 +46,13 @@ const Navigation = (): JSX.Element => {
     <NavigationContainer>
       <Typography className={dateStyles}>Today, {date.toLocaleDateString()}</Typography>
       {!show && (<FontAwesomeIcon
-        color={theme.colors.lighterWhite}
+        color={theme.colors.whites.lighter}
         size='lg'
         style={{ cursor: 'pointer' }}
         icon={faBars} onClick={() => setShow(true)}/>)
       }
       {show && (<FontAwesomeIcon
-        color={theme.colors.lighterWhite}
+        color={theme.colors.whites.lighter}
         size='lg'
         style={{ cursor: 'pointer' }}
         icon={faTimes} onClick={() => setShow(false)}/>)
@@ -155,15 +155,15 @@ const FooterNav = () => <div style={{
     paddingTop: 10
   }}>
     <FontAwesomeIcon
-      color={theme.colors.lighterWhite}
-      fill={theme.colors.lighterWhite}
+      color={theme.colors.whites.lighter}
+      fill={theme.colors.whites.lighter}
       size='1x'
       icon={faBalanceScale}
     />
     <Typography style={{
       ...theme.texts.brandFont,
       paddingLeft: 10,
-      color: theme.colors.lighterWhite
+      color: theme.colors.whites.lighter
     }}
     >
       Balance Ctrl

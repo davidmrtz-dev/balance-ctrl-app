@@ -17,14 +17,14 @@ const About = (): JSX.Element => {
   return (<AboutContainer>
     <Typography style={{
       ...theme.texts.brandH1,
-      color: theme.colors.lighterWhite
+      color: theme.colors.whites.lighter
     }}
     >
       Weather App
     </Typography>
     <Typography style={{
       ...theme.texts.brandFont,
-      color: theme.colors.lightWhite,
+      color: theme.colors.whites.light,
       padding: 10
     }}>
       Typescript and React based web application that displays the weather at the current location. <br/>
@@ -32,7 +32,7 @@ const About = (): JSX.Element => {
     </Typography>
     <Typography style={{
       ...theme.texts.brandSubFont,
-      color: theme.colors.lightWhite,
+      color: theme.colors.whites.light,
       padding: 10
     }}>
       <strong>Built with:</strong><br/>

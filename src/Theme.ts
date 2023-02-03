@@ -8,8 +8,11 @@ export const theme = {
     twelve: 1.2,
   },
   colors: {
-    lightWhite: '#D5D5D6',
-    lighterWhite: '#FAFAFB',
+    whites:{
+      lighter: '#FAFAFB',
+      light: '#D5D5D6',
+      normal: '#F3F3F3',
+    },
     blues: {
       fancyBlue: '#8DB0F4',
       dailyBlue: '#7099E8',
