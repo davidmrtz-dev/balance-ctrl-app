@@ -14,22 +14,26 @@ export const theme = {
       normal: '#F3F3F3',
     },
     blues: {
-      fancyBlue: '#8DB0F4',
-      dailyBlue: '#7099E8',
-      transitionBlue: '#5682D7',
-      darkBlue: '#1C4494'
+      lighter: '#4581ED',
+      light: '#1260EB',
+      normal: '#0A40F8',
+      dark: '#0a2fad',
+      darker: '#0a2d91'
     },
     grays: {
-      lighter: '#B8BDBF',
-      light: '#949B9E',
-      normal: '#6F787B',
-      dark: '#54565D',
-      darker: '#38373D'
+      lighter: '#F3F3F3',
+      light: '#D9D9D9',
+      normal: '#a0a0a0',
+      dark: '#6b6a6a',
+      darker: '#3f3f3f'
     },
     yellows: {
-      light: '#FDE350',
-      normal: '#F0D745',
-      dark: '#DFCB55'
+      light: '#ffb121',
+      normal: '#E9A011',
+      dark: '#c4850f'
+    },
+    blacks: {
+      normal: '#101313'
     }
   },
   shadows: {

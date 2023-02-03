@@ -18,18 +18,19 @@ const Navigation = (): JSX.Element => {
   const menuBtnStyles = css({
     ...theme.texts.brandSubFont,
     fontWeight: 'bold',
-    background: theme.colors.blues.fancyBlue,
-    borderColor: theme.colors.blues.fancyBlue,
+    backgroundColor: theme.colors.whites.lighter,
+    borderColor: theme.colors.whites.lighter,
     textAlign: 'initial',
-    color: theme.colors.whites.lighter,
+    color: theme.colors.blacks.normal,
     ':hover': {
-      color: theme.colors.blues.darkBlue
+      color: `${theme.colors.grays.darker} !important`,
+      borderColor: `${theme.colors.grays.darker} !important`,
     }
   });
 
   const dateStyles = css({
     ...theme.texts.brandFont,
-    color: theme.colors.whites.lighter
+    color: theme.colors.blacks.normal
   });
 
   const handleLogout = async() => {
@@ -46,13 +47,13 @@ const Navigation = (): JSX.Element => {
     <NavigationContainer>
       <Typography className={dateStyles}>Today, {date.toLocaleDateString()}</Typography>
       {!show && (<FontAwesomeIcon
-        color={theme.colors.whites.lighter}
+        color={theme.colors.blacks.normal}
         size='lg'
         style={{ cursor: 'pointer' }}
         icon={faBars} onClick={() => setShow(true)}/>)
       }
       {show && (<FontAwesomeIcon
-        color={theme.colors.whites.lighter}
+        color={theme.colors.blacks.normal}
         size='lg'
         style={{ cursor: 'pointer' }}
         icon={faTimes} onClick={() => setShow(false)}/>)
@@ -76,11 +77,7 @@ const Navigation = (): JSX.Element => {
           display: 'flex',
           flexDirection: 'column',
           boxShadow: 'none !important',
-          background:`
-            linear-gradient(25deg,
-            ${theme.colors.blues.transitionBlue} 35%,
-            ${theme.colors.blues.fancyBlue} 100%)
-          `,
+          backgroundColor: `${theme.colors.whites.lighter}`,
           padding: 16
         }}
         contentWrapperStyle={{
@@ -155,15 +152,15 @@ const FooterNav = () => <div style={{
     paddingTop: 10
   }}>
     <FontAwesomeIcon
-      color={theme.colors.whites.lighter}
-      fill={theme.colors.whites.lighter}
+      color={theme.colors.blacks.normal}
+      fill={theme.colors.blacks.normal}
       size='1x'
       icon={faBalanceScale}
     />
     <Typography style={{
       ...theme.texts.brandFont,
       paddingLeft: 10,
-      color: theme.colors.whites.lighter
+      color: theme.colors.blacks.normal
     }}
     >
       Balance Ctrl
