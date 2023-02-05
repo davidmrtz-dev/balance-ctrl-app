@@ -3,7 +3,7 @@ import { IUser } from "../@types";
 import { Login } from "../@types/IUser";
 import { login, logout } from "../api/core/Auth";
 
-export const DEFAULT_USER_AUTH: IUser = { id: 0, email: "" };
+export const DEFAULT_USER_AUTH: IUser = { id: 0, email: "", name: '', nickname: '' };
 
 const getStoredAuth = (): IUser => {
   const auth = sessionStorage.getItem('UserAuth');

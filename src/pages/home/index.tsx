@@ -1,7 +1,10 @@
+import { useAuthContext } from "../../context/AuthContext";
+
 const Home = (): JSX.Element => {
+  const auth = useAuthContext();
   return (
     <>
-      Hello balance
+      Hi, {auth.user?.name}
     </>
   );
 };
