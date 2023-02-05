@@ -1,6 +1,6 @@
 import { Typography } from "antd";
 import styled from "styled-components";
-import { HeaderCard } from "../../components/dashboard";
+import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 
@@ -28,6 +28,10 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Balance' variation='data' amount={'1,000,000'} />
         <HeaderCard concept='Analytics' variation='graph' amount={'1,000,000'} />
       </HeaderContainer>
+      <Transactions category='Recent Payments' />
+      <Transactions category='Fixed Payments' />
+      <Transactions category='Regular Income' />
+      <Transactions category='Unfixed Income' />
     </>
   );
 };
