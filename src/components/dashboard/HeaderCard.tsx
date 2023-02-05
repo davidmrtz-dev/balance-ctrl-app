@@ -2,7 +2,7 @@ import { Typography } from "antd";
 import styled from "styled-components";
 import { theme } from "../../Theme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChartPie, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faChevronRight, faDatabase } from '@fortawesome/free-solid-svg-icons';
 
 type Variation = 'data' | 'graph';
 
@@ -38,7 +38,13 @@ const HeaderCard = ({ variation, concept, amount }: {
     <Typography style={{
       ...theme.texts.brandSubFont,
       color: variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal
-    }}>{`${concept} >`}</Typography>
+    }}>{concept} <FontAwesomeIcon style={{
+      paddingLeft: 5
+    }}
+    color={variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal}
+    fill={variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal}
+    icon={faChevronRight}
+  /></Typography>
     <Typography style={{
       ...theme.texts.brandFont,
       color: variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal
