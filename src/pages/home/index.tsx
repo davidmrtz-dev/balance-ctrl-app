@@ -5,9 +5,6 @@ import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 
 const HeaderContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: green;
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(2, 1fr);
@@ -26,10 +23,10 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard />
-        <HeaderCard />
-        <HeaderCard />
-        <HeaderCard />
+        <HeaderCard concept='Income' variation='data' amount={'1,000,000'} />
+        <HeaderCard concept='Expenses' variation='data' amount={'1,000,000'} />
+        <HeaderCard concept='Balance' variation='data' amount={'1,000,000'} />
+        <HeaderCard concept='Analytics' variation='graph' amount={'1,000,000'} />
       </HeaderContainer>
     </>
   );
