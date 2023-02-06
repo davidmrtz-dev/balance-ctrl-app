@@ -2,22 +2,26 @@ import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Collapse, Typography } from "antd";
 import styled from "styled-components";
+import { IPayment } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import { LoadingWrapper } from "../containers";
 const { Panel } = Collapse;
+const { Text } = Typography;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
 
 const Transactions = ({
   category,
   keepOpen,
-  loading
+  loading,
+  transactions
 }: {
   category: Category;
+  transactions: IPayment [];
   keepOpen?: boolean;
   loading?: boolean;
-}):JSX.Element => {
+}): JSX.Element => {
   return(<Collapse
     style={{ margin: '16px 0'}}
     defaultActiveKey={keepOpen ? category : undefined}
@@ -28,10 +32,7 @@ const Transactions = ({
             <LoadingMask />
           </LoadingWrapper>)
         : (<>
-            <Transaction />
-            <Transaction />
-            <Transaction />
-            <Transaction />
+            {(transactions || []).map(transaction => <Transaction item={transaction} />)}
           </>
         )}
     </Panel>
@@ -43,13 +44,13 @@ const TransactionContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 6em;
+  height: 6em;
   border-radius: 10px;
   margin: 10px 0;
   cursor: pointer;
 `;
 
-const Transaction = ():JSX.Element => {
+const Transaction = ({ item }: { item: IPayment }): JSX.Element => {
   return(<TransactionContainer>
     <div style={{
       flex: 1,
@@ -75,21 +76,25 @@ const Transaction = ():JSX.Element => {
         ...theme.texts.brandFont
       }}
       >
-        School Fees
+        {item.title}
       </Typography>
-      <Typography style={{
-        ...theme.texts.brandSubFont
+      <Text
+        ellipsis
+        style={{
+        maxWidth: 150,
+        ...theme.texts.brandSubFont,
       }}>
-        Lorem ipsum dolor sit amet
-      </Typography>
+        {item.description}
+      </Text>
     </div>
     <div style={{
-      flex: 1
+      flex: 2,
+      textAlign: 'center'
     }}>
       <Typography style={{
         ...theme.texts.brandSubFont
       }}>
-        $ 1,500
+        $ {item.amount}
       </Typography>
     </div>
   </TransactionContainer>);
