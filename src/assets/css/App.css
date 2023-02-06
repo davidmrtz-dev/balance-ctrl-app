@@ -15,3 +15,7 @@
   src: url('../fonts/Roboto-Light.ttf') format('ttf');
   font-weight: light;
 }
+
+.ant-collapse-content-box {
+  padding: 0 5px !important;
+}

@@ -91,7 +91,7 @@ const Navigation = (): JSX.Element => {
                 onClick={() => setShow(false)}
                 className={menuBtnStyles}
               >
-                Home
+                Dashboard
               </Button>
             </Link>
             <Link to='/about'>

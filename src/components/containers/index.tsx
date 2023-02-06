@@ -10,6 +10,10 @@ const LayoutContainer = styled.div`
   max-width: 360px;
 `;
 
+export const LayoutContent = styled.div`
+  padding: 0 16px;
+`
+
 export const AppMainContainer = styled.div`
   background-color: ${props => props.theme.colors.grays.light};
   display: flex;

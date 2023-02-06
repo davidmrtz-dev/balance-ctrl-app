@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
-import LayoutContainer from "../containers";
+import LayoutContainer, { LayoutContent } from "../containers";
 import Navigation from "../navigation";
 
 const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
@@ -27,7 +27,9 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
   return(
     <LayoutContainer>
       <Navigation />
-      {children}
+      <LayoutContent>
+        {children}
+      </LayoutContent>
     </LayoutContainer>
   )
 };
