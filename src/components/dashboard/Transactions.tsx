@@ -4,16 +4,10 @@ import { Collapse, Typography } from "antd";
 import styled from "styled-components";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
+import { LoadingWrapper } from "../containers";
 const { Panel } = Collapse;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
-
-const LoadingWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 250px;
-`;
 
 const Transactions = ({
   category,

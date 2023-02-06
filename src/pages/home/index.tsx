@@ -14,7 +14,7 @@ const HeaderContainer = styled.div`
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
 
-  return (
+  return(
     <>
       <Typography style={{
         ...theme.texts.brandFont
@@ -23,7 +23,7 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard concept='Income' variation='data' amount={'1,000,000'} />
+        <HeaderCard concept='Income' variation='data' amount={'1,000,000'} loading />
         <HeaderCard concept='Expenses' variation='data' amount={'1,000,000'} />
         <HeaderCard concept='Balance' variation='data' amount={'1,000,000'} />
         <HeaderCard concept='Analytics' variation='graph' amount={'1,000,000'} />

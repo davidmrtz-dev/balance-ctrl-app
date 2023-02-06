@@ -12,7 +12,14 @@ const LayoutContainer = styled.div`
 
 export const LayoutContent = styled.div`
   padding: 0 16px;
-`
+`;
+
+export const LoadingWrapper = styled.div<{height?: string}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: ${p => p.height || '250px'};
+`;
 
 export const AppMainContainer = styled.div`
   background-color: ${props => props.theme.colors.grays.light};
