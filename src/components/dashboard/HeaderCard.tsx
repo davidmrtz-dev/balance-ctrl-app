@@ -22,10 +22,10 @@ const CardContainer = styled.div<{variation: Variation}>`
   cursor: pointer;
 `;
 
-const HeaderCard = ({ variation, concept, amount, loading }: {
+const HeaderCard = ({ variation, concept, value, loading }: {
   variation: Variation;
   concept: string;
-  amount: string
+  value: string
   loading?: boolean;
 }): JSX.Element => {
 
@@ -56,7 +56,9 @@ const HeaderCard = ({ variation, concept, amount, loading }: {
     <Typography style={{
       ...theme.texts.brandFont,
       color: variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal
-    }}>$ {amount}</Typography>
+    }}>
+      {variation === 'data' && '$'} {value}{variation === 'graph' && '%'}
+    </Typography>
   </CardContainer>);
 }
 
