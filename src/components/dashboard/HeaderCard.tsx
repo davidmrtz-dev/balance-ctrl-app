@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { theme } from "../../Theme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie, faChevronRight, faDatabase } from '@fortawesome/free-solid-svg-icons';
+import { LoadingMask } from "../../atoms/LoadingMask";
+import { LoadingWrapper } from "../containers";
 
 type Variation = 'data' | 'graph';
 
@@ -20,11 +22,17 @@ const CardContainer = styled.div<{variation: Variation}>`
   cursor: pointer;
 `;
 
-const HeaderCard = ({ variation, concept, amount }: {
+const HeaderCard = ({ variation, concept, amount, loading }: {
   variation: Variation;
   concept: string;
   amount: string
+  loading?: boolean;
 }): JSX.Element => {
+
+  if (loading) return(<LoadingWrapper height='50px'>
+    <LoadingMask height={40} width={40} />
+  </LoadingWrapper>);
+
   return(<CardContainer variation={variation}>
     <FontAwesomeIcon
       style={{
