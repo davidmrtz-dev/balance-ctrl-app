@@ -28,8 +28,8 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Balance' variation='data' amount={'1,000,000'} />
         <HeaderCard concept='Analytics' variation='graph' amount={'1,000,000'} />
       </HeaderContainer>
-      <Transactions category='Recent Payments' keepOpen/>
-      <Transactions category='Fixed Payments' keepOpen/>
+      <Transactions category='Recent Payments' keepOpen loading />
+      <Transactions category='Fixed Payments' keepOpen />
     </>
   );
 };
