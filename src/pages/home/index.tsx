@@ -42,10 +42,10 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard concept='Income' variation='data' amount={balance?.total_income || '0'} loading={loading} />
-        <HeaderCard concept='Expenses' variation='data' amount={balance?.total_expenses || '0'} loading={loading} />
-        <HeaderCard concept='Balance' variation='data' amount={balance?.total_balance || '0'} loading={loading} />
-        <HeaderCard concept='Analytics' variation='graph' amount={'+ 25%'} loading={loading} />
+        <HeaderCard concept='Income' variation='data' value={balance?.total_income || '0'} loading={loading} />
+        <HeaderCard concept='Expenses' variation='data' value={balance?.total_expenses || '0'} loading={loading} />
+        <HeaderCard concept='Balance' variation='data' value={balance?.total_balance || '0'} loading={loading} />
+        <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
       <Transactions category='Recent Payments' keepOpen loading />
       <Transactions category='Fixed Payments' keepOpen />
