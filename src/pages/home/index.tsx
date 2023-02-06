@@ -1,5 +1,8 @@
 import { Typography } from "antd";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { IBalance } from "../../@types";
+import { getBalance } from "../../api/core/Balance";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
@@ -13,6 +16,22 @@ const HeaderContainer = styled.div`
 
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
+  const [loading, setLoading] = useState(true);
+  const [balance, setBalance] = useState<IBalance | null>(null);
+
+  const fetchBalance = async (): Promise<void> => {
+    try {
+      const balance = await getBalance();
+      setBalance(balance);
+      setLoading(false);
+    } catch(error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBalance();
+  }, []);
 
   return(
     <>
@@ -23,10 +42,10 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard concept='Income' variation='data' amount={'1,000,000'} loading />
-        <HeaderCard concept='Expenses' variation='data' amount={'1,000,000'} />
-        <HeaderCard concept='Balance' variation='data' amount={'1,000,000'} />
-        <HeaderCard concept='Analytics' variation='graph' amount={'1,000,000'} />
+        <HeaderCard concept='Income' variation='data' amount={balance?.total_income || '0'} loading={loading} />
+        <HeaderCard concept='Expenses' variation='data' amount={balance?.total_expenses || '0'} loading={loading} />
+        <HeaderCard concept='Balance' variation='data' amount={balance?.total_balance || '0'} loading={loading} />
+        <HeaderCard concept='Analytics' variation='graph' amount={'+ 25%'} loading={loading} />
       </HeaderContainer>
       <Transactions category='Recent Payments' keepOpen loading />
       <Transactions category='Fixed Payments' keepOpen />
