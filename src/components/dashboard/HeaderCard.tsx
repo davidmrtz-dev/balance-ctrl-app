@@ -29,7 +29,7 @@ const HeaderCard = ({ variation, concept, value, loading }: {
   loading?: boolean;
 }): JSX.Element => {
 
-  if (loading) return(<LoadingWrapper height='50px'>
+  if (loading) return(<LoadingWrapper height='96px'>
     <LoadingMask height={40} width={40} />
   </LoadingWrapper>);
 
