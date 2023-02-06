@@ -7,9 +7,18 @@ const { Panel } = Collapse;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
 
-const Transactions = ({ category }: { category: Category }):JSX.Element => {
-  return(<Collapse style={{ margin: '10px 0'}}>
-    <Panel header={category} key={category}>
+const Transactions = ({
+  category,
+  keepOpen
+}: {
+  category: Category;
+  keepOpen?: boolean;
+}):JSX.Element => {
+  return(<Collapse
+    style={{ margin: '16px 0'}}
+    defaultActiveKey={keepOpen ? category : undefined}
+  >
+    <Panel header={category} key={category} >
       <Transaction />
       <Transaction />
       <Transaction />
@@ -25,7 +34,7 @@ const TransactionContainer = styled.div`
   justify-content: center;
   min-height: 6em;
   border-radius: 10px;
-  margin: 5px 0;
+  margin: 10px 0;
   cursor: pointer;
 `;
 
