@@ -5,10 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie, faChevronRight, faDatabase } from '@fortawesome/free-solid-svg-icons';
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
+import { useEffect, useState } from "react";
 
 type Variation = 'data' | 'graph';
 
-const CardContainer = styled.div<{variation: Variation}>`
+const CardContainer = styled.div<{
+  variation: Variation;
+  reveal: boolean;
+}>`
   min-height: 6em;
   background-color:
     ${p => p.variation === 'data'
@@ -20,6 +24,8 @@ const CardContainer = styled.div<{variation: Variation}>`
   justify-content: flex-end;
   padding: 10px;
   cursor: pointer;
+  opacity: ${p => p.reveal ? 1 : 0};
+  transition: opacity 1.5s ease-in-out;
 `;
 
 const HeaderCard = ({ variation, concept, value, loading }: {
@@ -28,12 +34,22 @@ const HeaderCard = ({ variation, concept, value, loading }: {
   value: string
   loading?: boolean;
 }): JSX.Element => {
+  const [reveal, setReveal] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      setReveal(true);
+    }
+  }, [loading]);
 
   if (loading) return(<LoadingWrapper height='96px'>
     <LoadingMask height={40} width={40} />
   </LoadingWrapper>);
 
-  return(<CardContainer variation={variation}>
+  return(<CardContainer
+    variation={variation}
+    reveal={reveal}
+  >
     <FontAwesomeIcon
       style={{
         alignSelf: 'flex-end',
