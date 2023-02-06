@@ -2,27 +2,44 @@ import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Collapse, Typography } from "antd";
 import styled from "styled-components";
+import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 const { Panel } = Collapse;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
 
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+`;
+
 const Transactions = ({
   category,
-  keepOpen
+  keepOpen,
+  loading
 }: {
   category: Category;
   keepOpen?: boolean;
+  loading?: boolean;
 }):JSX.Element => {
   return(<Collapse
     style={{ margin: '16px 0'}}
     defaultActiveKey={keepOpen ? category : undefined}
   >
     <Panel header={category} key={category} >
-      <Transaction />
-      <Transaction />
-      <Transaction />
-      <Transaction />
+      {loading
+        ? (<LoadingWrapper>
+            <LoadingMask />
+          </LoadingWrapper>)
+        : (<>
+            <Transaction />
+            <Transaction />
+            <Transaction />
+            <Transaction />
+          </>
+        )}
     </Panel>
   </Collapse>);
 };
