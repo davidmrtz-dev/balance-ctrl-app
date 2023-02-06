@@ -30,8 +30,6 @@ const Home = (): JSX.Element => {
       </HeaderContainer>
       <Transactions category='Recent Payments' />
       <Transactions category='Fixed Payments' />
-      <Transactions category='Regular Income' />
-      <Transactions category='Unfixed Income' />
     </>
   );
 };
