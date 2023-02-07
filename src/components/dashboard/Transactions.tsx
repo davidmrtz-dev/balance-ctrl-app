@@ -1,8 +1,11 @@
-import { Collapse } from "antd";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Collapse } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IPayment } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
+import { theme } from "../../Theme";
 import { LoadingWrapper } from "../containers";
 import Transaction from "./Transaction";
 const { Panel } = Collapse;
@@ -14,6 +17,13 @@ const TransactionsContainer = styled.div<{
 }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1.5s ease-in-out;
+`;
+
+const NavigationContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 5px;
 `;
 
 const Transactions = ({
@@ -44,6 +54,30 @@ const Transactions = ({
           </LoadingWrapper>)
         : (<TransactionsContainer reveal={reveal}>
             {(transactions || []).map(transaction => <Transaction item={transaction} />)}
+            <NavigationContainer>
+              <Button>
+                <FontAwesomeIcon
+                  style={{
+                    alignSelf: 'flex-end',
+                    padding: 5
+                  }}
+                  color={theme.colors.blacks.normal}
+                  fill={theme.colors.blacks.normal}
+                  icon={faChevronLeft}
+                />
+              </Button>
+              <Button>
+                <FontAwesomeIcon
+                  style={{
+                    alignSelf: 'flex-end',
+                    padding: 5
+                  }}
+                  color={theme.colors.blacks.normal}
+                  fill={theme.colors.blacks.normal}
+                  icon={faChevronRight}
+                />
+              </Button>
+            </NavigationContainer>
           </TransactionsContainer>
         )}
     </Panel>
