@@ -19,7 +19,10 @@ interface PaymentsHash { [key: number]: IPayment[] };
 
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState({
+    balance: true,
+    payments: true
+  });
   const [balance, setBalance] = useState<IBalance | null>(null);
   const [payments, setPayments] = useState<PaymentsHash>({});
 
@@ -27,7 +30,7 @@ const Home = (): JSX.Element => {
     try {
       const payments = await getPayments({ limit: 5, offset: 0});
       setPayments({0: payments.fixed});
-      setLoading(false);
+      setLoading({ ...loading, payments: false });
     } catch(error) {
       console.log(error);
     }
@@ -37,7 +40,7 @@ const Home = (): JSX.Element => {
     try {
       const balance = await getBalance();
       setBalance(balance);
-      setLoading(false);
+      setLoading({ ...loading, balance: false });
     } catch (error) {
       console.log(error);
     }
@@ -56,15 +59,15 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard concept='Income' variation='data' value={balance?.total_income || '0'} loading={loading} />
-        <HeaderCard concept='Expenses' variation='data' value={balance?.total_expenses || '0'} loading={loading} />
-        <HeaderCard concept='Balance' variation='data' value={balance?.total_balance || '0'} loading={loading} />
-        <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
+        <HeaderCard concept='Income' variation='data' value={balance?.total_income || '0'} loading={loading.balance} />
+        <HeaderCard concept='Expenses' variation='data' value={balance?.total_expenses || '0'} loading={loading.balance} />
+        <HeaderCard concept='Balance' variation='data' value={balance?.total_balance || '0'} loading={loading.balance} />
+        <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading.balance} />
       </HeaderContainer>
       <Transactions
         category='Recent Payments'
         keepOpen
-        loading={loading}
+        loading={loading.payments}
         transactions={payments[0]}
       />
       {/* <Transactions category='Fixed Payments' keepOpen /> */}
