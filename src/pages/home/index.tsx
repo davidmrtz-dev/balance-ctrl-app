@@ -15,26 +15,40 @@ const HeaderContainer = styled.div`
   grid-gap: 8px;
 `;
 
+interface PaymentsHash { [key: number]: IPayment[] };
+
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState({
+    balance: true,
+    payments: true
+  });
   const [balance, setBalance] = useState<IBalance | null>(null);
-  const [fixedPayments, setFixedPayments] = useState<IPayment []>([]);
+  const [payments, setPayments] = useState<PaymentsHash>({});
 
-  const fetchData = async (): Promise<void> => {
+  const fetchPayments = async (): Promise<void> => {
     try {
-      const balance = await getBalance();
       const payments = await getPayments({ limit: 5, offset: 0});
-      setBalance(balance);
-      setFixedPayments(payments.fixed);
-      setLoading(false);
+      setPayments({0: payments.fixed});
+      setLoading({ ...loading, payments: false });
     } catch(error) {
       console.log(error);
     }
   };
 
+  const fetchBalance = async (): Promise<void> => {
+    try {
+      const balance = await getBalance();
+      setBalance(balance);
+      setLoading({ ...loading, balance: false });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchBalance();
+    fetchPayments();
   }, []);
 
   return(
@@ -46,16 +60,16 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard concept='Income' variation='data' value={balance?.total_income || '0'} loading={loading} />
-        <HeaderCard concept='Expenses' variation='data' value={balance?.total_expenses || '0'} loading={loading} />
-        <HeaderCard concept='Balance' variation='data' value={balance?.total_balance || '0'} loading={loading} />
-        <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
+        <HeaderCard concept='Income' variation='data' value={balance?.total_income || '0'} loading={loading.balance} />
+        <HeaderCard concept='Expenses' variation='data' value={balance?.total_expenses || '0'} loading={loading.balance} />
+        <HeaderCard concept='Balance' variation='data' value={balance?.total_balance || '0'} loading={loading.balance} />
+        <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading.balance} />
       </HeaderContainer>
       <Transactions
         category='Recent Payments'
         keepOpen
-        loading={loading}
-        transactions={fixedPayments}
+        loading={loading.payments}
+        transactions={payments[0]}
       />
       {/* <Transactions category='Fixed Payments' keepOpen /> */}
     </>
