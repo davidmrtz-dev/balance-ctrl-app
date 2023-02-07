@@ -35,7 +35,7 @@ const Home = (): JSX.Element => {
   const fetchPayments = async (): Promise<void> => {
     try {
       const payments = await getPayments({ limit: 5, offset: 0});
-      setPayments({0: payments.fixed});
+      setPayments({ 0: payments.fixed });
     } catch(error) {
       console.log(error);
     }
