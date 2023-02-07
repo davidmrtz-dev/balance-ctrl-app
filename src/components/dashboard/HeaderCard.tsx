@@ -54,7 +54,6 @@ const HeaderCard = ({ variation, concept, value, loading }: {
         padding: 5
       }}
       color={variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal}
-      fill={variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal}
       icon={variation === 'data' ? faDatabase : faChartPie }
     />
     <Typography style={{

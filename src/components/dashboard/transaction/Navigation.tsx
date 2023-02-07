@@ -1,4 +1,4 @@
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight, faDotCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "antd";
 import styled from "styled-components";
@@ -12,10 +12,9 @@ const NavigationContainer = styled.div`
 `;
 
 const DotsWrapper = styled.div`
-  width: 100%;
-  background-color: red;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 export const Navigation = (): JSX.Element => {
@@ -27,11 +26,35 @@ export const Navigation = (): JSX.Element => {
           padding: 5
         }}
         color={theme.colors.blacks.normal}
-        fill={theme.colors.blacks.normal}
         icon={faChevronLeft}
       />
     </Button>
-    <DotsWrapper>...</DotsWrapper>
+    <DotsWrapper>
+      <FontAwesomeIcon
+        style={{
+          alignSelf: 'flex-end',
+          padding: 5
+        }}
+        color={theme.colors.blacks.normal}
+        icon={faDotCircle}
+      />
+      <FontAwesomeIcon
+        style={{
+          alignSelf: 'flex-end',
+          padding: 5
+        }}
+        color={theme.colors.grays.normal}
+        icon={faDotCircle}
+      />
+      <FontAwesomeIcon
+        style={{
+          alignSelf: 'flex-end',
+          padding: 5
+        }}
+        color={theme.colors.grays.normal}
+        icon={faDotCircle}
+      />
+    </DotsWrapper>
     <Button>
       <FontAwesomeIcon
         style={{

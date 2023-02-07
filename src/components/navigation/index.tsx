@@ -152,7 +152,6 @@ const FooterNav = () => <div style={{
   }}>
     <FontAwesomeIcon
       color={theme.colors.blacks.normal}
-      fill={theme.colors.blacks.normal}
       size='1x'
       icon={faBalanceScale}
     />

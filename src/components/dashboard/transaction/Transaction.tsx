@@ -30,7 +30,6 @@ export const Transaction = ({ item }: { item: IPayment }): JSX.Element => {
           padding: 5
         }}
         color={theme.colors.blacks.normal}
-        fill={theme.colors.blacks.normal}
         icon={faFileInvoice}
       />
     </div>
