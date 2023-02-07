@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
-import { theme } from "../../Theme";
-import { IPayment } from "../../@types";
+import { theme } from "../../../Theme";
+import { IPayment } from "../../../@types";
 const { Text } = Typography;
 
 const TransactionContainer = styled.div`
@@ -17,7 +17,7 @@ const TransactionContainer = styled.div`
   cursor: pointer;
 `;
 
-const Transaction = ({ item }: { item: IPayment }): JSX.Element => {
+export const Transaction = ({ item }: { item: IPayment }): JSX.Element => {
   return(<TransactionContainer>
     <div style={{
       flex: 1,
@@ -65,6 +65,4 @@ const Transaction = ({ item }: { item: IPayment }): JSX.Element => {
       </Typography>
     </div>
   </TransactionContainer>);
-}
-
-export default Transaction;
+};

@@ -1,13 +1,10 @@
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Collapse } from "antd";
+import { Collapse } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IPayment } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
-import { theme } from "../../Theme";
 import { LoadingWrapper } from "../containers";
-import Transaction from "./Transaction";
+import { Transaction, TransactionNav } from "./transaction";
 const { Panel } = Collapse;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
@@ -17,20 +14,6 @@ const TransactionsContainer = styled.div<{
 }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1.5s ease-in-out;
-`;
-
-const NavigationContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 5px;
-`;
-
-const DotsWrapper = styled.div`
-  width: 100%;
-  background-color: red;
-  display: flex;
-  justify-content: center;
 `;
 
 const Transactions = ({
@@ -61,31 +44,7 @@ const Transactions = ({
           </LoadingWrapper>)
         : (<TransactionsContainer reveal={reveal}>
             {(transactions || []).map(transaction => <Transaction item={transaction} />)}
-            <NavigationContainer>
-              <Button>
-                <FontAwesomeIcon
-                  style={{
-                    alignSelf: 'flex-end',
-                    padding: 5
-                  }}
-                  color={theme.colors.blacks.normal}
-                  fill={theme.colors.blacks.normal}
-                  icon={faChevronLeft}
-                />
-              </Button>
-              <DotsWrapper>...</DotsWrapper>
-              <Button>
-                <FontAwesomeIcon
-                  style={{
-                    alignSelf: 'flex-end',
-                    padding: 5
-                  }}
-                  color={theme.colors.blacks.normal}
-                  fill={theme.colors.blacks.normal}
-                  icon={faChevronRight}
-                />
-              </Button>
-            </NavigationContainer>
+            <TransactionNav />
           </TransactionsContainer>
         )}
     </Panel>
