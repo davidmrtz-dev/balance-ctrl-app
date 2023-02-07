@@ -48,6 +48,7 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     fetchBalance();
+    fetchPayments();
   }, []);
 
   return(
