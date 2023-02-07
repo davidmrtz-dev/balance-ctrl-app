@@ -26,6 +26,13 @@ const NavigationContainer = styled.div`
   padding: 16px 5px;
 `;
 
+const DotsWrapper = styled.div`
+  width: 100%;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+`;
+
 const Transactions = ({
   category,
   keepOpen,
@@ -66,6 +73,7 @@ const Transactions = ({
                   icon={faChevronLeft}
                 />
               </Button>
+              <DotsWrapper>...</DotsWrapper>
               <Button>
                 <FontAwesomeIcon
                   style={{
