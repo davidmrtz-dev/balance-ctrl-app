@@ -30,7 +30,7 @@ export const LoadingMask = (props: {
 }}>
   <ReactLoading
     type='spin'
-    color={theme.colors.blues.normal}
+    color={theme.colors.grays.normal}
     height={props.height || 90}
     width={props.width || 90}
   />
