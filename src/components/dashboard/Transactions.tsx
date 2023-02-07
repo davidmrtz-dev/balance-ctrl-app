@@ -28,7 +28,7 @@ const Transactions = ({
   >
     <Panel header={category} key={category} >
       {loading
-        ? (<LoadingWrapper>
+        ? (<LoadingWrapper height='470px'>
             <LoadingMask />
           </LoadingWrapper>)
         : (<>

@@ -37,9 +37,7 @@ const HeaderCard = ({ variation, concept, value, loading }: {
   const [reveal, setReveal] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
-      setTimeout(() => setReveal(true), 100);
-    }
+    if (!loading) setTimeout(() => setReveal(true), 100);
   }, [loading]);
 
   if (loading) return(<LoadingWrapper height='96px'>

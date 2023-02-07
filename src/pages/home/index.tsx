@@ -24,7 +24,7 @@ const Home = (): JSX.Element => {
   const fetchData = async (): Promise<void> => {
     try {
       const balance = await getBalance();
-      const payments = await getPayments();
+      const payments = await getPayments({ limit: 5, offset: 0});
       setBalance(balance);
       setFixedPayments(payments.fixed);
       setLoading(false);
