@@ -15,26 +15,36 @@ const HeaderContainer = styled.div`
   grid-gap: 8px;
 `;
 
+interface PaymentsHash { [key: number]: IPayment[] };
+
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
-  const [fixedPayments, setFixedPayments] = useState<IPayment []>([]);
+  const [payments, setPayments] = useState<PaymentsHash>({});
 
-  const fetchData = async (): Promise<void> => {
+  const fetchPayments = async (): Promise<void> => {
     try {
-      const balance = await getBalance();
       const payments = await getPayments({ limit: 5, offset: 0});
-      setBalance(balance);
-      setFixedPayments(payments.fixed);
+      setPayments({0: payments.fixed});
       setLoading(false);
     } catch(error) {
       console.log(error);
     }
   };
 
+  const fetchBalance = async (): Promise<void> => {
+    try {
+      const balance = await getBalance();
+      setBalance(balance);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchBalance();
   }, []);
 
   return(
@@ -55,7 +65,7 @@ const Home = (): JSX.Element => {
         category='Recent Payments'
         keepOpen
         loading={loading}
-        transactions={fixedPayments}
+        transactions={payments[0]}
       />
       {/* <Transactions category='Fixed Payments' keepOpen /> */}
     </>
