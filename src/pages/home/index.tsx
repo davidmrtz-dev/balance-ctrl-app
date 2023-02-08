@@ -68,7 +68,7 @@ const Home = (): JSX.Element => {
     try {
       const payments = await getPayments({ limit: 5, offset: 0});
       setPayments({ 0: payments.fixed });
-      setNavStatus( { 0: false, 1: false, 2: true, 3: false, 4: false, 5: false });
+      setNavStatus( { 0: false, 1: false, 2: true, 3: false, 4: false });
     } catch(error) {
       console.log(error);
     }

@@ -40,7 +40,7 @@ const Transactions = ({
   }, [loading]);
 
   return(<Collapse
-    style={{ margin: '16px 0'}}
+    style={{ margin: '16px 0' }}
     defaultActiveKey={keepOpen ? category : undefined}
   >
     <Panel header={category} key={category} >
