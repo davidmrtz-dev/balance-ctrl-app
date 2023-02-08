@@ -1,98 +1,56 @@
-import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Collapse, Typography } from "antd";
+import { Collapse } from "antd";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { IPayment, NavigationStatus } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
-import { theme } from "../../Theme";
 import { LoadingWrapper } from "../containers";
+import { Transaction, TransactionNav } from "./transaction";
 const { Panel } = Collapse;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
 
+const TransactionsContainer = styled.div<{
+  reveal: boolean;
+}>`
+  opacity: ${p => p.reveal ? 1 : 0};
+  transition: opacity 1.5s ease-in-out;
+`;
+
 const Transactions = ({
   category,
   keepOpen,
-  loading
+  loading,
+  transactions,
+  status
 }: {
   category: Category;
+  transactions: IPayment [];
+  status: NavigationStatus;
   keepOpen?: boolean;
   loading?: boolean;
-}):JSX.Element => {
+}): JSX.Element => {
+  const [reveal, setReveal] = useState(false);
+
+  useEffect(() => {
+    if (!loading) setTimeout(() => setReveal(true), 100);
+  }, [loading]);
+
   return(<Collapse
     style={{ margin: '16px 0'}}
     defaultActiveKey={keepOpen ? category : undefined}
   >
     <Panel header={category} key={category} >
       {loading
-        ? (<LoadingWrapper>
+        ? (<LoadingWrapper height='470px'>
             <LoadingMask />
           </LoadingWrapper>)
-        : (<>
-            <Transaction />
-            <Transaction />
-            <Transaction />
-            <Transaction />
-          </>
+        : (<TransactionsContainer reveal={reveal}>
+            {(transactions || []).map(transaction => <Transaction item={transaction} />)}
+            <TransactionNav status={status} />
+          </TransactionsContainer>
         )}
     </Panel>
   </Collapse>);
 };
-
-const TransactionContainer = styled.div`
-  background-color: ${p => p.theme.colors.grays.lighter};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 6em;
-  border-radius: 10px;
-  margin: 10px 0;
-  cursor: pointer;
-`;
-
-const Transaction = ():JSX.Element => {
-  return(<TransactionContainer>
-    <div style={{
-      flex: 1,
-      display: 'flex',
-      justifyContent: 'center'
-    }}>
-      <FontAwesomeIcon
-        style={{
-          alignSelf: 'flex-end',
-          padding: 5
-        }}
-        color={theme.colors.blacks.normal}
-        fill={theme.colors.blacks.normal}
-        icon={faFileInvoice}
-      />
-    </div>
-    <div style={{
-      flex: 3,
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      <Typography style={{
-        ...theme.texts.brandFont
-      }}
-      >
-        School Fees
-      </Typography>
-      <Typography style={{
-        ...theme.texts.brandSubFont
-      }}>
-        Lorem ipsum dolor sit amet
-      </Typography>
-    </div>
-    <div style={{
-      flex: 1
-    }}>
-      <Typography style={{
-        ...theme.texts.brandSubFont
-      }}>
-        $ 1,500
-      </Typography>
-    </div>
-  </TransactionContainer>);
-}
 
 export default Transactions;

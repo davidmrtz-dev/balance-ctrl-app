@@ -5,6 +5,8 @@ export interface IPaymentData {
 
 export interface IPayment {
   id: number;
+  title: string;
+  description: string;
   balance_id: number;
   obligation_type: string;
   charge_date: string;
