@@ -21,11 +21,15 @@ const Transactions = ({
   keepOpen,
   loading,
   transactions,
-  status
+  status,
+  onLeftClick,
+  onRightClick
 }: {
   category: Category;
   transactions: IPayment [];
   status: NavigationStatus;
+  onLeftClick: () => void;
+  onRightClick: () => void;
   keepOpen?: boolean;
   loading?: boolean;
 }): JSX.Element => {
@@ -46,7 +50,11 @@ const Transactions = ({
           </LoadingWrapper>)
         : (<TransactionsContainer reveal={reveal}>
             {(transactions || []).map(transaction => <Transaction item={transaction} />)}
-            <TransactionNav status={status} />
+            <TransactionNav
+              leftClick={onLeftClick}
+              rightClick={onRightClick}
+              status={status}
+            />
           </TransactionsContainer>
         )}
     </Panel>

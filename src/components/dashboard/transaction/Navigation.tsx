@@ -13,9 +13,17 @@ const NavigationContainer = styled.div`
   padding: 16px 5px;
 `;
 
-export const Navigation = ({ status }: { status: NavigationStatus }): JSX.Element => {
+export const Navigation = ({
+  status,
+  leftClick,
+  rightClick
+}: {
+  status: NavigationStatus;
+  leftClick: () => void;
+  rightClick: () => void;
+}): JSX.Element => {
   return(<NavigationContainer>
-    <Button>
+    <Button onClick={leftClick}>
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
@@ -26,7 +34,7 @@ export const Navigation = ({ status }: { status: NavigationStatus }): JSX.Elemen
       />
     </Button>
     <Dots status={status} />
-    <Button>
+    <Button onClick={rightClick}>
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
