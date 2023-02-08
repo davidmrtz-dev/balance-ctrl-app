@@ -55,8 +55,6 @@ const Home = (): JSX.Element => {
     }
   };
 
-  // const
-
   const fetchBalance = async (): Promise<void> => {
     try {
       const balance = await getBalance();
