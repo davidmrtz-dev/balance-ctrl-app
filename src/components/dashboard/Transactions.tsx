@@ -1,7 +1,7 @@
 import { Collapse } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IPayment } from "../../@types";
+import { IPayment, NavigationStatus } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -20,10 +20,12 @@ const Transactions = ({
   category,
   keepOpen,
   loading,
-  transactions
+  transactions,
+  status
 }: {
   category: Category;
   transactions: IPayment [];
+  status: NavigationStatus;
   keepOpen?: boolean;
   loading?: boolean;
 }): JSX.Element => {
@@ -44,7 +46,7 @@ const Transactions = ({
           </LoadingWrapper>)
         : (<TransactionsContainer reveal={reveal}>
             {(transactions || []).map(transaction => <Transaction item={transaction} />)}
-            <TransactionNav />
+            <TransactionNav status={status} />
           </TransactionsContainer>
         )}
     </Panel>
