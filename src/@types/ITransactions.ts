@@ -1,0 +1,1 @@
+export interface NavigationStatus { [key: number]: boolean; }
