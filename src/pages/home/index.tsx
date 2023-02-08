@@ -7,6 +7,7 @@ import { getPayments } from "../../api/core/Payment";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
+import { parsedInt } from "../../utils";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -24,6 +25,36 @@ const Home = (): JSX.Element => {
   const [payments, setPayments] = useState<PaymentsHash>({});
   const [navStatus, setNavStatus] = useState<NavigationStatus>({});
 
+  const handleLeftClick = () => {
+    const activeKey =
+      parsedInt(
+        Object.keys(navStatus).find(k => navStatus[parsedInt(k) as keyof typeof navStatus])
+      );
+
+    if (activeKey > 0) {
+      setNavStatus({
+        ...navStatus,
+        [activeKey]: false,
+        [activeKey - 1]: true
+      });
+    }
+  };
+
+  const handleRightClick = () => {
+    const activeKey =
+      parsedInt(
+        Object.keys(navStatus).find(k => navStatus[parsedInt(k) as keyof typeof navStatus])
+      );
+
+    if (activeKey < Object.keys(navStatus).length - 1) {
+      setNavStatus({
+        ...navStatus,
+        [activeKey]: false,
+        [activeKey + 1]: true
+      });
+    }
+  };
+
   const fetchBalance = async (): Promise<void> => {
     try {
       const balance = await getBalance();
@@ -37,7 +68,7 @@ const Home = (): JSX.Element => {
     try {
       const payments = await getPayments({ limit: 5, offset: 0});
       setPayments({ 0: payments.fixed });
-      setNavStatus( { 0: false, 1: false, 2: true, 3: false });
+      setNavStatus( { 0: false, 1: false, 2: true, 3: false, 4: false, 5: false });
     } catch(error) {
       console.log(error);
     }
@@ -72,6 +103,8 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
       <Transactions
+        onLeftClick={handleLeftClick}
+        onRightClick={handleRightClick}
         category='Recent Payments'
         keepOpen
         loading={loading}
