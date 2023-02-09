@@ -1,6 +1,8 @@
 export interface IPaymentData {
   current: IPayment [];
   fixed: IPayment [];
+  current_total_pages: number;
+  fixed_total_pages: number;
 }
 
 export interface IPayment {

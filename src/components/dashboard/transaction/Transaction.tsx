@@ -44,14 +44,14 @@ export const Transaction = ({ item }: { item: IPayment }): JSX.Element => {
       >
         {item.title}
       </Typography>
-      <Text
+      <Typography.Text
         ellipsis
         style={{
         maxWidth: 150,
         ...theme.texts.brandSubFont,
       }}>
         {item.description}
-      </Text>
+      </Typography.Text>
     </div>
     <div style={{
       flex: 2,

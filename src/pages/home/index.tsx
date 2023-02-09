@@ -1,13 +1,12 @@
 import { Typography } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IBalance, IPayment, NavigationStatus } from "../../@types";
+import { IBalance, IPayment } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getPayments } from "../../api/core/Payment";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
-import { parsedInt } from "../../utils";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -18,40 +17,28 @@ const HeaderContainer = styled.div`
 
 interface PaymentsHash { [key: number]: IPayment[] };
 
+interface PaymentPages {
+  current: number;
+  fixed: number;
+}
+
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
   const [payments, setPayments] = useState<PaymentsHash>({});
-  const [navStatus, setNavStatus] = useState<NavigationStatus>({});
+  const [pages, setPages] = useState<PaymentPages>({ current: 0, fixed: 0});
+  const [page, setPage] = useState(1);
 
   const handleLeftClick = () => {
-    const activeKey =
-      parsedInt(
-        Object.keys(navStatus).find(k => navStatus[parsedInt(k) as keyof typeof navStatus])
-      );
-
-    if (activeKey > 0) {
-      setNavStatus({
-        ...navStatus,
-        [activeKey]: false,
-        [activeKey - 1]: true
-      });
+    if (page > 1) {
+      setPage(page - 1);
     }
   };
 
   const handleRightClick = () => {
-    const activeKey =
-      parsedInt(
-        Object.keys(navStatus).find(k => navStatus[parsedInt(k) as keyof typeof navStatus])
-      );
-
-    if (activeKey < Object.keys(navStatus).length - 1) {
-      setNavStatus({
-        ...navStatus,
-        [activeKey]: false,
-        [activeKey + 1]: true
-      });
+    if (page < pages.current) {
+      setPage(page + 1);
     }
   };
 
@@ -66,9 +53,9 @@ const Home = (): JSX.Element => {
 
   const fetchPayments = async (): Promise<void> => {
     try {
-      const payments = await getPayments({ limit: 5, offset: 0});
-      setPayments({ 0: payments.fixed });
-      setNavStatus( { 0: false, 1: false, 2: true, 3: false, 4: false });
+      const data = await getPayments({ limit: 5, offset: 0});
+      setPayments({ 0: data.current });
+      setPages({ current: data.current_total_pages, fixed: data.fixed_total_pages });
     } catch(error) {
       console.log(error);
     }
@@ -109,7 +96,7 @@ const Home = (): JSX.Element => {
         keepOpen
         loading={loading}
         transactions={payments[0]}
-        status={navStatus}
+        page={page}
       />
       {/* <Transactions category='Fixed Payments' keepOpen /> */}
     </>
