@@ -25,10 +25,10 @@ const Transactions = ({
   keepOpen?: boolean;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
+  const [reveal, setReveal] = useState(false);
   const [payments, setPayments] = useState<PaymentsHash>({});
   const [pages, setPages] = useState<PaymentPages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
-  const [reveal, setReveal] = useState(false);
 
   const handleLeftClick = () => {
     if (page > 1) {
