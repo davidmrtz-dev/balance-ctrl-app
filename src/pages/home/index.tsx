@@ -42,6 +42,24 @@ const Home = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    const fetchPayments = async (page: number, offset: number): Promise<void> => {
+      try {
+        const data = await getPayments({ limit: 5, offset: offset});
+        setPayments({...payments,  [page]: data.current });
+        setPages({ current: data.current_total_pages, fixed: data.fixed_total_pages });
+      } catch(error) {
+        console.log(error);
+      }
+    };
+
+    if (page && !payments[page]) {
+      setLoading(true);
+      fetchPayments(page, (page * 5) - 5);
+      setTimeout(() => setLoading(false), 1000);
+    }
+  }, [page, payments]);
+
   const fetchBalance = async (): Promise<void> => {
     try {
       const balance = await getBalance();
@@ -51,28 +69,8 @@ const Home = (): JSX.Element => {
     }
   };
 
-  const fetchPayments = async (): Promise<void> => {
-    try {
-      const data = await getPayments({ limit: 5, offset: 0});
-      setPayments({ 0: data.current });
-      setPages({ current: data.current_total_pages, fixed: data.fixed_total_pages });
-    } catch(error) {
-      console.log(error);
-    }
-  };
-
-  const fetchData = async (): Promise<void> => {
-    try {
-      await fetchBalance();
-      await fetchPayments();
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
+    fetchBalance();
   }, []);
 
   return(
@@ -95,7 +93,7 @@ const Home = (): JSX.Element => {
         category='Recent Payments'
         keepOpen
         loading={loading}
-        transactions={payments[0]}
+        transactions={payments[page]}
         page={page}
       />
       {/* <Transactions category='Fixed Payments' keepOpen /> */}
