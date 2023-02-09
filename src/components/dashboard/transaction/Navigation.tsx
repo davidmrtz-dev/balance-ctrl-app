@@ -1,10 +1,8 @@
-import { faChevronLeft, faChevronRight, faDotCircle } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "antd";
+import { Button, Typography } from "antd";
 import styled from "styled-components";
-import { NavigationStatus } from "../../../@types";
 import { theme } from "../../../Theme";
-import { parsedInt } from "../../../utils";
 
 const NavigationContainer = styled.div`
   display: flex;
@@ -13,12 +11,21 @@ const NavigationContainer = styled.div`
   padding: 16px 5px;
 `;
 
+const CurrentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${p => p.theme.colors.grays.lighter};
+  width: 30px;
+  border-radius: 10px;
+`;
+
 export const Navigation = ({
-  status,
+  currentPage,
   leftClick,
   rightClick
 }: {
-  status: NavigationStatus;
+  currentPage: number;
   leftClick: () => void;
   rightClick: () => void;
 }): JSX.Element => {
@@ -33,7 +40,9 @@ export const Navigation = ({
         icon={faChevronLeft}
       />
     </Button>
-    <Dots status={status} />
+    <CurrentWrapper>
+      <Typography.Text>{currentPage}</Typography.Text>
+    </CurrentWrapper>
     <Button onClick={rightClick}>
       <FontAwesomeIcon
         style={{
@@ -47,26 +56,3 @@ export const Navigation = ({
     </Button>
   </NavigationContainer>);
 };
-
-const DotsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Dots = ({ status }: { status: NavigationStatus }): JSX.Element => {
-  return(<DotsContainer>
-    {(Object.keys(status) || []).map(dotKey =>
-      <Dot active={status[parsedInt(dotKey) as keyof typeof status]} />
-    )}
-  </DotsContainer>);
-};
-
-const Dot = ({ active }: { active: boolean}): JSX.Element => <FontAwesomeIcon
-  style={{
-    alignSelf: 'flex-end',
-    padding: 5
-  }}
-  color={active ? theme.colors.blacks.normal : theme.colors.grays.normal}
-  icon={faDotCircle}
-/>

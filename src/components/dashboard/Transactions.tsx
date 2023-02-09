@@ -1,7 +1,7 @@
 import { Collapse } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IPayment, NavigationStatus } from "../../@types";
+import { IPayment } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -21,13 +21,13 @@ const Transactions = ({
   keepOpen,
   loading,
   transactions,
-  status,
+  page,
   onLeftClick,
   onRightClick
 }: {
   category: Category;
   transactions: IPayment [];
-  status: NavigationStatus;
+  page: number;
   onLeftClick: () => void;
   onRightClick: () => void;
   keepOpen?: boolean;
@@ -53,7 +53,7 @@ const Transactions = ({
             <TransactionNav
               leftClick={onLeftClick}
               rightClick={onRightClick}
-              status={status}
+              currentPage={page}
             />
           </TransactionsContainer>
         )}
