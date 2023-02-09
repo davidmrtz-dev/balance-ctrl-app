@@ -9,6 +9,10 @@ import { Transaction, TransactionNav } from "./transaction";
 const { Panel } = Collapse;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
+type BtnStatus = {
+  left: boolean;
+  right: boolean;
+}
 
 const TransactionsContainer = styled.div<{
   reveal: boolean;
@@ -16,6 +20,15 @@ const TransactionsContainer = styled.div<{
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
   height: 460px;
+  width: 100%;
+`;
+
+const PanelWrapper = styled.div`
+  width: 100%;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Transactions = ({
@@ -30,6 +43,7 @@ const Transactions = ({
   const [payments, setPayments] = useState<PaymentsHash>({});
   const [pages, setPages] = useState<PaymentPages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
+  const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: true, right: false });
 
   const handleLeftClick = () => {
     if (page > 1) {
@@ -44,7 +58,9 @@ const Transactions = ({
   };
 
   useEffect(() => {
-    if (!loading) setTimeout(() => setReveal(true), 100);
+    if (!loading) {
+      setTimeout(() => setReveal(true), 100);
+    }
   }, [loading]);
 
   useEffect(() => {
@@ -61,9 +77,18 @@ const Transactions = ({
     if (page && !payments[page]) {
       setLoading(true);
       setReveal(false);
+      // setDisableBtns({left: true, right: true })
       fetchPayments(page, (page * 5) - 5);
       setTimeout(() => setLoading(false), 1000);
     }
+
+    // if (page === 1) {
+    //   setDisableBtns({ ...disableBtns, left: true });
+    // } else if (page === pages.current) {
+    //   setDisableBtns({ ...disableBtns, right: true });
+    // } else {
+    //   setDisableBtns({ left: false, right: false });
+    // }
   }, [page, payments]);
 
   return(<Collapse
@@ -71,19 +96,24 @@ const Transactions = ({
     defaultActiveKey={keepOpen ? category : undefined}
   >
     <Panel header={category} key={category} >
-      {loading
-        ? (<LoadingWrapper height='470px'>
-            <LoadingMask />
-          </LoadingWrapper>)
-        : (<><TransactionsContainer reveal={reveal} id='ttttt'>
-            {(payments[page] || []).map(transaction => <Transaction item={transaction} />)}
-          </TransactionsContainer>
-          <TransactionNav
-            leftClick={handleLeftClick}
-            rightClick={handleRightClick}
-            currentPage={page}
-          /></>
-        )}
+      <PanelWrapper>
+        {loading
+          ? (<LoadingWrapper height='450px'>
+              <LoadingMask />
+            </LoadingWrapper>)
+          : (<TransactionsContainer reveal={reveal} id='ttttt'>
+              {(payments[page] || []).map(transaction => <Transaction item={transaction} />)}
+            </TransactionsContainer>
+          )
+        }
+      </PanelWrapper>
+      <TransactionNav
+        leftClick={handleLeftClick}
+        rightClick={handleRightClick}
+        leftDisabled={disableBtns.left}
+        rightDisabled={disableBtns.right}
+        currentPage={page}
+      />
     </Panel>
   </Collapse>);
 };

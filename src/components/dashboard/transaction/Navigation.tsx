@@ -23,14 +23,18 @@ const CurrentWrapper = styled.div`
 export const Navigation = ({
   currentPage,
   leftClick,
-  rightClick
+  rightClick,
+  leftDisabled,
+  rightDisabled
 }: {
   currentPage: number;
   leftClick: () => void;
   rightClick: () => void;
+  leftDisabled: boolean;
+  rightDisabled: boolean;
 }): JSX.Element => {
   return(<NavigationContainer>
-    <Button onClick={leftClick}>
+    <Button onClick={leftClick} disabled={leftDisabled}>
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
@@ -43,7 +47,7 @@ export const Navigation = ({
     <CurrentWrapper>
       <Typography.Text>{currentPage}</Typography.Text>
     </CurrentWrapper>
-    <Button onClick={rightClick}>
+    <Button onClick={rightClick} disabled={rightDisabled}>
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
