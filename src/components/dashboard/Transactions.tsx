@@ -15,6 +15,7 @@ const TransactionsContainer = styled.div<{
 }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
+  height: 460px;
 `;
 
 const Transactions = ({
@@ -74,14 +75,14 @@ const Transactions = ({
         ? (<LoadingWrapper height='470px'>
             <LoadingMask />
           </LoadingWrapper>)
-        : (<TransactionsContainer reveal={reveal}>
+        : (<><TransactionsContainer reveal={reveal} id='ttttt'>
             {(payments[page] || []).map(transaction => <Transaction item={transaction} />)}
-            <TransactionNav
-              leftClick={handleLeftClick}
-              rightClick={handleRightClick}
-              currentPage={page}
-            />
           </TransactionsContainer>
+          <TransactionNav
+            leftClick={handleLeftClick}
+            rightClick={handleRightClick}
+            currentPage={page}
+          /></>
         )}
     </Panel>
   </Collapse>);
