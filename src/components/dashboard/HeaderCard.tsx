@@ -25,7 +25,7 @@ const CardContainer = styled.div<{
   padding: 10px;
   cursor: pointer;
   opacity: ${p => p.reveal ? 1 : 0};
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 1.2s ease-in-out;
 `;
 
 const HeaderCard = ({ variation, concept, value, loading }: {

@@ -14,3 +14,10 @@ export interface IPayment {
   charge_date: string;
   amount: string;
 }
+
+export interface PaymentsHash { [key: number]: IPayment[] };
+
+export interface PaymentPages {
+  current: number;
+  fixed: number;
+}
