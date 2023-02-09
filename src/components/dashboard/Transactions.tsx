@@ -1,5 +1,5 @@
 import { Collapse } from "antd";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { PaymentPages, PaymentsHash } from "../../@types/IPayment";
 import { getPayments } from "../../api/core/Payment";
@@ -43,7 +43,7 @@ const Transactions = ({
   const [payments, setPayments] = useState<PaymentsHash>({});
   const [pages, setPages] = useState<PaymentPages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
-  const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: true, right: false });
+  const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
 
   const handleLeftClick = () => {
     if (page > 1) {
@@ -57,10 +57,22 @@ const Transactions = ({
     }
   };
 
-  useEffect(() => {
+  const handleBlock = useCallback(() => {
     if (!loading) {
-      setTimeout(() => setReveal(true), 100);
+      if (page === 1) {
+        setDisableBtns({ left: true, right: false });
+      } else if (page === pages.current) {
+        setDisableBtns({ left: false, right: true });
+      } else {
+        setDisableBtns({ left: false, right: false });
+      }
+    } else {
+      setDisableBtns({ left: true, right: true });
     }
+  }, [loading, page, pages]);
+
+  useEffect(() => {
+    if (!loading) setTimeout(() => setReveal(true), 100);
   }, [loading]);
 
   useEffect(() => {
@@ -77,19 +89,12 @@ const Transactions = ({
     if (page && !payments[page]) {
       setLoading(true);
       setReveal(false);
-      // setDisableBtns({left: true, right: true })
       fetchPayments(page, (page * 5) - 5);
       setTimeout(() => setLoading(false), 1000);
     }
 
-    // if (page === 1) {
-    //   setDisableBtns({ ...disableBtns, left: true });
-    // } else if (page === pages.current) {
-    //   setDisableBtns({ ...disableBtns, right: true });
-    // } else {
-    //   setDisableBtns({ left: false, right: false });
-    // }
-  }, [page, payments]);
+    handleBlock();
+  }, [page, payments, handleBlock]);
 
   return(<Collapse
     style={{ margin: '16px 0' }}
