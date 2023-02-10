@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { IUser } from "../@types";
-import { Login } from "../@types/IUser";
+import { IUser, Login } from "../@types";
 import { login, logout } from "../api/core/Auth";
 
 export const DEFAULT_USER_AUTH: IUser = { id: 0, email: "", name: '', nickname: '' };

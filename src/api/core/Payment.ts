@@ -1,17 +1,33 @@
 import * as Http from '../Http';
-import { IPaymentData } from '../../@types';
+import { ICurrentPayments, IFixedPayments } from '../../@types';
 
-export const getPayments = async ({
+export const getCurrentPayments = async ({
   limit,
   offset
 }: {
   limit: number;
   offset: number;
-}): Promise<IPaymentData> => {
-  const result = await Http.get('/api/payments', { limit, offset }, {
+}): Promise<ICurrentPayments> => {
+  const result = await Http.get('/api/payments/current', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
-    uid: sessionStorage.getItem('authorization:uid') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  });
+
+  return result.data;
+};
+
+export const getFixedPayments = async ({
+  limit,
+  offset
+}: {
+  limit: number;
+  offset: number;
+}): Promise<IFixedPayments> => {
+  const result = await Http.get('/api/payments/fixed', { limit, offset }, {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
   });
 
   return result.data;
