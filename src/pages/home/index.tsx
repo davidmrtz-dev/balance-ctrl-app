@@ -1,9 +1,11 @@
 import { Typography } from "antd";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import { IBalance, IPayments } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
+import Alert from "../../components/alert";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
@@ -20,18 +22,30 @@ const Home = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
 
-  const fetchBalance = async (): Promise<void> => {
-    try {
-      const balance = await getBalance();
-      setBalance(balance);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchBalance = async (): Promise<void> => {
+      try {
+        const balance = await getBalance();
+        setBalance(balance);
+        setLoading(false);
+      } catch (_err) {
+        Alert({
+          icon: 'error',
+          title: 'Ops!',
+          text: 'There was an error, please try again later.'
+        });
+      }
+    };
+
     fetchBalance();
+  }, []);
+
+  const fetchCurrentPayments = useCallback((offset: number) => {
+    return getCurrentPayments({ offset });
+  }, []);
+
+  const fetchFixedPayments = useCallback((offset: number) => {
+    return getFixedPayments({ offset });
   }, []);
 
   return(
@@ -49,12 +63,12 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
       <Transactions
-        fetchData={(offset: number): Promise<IPayments> => getCurrentPayments({ offset })}
+        fetchData={fetchCurrentPayments}
         category='Recent Payments'
         keepOpen
       />
       <Transactions
-        fetchData={(offset: number): Promise<IPayments> => getFixedPayments({ offset })}
+        fetchData={fetchFixedPayments}
         category='Fixed Payments'
         keepOpen
       />
