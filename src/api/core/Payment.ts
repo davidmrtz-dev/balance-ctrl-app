@@ -8,7 +8,7 @@ export const getCurrentPayments = async ({
   offset: number;
   limit?: number;
 }): Promise<IPayments> => {
-  const result = await Http.get('/api/payments/curent', { limit, offset }, {
+  const result = await Http.get('/api/payments/current', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''

@@ -46,6 +46,10 @@ const Home = (): JSX.Element => {
     return getCurrentPayments({ offset });
   }, []);
 
+  const fetchFixedPayments = useCallback((offset: number) => {
+    return getFixedPayments({ offset });
+  }, []);
+
   return(
     <>
       <Typography style={{
@@ -65,11 +69,11 @@ const Home = (): JSX.Element => {
         category='Recent Payments'
         keepOpen
       />
-      {/* <Transactions
-        fetchData={(offset: number): Promise<IPayments> => getFixedPayments({ offset })}
+      <Transactions
+        fetchData={fetchFixedPayments}
         category='Fixed Payments'
         keepOpen
-      /> */}
+      />
     </>
   );
 };

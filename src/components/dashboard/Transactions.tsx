@@ -109,7 +109,7 @@ const Transactions = ({
 
   useEffect(() => {
     handleBlock();
-  }, [page, payments, handleBlock]);
+  }, [page, handleBlock]);
 
   return(<Collapse
     style={{ margin: '16px 0' }}
