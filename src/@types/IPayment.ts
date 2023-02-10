@@ -5,6 +5,11 @@ export interface IPaymentData {
   fixed_total_pages: number;
 }
 
+export interface IPaymentCurrent {
+  current: IPayment [];
+  current_total_pages: number;
+}
+
 export interface IPayment {
   id: number;
   title: string;

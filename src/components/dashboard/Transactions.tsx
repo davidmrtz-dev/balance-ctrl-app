@@ -2,7 +2,7 @@ import { Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { PaymentPages, PaymentsHash } from "../../@types/IPayment";
-import { getPayments } from "../../api/core/Payment";
+import { getCurrentPayments } from "../../api/core/Payment";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -79,9 +79,9 @@ const Transactions = ({
   useEffect(() => {
     const fetchPayments = async (page: number, offset: number): Promise<void> => {
       try {
-        const data = await getPayments({ limit: 5, offset: offset});
+        const data = await getCurrentPayments({ limit: 5, offset: offset});
         setPayments({...payments,  [page]: data.current });
-        setPages({ current: data.current_total_pages, fixed: data.fixed_total_pages });
+        setPages({ current: data.current_total_pages, fixed: data.current_total_pages });
       } catch(error) {
         console.log(error);
       }
