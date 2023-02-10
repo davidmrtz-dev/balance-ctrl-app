@@ -1,13 +1,13 @@
 import * as Http from '../Http';
-import { ICurrentPayments, IFixedPayments } from '../../@types';
+import { IPayments } from '../../@types';
 
 export const getCurrentPayments = async ({
-  limit,
-  offset
+  offset,
+  limit = 5
 }: {
-  limit: number;
   offset: number;
-}): Promise<ICurrentPayments> => {
+  limit?: number;
+}): Promise<IPayments> => {
   const result = await Http.get('/api/payments/current', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
@@ -23,7 +23,7 @@ export const getFixedPayments = async ({
 }: {
   limit: number;
   offset: number;
-}): Promise<IFixedPayments> => {
+}): Promise<IPayments> => {
   const result = await Http.get('/api/payments/fixed', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
