@@ -1,8 +1,9 @@
 import { Typography } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IBalance } from "../../@types";
+import { IBalance, ICurrentPayments } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
+import { getCurrentPayments } from "../../api/core/Payment";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
@@ -29,6 +30,8 @@ const Home = (): JSX.Element => {
     }
   };
 
+  const fetchCurrentPayments = async (offset: number): Promise<ICurrentPayments> => getCurrentPayments({ offset });
+
   useEffect(() => {
     fetchBalance();
   }, []);
@@ -48,6 +51,7 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
       <Transactions
+        fetchData={fetchCurrentPayments}
         category='Recent Payments'
         keepOpen
       />

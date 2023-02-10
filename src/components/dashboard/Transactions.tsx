@@ -1,7 +1,7 @@
 import { Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { PaymentPages, PaymentsHash } from "../../@types";
+import { ICurrentPayments, IFixedPayments, PaymentPages, PaymentsHash } from "../../@types";
 import { getCurrentPayments } from "../../api/core/Payment";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
@@ -34,10 +34,12 @@ const PanelWrapper = styled.div`
 
 const Transactions = ({
   category,
-  keepOpen
+  keepOpen,
+  fetchData
 }: {
   category: Category;
   keepOpen?: boolean;
+  fetchData: (offset: number) => Promise<ICurrentPayments>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -79,7 +81,7 @@ const Transactions = ({
   useEffect(() => {
     const fetchPayments = async (page: number, offset: number): Promise<void> => {
       try {
-        const data = await getCurrentPayments({ offset: offset });
+        const data = await fetchData(offset);
         setPayments({...payments,  [page]: data.current });
         setPages({ current: data.current_total_pages, fixed: data.current_total_pages });
       } catch(error) {
@@ -95,7 +97,7 @@ const Transactions = ({
     }
 
     handleBlock();
-  }, [page, payments, handleBlock]);
+  }, [page, payments, handleBlock, fetchData]);
 
   return(<Collapse
     style={{ margin: '16px 0' }}
