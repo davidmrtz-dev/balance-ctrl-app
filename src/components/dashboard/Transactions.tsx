@@ -79,7 +79,7 @@ const Transactions = ({
   useEffect(() => {
     const fetchPayments = async (page: number, offset: number): Promise<void> => {
       try {
-        const data = await getCurrentPayments({ limit: 5, offset: offset});
+        const data = await getCurrentPayments({ offset: offset });
         setPayments({...payments,  [page]: data.current });
         setPages({ current: data.current_total_pages, fixed: data.current_total_pages });
       } catch(error) {

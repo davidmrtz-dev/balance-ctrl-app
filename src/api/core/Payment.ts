@@ -2,11 +2,11 @@ import * as Http from '../Http';
 import { ICurrentPayments, IFixedPayments } from '../../@types';
 
 export const getCurrentPayments = async ({
-  limit,
-  offset
+  offset,
+  limit = 5
 }: {
-  limit: number;
   offset: number;
+  limit?: number;
 }): Promise<ICurrentPayments> => {
   const result = await Http.get('/api/payments/current', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
