@@ -18,11 +18,11 @@ export const getCurrentPayments = async ({
 };
 
 export const getFixedPayments = async ({
-  limit,
-  offset
+  offset,
+  limit = 5
 }: {
-  limit: number;
   offset: number;
+  limit?: number;
 }): Promise<IPayments> => {
   const result = await Http.get('/api/payments/fixed', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',

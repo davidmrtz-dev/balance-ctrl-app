@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IBalance, IPayments } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
-import { getCurrentPayments } from "../../api/core/Payment";
+import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
@@ -53,7 +53,11 @@ const Home = (): JSX.Element => {
         category='Recent Payments'
         keepOpen
       />
-      {/* <Transactions category='Fixed Payments' keepOpen /> */}
+      <Transactions
+        fetchData={(offset: number): Promise<IPayments> => getFixedPayments({ offset })}
+        category='Fixed Payments'
+        keepOpen
+      />
     </>
   );
 };
