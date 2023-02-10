@@ -1,5 +1,5 @@
 import * as Http from '../Http';
-import { IUser, Login } from '../../@types/IUser';
+import { IUser, Login } from '../../@types';
 
 export const login = async (params: Login): Promise<IUser> => {
   const result: any = await Http.post('/api/auth/sign_in', params);

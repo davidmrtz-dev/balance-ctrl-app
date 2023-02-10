@@ -1,7 +1,7 @@
 import { Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { PaymentPages, PaymentsHash } from "../../@types/IPayment";
+import { PaymentPages, PaymentsHash } from "../../@types";
 import { getCurrentPayments } from "../../api/core/Payment";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
