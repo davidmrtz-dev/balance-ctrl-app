@@ -110,7 +110,7 @@ const Transactions = ({
               <LoadingMask />
             </LoadingWrapper>)
           : (<TransactionsContainer reveal={reveal} id='ttttt'>
-              {(payments[page] || []).map(transaction => <Transaction item={transaction} />)}
+              {(payments[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
             </TransactionsContainer>
           )
         }
