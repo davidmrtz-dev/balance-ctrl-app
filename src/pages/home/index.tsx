@@ -20,17 +20,17 @@ const Home = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
 
-  const fetchBalance = async (): Promise<void> => {
-    try {
-      const balance = await getBalance();
-      setBalance(balance);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const fetchBalance = async (): Promise<void> => {
+      try {
+        const balance = await getBalance();
+        setBalance(balance);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchBalance();
   }, []);
 
