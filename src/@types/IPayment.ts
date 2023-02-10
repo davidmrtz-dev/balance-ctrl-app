@@ -1,11 +1,6 @@
-export interface ICurrentPayments {
-  current: IPayment [];
-  current_total_pages: number;
-}
-
-export interface IFixedPayments {
-  fixed: IPayment [];
-  fixed_total_pages: number;
+export interface IPayments {
+  payments: IPayment [];
+  total_pages: number;
 }
 
 export interface IPayment {

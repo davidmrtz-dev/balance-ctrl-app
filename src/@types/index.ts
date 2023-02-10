@@ -1,8 +1,7 @@
 export type { IUser, Login } from './IUser';
 export type { IBalance } from './IBalance';
 export type {
-  ICurrentPayments,
-  IFixedPayments,
+  IPayments,
   IPayment,
   PaymentPages,
   PaymentsHash
