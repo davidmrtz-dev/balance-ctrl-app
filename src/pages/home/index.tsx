@@ -1,6 +1,7 @@
 import { Typography } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import { IBalance, IPayments } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
@@ -26,8 +27,15 @@ const Home = (): JSX.Element => {
         const balance = await getBalance();
         setBalance(balance);
         setLoading(false);
-      } catch (error) {
-        console.log(error);
+      } catch (_err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops!',
+          text: 'There was an error, please try again later.',
+          width: 360,
+          color: theme.colors.blacks.normal,
+          confirmButtonColor: theme.colors.blues.normal
+        });
       }
     };
 
