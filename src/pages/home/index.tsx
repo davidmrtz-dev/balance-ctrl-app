@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { IBalance, IPayments } from "../../@types";
@@ -42,6 +42,10 @@ const Home = (): JSX.Element => {
     fetchBalance();
   }, []);
 
+  const fetchCurrentPayments = useCallback((offset: number) => {
+    return getCurrentPayments({ offset });
+  }, []);
+
   return(
     <>
       <Typography style={{
@@ -57,15 +61,15 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
       <Transactions
-        fetchData={(offset: number): Promise<IPayments> => getCurrentPayments({ offset })}
+        fetchData={fetchCurrentPayments}
         category='Recent Payments'
         keepOpen
       />
-      <Transactions
+      {/* <Transactions
         fetchData={(offset: number): Promise<IPayments> => getFixedPayments({ offset })}
         category='Fixed Payments'
         keepOpen
-      />
+      /> */}
     </>
   );
 };

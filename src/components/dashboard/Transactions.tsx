@@ -1,8 +1,10 @@
 import { Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import { IPayments, PaymentPages, PaymentsHash } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
+import { theme } from "../../Theme";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
 const { Panel } = Collapse;
@@ -80,23 +82,34 @@ const Transactions = ({
   useEffect(() => {
     const fetchPayments = async (page: number, offset: number): Promise<void> => {
       try {
+        setLoading(true);
         const data = await fetchData(offset);
-        setPayments({...payments,  [page]: data.payments });
-        setPages({ current: data.total_pages, fixed: data.total_pages });
+        if (data) {
+          setPayments({...payments,  [page]: data.payments });
+          setPages({ current: data.total_pages, fixed: data.total_pages });
+          setTimeout(() => setLoading(false), 1000);
+        }
       } catch(error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops!',
+          text: 'There was an error, please try again later.',
+          width: 360,
+          color: theme.colors.blacks.normal,
+          confirmButtonColor: theme.colors.blues.normal
+        });
       }
     };
 
     if (page && !payments[page]) {
-      setLoading(true);
       setReveal(false);
       fetchPayments(page, (page * 5) - 5);
-      setTimeout(() => setLoading(false), 1000);
     }
+  }, [page, payments, fetchData]);
 
+  useEffect(() => {
     handleBlock();
-  }, [page, payments, handleBlock, fetchData]);
+  }, [page, payments, handleBlock]);
 
   return(<Collapse
     style={{ margin: '16px 0' }}
