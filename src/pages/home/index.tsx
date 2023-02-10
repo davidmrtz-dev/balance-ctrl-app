@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { IBalance, IPayments } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
+import Alert from "../../components/alert";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
@@ -28,13 +29,10 @@ const Home = (): JSX.Element => {
         setBalance(balance);
         setLoading(false);
       } catch (_err) {
-        Swal.fire({
+        Alert({
           icon: 'error',
           title: 'Ops!',
-          text: 'There was an error, please try again later.',
-          width: 360,
-          color: theme.colors.blacks.normal,
-          confirmButtonColor: theme.colors.blues.normal
+          text: 'There was an error, please try again later.'
         });
       }
     };
