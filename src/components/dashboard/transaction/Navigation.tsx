@@ -9,6 +9,7 @@ const NavigationContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px 5px;
+  margin-top: 10px;
 `;
 
 const CurrentWrapper = styled.div`
@@ -34,7 +35,13 @@ export const Navigation = ({
   rightDisabled: boolean;
 }): JSX.Element => {
   return(<NavigationContainer>
-    <Button onClick={leftClick} disabled={leftDisabled}>
+    <Button
+      onClick={leftClick}
+      disabled={leftDisabled}
+      style={{
+        backgroundColor: `${leftDisabled ? theme.colors.grays.normal : theme.colors.grays.lighter }`
+      }}
+    >
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
@@ -47,14 +54,19 @@ export const Navigation = ({
     <CurrentWrapper>
       <Typography.Text>{currentPage}</Typography.Text>
     </CurrentWrapper>
-    <Button onClick={rightClick} disabled={rightDisabled}>
+    <Button
+      onClick={rightClick}
+      disabled={rightDisabled}
+      style={{
+        backgroundColor: `${rightDisabled ? theme.colors.grays.normal : theme.colors.grays.lighter }`
+      }}
+    >
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
           padding: 5
         }}
         color={theme.colors.blacks.normal}
-        fill={theme.colors.blacks.normal}
         icon={faChevronRight}
       />
     </Button>

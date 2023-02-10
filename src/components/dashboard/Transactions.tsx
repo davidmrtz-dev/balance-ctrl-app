@@ -9,10 +9,11 @@ import { Transaction, TransactionNav } from "./transaction";
 const { Panel } = Collapse;
 
 type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
+
 type BtnStatus = {
   left: boolean;
   right: boolean;
-}
+};
 
 const TransactionsContainer = styled.div<{
   reveal: boolean;
