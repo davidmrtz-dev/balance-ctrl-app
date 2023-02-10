@@ -1,21 +1,47 @@
-import { faChevronLeft, faChevronRight, faDotCircle } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "antd";
+import { Button, Typography } from "antd";
 import styled from "styled-components";
-import { NavigationStatus } from "../../../@types";
 import { theme } from "../../../Theme";
-import { parsedInt } from "../../../utils";
 
 const NavigationContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 5px;
+  margin-top: 10px;
 `;
 
-export const Navigation = ({ status }: { status: NavigationStatus }): JSX.Element => {
+const CurrentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${p => p.theme.colors.grays.lighter};
+  width: 30px;
+  border-radius: 10px;
+`;
+
+export const Navigation = ({
+  currentPage,
+  leftClick,
+  rightClick,
+  leftDisabled,
+  rightDisabled
+}: {
+  currentPage: number;
+  leftClick: () => void;
+  rightClick: () => void;
+  leftDisabled: boolean;
+  rightDisabled: boolean;
+}): JSX.Element => {
   return(<NavigationContainer>
-    <Button>
+    <Button
+      onClick={leftClick}
+      disabled={leftDisabled}
+      style={{
+        backgroundColor: `${leftDisabled ? theme.colors.grays.normal : theme.colors.grays.lighter }`
+      }}
+    >
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
@@ -25,40 +51,24 @@ export const Navigation = ({ status }: { status: NavigationStatus }): JSX.Elemen
         icon={faChevronLeft}
       />
     </Button>
-    <Dots status={status} />
-    <Button>
+    <CurrentWrapper>
+      <Typography.Text>{currentPage}</Typography.Text>
+    </CurrentWrapper>
+    <Button
+      onClick={rightClick}
+      disabled={rightDisabled}
+      style={{
+        backgroundColor: `${rightDisabled ? theme.colors.grays.normal : theme.colors.grays.lighter }`
+      }}
+    >
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
           padding: 5
         }}
         color={theme.colors.blacks.normal}
-        fill={theme.colors.blacks.normal}
         icon={faChevronRight}
       />
     </Button>
   </NavigationContainer>);
 };
-
-const DotsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Dots = ({ status }: { status: NavigationStatus }): JSX.Element => {
-  return(<DotsContainer>
-    {(Object.keys(status) || []).map(dotKey =>
-      <Dot active={status[parsedInt(dotKey) as keyof typeof status]} />
-    )}
-  </DotsContainer>);
-};
-
-const Dot = ({ active }: { active: boolean}): JSX.Element => <FontAwesomeIcon
-  style={{
-    alignSelf: 'flex-end',
-    padding: 5
-  }}
-  color={active ? theme.colors.blacks.normal : theme.colors.grays.normal}
-  icon={faDotCircle}
-/>

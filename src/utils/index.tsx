@@ -8,4 +8,4 @@ export const capitalizeFirst = (str: string) => {
   return `${firstLetter}${rest}`;
 };
 
-export const parsedInt = (value: string) => parseInt(value, 10);
+export const parsedInt = (value = '0') => parseInt(value, 10);

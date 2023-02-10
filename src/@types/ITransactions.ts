@@ -1,1 +1,1 @@
-export interface NavigationStatus { [key: number]: boolean; }
+export interface NavigationStatus { [key: number]: boolean; } // todo remove this type.
