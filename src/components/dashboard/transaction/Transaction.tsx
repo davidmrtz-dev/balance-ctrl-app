@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
 import { IPayment } from "../../../@types";
-const { Text } = Typography;
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.lighter};

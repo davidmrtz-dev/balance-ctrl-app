@@ -1,4 +1,9 @@
-export type { IUser } from './IUser';
+export type { IUser, Login } from './IUser';
 export type { IBalance } from './IBalance';
-export type { IPaymentData, IPayment } from './IPayment';
+export type {
+  IPayments,
+  IPayment,
+  PaymentPages,
+  PaymentsHash
+} from './IPayment';
 export type { NavigationStatus } from './ITransactions';

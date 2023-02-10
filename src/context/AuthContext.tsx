@@ -1,6 +1,5 @@
 import { createContext, useContext, ReactNode } from "react";
-import { IUser } from "../@types";
-import { Login } from "../@types/IUser";
+import { IUser, Login } from "../@types";
 import { useAuth } from "../hooks/useAuth";
 
 export interface IAuthContext {

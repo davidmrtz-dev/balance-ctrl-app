@@ -1,8 +1,7 @@
 import { Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { PaymentPages, PaymentsHash } from "../../@types/IPayment";
-import { getPayments } from "../../api/core/Payment";
+import { IPayments, PaymentPages, PaymentsHash } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -34,10 +33,12 @@ const PanelWrapper = styled.div`
 
 const Transactions = ({
   category,
-  keepOpen
+  keepOpen,
+  fetchData
 }: {
   category: Category;
   keepOpen?: boolean;
+  fetchData: (offset: number) => Promise<IPayments>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -79,9 +80,9 @@ const Transactions = ({
   useEffect(() => {
     const fetchPayments = async (page: number, offset: number): Promise<void> => {
       try {
-        const data = await getPayments({ limit: 5, offset: offset});
-        setPayments({...payments,  [page]: data.current });
-        setPages({ current: data.current_total_pages, fixed: data.fixed_total_pages });
+        const data = await fetchData(offset);
+        setPayments({...payments,  [page]: data.payments });
+        setPages({ current: data.total_pages, fixed: data.total_pages });
       } catch(error) {
         console.log(error);
       }
@@ -95,7 +96,7 @@ const Transactions = ({
     }
 
     handleBlock();
-  }, [page, payments, handleBlock]);
+  }, [page, payments, handleBlock, fetchData]);
 
   return(<Collapse
     style={{ margin: '16px 0' }}
@@ -108,7 +109,7 @@ const Transactions = ({
               <LoadingMask />
             </LoadingWrapper>)
           : (<TransactionsContainer reveal={reveal} id='ttttt'>
-              {(payments[page] || []).map(transaction => <Transaction item={transaction} />)}
+              {(payments[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
             </TransactionsContainer>
           )
         }
