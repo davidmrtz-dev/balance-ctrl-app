@@ -84,7 +84,7 @@ const Transactions = ({
         setLoading(true);
         const data = await fetchData(offset);
         if (data) {
-          setPayments({...payments,  [page]: data.payments });
+          setPayments({...payments,  [page]: data.outcomes });
           setPages({ current: data.total_pages, fixed: data.total_pages });
           setTimeout(() => setLoading(false), 1000);
         }

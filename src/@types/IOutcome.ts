@@ -1,5 +1,5 @@
 export interface IOutcomes {
-  payments: IOutcome [];
+  outcomes: IOutcome [];
   total_pages: number;
 }
 
