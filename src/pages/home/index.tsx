@@ -1,8 +1,7 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import Swal from "sweetalert2";
-import { IBalance, IPayments } from "../../@types";
+import { IBalance } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
 import Alert from "../../components/alert";

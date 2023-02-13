@@ -1,9 +1,9 @@
-export interface IPayments {
-  payments: IPayment [];
+export interface IOutcomes {
+  payments: IOutcome [];
   total_pages: number;
 }
 
-export interface IPayment {
+export interface IOutcome {
   id: number;
   title: string;
   description: string;
@@ -13,9 +13,9 @@ export interface IPayment {
   amount: string;
 }
 
-export interface PaymentsHash { [key: number]: IPayment[] };
+export interface OutcomesHash { [key: number]: IOutcome[] };
 
-export interface PaymentPages {
+export interface OutcomePages {
   current: number;
   fixed: number;
 }

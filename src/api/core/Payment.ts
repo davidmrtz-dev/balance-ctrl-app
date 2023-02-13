@@ -1,5 +1,5 @@
 import * as Http from '../Http';
-import { IPayments } from '../../@types';
+import { IOutcomes } from '../../@types';
 
 export const getCurrentPayments = async ({
   offset,
@@ -7,7 +7,7 @@ export const getCurrentPayments = async ({
 }: {
   offset: number;
   limit?: number;
-}): Promise<IPayments> => {
+}): Promise<IOutcomes> => {
   const result = await Http.get('/api/payments/current', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
@@ -23,7 +23,7 @@ export const getFixedPayments = async ({
 }: {
   offset: number;
   limit?: number;
-}): Promise<IPayments> => {
+}): Promise<IOutcomes> => {
   const result = await Http.get('/api/payments/fixed', { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
