@@ -1,7 +1,7 @@
 import { Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IPayments, PaymentPages, PaymentsHash } from "../../@types";
+import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
@@ -39,12 +39,12 @@ const Transactions = ({
 }: {
   category: Category;
   keepOpen?: boolean;
-  fetchData: (offset: number) => Promise<IPayments>;
+  fetchData: (offset: number) => Promise<IOutcomes>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
-  const [payments, setPayments] = useState<PaymentsHash>({});
-  const [pages, setPages] = useState<PaymentPages>({ current: 0, fixed: 0});
+  const [payments, setPayments] = useState<OutcomesHash>({});
+  const [pages, setPages] = useState<OutcomePages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
 
@@ -84,7 +84,7 @@ const Transactions = ({
         setLoading(true);
         const data = await fetchData(offset);
         if (data) {
-          setPayments({...payments,  [page]: data.payments });
+          setPayments({...payments,  [page]: data.outcomes });
           setPages({ current: data.total_pages, fixed: data.total_pages });
           setTimeout(() => setLoading(false), 1000);
         }
