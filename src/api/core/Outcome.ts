@@ -20,11 +20,11 @@ export const getOutcomes = async({
 };
 
 export const createOutcome = async(values: IOutcomeNew): Promise<IOutcome> => {
-  const result = await Http.post('/api/outcomes/', { outcome: values }, {
+  const result = await Http.post('/api/outcomes/', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
-  });
+  }});
 
-  return result.data;
+  return result.data.outcome;
 };

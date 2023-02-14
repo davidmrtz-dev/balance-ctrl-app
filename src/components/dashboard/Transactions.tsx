@@ -2,7 +2,7 @@ import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, 
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, IOutcomeNew } from "../../@types";
-import { newOutcome } from "../../@types/IOutcome";
+import { IOutcome, newOutcome } from "../../@types/IOutcome";
 import { createOutcome } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
@@ -80,6 +80,11 @@ const Transactions = ({
     }
   }, [loading, page, pages]);
 
+  const handleNewOutcome = (outcome: IOutcome) => {
+    const rest = outcomes[1].splice(0, 4);
+    setOutcomes({ 1: [outcome, ...rest] });
+  };
+
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 100);
   }, [loading]);
@@ -152,6 +157,7 @@ const Transactions = ({
       <TransactionModal
         open={showNew}
         closeModal={() => setShowNew(false)}
+        handleCreate={handleNewOutcome}
       />
     </>
   );
@@ -159,10 +165,12 @@ const Transactions = ({
 
 const TransactionModal = ({
   open,
-  closeModal
+  closeModal,
+  handleCreate
 }: {
   open: boolean;
   closeModal: () => void;
+  handleCreate: (outcome: IOutcome) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcomeNew>(newOutcome);
@@ -176,20 +184,26 @@ const TransactionModal = ({
       return;
     }
 
-    // try {
-    //   const outcome = await createOutcome(values);
-    // } catch(err: any) {
-    //   setError(err.errors[0] || 'There was an error, please try again.')
-    //   setValues({ email: '', password: ''});
-    //   form.resetFields();
-    // }
-
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      const outcome = await createOutcome({
+        ...values, purchase_date: 'Tue Feb 14 2023'
+      });
+      setTimeout(() => {
+        handleCreate(outcome);
+        setLoading(false);
+        closeModal();
+      }, 1000);
+    } catch(err: any) {
+      debugger;
+      Alert({
+        icon: 'error',
+        // text: (err?.errors[0] || 'There was an error, please try again.'),
+        text: ('There was an error, please try again.')
+      });
       setLoading(false);
-      setValues(newOutcome);
-      closeModal();
-    }, 1000);
+    }
   };
 
   const handleCancel = () => {
