@@ -29,7 +29,7 @@ export const useAuth =  () => {
       Alert({
         icon: 'error',
         title: 'Ops!',
-        text: 'There was an error, please try again later.'
+        text: 'There was an error, please try again later'
       });
     }
   };

@@ -1,7 +1,7 @@
 import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType } from "../../@types";
+import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, IOutcomeNew } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -96,7 +96,7 @@ const Transactions = ({
         Alert({
           icon: 'error',
           title: 'Ops!',
-          text: 'There was an error, please try again later.'
+          text: 'There was an error, please try again later'
         });
       }
     };
@@ -154,13 +154,6 @@ const Transactions = ({
   );
 };
 
-type OutcomeNew = {
-  transaction_type: string,
-  description: string,
-  amount: string,
-  purchase_date: string
-}
-
 const TransactionModal = ({
   open,
   closeModal
@@ -168,20 +161,35 @@ const TransactionModal = ({
   open: boolean;
   closeModal: () => void;
 }): JSX.Element => {
-  const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<OutcomeNew>({
+  const emptyOutcome: IOutcomeNew = {
     transaction_type: '',
     description: '',
     amount: '',
     purchase_date: ''
-  });
+  }
+  const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState<IOutcomeNew>(emptyOutcome);
 
-  const onConfirm = () => {
+  const handleSubmit = async() => {
+    if (Object.values(values).some(val => val === '')) {
+      Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'All fields are required',
+      });
+      return;
+    }
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      setValues(emptyOutcome);
       closeModal();
-    }, 3000);
+    }, 1000);
+  };
+
+  const handleCancel = () => {
+    setValues(emptyOutcome);
+    closeModal();
   };
 
   return (
@@ -194,16 +202,14 @@ const TransactionModal = ({
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
         > New outcome
         </Typography.Text>}
-      onOk={onConfirm}
-      onCancel={closeModal}
       style={{
         maxWidth: 360
       }}
       footer={[
-        <Button key="cancel" onClick={closeModal} disabled={loading}>
+        <Button key="cancel" onClick={handleCancel} disabled={loading}>
           Cancel
         </Button>,
-        <Button key="submit" type="primary" loading={loading} onClick={onConfirm}>
+        <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
           Submit
         </Button>
       ]}
@@ -220,8 +226,8 @@ const TransactionForm = ({
   values,
   setValues
 }: {
-  values: OutcomeNew;
-  setValues: (values: OutcomeNew) => void;
+  values: IOutcomeNew;
+  setValues: (values: IOutcomeNew) => void;
 }): JSX.Element => {
   const [form] = Form.useForm();
 
@@ -238,16 +244,16 @@ const TransactionForm = ({
       onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
-      <Form.Item label="Type" rules={[{ required: true }]} name='transaction_type'>
+      <Form.Item label="Type" rules={[{ required: true, message: 'Please provide a type.' }]} name='transaction_type'>
         <Select>
           <Select.Option value="current">Current</Select.Option>
           <Select.Option value="fixed">Fixed</Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item label="Description" rules={[{ required: true }]} name='description'>
+      <Form.Item label="Description" rules={[{ required: true, message: 'Please provide a description.' }]} name='description'>
         <Input maxLength={20} />
       </Form.Item>
-      <Form.Item label='Amount' rules={[{ required: true }]} name='amount'>
+      <Form.Item label='Amount' rules={[{ required: true, message: 'Please provide an amount.' }]} name='amount'>
         <InputNumber
           min={0}
           style={{ width: '100%' }}
@@ -255,7 +261,7 @@ const TransactionForm = ({
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
         />
       </Form.Item>
-      <Form.Item label="Purchase date" rules={[{ required: true }]} name='purchase_date'>
+      <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
         <DatePicker style={{ width: '100%' }} />
       </Form.Item>
     </Form>
