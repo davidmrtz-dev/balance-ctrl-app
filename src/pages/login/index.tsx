@@ -38,7 +38,7 @@ const SignIn = () => {
     }
   };
 
-  return(
+  return (
     <LoginContainer>
       {error && <Alert
         banner

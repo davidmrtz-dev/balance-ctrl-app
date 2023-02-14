@@ -1,13 +1,13 @@
 import { ITransaction } from "./ITransaction";
 
-export interface OutcomesHash { [key: number]: Outcome [] };
+export interface OutcomesHash { [key: number]: IOutcome [] };
 
 export interface IOutcomes {
-  outcomes: Outcome [];
+  outcomes: IOutcome [];
   total_pages: number;
 }
 
-export type Outcome = ICurrentOutcome | IFixedOutcome;
+export type IOutcome = ICurrentOutcome | IFixedOutcome;
 
 export interface ICurrentOutcome extends ITransaction {
   transaction_type: 'current';
@@ -23,4 +23,18 @@ export interface IFixedOutcome extends ITransaction {
 export interface OutcomesPagination {
   current: number;
   fixed: number;
+}
+
+export type IOutcomeNew = {
+  transaction_type: string,
+  description: string,
+  amount: string,
+  purchase_date: string
+}
+
+export const newOutcome: IOutcomeNew = {
+  transaction_type: '',
+  description: '',
+  amount: '',
+  purchase_date: ''
 }

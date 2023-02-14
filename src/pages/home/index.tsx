@@ -33,7 +33,7 @@ const Home = (): JSX.Element => {
         Alert({
           icon: 'error',
           title: 'Ops!',
-          text: 'There was an error, please try again later.'
+          text: 'There was an error, please try again later'
         });
       }
     };
@@ -48,7 +48,7 @@ const Home = (): JSX.Element => {
     return getOutcomes({ offset, type });
   }, []);
 
-  return(
+  return (
     <>
       <InitialScreen open={showInit || !balance} />
       <Typography style={{

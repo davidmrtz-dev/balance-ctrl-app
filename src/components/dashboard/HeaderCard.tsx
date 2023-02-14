@@ -40,11 +40,11 @@ const HeaderCard = ({ variation, concept, value, loading }: {
     if (!loading) setTimeout(() => setReveal(true), 100);
   }, [loading]);
 
-  if (loading) return(<LoadingWrapper height='96px'>
+  if (loading) return (<LoadingWrapper height='96px'>
     <LoadingMask height={40} width={40} />
   </LoadingWrapper>);
 
-  return(<CardContainer
+  return (<CardContainer
     variation={variation}
     reveal={reveal}
   >

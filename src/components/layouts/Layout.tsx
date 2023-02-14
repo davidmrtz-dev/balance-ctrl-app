@@ -24,7 +24,7 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
     if (auth.isAuthenticated) history.push('/');
   }, [auth.isAuthenticated, history])
 
-  return(
+  return (
     <LayoutContainer>
       <Navigation />
       <LayoutContent>
