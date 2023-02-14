@@ -1,4 +1,4 @@
-import { Button, Collapse, Modal, Typography } from "antd";
+import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
@@ -200,8 +200,46 @@ const TransactionModal = ({
       </Button>
     ]}
   >
-    <p>Form for new outcome...</p>
+    <TransactionForm />
 </Modal>
+
+const TransactionForm = (): JSX.Element => {
+  const onChange = (value: number | null) => {
+    console.log('changed', value);
+  };
+
+  return(
+    <Form
+    name='new-transaction'
+    layout='vertical'
+    initialValues={{}}
+    onValuesChange={() => {}}
+    style={{ width: '100%' }}
+    >
+      <Form.Item label="Type">
+        <Select>
+          <Select.Option value="current">Current</Select.Option>
+          <Select.Option value="fixed">Fixed</Select.Option>
+        </Select>
+      </Form.Item>
+      <Form.Item label="Description">
+        <Input maxLength={20} />
+      </Form.Item>
+      <Form.Item label='Amount'>
+        <InputNumber
+          min={0}
+          style={{ width: '100%' }}
+          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
+          onChange={onChange}
+        />
+      </Form.Item>
+      <Form.Item label="Purchase date">
+        <DatePicker style={{ width: '100%' }} />
+      </Form.Item>
+    </Form>
+  );
+};
 
 const AddTransaction = ({
   disabled,
