@@ -46,7 +46,7 @@ const Transactions = ({
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
-  const [payments, setPayments] = useState<OutcomesHash>({});
+  const [outcomes, setOutcomes] = useState<OutcomesHash>({});
   const [pages, setPages] = useState<OutcomePages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
@@ -82,12 +82,12 @@ const Transactions = ({
   }, [loading]);
 
   useEffect(() => {
-    const fetchPayments = async (page: number, offset: number): Promise<void> => {
+    const fetchOutcomes = async (page: number, offset: number): Promise<void> => {
       try {
         setLoading(true);
         const data = await fetchData(offset, outcomeType);
         if (data) {
-          setPayments({...payments,  [page]: data.outcomes });
+          setOutcomes({...outcomes,  [page]: data.outcomes });
           setPages({ current: data.total_pages, fixed: data.total_pages });
           setTimeout(() => setLoading(false), 1000);
         }
@@ -100,11 +100,11 @@ const Transactions = ({
       }
     };
 
-    if (page && !payments[page]) {
+    if (page && !outcomes[page]) {
       setReveal(false);
-      fetchPayments(page, (page * 5) - 5);
+      fetchOutcomes(page, (page * 5) - 5);
     }
-  }, [page, payments, fetchData]);
+  }, [page, outcomes, fetchData, outcomeType]);
 
   useEffect(() => {
     handleBlock();
@@ -121,7 +121,7 @@ const Transactions = ({
               <LoadingMask />
             </LoadingWrapper>)
           : (<TransactionsContainer reveal={reveal} id='ttttt'>
-              {(payments[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
+              {(outcomes[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
             </TransactionsContainer>
           )
         }
