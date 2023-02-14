@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
 import { Outcome } from "../../../@types";
+import { formatDate } from "../../../utils";
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.lighter};
@@ -37,12 +38,6 @@ export const Transaction = <T extends Outcome>({ item }: { item: T }): JSX.Eleme
       display: 'flex',
       flexDirection: 'column'
     }}>
-      <Typography style={{
-        ...theme.texts.brandFont
-      }}
-      >
-        {/* {item.purchase_date} */}
-      </Typography>
       <Typography.Text
         ellipsis
         style={{
@@ -51,6 +46,14 @@ export const Transaction = <T extends Outcome>({ item }: { item: T }): JSX.Eleme
       }}>
         {item.description}
       </Typography.Text>
+      <Typography style={{
+        ...theme.texts.brandFont,
+        paddingTop: 5,
+        textAlign: 'center'
+      }}
+      >
+        {formatDate(item.purchase_date)}
+      </Typography>
     </div>
     <div style={{
       flex: 2,
