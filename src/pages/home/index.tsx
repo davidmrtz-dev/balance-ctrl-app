@@ -55,7 +55,7 @@ const Home = (): JSX.Element => {
 
   return(
     <>
-      <InitialScreen open={showInit} />
+      <InitialScreen open={showInit || !balance} />
       <Typography style={{
         ...theme.texts.brandFont
       }}>
@@ -78,7 +78,6 @@ const Home = (): JSX.Element => {
         fetchData={fetchOutcomes}
         outcomeType='fixed'
         category='Fixed Outcomes'
-        keepOpen
       />
     </>
   );
