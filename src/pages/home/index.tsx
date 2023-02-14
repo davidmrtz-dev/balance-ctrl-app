@@ -46,7 +46,7 @@ const Home = (): JSX.Element => {
 
   const fetchOutcomes = useCallback((offset: number, type: TransactionType) => {
     return getOutcomes({ offset, type });
-  }, [])
+  }, []);
 
   return(
     <>
