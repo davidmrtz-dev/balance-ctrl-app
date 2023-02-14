@@ -1,9 +1,10 @@
-import { Collapse } from "antd";
+import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
 import { OutcomeType } from "../../@types/IOutcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
+import { theme } from "../../Theme";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -50,6 +51,8 @@ const Transactions = ({
   const [pages, setPages] = useState<OutcomePages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
+  const [showNew, setShowNew] = useState(false);
+  const [waitNew, setWaitNew] = useState(false);
 
   const handleLeftClick = () => {
     if (page > 1) {
@@ -76,6 +79,14 @@ const Transactions = ({
       setDisableBtns({ left: true, right: true });
     }
   }, [loading, page, pages]);
+
+  const handleConfirm = () => {
+    setWaitNew(true);
+    setTimeout(() => {
+      setWaitNew(false);
+      setShowNew(false);
+    }, 3000);
+  };
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 100);
@@ -110,31 +121,135 @@ const Transactions = ({
     handleBlock();
   }, [page, handleBlock]);
 
-  return(<Collapse
-    style={{ margin: '16px 0' }}
-    defaultActiveKey={keepOpen ? category : undefined}
-  >
-    <Panel header={category} key={category} >
-      <PanelWrapper>
-        {loading
-          ? (<LoadingWrapper height='450px'>
-              <LoadingMask />
-            </LoadingWrapper>)
-          : (<TransactionsContainer reveal={reveal} id='ttttt'>
-              {(outcomes[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
-            </TransactionsContainer>
-          )
+  return(
+    <>
+      <Collapse
+        style={{ margin: '16px 0' }}
+        defaultActiveKey={keepOpen ? category : undefined}
+        collapsible='disabled'
+        expandIcon={() =>
+          <AddTransaction
+            disabled={!disableBtns.left || (disableBtns.left && disableBtns.right)}
+            onClick={() => setShowNew(true)}
+          />
         }
-      </PanelWrapper>
-      <TransactionNav
-        leftClick={handleLeftClick}
-        rightClick={handleRightClick}
-        leftDisabled={disableBtns.left}
-        rightDisabled={disableBtns.right}
-        currentPage={page}
+        expandIconPosition='end'
+      >
+        <Panel header={category} key={category} >
+          <PanelWrapper>
+            {loading
+              ? (<LoadingWrapper height='450px'>
+                  <LoadingMask />
+                </LoadingWrapper>)
+              : (<TransactionsContainer reveal={reveal} >
+                  {(outcomes[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
+                </TransactionsContainer>
+              )
+            }
+          </PanelWrapper>
+          <TransactionNav
+            leftClick={handleLeftClick}
+            rightClick={handleRightClick}
+            leftDisabled={disableBtns.left}
+            rightDisabled={disableBtns.right}
+            currentPage={page}
+          />
+        </Panel>
+      </Collapse>
+      <TransactionModal
+        open={showNew}
+        loading={waitNew}
+        onConfirm={handleConfirm}
+        onCancel={() => setShowNew(false)}
       />
-    </Panel>
-  </Collapse>);
+    </>
+  );
 };
+
+const TransactionModal = ({
+  open,
+  loading,
+  onConfirm,
+  onCancel
+}: {
+  open: boolean;
+  loading: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}): JSX.Element =>
+  <Modal
+    destroyOnClose
+    maskClosable={false}
+    closable={false}
+    open={open}
+    title={<Typography.Text
+      style={{...theme.texts.brandFont, fontWeight: 'normal'}}
+      > New outcome
+      </Typography.Text>}
+    onOk={onConfirm}
+    onCancel={onCancel}
+    style={{
+      maxWidth: 360
+    }}
+    footer={[
+      <Button key="cancel" onClick={onCancel} disabled={loading}>
+        Cancel
+      </Button>,
+      <Button key="submit" type="primary" loading={loading} onClick={onConfirm}>
+        Submit
+      </Button>
+    ]}
+  >
+    <TransactionForm />
+</Modal>
+
+const TransactionForm = (): JSX.Element => {
+  const onChange = (value: number | null) => {
+    console.log('changed', value);
+  };
+
+  return(
+    <Form
+    name='new-transaction'
+    layout='vertical'
+    initialValues={{}}
+    onValuesChange={() => {}}
+    style={{ width: '100%' }}
+    >
+      <Form.Item label="Type" rules={[{ required: true }]}>
+        <Select>
+          <Select.Option value="current">Current</Select.Option>
+          <Select.Option value="fixed">Fixed</Select.Option>
+        </Select>
+      </Form.Item>
+      <Form.Item label="Description" rules={[{ required: true }]}>
+        <Input maxLength={20} />
+      </Form.Item>
+      <Form.Item label='Amount' rules={[{ required: true }]}>
+        <InputNumber
+          min={0}
+          style={{ width: '100%' }}
+          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
+          onChange={onChange}
+        />
+      </Form.Item>
+      <Form.Item label="Purchase date" rules={[{ required: true }]}>
+        <DatePicker style={{ width: '100%' }} />
+      </Form.Item>
+    </Form>
+  );
+};
+
+const AddTransaction = ({
+  disabled,
+  onClick
+}: {
+  disabled: boolean;
+  onClick: () => void;
+}): JSX.Element =>
+  <Button disabled={disabled} onClick={onClick}>
+    +
+</Button>;
 
 export default Transactions;

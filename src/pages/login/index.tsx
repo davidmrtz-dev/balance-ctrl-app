@@ -73,7 +73,7 @@ const SignIn = () => {
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" onClick={handleSubmit}>
-            Submit
+            Login
           </Button>
         </Form.Item>
       </Form>

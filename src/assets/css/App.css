@@ -19,3 +19,9 @@
 .ant-collapse-content-box {
   padding: 0 5px !important;
 }
+
+.ant-collapse-header,
+.ant-collapse-header-text {
+  color: #101313;
+  cursor: default !important;
+}
