@@ -1,9 +1,10 @@
-import { Button, Collapse, Modal } from "antd";
+import { Button, Collapse, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
 import { OutcomeType } from "../../@types/IOutcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
+import { theme } from "../../Theme";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -50,7 +51,8 @@ const Transactions = ({
   const [pages, setPages] = useState<OutcomePages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
-  const [showCreate, setShowCreate] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [waitNew, setWaitNew] = useState(false);
 
   const handleLeftClick = () => {
     if (page > 1) {
@@ -77,6 +79,14 @@ const Transactions = ({
       setDisableBtns({ left: true, right: true });
     }
   }, [loading, page, pages]);
+
+  const handleConfirm = () => {
+    setWaitNew(true);
+    setTimeout(() => {
+      setWaitNew(false);
+      setShowNew(false);
+    }, 3000);
+  };
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 100);
@@ -120,7 +130,7 @@ const Transactions = ({
         expandIcon={() =>
           <AddTransaction
             disabled={disableBtns.left && disableBtns.right}
-            onClick={() => setShowCreate(true)}
+            onClick={() => setShowNew(true)}
           />
         }
         expandIconPosition='end'
@@ -147,9 +157,10 @@ const Transactions = ({
         </Panel>
       </Collapse>
       <TransactionModal
-        open={showCreate}
-        onConfirm={() => setShowCreate(false)}
-        onCancel={() => setShowCreate(false)}
+        open={showNew}
+        loading={waitNew}
+        onConfirm={handleConfirm}
+        onCancel={() => setShowNew(false)}
       />
     </>
   );
@@ -157,25 +168,39 @@ const Transactions = ({
 
 const TransactionModal = ({
   open,
+  loading,
   onConfirm,
   onCancel
 }: {
   open: boolean;
+  loading: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }): JSX.Element =>
   <Modal
+    destroyOnClose
+    maskClosable={false}
+    closable={false}
     open={open}
-    title='New outcome'
+    title={<Typography.Text
+      style={{...theme.texts.brandFont, fontWeight: 'normal'}}
+      > New outcome
+      </Typography.Text>}
     onOk={onConfirm}
     onCancel={onCancel}
     style={{
       maxWidth: 360
     }}
+    footer={[
+      <Button key="cancel" onClick={onCancel} disabled={loading}>
+        Cancel
+      </Button>,
+      <Button key="submit" type="primary" loading={loading} onClick={onConfirm}>
+        Submit
+      </Button>
+    ]}
   >
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
+    <p>Form for new outcome...</p>
 </Modal>
 
 const AddTransaction = ({
