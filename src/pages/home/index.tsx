@@ -2,6 +2,7 @@ import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IBalance } from "../../@types";
+import { OutcomeType } from "../../@types/IOutcome";
 import { getBalance } from "../../api/core/Balance";
 import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
 import Alert from "../../components/alert";
@@ -39,13 +40,13 @@ const Home = (): JSX.Element => {
     fetchBalance();
   }, []);
 
-  const fetchCurrentPayments = useCallback((offset: number) => {
-    return getCurrentPayments({ offset });
-  }, []);
-
-  const fetchFixedPayments = useCallback((offset: number) => {
-    return getFixedPayments({ offset });
-  }, []);
+  const fetchOutcomes = useCallback((offset: number, type: OutcomeType) => {
+    if (type === 'current') {
+      return getCurrentPayments({ offset });
+    } else {
+      return getFixedPayments({ offset });
+    }
+  }, [])
 
   return(
     <>
@@ -62,13 +63,15 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
       <Transactions
-        fetchData={fetchCurrentPayments}
-        category='Recent Payments'
+        fetchData={fetchOutcomes}
+        category='Recent Outcomes'
+        outcomeType='current'
         keepOpen
       />
       <Transactions
-        fetchData={fetchFixedPayments}
-        category='Fixed Payments'
+        fetchData={fetchOutcomes}
+        outcomeType='fixed'
+        category='Fixed Outcomes'
         keepOpen
       />
     </>

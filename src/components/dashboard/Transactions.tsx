@@ -2,13 +2,14 @@ import { Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
+import { OutcomeType } from "../../@types/IOutcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
 const { Panel } = Collapse;
 
-type Category = 'Recent Payments' | 'Fixed Payments' | 'Regular Income' | 'Unfixed Income';
+type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
 
 type BtnStatus = {
   left: boolean;
@@ -35,11 +36,13 @@ const PanelWrapper = styled.div`
 const Transactions = ({
   category,
   keepOpen,
-  fetchData
+  fetchData,
+  outcomeType
 }: {
   category: Category;
   keepOpen?: boolean;
-  fetchData: (offset: number) => Promise<IOutcomes>;
+  fetchData: (offset: number, type: OutcomeType) => Promise<IOutcomes>;
+  outcomeType: OutcomeType;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -82,7 +85,7 @@ const Transactions = ({
     const fetchPayments = async (page: number, offset: number): Promise<void> => {
       try {
         setLoading(true);
-        const data = await fetchData(offset);
+        const data = await fetchData(offset, outcomeType);
         if (data) {
           setPayments({...payments,  [page]: data.outcomes });
           setPages({ current: data.total_pages, fixed: data.total_pages });
