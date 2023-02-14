@@ -1,4 +1,4 @@
-import { Collapse } from "antd";
+import { Button, Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
@@ -114,7 +114,8 @@ const Transactions = ({
     style={{ margin: '16px 0' }}
     defaultActiveKey={keepOpen ? category : undefined}
     collapsible='disabled'
-    expandIcon={() => null}
+    expandIcon={() => <AddTransaction disabled={disableBtns.left && disableBtns.right} />}
+    expandIconPosition='end'
   >
     <Panel header={category} key={category} >
       <PanelWrapper>
@@ -122,7 +123,7 @@ const Transactions = ({
           ? (<LoadingWrapper height='450px'>
               <LoadingMask />
             </LoadingWrapper>)
-          : (<TransactionsContainer reveal={reveal} id='ttttt'>
+          : (<TransactionsContainer reveal={reveal} >
               {(outcomes[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
             </TransactionsContainer>
           )
@@ -138,5 +139,10 @@ const Transactions = ({
     </Panel>
   </Collapse>);
 };
+
+const AddTransaction = ({ disabled }: { disabled: boolean; }) =>
+  <Button disabled={disabled} onClick={() => console.log('okoko')}>
+    +
+</Button>;
 
 export default Transactions;
