@@ -154,6 +154,13 @@ const Transactions = ({
   );
 };
 
+type OutcomeNew = {
+  transaction_type: string,
+  description: string,
+  amount: string,
+  purchase_date: string
+}
+
 const TransactionModal = ({
   open,
   closeModal
@@ -162,6 +169,12 @@ const TransactionModal = ({
   closeModal: () => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState<OutcomeNew>({
+    transaction_type: '',
+    description: '',
+    amount: '',
+    purchase_date: ''
+  });
 
   const onConfirm = () => {
     setLoading(true);
@@ -195,24 +208,26 @@ const TransactionModal = ({
         </Button>
       ]}
     >
-      <TransactionForm />
+      <TransactionForm
+        values={values}
+        setValues={setValues}
+      />
     </Modal>
   );
 };
 
-const TransactionForm = (): JSX.Element => {
+const TransactionForm = ({
+  values,
+  setValues
+}: {
+  values: OutcomeNew;
+  setValues: (values: OutcomeNew) => void;
+}): JSX.Element => {
   const [form] = Form.useForm();
-  const [error, setError] = useState('');
-  const [values, setValues] = useState({
-    transaction_type: '',
-    description: '',
-    amount: '',
-    purchase_date: ''
-  });
 
-  const onChange = (value: number | null) => {
-    console.log('changed', value);
-  };
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
 
   return(
     <Form
@@ -238,7 +253,6 @@ const TransactionForm = (): JSX.Element => {
           style={{ width: '100%' }}
           formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
-          onChange={onChange}
         />
       </Form.Item>
       <Form.Item label="Purchase date" rules={[{ required: true }]} name='purchase_date'>
