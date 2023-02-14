@@ -129,7 +129,7 @@ const Transactions = ({
         collapsible='disabled'
         expandIcon={() =>
           <AddTransaction
-            disabled={disableBtns.left && disableBtns.right}
+            disabled={!disableBtns.left || (disableBtns.left && disableBtns.right)}
             onClick={() => setShowNew(true)}
           />
         }
