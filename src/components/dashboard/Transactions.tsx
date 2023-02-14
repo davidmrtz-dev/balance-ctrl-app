@@ -113,6 +113,8 @@ const Transactions = ({
   return(<Collapse
     style={{ margin: '16px 0' }}
     defaultActiveKey={keepOpen ? category : undefined}
+    collapsible='disabled'
+    expandIcon={() => null}
   >
     <Panel header={category} key={category} >
       <PanelWrapper>
