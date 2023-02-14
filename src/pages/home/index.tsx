@@ -1,8 +1,7 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IBalance } from "../../@types";
-import { OutcomeType } from "../../@types/IOutcome";
+import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getCurrentOutcomes, getFixedOutcomes } from "../../api/core/Outcome";
 import Alert from "../../components/alert";
@@ -45,7 +44,7 @@ const Home = (): JSX.Element => {
     }, 2000);
   }, []);
 
-  const fetchOutcomes = useCallback((offset: number, type: OutcomeType) => {
+  const fetchOutcomes = useCallback((offset: number, type: TransactionType) => {
     if (type === 'current') {
       return getCurrentOutcomes({ offset });
     } else {
@@ -71,7 +70,7 @@ const Home = (): JSX.Element => {
       <Transactions
         fetchData={fetchOutcomes}
         category='Recent Outcomes'
-        outcomeType='current'
+        type='current'
         keepOpen
       />
       {/* <Transactions

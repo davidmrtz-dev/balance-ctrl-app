@@ -1,15 +1,16 @@
 import { ITransaction } from "./ITransaction";
 
 export interface IOutcomes {
-  outcomes: IOutcome [];
+  outcomes: ICurrentOutcome [];
   total_pages: number;
 }
 
-export interface IOutcome extends ITransaction {}
+export interface ICurrentOutcome extends ITransaction {
+  transaction_type: 'fixed';
+  purchase_date: string;
+}
 
-export type OutcomeType = 'current' | 'fixed';
-
-export interface OutcomesHash { [key: number]: IOutcome[] };
+export interface OutcomesHash { [key: number]: ICurrentOutcome[] };
 
 export interface OutcomePages {
   current: number;

@@ -3,7 +3,7 @@ import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
-import { IOutcome } from "../../../@types";
+import { ICurrentOutcome } from "../../../@types";
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.lighter};
@@ -16,7 +16,7 @@ const TransactionContainer = styled.div`
   cursor: pointer;
 `;
 
-export const Transaction = ({ item }: { item: IOutcome }): JSX.Element => {
+export const Transaction = ({ item }: { item: ICurrentOutcome }): JSX.Element => {
   return(<TransactionContainer>
     <div style={{
       flex: 1,

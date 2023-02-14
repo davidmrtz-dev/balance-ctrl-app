@@ -2,8 +2,8 @@ export type { IUser, Login } from './IUser';
 export type { IBalance } from './IBalance';
 export type {
   IOutcomes,
-  IOutcome,
+  ICurrentOutcome,
   OutcomePages,
   OutcomesHash
 } from './IOutcome';
-export type { ITransaction } from './ITransaction';
+export type { ITransaction, TransactionType } from './ITransaction';
