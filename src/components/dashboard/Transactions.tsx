@@ -216,16 +216,16 @@ const TransactionForm = (): JSX.Element => {
     onValuesChange={() => {}}
     style={{ width: '100%' }}
     >
-      <Form.Item label="Type">
+      <Form.Item label="Type" rules={[{ required: true }]}>
         <Select>
           <Select.Option value="current">Current</Select.Option>
           <Select.Option value="fixed">Fixed</Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item label="Description">
+      <Form.Item label="Description" rules={[{ required: true }]}>
         <Input maxLength={20} />
       </Form.Item>
-      <Form.Item label='Amount'>
+      <Form.Item label='Amount' rules={[{ required: true }]}>
         <InputNumber
           min={0}
           style={{ width: '100%' }}
@@ -234,7 +234,7 @@ const TransactionForm = (): JSX.Element => {
           onChange={onChange}
         />
       </Form.Item>
-      <Form.Item label="Purchase date">
+      <Form.Item label="Purchase date" rules={[{ required: true }]}>
         <DatePicker style={{ width: '100%' }} />
       </Form.Item>
     </Form>
