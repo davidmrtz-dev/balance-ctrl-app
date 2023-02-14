@@ -192,17 +192,18 @@ const TransactionModal = ({
       });
       setTimeout(() => {
         handleCreate(outcome);
+        setValues(newOutcome);
         setLoading(false);
         closeModal();
       }, 1000);
     } catch(err: any) {
-      debugger;
       Alert({
         icon: 'error',
-        // text: (err?.errors[0] || 'There was an error, please try again.'),
-        text: ('There was an error, please try again.')
+        text: (err.error || err.errors[0] || 'There was an error, please try again.'),
       });
+      setValues(newOutcome);
       setLoading(false);
+      closeModal();
     }
   };
 
