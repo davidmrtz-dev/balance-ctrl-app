@@ -1,7 +1,7 @@
 import * as Http from '../Http';
 import { IOutcomes } from '../../@types';
 
-export const getCurrentPayments = async ({
+export const getCurrentOutcomes = async ({
   offset,
   limit = 5
 }: {
@@ -17,7 +17,7 @@ export const getCurrentPayments = async ({
   return result.data;
 };
 
-export const getFixedPayments = async ({
+export const getFixedOutcomes = async ({
   offset,
   limit = 5
 }: {

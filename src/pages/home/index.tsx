@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { IBalance } from "../../@types";
 import { OutcomeType } from "../../@types/IOutcome";
 import { getBalance } from "../../api/core/Balance";
-import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
+import { getCurrentOutcomes, getFixedOutcomes } from "../../api/core/Outcome";
 import Alert from "../../components/alert";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
@@ -42,9 +42,9 @@ const Home = (): JSX.Element => {
 
   const fetchOutcomes = useCallback((offset: number, type: OutcomeType) => {
     if (type === 'current') {
-      return getCurrentPayments({ offset });
+      return getCurrentOutcomes({ offset });
     } else {
-      return getFixedPayments({ offset });
+      return getFixedOutcomes({ offset });
     }
   }, [])
 
