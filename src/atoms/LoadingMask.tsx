@@ -24,9 +24,10 @@ export const LoadingMask = (props: {
   fixed?: boolean;
   height?: number;
   width?: number;
+  filter?: boolean;
 }): JSX.Element => <Mask style={{
   position: props.fixed ? 'fixed' : 'static',
-  backdropFilter: props.fixed ? 'brightness(75%)' : 'none'
+  backdropFilter: props.filter ? 'brightness(75%)' : 'none'
 }}>
   <ReactLoading
     type='spin'
