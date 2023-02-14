@@ -52,8 +52,7 @@ export const Transaction = <T extends IOutcome>({ item }: { item: T }): JSX.Elem
         textAlign: 'center'
       }}
       >
-        {/* {formatDate(item.purchase_date)} */}
-        {item.purchase_date}
+        {formatDate(item.purchase_date)}
       </Typography>
     </div>
     <div style={{

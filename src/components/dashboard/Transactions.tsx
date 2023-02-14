@@ -267,7 +267,7 @@ const TransactionForm = ({
       <Form.Item label="Type" rules={[{ required: true, message: 'Please provide a type.' }]} name='transaction_type'>
         <Select>
           <Select.Option value="current">Current</Select.Option>
-          <Select.Option value="fixed">Fixed</Select.Option>
+          {/* <Select.Option value="fixed">Fixed</Select.Option> */}
         </Select>
       </Form.Item>
       <Form.Item label="Description" rules={[{ required: true, message: 'Please provide a description.' }]} name='description'>
