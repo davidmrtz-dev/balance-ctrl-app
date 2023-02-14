@@ -41,7 +41,7 @@ export const Transaction = ({ item }: { item: IOutcome }): JSX.Element => {
         ...theme.texts.brandFont
       }}
       >
-        {item.title}
+        {/* {item.purchase_date} */}
       </Typography>
       <Typography.Text
         ellipsis

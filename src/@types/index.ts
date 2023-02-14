@@ -6,4 +6,4 @@ export type {
   OutcomePages,
   OutcomesHash
 } from './IOutcome';
-export type { NavigationStatus } from './ITransactions';
+export type { ITransaction } from './ITransaction';

@@ -1,17 +1,11 @@
+import { ITransaction } from "./ITransaction";
+
 export interface IOutcomes {
   outcomes: IOutcome [];
   total_pages: number;
 }
 
-export interface IOutcome {
-  id: number;
-  title: string;
-  description: string;
-  balance_id: number;
-  obligation_type: string;
-  charge_date: string;
-  amount: string;
-}
+export interface IOutcome extends ITransaction {}
 
 export type OutcomeType = 'current' | 'fixed';
 
