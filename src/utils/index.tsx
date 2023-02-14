@@ -9,3 +9,6 @@ export const capitalizeFirst = (str: string) => {
 };
 
 export const parsedInt = (value = '0') => parseInt(value, 10);
+
+export const formatDate = (date: string) =>
+  date.split('-').reverse().join('-');
