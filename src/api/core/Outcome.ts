@@ -1,14 +1,16 @@
 import * as Http from '../Http';
-import { IOutcomes } from '../../@types';
+import { IOutcome, IOutcomeNew, IOutcomes, TransactionType } from '../../@types';
 
-export const getCurrentOutcomes = async ({
+export const getOutcomes = async({
   offset,
-  limit = 5
+  limit = 5,
+  type
 }: {
   offset: number;
   limit?: number;
+  type: TransactionType
 }): Promise<IOutcomes> => {
-  const result = await Http.get('/api/outcomes/current', { limit, offset }, {
+  const result = await Http.get(`/api/outcomes/${type === 'current' ? 'current' : 'fixed'}`, { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
@@ -17,18 +19,12 @@ export const getCurrentOutcomes = async ({
   return result.data;
 };
 
-export const getFixedOutcomes = async ({
-  offset,
-  limit = 5
-}: {
-  offset: number;
-  limit?: number;
-}): Promise<IOutcomes> => {
-  const result = await Http.get('/api/outcomes/fixed', { limit, offset }, {
+export const createOutcome = async(values: IOutcomeNew): Promise<IOutcome> => {
+  const result = await Http.post('/api/outcomes/', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
-  });
+  }});
 
-  return result.data;
+  return result.data.outcome;
 };

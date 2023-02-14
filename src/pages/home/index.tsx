@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
-import { getCurrentOutcomes, getFixedOutcomes } from "../../api/core/Outcome";
+import { getOutcomes } from "../../api/core/Outcome";
 import Alert from "../../components/alert";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import InitialScreen from "../../components/dashboard/InitialScreen";
@@ -33,7 +33,7 @@ const Home = (): JSX.Element => {
         Alert({
           icon: 'error',
           title: 'Ops!',
-          text: 'There was an error, please try again later.'
+          text: 'There was an error, please try again later'
         });
       }
     };
@@ -45,14 +45,10 @@ const Home = (): JSX.Element => {
   }, []);
 
   const fetchOutcomes = useCallback((offset: number, type: TransactionType) => {
-    if (type === 'current') {
-      return getCurrentOutcomes({ offset });
-    } else {
-      return getFixedOutcomes({ offset });
-    }
-  }, [])
+    return getOutcomes({ offset, type });
+  }, []);
 
-  return(
+  return (
     <>
       <InitialScreen open={showInit || !balance} />
       <Typography style={{

@@ -3,7 +3,7 @@ import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
-import { Outcome } from "../../../@types";
+import { IOutcome } from "../../../@types";
 import { formatDate } from "../../../utils";
 
 const TransactionContainer = styled.div`
@@ -17,8 +17,8 @@ const TransactionContainer = styled.div`
   cursor: pointer;
 `;
 
-export const Transaction = <T extends Outcome>({ item }: { item: T }): JSX.Element => {
-  return(<TransactionContainer>
+export const Transaction = <T extends IOutcome>({ item }: { item: T }): JSX.Element => {
+  return (<TransactionContainer>
     <div style={{
       flex: 1,
       display: 'flex',
