@@ -170,7 +170,6 @@ const TransactionModal = ({
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
-        title: 'Ops!',
         text: 'All fields are required',
       });
       return;
