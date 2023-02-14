@@ -203,28 +203,38 @@ const TransactionModal = ({
 </Modal>
 
 const TransactionForm = (): JSX.Element => {
+  const [form] = Form.useForm();
+  const [error, setError] = useState('');
+  const [values, setValues] = useState({
+    transaction_type: '',
+    description: '',
+    amount: '',
+    purchase_date: ''
+  });
+
   const onChange = (value: number | null) => {
     console.log('changed', value);
   };
 
   return(
     <Form
-    name='new-transaction'
-    layout='vertical'
-    initialValues={{}}
-    onValuesChange={() => {}}
-    style={{ width: '100%' }}
+      name='new-transaction'
+      form={form}
+      layout='vertical'
+      initialValues={{}}
+      onValuesChange={e => setValues({...values, ...e})}
+      style={{ width: '100%' }}
     >
-      <Form.Item label="Type" rules={[{ required: true }]}>
+      <Form.Item label="Type" rules={[{ required: true }]} name='transaction_type'>
         <Select>
           <Select.Option value="current">Current</Select.Option>
           <Select.Option value="fixed">Fixed</Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item label="Description" rules={[{ required: true }]}>
+      <Form.Item label="Description" rules={[{ required: true }]} name='description'>
         <Input maxLength={20} />
       </Form.Item>
-      <Form.Item label='Amount' rules={[{ required: true }]}>
+      <Form.Item label='Amount' rules={[{ required: true }]} name='amount'>
         <InputNumber
           min={0}
           style={{ width: '100%' }}
@@ -233,7 +243,7 @@ const TransactionForm = (): JSX.Element => {
           onChange={onChange}
         />
       </Form.Item>
-      <Form.Item label="Purchase date" rules={[{ required: true }]}>
+      <Form.Item label="Purchase date" rules={[{ required: true }]} name='purchase_date'>
         <DatePicker style={{ width: '100%' }} />
       </Form.Item>
     </Form>
