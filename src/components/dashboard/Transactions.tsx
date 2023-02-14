@@ -1,8 +1,7 @@
 import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
-import { OutcomeType } from "../../@types/IOutcome";
+import { IOutcomes, OutcomePages, OutcomesHash, TransactionType } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -38,12 +37,12 @@ const Transactions = ({
   category,
   keepOpen,
   fetchData,
-  outcomeType
+  type
 }: {
   category: Category;
   keepOpen?: boolean;
-  fetchData: (offset: number, type: OutcomeType) => Promise<IOutcomes>;
-  outcomeType: OutcomeType;
+  fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
+  type: TransactionType;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -96,7 +95,7 @@ const Transactions = ({
     const fetchOutcomes = async (page: number, offset: number): Promise<void> => {
       try {
         setLoading(true);
-        const data = await fetchData(offset, outcomeType);
+        const data = await fetchData(offset, type);
         if (data) {
           setOutcomes({...outcomes,  [page]: data.outcomes });
           setPages({ current: data.total_pages, fixed: data.total_pages });
@@ -115,7 +114,7 @@ const Transactions = ({
       setReveal(false);
       fetchOutcomes(page, (page * 5) - 5);
     }
-  }, [page, outcomes, fetchData, outcomeType]);
+  }, [page, outcomes, fetchData, type]);
 
   useEffect(() => {
     handleBlock();
