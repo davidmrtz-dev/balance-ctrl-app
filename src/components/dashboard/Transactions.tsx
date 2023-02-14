@@ -51,7 +51,6 @@ const Transactions = ({
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
-  const [waitNew, setWaitNew] = useState(false);
 
   const handleLeftClick = () => {
     if (page > 1) {
@@ -78,14 +77,6 @@ const Transactions = ({
       setDisableBtns({ left: true, right: true });
     }
   }, [loading, page, pages]);
-
-  const handleConfirm = () => {
-    setWaitNew(true);
-    setTimeout(() => {
-      setWaitNew(false);
-      setShowNew(false);
-    }, 3000);
-  };
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 100);
@@ -157,9 +148,7 @@ const Transactions = ({
       </Collapse>
       <TransactionModal
         open={showNew}
-        loading={waitNew}
-        onConfirm={handleConfirm}
-        onCancel={() => setShowNew(false)}
+        closeModal={() => setShowNew(false)}
       />
     </>
   );
@@ -167,40 +156,49 @@ const Transactions = ({
 
 const TransactionModal = ({
   open,
-  loading,
-  onConfirm,
-  onCancel
+  closeModal
 }: {
   open: boolean;
-  loading: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-}): JSX.Element =>
-  <Modal
-    destroyOnClose
-    maskClosable={false}
-    closable={false}
-    open={open}
-    title={<Typography.Text
-      style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-      > New outcome
-      </Typography.Text>}
-    onOk={onConfirm}
-    onCancel={onCancel}
-    style={{
-      maxWidth: 360
-    }}
-    footer={[
-      <Button key="cancel" onClick={onCancel} disabled={loading}>
-        Cancel
-      </Button>,
-      <Button key="submit" type="primary" loading={loading} onClick={onConfirm}>
-        Submit
-      </Button>
-    ]}
-  >
-    <TransactionForm />
-</Modal>
+  closeModal: () => void;
+}): JSX.Element => {
+  const [loading, setLoading] = useState(false);
+
+  const onConfirm = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      closeModal();
+    }, 3000);
+  };
+
+  return(
+    <Modal
+      destroyOnClose
+      maskClosable={false}
+      closable={false}
+      open={open}
+      title={<Typography.Text
+        style={{...theme.texts.brandFont, fontWeight: 'normal'}}
+        > New outcome
+        </Typography.Text>}
+      onOk={onConfirm}
+      onCancel={closeModal}
+      style={{
+        maxWidth: 360
+      }}
+      footer={[
+        <Button key="cancel" onClick={closeModal} disabled={loading}>
+          Cancel
+        </Button>,
+        <Button key="submit" type="primary" loading={loading} onClick={onConfirm}>
+          Submit
+        </Button>
+      ]}
+    >
+      <TransactionForm />
+    </Modal>
+  );
+};
 
 const TransactionForm = (): JSX.Element => {
   const [form] = Form.useForm();
