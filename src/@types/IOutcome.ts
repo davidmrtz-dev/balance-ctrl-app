@@ -1,13 +1,11 @@
 import { ITransaction } from "./ITransaction";
 
-export interface OutcomesHash { [key: number]: Outcomes };
+export interface OutcomesHash { [key: number]: Outcome [] };
 
 export interface IOutcomes {
-  outcomes: Outcomes;
+  outcomes: Outcome [];
   total_pages: number;
 }
-
-type Outcomes = ICurrentOutcome [] | IFixedOutcome [];
 
 export type Outcome = ICurrentOutcome | IFixedOutcome;
 
