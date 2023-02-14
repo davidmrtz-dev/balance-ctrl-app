@@ -3,7 +3,8 @@ import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
-import { IOutcome } from "../../../@types";
+import { Outcome } from "../../../@types";
+import { formatDate } from "../../../utils";
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.lighter};
@@ -16,7 +17,7 @@ const TransactionContainer = styled.div`
   cursor: pointer;
 `;
 
-export const Transaction = ({ item }: { item: IOutcome }): JSX.Element => {
+export const Transaction = <T extends Outcome>({ item }: { item: T }): JSX.Element => {
   return(<TransactionContainer>
     <div style={{
       flex: 1,
@@ -37,12 +38,6 @@ export const Transaction = ({ item }: { item: IOutcome }): JSX.Element => {
       display: 'flex',
       flexDirection: 'column'
     }}>
-      <Typography style={{
-        ...theme.texts.brandFont
-      }}
-      >
-        {item.title}
-      </Typography>
       <Typography.Text
         ellipsis
         style={{
@@ -51,6 +46,14 @@ export const Transaction = ({ item }: { item: IOutcome }): JSX.Element => {
       }}>
         {item.description}
       </Typography.Text>
+      <Typography style={{
+        ...theme.texts.brandFont,
+        paddingTop: 5,
+        textAlign: 'center'
+      }}
+      >
+        {formatDate(item.purchase_date)}
+      </Typography>
     </div>
     <div style={{
       flex: 2,

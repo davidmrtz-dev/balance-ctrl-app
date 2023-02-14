@@ -1,23 +1,26 @@
+import { ITransaction } from "./ITransaction";
+
+export interface OutcomesHash { [key: number]: Outcome [] };
+
 export interface IOutcomes {
-  outcomes: IOutcome [];
+  outcomes: Outcome [];
   total_pages: number;
 }
 
-export interface IOutcome {
-  id: number;
-  title: string;
-  description: string;
-  balance_id: number;
-  obligation_type: string;
-  charge_date: string;
-  amount: string;
+export type Outcome = ICurrentOutcome | IFixedOutcome;
+
+export interface ICurrentOutcome extends ITransaction {
+  transaction_type: 'current';
+  purchase_date: string;
 }
 
-export type OutcomeType = 'current' | 'fixed';
+export interface IFixedOutcome extends ITransaction {
+  transaction_type: 'fixed',
+  purchase_date: string;
+  quotas: number;
+}
 
-export interface OutcomesHash { [key: number]: IOutcome[] };
-
-export interface OutcomePages {
+export interface OutcomesPagination {
   current: number;
   fixed: number;
 }
