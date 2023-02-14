@@ -42,7 +42,7 @@ const Navigation = (): JSX.Element => {
     setShow(false);
   }
 
-  return(
+  return (
     <NavigationContainer>
       <Typography className={dateStyles}>Today, {date.toLocaleDateString()}</Typography>
       {!show && (<FontAwesomeIcon

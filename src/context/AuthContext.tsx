@@ -25,7 +25,7 @@ const { Provider } = authContext;
 export const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const { user, isAuthenticated, authenticate, unauthenticate, verifyLoggedIn } = useAuth();
 
-  return(
+  return (
     <Provider value={{ user, isAuthenticated, authenticate, unauthenticate, verifyLoggedIn }}>
       {children}
     </Provider>

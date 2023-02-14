@@ -111,7 +111,7 @@ const Transactions = ({
     handleBlock();
   }, [page, handleBlock]);
 
-  return(
+  return (
     <>
       <Collapse
         style={{ margin: '16px 0' }}
@@ -184,7 +184,7 @@ const TransactionModal = ({
     }, 3000);
   };
 
-  return(
+  return (
     <Modal
       destroyOnClose
       maskClosable={false}
@@ -229,7 +229,7 @@ const TransactionForm = ({
     console.log(values);
   }, [values]);
 
-  return(
+  return (
     <Form
       name='new-transaction'
       form={form}

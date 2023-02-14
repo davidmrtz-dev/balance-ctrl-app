@@ -48,7 +48,7 @@ const Home = (): JSX.Element => {
     return getOutcomes({ offset, type });
   }, []);
 
-  return(
+  return (
     <>
       <InitialScreen open={showInit || !balance} />
       <Typography style={{

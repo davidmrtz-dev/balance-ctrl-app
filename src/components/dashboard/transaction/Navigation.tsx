@@ -34,7 +34,7 @@ export const Navigation = ({
   leftDisabled: boolean;
   rightDisabled: boolean;
 }): JSX.Element => {
-  return(<NavigationContainer>
+  return (<NavigationContainer>
     <Button
       onClick={leftClick}
       disabled={leftDisabled}

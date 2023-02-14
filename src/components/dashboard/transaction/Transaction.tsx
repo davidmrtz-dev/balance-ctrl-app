@@ -18,7 +18,7 @@ const TransactionContainer = styled.div`
 `;
 
 export const Transaction = <T extends Outcome>({ item }: { item: T }): JSX.Element => {
-  return(<TransactionContainer>
+  return (<TransactionContainer>
     <div style={{
       flex: 1,
       display: 'flex',
