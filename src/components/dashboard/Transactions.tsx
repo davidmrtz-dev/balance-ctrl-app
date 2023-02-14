@@ -1,7 +1,7 @@
 import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomePages, OutcomesHash, TransactionType } from "../../@types";
+import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -47,7 +47,7 @@ const Transactions = ({
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<OutcomesHash>({});
-  const [pages, setPages] = useState<OutcomePages>({ current: 0, fixed: 0});
+  const [pages, setPages] = useState<OutcomesPagination>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
