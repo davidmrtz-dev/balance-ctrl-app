@@ -33,7 +33,7 @@ const Home = (): JSX.Element => {
         Alert({
           icon: 'error',
           title: 'Ops!',
-          text: 'There was an error, please try again later.'
+          text: 'There was an error, please try again later'
         });
       }
     };
