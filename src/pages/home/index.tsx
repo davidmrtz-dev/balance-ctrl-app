@@ -7,6 +7,7 @@ import { getBalance } from "../../api/core/Balance";
 import { getCurrentOutcomes, getFixedOutcomes } from "../../api/core/Outcome";
 import Alert from "../../components/alert";
 import { HeaderCard, Transactions } from "../../components/dashboard";
+import InitialScreen from "../../components/dashboard/InitialScreen";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 
@@ -21,6 +22,7 @@ const Home = (): JSX.Element => {
   const auth = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
+  const [showInit, setShowInit] = useState(true);
 
   useEffect(() => {
     const fetchBalance = async (): Promise<void> => {
@@ -37,7 +39,10 @@ const Home = (): JSX.Element => {
       }
     };
 
-    fetchBalance();
+    setTimeout(() => {
+      setShowInit(false);
+      fetchBalance();
+    }, 2000);
   }, []);
 
   const fetchOutcomes = useCallback((offset: number, type: OutcomeType) => {
@@ -50,6 +55,7 @@ const Home = (): JSX.Element => {
 
   return(
     <>
+      <InitialScreen open={showInit} />
       <Typography style={{
         ...theme.texts.brandFont
       }}>
