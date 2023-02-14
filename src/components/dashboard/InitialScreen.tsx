@@ -43,7 +43,6 @@ const InitialScreen = (props: any): JSX.Element =>
     style={{ zIndex: 1000 }}
   />
   <LoadingMask fixed />
-</Drawer>
-;
+</Drawer>;
 
 export default InitialScreen;
