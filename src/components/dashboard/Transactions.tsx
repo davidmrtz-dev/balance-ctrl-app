@@ -1,4 +1,4 @@
-import { Button, Collapse } from "antd";
+import { Button, Collapse, Modal } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomePages, OutcomesHash } from "../../@types";
@@ -50,6 +50,7 @@ const Transactions = ({
   const [pages, setPages] = useState<OutcomePages>({ current: 0, fixed: 0});
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
+  const [showCreate, setShowCreate] = useState(false);
 
   const handleLeftClick = () => {
     if (page > 1) {
@@ -110,38 +111,81 @@ const Transactions = ({
     handleBlock();
   }, [page, handleBlock]);
 
-  return(<Collapse
-    style={{ margin: '16px 0' }}
-    defaultActiveKey={keepOpen ? category : undefined}
-    collapsible='disabled'
-    expandIcon={() => <AddTransaction disabled={disableBtns.left && disableBtns.right} />}
-    expandIconPosition='end'
-  >
-    <Panel header={category} key={category} >
-      <PanelWrapper>
-        {loading
-          ? (<LoadingWrapper height='450px'>
-              <LoadingMask />
-            </LoadingWrapper>)
-          : (<TransactionsContainer reveal={reveal} >
-              {(outcomes[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
-            </TransactionsContainer>
-          )
+  return(
+    <>
+      <Collapse
+        style={{ margin: '16px 0' }}
+        defaultActiveKey={keepOpen ? category : undefined}
+        collapsible='disabled'
+        expandIcon={() =>
+          <AddTransaction
+            disabled={disableBtns.left && disableBtns.right}
+            onClick={() => setShowCreate(true)}
+          />
         }
-      </PanelWrapper>
-      <TransactionNav
-        leftClick={handleLeftClick}
-        rightClick={handleRightClick}
-        leftDisabled={disableBtns.left}
-        rightDisabled={disableBtns.right}
-        currentPage={page}
+        expandIconPosition='end'
+      >
+        <Panel header={category} key={category} >
+          <PanelWrapper>
+            {loading
+              ? (<LoadingWrapper height='450px'>
+                  <LoadingMask />
+                </LoadingWrapper>)
+              : (<TransactionsContainer reveal={reveal} >
+                  {(outcomes[page] || []).map(transaction => <Transaction key={transaction.id} item={transaction} />)}
+                </TransactionsContainer>
+              )
+            }
+          </PanelWrapper>
+          <TransactionNav
+            leftClick={handleLeftClick}
+            rightClick={handleRightClick}
+            leftDisabled={disableBtns.left}
+            rightDisabled={disableBtns.right}
+            currentPage={page}
+          />
+        </Panel>
+      </Collapse>
+      <TransactionModal
+        open={showCreate}
+        onConfirm={() => setShowCreate(false)}
+        onCancel={() => setShowCreate(false)}
       />
-    </Panel>
-  </Collapse>);
+    </>
+  );
 };
 
-const AddTransaction = ({ disabled }: { disabled: boolean; }) =>
-  <Button disabled={disabled} onClick={() => console.log('okoko')}>
+const TransactionModal = ({
+  open,
+  onConfirm,
+  onCancel
+}: {
+  open: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}): JSX.Element =>
+  <Modal
+    open={open}
+    title='New outcome'
+    onOk={onConfirm}
+    onCancel={onCancel}
+    style={{
+      maxWidth: 360
+    }}
+  >
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+</Modal>
+
+const AddTransaction = ({
+  disabled,
+  onClick
+}: {
+  disabled: boolean;
+  onClick: () => void;
+}): JSX.Element =>
+  <Button disabled={disabled} onClick={onClick}>
     +
 </Button>;
 

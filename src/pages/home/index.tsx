@@ -74,11 +74,11 @@ const Home = (): JSX.Element => {
         outcomeType='current'
         keepOpen
       />
-      <Transactions
+      {/* <Transactions
         fetchData={fetchOutcomes}
         outcomeType='fixed'
         category='Fixed Outcomes'
-      />
+      /> */}
     </>
   );
 };
