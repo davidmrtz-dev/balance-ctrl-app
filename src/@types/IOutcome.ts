@@ -13,6 +13,8 @@ export interface IOutcome {
   amount: string;
 }
 
+export type OutcomeType = 'current' | 'fixed';
+
 export interface OutcomesHash { [key: number]: IOutcome[] };
 
 export interface OutcomePages {

@@ -2,8 +2,9 @@ import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IBalance } from "../../@types";
+import { OutcomeType } from "../../@types/IOutcome";
 import { getBalance } from "../../api/core/Balance";
-import { getCurrentPayments, getFixedPayments } from "../../api/core/Payment";
+import { getCurrentOutcomes, getFixedOutcomes } from "../../api/core/Outcome";
 import Alert from "../../components/alert";
 import { HeaderCard, Transactions } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
@@ -39,13 +40,13 @@ const Home = (): JSX.Element => {
     fetchBalance();
   }, []);
 
-  const fetchCurrentPayments = useCallback((offset: number) => {
-    return getCurrentPayments({ offset });
-  }, []);
-
-  const fetchFixedPayments = useCallback((offset: number) => {
-    return getFixedPayments({ offset });
-  }, []);
+  const fetchOutcomes = useCallback((offset: number, type: OutcomeType) => {
+    if (type === 'current') {
+      return getCurrentOutcomes({ offset });
+    } else {
+      return getFixedOutcomes({ offset });
+    }
+  }, [])
 
   return(
     <>
@@ -56,19 +57,21 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard concept='Income' variation='data' value={balance?.total_income || '0'} loading={loading} />
-        <HeaderCard concept='Expenses' variation='data' value={balance?.total_expenses || '0'} loading={loading} />
-        <HeaderCard concept='Balance' variation='data' value={balance?.total_balance || '0'} loading={loading} />
+        <HeaderCard concept='Income' variation='data' value={balance?.total_incomes || '0'} loading={loading} />
+        <HeaderCard concept='Expenses' variation='data' value={balance?.total_outcomes || '0'} loading={loading} />
+        <HeaderCard concept='Balance' variation='data' value={balance?.current_amount || '0'} loading={loading} />
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
       <Transactions
-        fetchData={fetchCurrentPayments}
-        category='Recent Payments'
+        fetchData={fetchOutcomes}
+        category='Recent Outcomes'
+        outcomeType='current'
         keepOpen
       />
       <Transactions
-        fetchData={fetchFixedPayments}
-        category='Fixed Payments'
+        fetchData={fetchOutcomes}
+        outcomeType='fixed'
+        category='Fixed Outcomes'
         keepOpen
       />
     </>
