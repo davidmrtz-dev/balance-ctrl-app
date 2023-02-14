@@ -31,3 +31,10 @@ export type IOutcomeNew = {
   amount: string,
   purchase_date: string
 }
+
+export const newOutcome: IOutcomeNew = {
+  transaction_type: '',
+  description: '',
+  amount: '',
+  purchase_date: ''
+}

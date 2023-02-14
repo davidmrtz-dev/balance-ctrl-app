@@ -2,6 +2,8 @@ import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, 
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, IOutcomeNew } from "../../@types";
+import { newOutcome } from "../../@types/IOutcome";
+import { createOutcome } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -161,14 +163,8 @@ const TransactionModal = ({
   open: boolean;
   closeModal: () => void;
 }): JSX.Element => {
-  const emptyOutcome: IOutcomeNew = {
-    transaction_type: '',
-    description: '',
-    amount: '',
-    purchase_date: ''
-  }
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcomeNew>(emptyOutcome);
+  const [values, setValues] = useState<IOutcomeNew>(newOutcome);
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -179,16 +175,25 @@ const TransactionModal = ({
       });
       return;
     }
+
+    // try {
+    //   const outcome = await createOutcome(values);
+    // } catch(err: any) {
+    //   setError(err.errors[0] || 'There was an error, please try again.')
+    //   setValues({ email: '', password: ''});
+    //   form.resetFields();
+    // }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setValues(emptyOutcome);
+      setValues(newOutcome);
       closeModal();
     }, 1000);
   };
 
   const handleCancel = () => {
-    setValues(emptyOutcome);
+    setValues(newOutcome);
     closeModal();
   };
 
