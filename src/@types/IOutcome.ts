@@ -1,4 +1,4 @@
-import { ITransaction } from "./ITransaction";
+import { ITransaction, TransactionType } from "./ITransaction";
 
 export interface OutcomesHash { [key: number]: IOutcome [] };
 
@@ -29,12 +29,12 @@ export type IOutcomeNew = {
   transaction_type: string,
   description: string,
   amount: string,
-  purchase_date: string
+  purchase_date: any
 }
 
-export const newOutcome: IOutcomeNew = {
-  transaction_type: '',
+export const newOutcome = (type: TransactionType): IOutcomeNew => ({
+  transaction_type: type,
   description: '',
   amount: '',
-  purchase_date: ''
-}
+  purchase_date: new Date()
+});

@@ -1,4 +1,4 @@
-import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
+import { Button, Collapse, Form, Input, InputNumber, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, IOutcomeNew } from "../../@types";
@@ -80,7 +80,7 @@ const Transactions = ({
     }
   }, [loading, page, pages]);
 
-  const handleNewOutcome = (outcome: IOutcome) => {
+  const handleNew = (outcome: IOutcome) => {
     const rest = outcomes[1].splice(0, 4);
     setOutcomes({ 1: [outcome, ...rest] });
   };
@@ -156,8 +156,9 @@ const Transactions = ({
       </Collapse>
       <TransactionModal
         open={showNew}
+        type={type}
         closeModal={() => setShowNew(false)}
-        handleCreate={handleNewOutcome}
+        handleCreate={handleNew}
       />
     </>
   );
@@ -165,15 +166,17 @@ const Transactions = ({
 
 const TransactionModal = ({
   open,
+  type,
   closeModal,
   handleCreate
 }: {
   open: boolean;
+  type: TransactionType;
   closeModal: () => void;
   handleCreate: (outcome: IOutcome) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcomeNew>(newOutcome);
+  const [values, setValues] = useState<IOutcomeNew>(newOutcome(type));
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -188,11 +191,11 @@ const TransactionModal = ({
 
     try {
       const outcome = await createOutcome({
-        ...values, purchase_date: 'Tue Feb 14 2023'
+        ...values
       });
       setTimeout(() => {
         handleCreate(outcome);
-        setValues(newOutcome);
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -202,7 +205,7 @@ const TransactionModal = ({
           icon: 'error',
           text: (err.error || err.errors[0] || 'There was an error, please try again.'),
         });
-        setValues(newOutcome);
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -210,7 +213,7 @@ const TransactionModal = ({
   };
 
   const handleCancel = () => {
-    setValues(newOutcome);
+    setValues(newOutcome(type));
     closeModal();
   };
 
@@ -222,7 +225,7 @@ const TransactionModal = ({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > New outcome
+        > New {type} outcome
         </Typography.Text>}
       style={{
         maxWidth: 360
@@ -266,13 +269,7 @@ const TransactionForm = ({
       onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
-      <Form.Item label="Type" rules={[{ required: true, message: 'Please provide a type.' }]} name='transaction_type'>
-        <Select>
-          <Select.Option value="current">Current</Select.Option>
-          {/* <Select.Option value="fixed">Fixed</Select.Option> */}
-        </Select>
-      </Form.Item>
-      <Form.Item label="Description" rules={[{ required: true, message: 'Please provide a description.' }]} name='description'>
+      <Form.Item label="Name" rules={[{ required: true, message: 'Please provide a description.' }]} name='description'>
         <Input maxLength={20} />
       </Form.Item>
       <Form.Item label='Amount' rules={[{ required: true, message: 'Please provide an amount.' }]} name='amount'>
@@ -283,9 +280,9 @@ const TransactionForm = ({
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
         />
       </Form.Item>
-      <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
+      {/* <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
         <DatePicker style={{ width: '100%' }} />
-      </Form.Item>
+      </Form.Item> */}
     </Form>
   );
 };
