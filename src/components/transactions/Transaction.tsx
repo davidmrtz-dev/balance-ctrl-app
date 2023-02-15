@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
-import { theme } from "../../../Theme";
-import { IOutcome } from "../../../@types";
-import { formatViewDate } from "../../../utils";
+import { theme } from "../../Theme";
+import { IOutcome } from "../../@types";
+import { formatViewDate } from "../../utils";
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.lighter};

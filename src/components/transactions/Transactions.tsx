@@ -1,14 +1,12 @@
-import { Button, Collapse, Form, Input, InputNumber, Modal, Typography } from "antd";
+import { Button, Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, IOutcomeNew } from "../../@types";
-import { IOutcome, newOutcome } from "../../@types/IOutcome";
-import { createOutcome } from "../../api/core/Outcome";
+import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType } from "../../@types";
+import { IOutcome } from "../../@types/IOutcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
-import { theme } from "../../Theme";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionNav } from "./transaction";
+import { Transaction, TransactionModal, TransactionNav } from ".";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -35,7 +33,7 @@ const PanelWrapper = styled.div`
   justify-content: center;
 `;
 
-const Transactions = ({
+export const Transactions = ({
   category,
   keepOpen,
   fetchData,
@@ -164,129 +162,6 @@ const Transactions = ({
   );
 };
 
-const TransactionModal = ({
-  open,
-  type,
-  closeModal,
-  handleCreate
-}: {
-  open: boolean;
-  type: TransactionType;
-  closeModal: () => void;
-  handleCreate: (outcome: IOutcome) => void;
-}): JSX.Element => {
-  const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcomeNew>(newOutcome(type));
-
-  const handleSubmit = async() => {
-    if (Object.values(values).some(val => val === '')) {
-      Alert({
-        icon: 'error',
-        text: 'All fields are required',
-      });
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const outcome = await createOutcome({
-        ...values
-      });
-      setTimeout(() => {
-        handleCreate(outcome);
-        setValues(newOutcome(type));
-        setLoading(false);
-        closeModal();
-      }, 1000);
-    } catch(err: any) {
-      setTimeout(() => {
-        Alert({
-          icon: 'error',
-          text: (err.error || err.errors[0] || 'There was an error, please try again.'),
-        });
-        setValues(newOutcome(type));
-        setLoading(false);
-        closeModal();
-      }, 1000);
-    }
-  };
-
-  const handleCancel = () => {
-    setValues(newOutcome(type));
-    closeModal();
-  };
-
-  return (
-    <Modal
-      destroyOnClose
-      maskClosable={false}
-      closable={false}
-      open={open}
-      title={<Typography.Text
-        style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > New {type} outcome
-        </Typography.Text>}
-      style={{
-        maxWidth: 360
-      }}
-      footer={[
-        <Button key="cancel" onClick={handleCancel} disabled={loading}>
-          Cancel
-        </Button>,
-        <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
-          Submit
-        </Button>
-      ]}
-    >
-      <TransactionForm
-        values={values}
-        setValues={setValues}
-      />
-    </Modal>
-  );
-};
-
-const TransactionForm = ({
-  values,
-  setValues
-}: {
-  values: IOutcomeNew;
-  setValues: (values: IOutcomeNew) => void;
-}): JSX.Element => {
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
-
-  return (
-    <Form
-      name='new-transaction'
-      form={form}
-      layout='vertical'
-      initialValues={{}}
-      onValuesChange={e => setValues({...values, ...e})}
-      style={{ width: '100%' }}
-    >
-      <Form.Item label="Name" rules={[{ required: true, message: 'Please provide a description.' }]} name='description'>
-        <Input maxLength={20} />
-      </Form.Item>
-      <Form.Item label='Amount' rules={[{ required: true, message: 'Please provide an amount.' }]} name='amount'>
-        <InputNumber
-          min={0}
-          style={{ width: '100%' }}
-          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
-        />
-      </Form.Item>
-      {/* <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
-        <DatePicker style={{ width: '100%' }} />
-      </Form.Item> */}
-    </Form>
-  );
-};
-
 const AddTransaction = ({
   disabled,
   onClick
@@ -297,5 +172,3 @@ const AddTransaction = ({
   <Button disabled={disabled} onClick={onClick}>
     +
 </Button>;
-
-export default Transactions;
