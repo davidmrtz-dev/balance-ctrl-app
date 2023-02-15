@@ -29,7 +29,7 @@ export type IOutcomeNew = {
   transaction_type: string,
   description: string,
   amount: string,
-  purchase_date: any
+  purchase_date: Date | string;
 }
 
 export const newOutcome = (type: TransactionType): IOutcomeNew => ({
