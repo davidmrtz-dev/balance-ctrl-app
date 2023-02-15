@@ -43,6 +43,7 @@ export const Transaction = <T extends IOutcome>({ item }: { item: T }): JSX.Elem
         style={{
         maxWidth: 150,
         ...theme.texts.brandSubFont,
+        textAlign: 'center'
       }}>
         {item.description}
       </Typography.Text>
