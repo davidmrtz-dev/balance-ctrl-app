@@ -1,4 +1,4 @@
-import { Button, Collapse, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
+import { Button, Collapse, Form, Input, InputNumber, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, IOutcomeNew } from "../../@types";
@@ -6,7 +6,6 @@ import { IOutcome, newOutcome } from "../../@types/IOutcome";
 import { createOutcome } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
-import { formatDate } from "../../utils";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -192,8 +191,7 @@ const TransactionModal = ({
 
     try {
       const outcome = await createOutcome({
-        ...values,
-        purchase_date: formatDate(values.purchase_date.$d)
+        ...values
       });
       setTimeout(() => {
         handleCreate(outcome);
@@ -282,9 +280,9 @@ const TransactionForm = ({
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
         />
       </Form.Item>
-      <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
+      {/* <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
         <DatePicker style={{ width: '100%' }} />
-      </Form.Item>
+      </Form.Item> */}
     </Form>
   );
 };

@@ -36,5 +36,5 @@ export const newOutcome = (type: TransactionType): IOutcomeNew => ({
   transaction_type: type,
   description: '',
   amount: '',
-  purchase_date: ''
+  purchase_date: new Date()
 });
