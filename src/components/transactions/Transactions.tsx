@@ -53,6 +53,7 @@ export const Transactions = ({
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
