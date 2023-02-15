@@ -91,7 +91,7 @@ export const Transactions = ({
         if (data) {
           setOutcomes({...outcomes,  [page]: data.outcomes });
           setPages({ current: data.total_pages, fixed: data.total_pages });
-          setTimeout(() => setLoading(false), 1400);
+          setTimeout(() => setLoading(false), 1500);
         }
       } catch(error) {
         setTimeout(() => Alert({
