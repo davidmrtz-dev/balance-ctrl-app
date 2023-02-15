@@ -24,21 +24,21 @@ const Home = (): JSX.Element => {
   const [balance, setBalance] = useState<IBalance | null>(null);
   const [showInit, setShowInit] = useState(true);
 
-  useEffect(() => {
-    const fetchBalance = async (): Promise<void> => {
-      try {
-        const balance = await getBalance();
-        setBalance(balance);
-        setLoading(false);
-      } catch (_err) {
-        Alert({
-          icon: 'error',
-          title: 'Ops!',
-          text: 'There was an error, please try again later'
-        });
-      }
-    };
+  const fetchBalance = useCallback(async (): Promise<void> => {
+    try {
+      const balance = await getBalance();
+      setBalance(balance);
+      setLoading(false);
+    } catch (_err) {
+      Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'There was an error, please try again later'
+      });
+    }
+  }, []);
 
+  useEffect(() => {
     setTimeout(() => {
       setShowInit(false);
       fetchBalance();
