@@ -8,7 +8,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionNav } from "../transactions";
+import { Transaction, TransactionNav } from ".";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -35,7 +35,7 @@ const PanelWrapper = styled.div`
   justify-content: center;
 `;
 
-const Transactions = ({
+export const Transactions = ({
   category,
   keepOpen,
   fetchData,
@@ -297,5 +297,3 @@ const AddTransaction = ({
   <Button disabled={disabled} onClick={onClick}>
     +
 </Button>;
-
-export default Transactions;
