@@ -8,7 +8,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionNav } from "./transaction";
+import { Transaction, TransactionNav } from "../transactions";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';

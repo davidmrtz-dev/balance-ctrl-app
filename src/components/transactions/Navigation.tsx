@@ -2,7 +2,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Typography } from "antd";
 import styled from "styled-components";
-import { theme } from "../../../Theme";
+import { theme } from "../../Theme";
 
 const NavigationContainer = styled.div`
   display: flex;
