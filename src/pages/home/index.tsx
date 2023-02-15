@@ -5,10 +5,11 @@ import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getOutcomes } from "../../api/core/Outcome";
 import Alert from "../../components/alert";
-import { HeaderCard, Transactions } from "../../components/dashboard";
-import InitialScreen from "../../components/dashboard/InitialScreen";
+import { HeaderCard } from "../../components/dashboard";
+import { Transactions } from "../../components/transactions";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
+import InitialScreen from "./InitialScreen";
 
 const HeaderContainer = styled.div`
   display: grid;
