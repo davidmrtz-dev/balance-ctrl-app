@@ -72,10 +72,11 @@ export const Transactions = ({
     }
   }, [loading, page, pages]);
 
-  const handleCreate = useCallback((outcome: IOutcome) => {
+  const handleCreate = useCallback(async (outcome: IOutcome) => {
     const rest = outcomes[1].splice(0, 4);
     setOutcomes({ 1: [outcome, ...rest] });
-  }, [outcomes]);
+    await updateBalance();
+  }, [outcomes, updateBalance]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 100);
