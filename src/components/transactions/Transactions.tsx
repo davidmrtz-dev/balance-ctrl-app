@@ -94,11 +94,11 @@ export const Transactions = ({
           setTimeout(() => setLoading(false), 1000);
         }
       } catch(error) {
-        Alert({
+        setTimeout(() => Alert({
           icon: 'error',
           title: 'Ops!',
           text: 'There was an error, please try again later'
-        });
+        }), 1000);
       }
     };
 

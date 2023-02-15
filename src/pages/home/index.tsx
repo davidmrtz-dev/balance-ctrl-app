@@ -30,11 +30,11 @@ const Home = (): JSX.Element => {
       setBalance(balance);
       setLoading(false);
     } catch (_err) {
-      Alert({
+      setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
         text: 'There was an error, please try again later'
-      });
+      }), 1000);
     }
   }, []);
 
