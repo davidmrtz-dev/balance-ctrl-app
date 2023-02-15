@@ -5,9 +5,9 @@ import { newOutcome } from "../../@types/IOutcome";
 import { createOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
-import { TransactionForm } from "./";
+import { TransactionForm } from "./TransactionForm";
 
-export const TransactionModal = ({
+export const TransactionCreate = ({
   open,
   type,
   closeModal,

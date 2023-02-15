@@ -6,7 +6,7 @@ import { IOutcome } from "../../@types/IOutcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionModal, TransactionNav } from ".";
+import { Transaction, TransactionCreate, TransactionNav } from ".";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -148,7 +148,7 @@ export const Transactions = ({
           />
         </Panel>
       </Collapse>
-      <TransactionModal
+      <TransactionCreate
         open={showNew}
         type={type}
         closeModal={() => setShowNew(false)}
