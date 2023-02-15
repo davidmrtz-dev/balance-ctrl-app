@@ -52,17 +52,9 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
 
-  const handleLeftClick = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  };
+  const handleLeftClick = () => page > 1 && setPage(page - 1);
 
-  const handleRightClick = () => {
-    if (page < pages.current) {
-      setPage(page + 1);
-    }
-  };
+  const handleRightClick = () => page < pages.current && setPage(page + 1);
 
   const handleBlock = useCallback(() => {
     if (!loading) {
@@ -78,10 +70,10 @@ export const Transactions = ({
     }
   }, [loading, page, pages]);
 
-  const handleNew = (outcome: IOutcome) => {
+  const handleCreate = useCallback((outcome: IOutcome) => {
     const rest = outcomes[1].splice(0, 4);
     setOutcomes({ 1: [outcome, ...rest] });
-  };
+  }, [outcomes]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 100);
@@ -156,7 +148,7 @@ export const Transactions = ({
         open={showNew}
         type={type}
         closeModal={() => setShowNew(false)}
-        handleCreate={handleNew}
+        handleCreate={handleCreate}
       />
     </>
   );
