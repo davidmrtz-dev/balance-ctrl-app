@@ -1,4 +1,4 @@
-import { Button, Collapse, Form, Input, InputNumber, Modal, Typography } from "antd";
+import { Button, Collapse, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, IOutcomeNew } from "../../@types";
@@ -8,7 +8,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionNav } from ".";
+import { Transaction, TransactionForm, TransactionNav } from ".";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -244,46 +244,6 @@ const TransactionModal = ({
         setValues={setValues}
       />
     </Modal>
-  );
-};
-
-const TransactionForm = ({
-  values,
-  setValues
-}: {
-  values: IOutcomeNew;
-  setValues: (values: IOutcomeNew) => void;
-}): JSX.Element => {
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
-
-  return (
-    <Form
-      name='new-transaction'
-      form={form}
-      layout='vertical'
-      initialValues={{}}
-      onValuesChange={e => setValues({...values, ...e})}
-      style={{ width: '100%' }}
-    >
-      <Form.Item label="Name" rules={[{ required: true, message: 'Please provide a description.' }]} name='description'>
-        <Input maxLength={20} />
-      </Form.Item>
-      <Form.Item label='Amount' rules={[{ required: true, message: 'Please provide an amount.' }]} name='amount'>
-        <InputNumber
-          min={0}
-          style={{ width: '100%' }}
-          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
-        />
-      </Form.Item>
-      {/* <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
-        <DatePicker style={{ width: '100%' }} />
-      </Form.Item> */}
-    </Form>
   );
 };
 
