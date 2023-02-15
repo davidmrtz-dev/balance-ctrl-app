@@ -79,30 +79,31 @@ export const Transactions = ({
     if (!loading) setTimeout(() => setReveal(true), 100);
   }, [loading]);
 
-  useEffect(() => {
-    const fetchOutcomes = async (page: number, offset: number): Promise<void> => {
-      try {
-        setLoading(true);
-        const data = await fetchData(offset, type);
-        if (data) {
-          setOutcomes({...outcomes,  [page]: data.outcomes });
-          setPages({ current: data.total_pages, fixed: data.total_pages });
-          setTimeout(() => setLoading(false), 1000);
-        }
-      } catch(error) {
-        Alert({
-          icon: 'error',
-          title: 'Ops!',
-          text: 'There was an error, please try again later'
-        });
+  const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
+    try {
+      setLoading(true);
+      const data = await fetchData(offset, type);
+      if (data) {
+        setOutcomes({...outcomes,  [page]: data.outcomes });
+        setPages({ current: data.total_pages, fixed: data.total_pages });
+        setTimeout(() => setLoading(false), 1000);
       }
-    };
+    } catch(error) {
+      Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'There was an error, please try again later'
+      });
+    }
+  }, [fetchData, outcomes, type]);
 
+
+  useEffect(() => {
     if (page && !outcomes[page]) {
       setReveal(false);
       fetchOutcomes(page, (page * 5) - 5);
     }
-  }, [page, outcomes, fetchData, type]);
+  }, [page, outcomes, fetchOutcomes]);
 
   useEffect(() => {
     handleBlock();
