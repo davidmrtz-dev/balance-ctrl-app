@@ -24,29 +24,29 @@ const Home = (): JSX.Element => {
   const [balance, setBalance] = useState<IBalance | null>(null);
   const [showInit, setShowInit] = useState(true);
 
-  useEffect(() => {
-    const fetchBalance = async (): Promise<void> => {
-      try {
-        const balance = await getBalance();
-        setBalance(balance);
-        setLoading(false);
-      } catch (_err) {
-        Alert({
-          icon: 'error',
-          title: 'Ops!',
-          text: 'There was an error, please try again later'
-        });
-      }
-    };
+  const fetchBalance = useCallback(async (): Promise<void> => {
+    try {
+      const balance = await getBalance();
+      setBalance(balance);
+      setLoading(false);
+    } catch (_err) {
+      Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'There was an error, please try again later'
+      });
+    }
+  }, []);
 
+  const fetchOutcomes = useCallback(async (offset: number, type: TransactionType) => {
+    return getOutcomes({ offset, type });
+  }, []);
+
+  useEffect(() => {
     setTimeout(() => {
       setShowInit(false);
       fetchBalance();
     }, 2000);
-  }, []);
-
-  const fetchOutcomes = useCallback((offset: number, type: TransactionType) => {
-    return getOutcomes({ offset, type });
   }, []);
 
   return (
@@ -66,6 +66,7 @@ const Home = (): JSX.Element => {
       </HeaderContainer>
       <Transactions
         fetchData={fetchOutcomes}
+        updateBalance={fetchBalance}
         category='Recent Outcomes'
         type='current'
         keepOpen

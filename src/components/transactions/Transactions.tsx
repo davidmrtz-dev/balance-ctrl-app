@@ -36,13 +36,15 @@ const PanelWrapper = styled.div`
 export const Transactions = ({
   category,
   keepOpen,
+  type,
   fetchData,
-  type
+  updateBalance
 }: {
   category: Category;
   keepOpen?: boolean;
-  fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
   type: TransactionType;
+  fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
+  updateBalance: () => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -52,17 +54,9 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
 
-  const handleLeftClick = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  };
+  const handleLeftClick = () => page > 1 && setPage(page - 1);
 
-  const handleRightClick = () => {
-    if (page < pages.current) {
-      setPage(page + 1);
-    }
-  };
+  const handleRightClick = () => page < pages.current && setPage(page + 1);
 
   const handleBlock = useCallback(() => {
     if (!loading) {
@@ -78,14 +72,16 @@ export const Transactions = ({
     }
   }, [loading, page, pages]);
 
-  const handleNew = (outcome: IOutcome) => {
+  const handleCreate = useCallback(async (outcome: IOutcome) => {
     const rest = outcomes[1].splice(0, 4);
     setOutcomes({ 1: [outcome, ...rest] });
-  };
+    await updateBalance();
+  }, [outcomes, updateBalance]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 100);
   }, [loading]);
+
 
   useEffect(() => {
     const fetchOutcomes = async (page: number, offset: number): Promise<void> => {
@@ -156,7 +152,7 @@ export const Transactions = ({
         open={showNew}
         type={type}
         closeModal={() => setShowNew(false)}
-        handleCreate={handleNew}
+        handleCreate={handleCreate}
       />
     </>
   );

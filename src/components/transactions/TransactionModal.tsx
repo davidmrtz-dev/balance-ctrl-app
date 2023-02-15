@@ -16,7 +16,7 @@ export const TransactionModal = ({
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleCreate: (outcome: IOutcome) => void;
+  handleCreate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcomeNew>(newOutcome(type));
@@ -36,8 +36,8 @@ export const TransactionModal = ({
       const outcome = await createOutcome({
         ...values
       });
-      setTimeout(() => {
-        handleCreate(outcome);
+      setTimeout(async () => {
+        await handleCreate(outcome);
         setValues(newOutcome(type));
         setLoading(false);
         closeModal();
