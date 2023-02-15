@@ -79,7 +79,7 @@ export const Transactions = ({
   }, [outcomes, updateBalance]);
 
   useEffect(() => {
-    if (!loading) setTimeout(() => setReveal(true), 100);
+    if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
 
@@ -91,7 +91,7 @@ export const Transactions = ({
         if (data) {
           setOutcomes({...outcomes,  [page]: data.outcomes });
           setPages({ current: data.total_pages, fixed: data.total_pages });
-          setTimeout(() => setLoading(false), 1000);
+          setTimeout(() => setLoading(false), 1400);
         }
       } catch(error) {
         setTimeout(() => Alert({
