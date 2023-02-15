@@ -6,6 +6,7 @@ import { IOutcome, newOutcome } from "../../@types/IOutcome";
 import { createOutcome } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { theme } from "../../Theme";
+import { formatDate } from "../../utils";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionNav } from "./transaction";
@@ -191,7 +192,8 @@ const TransactionModal = ({
 
     try {
       const outcome = await createOutcome({
-        ...values, purchase_date: 'Tue Feb 14 2023'
+        ...values,
+        purchase_date: formatDate(values.purchase_date.$d)
       });
       setTimeout(() => {
         handleCreate(outcome);

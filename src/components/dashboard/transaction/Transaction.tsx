@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
 import { IOutcome } from "../../../@types";
-import { formatDate } from "../../../utils";
+import { formatViewDate } from "../../../utils";
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.lighter};
@@ -52,7 +52,7 @@ export const Transaction = <T extends IOutcome>({ item }: { item: T }): JSX.Elem
         textAlign: 'center'
       }}
       >
-        {formatDate(item.purchase_date)}
+        {formatViewDate(item.purchase_date)}
       </Typography>
     </div>
     <div style={{
