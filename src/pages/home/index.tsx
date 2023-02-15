@@ -38,15 +38,15 @@ const Home = (): JSX.Element => {
     }
   }, []);
 
+  const fetchOutcomes = useCallback(async (offset: number, type: TransactionType) => {
+    return getOutcomes({ offset, type });
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setShowInit(false);
       fetchBalance();
     }, 2000);
-  }, []);
-
-  const fetchOutcomes = useCallback((offset: number, type: TransactionType) => {
-    return getOutcomes({ offset, type });
   }, []);
 
   return (
@@ -66,6 +66,7 @@ const Home = (): JSX.Element => {
       </HeaderContainer>
       <Transactions
         fetchData={fetchOutcomes}
+        updateBalance={fetchBalance}
         category='Recent Outcomes'
         type='current'
         keepOpen

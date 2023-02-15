@@ -36,13 +36,15 @@ const PanelWrapper = styled.div`
 export const Transactions = ({
   category,
   keepOpen,
+  type,
   fetchData,
-  type
+  updateBalance
 }: {
   category: Category;
   keepOpen?: boolean;
-  fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
   type: TransactionType;
+  fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
+  updateBalance: () => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -79,31 +81,31 @@ export const Transactions = ({
     if (!loading) setTimeout(() => setReveal(true), 100);
   }, [loading]);
 
-  const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
-    try {
-      setLoading(true);
-      const data = await fetchData(offset, type);
-      if (data) {
-        setOutcomes({...outcomes,  [page]: data.outcomes });
-        setPages({ current: data.total_pages, fixed: data.total_pages });
-        setTimeout(() => setLoading(false), 1000);
-      }
-    } catch(error) {
-      Alert({
-        icon: 'error',
-        title: 'Ops!',
-        text: 'There was an error, please try again later'
-      });
-    }
-  }, [fetchData, outcomes, type]);
-
 
   useEffect(() => {
+    const fetchOutcomes = async (page: number, offset: number): Promise<void> => {
+      try {
+        setLoading(true);
+        const data = await fetchData(offset, type);
+        if (data) {
+          setOutcomes({...outcomes,  [page]: data.outcomes });
+          setPages({ current: data.total_pages, fixed: data.total_pages });
+          setTimeout(() => setLoading(false), 1000);
+        }
+      } catch(error) {
+        Alert({
+          icon: 'error',
+          title: 'Ops!',
+          text: 'There was an error, please try again later'
+        });
+      }
+    };
+
     if (page && !outcomes[page]) {
       setReveal(false);
       fetchOutcomes(page, (page * 5) - 5);
     }
-  }, [page, outcomes, fetchOutcomes]);
+  }, [page, outcomes, fetchData, type]);
 
   useEffect(() => {
     handleBlock();
