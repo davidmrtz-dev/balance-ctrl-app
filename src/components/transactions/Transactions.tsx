@@ -82,7 +82,6 @@ export const Transactions = ({
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-
   useEffect(() => {
     const fetchOutcomes = async (page: number, offset: number): Promise<void> => {
       try {
