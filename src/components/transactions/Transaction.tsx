@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../Theme";
 import { IOutcome } from "../../@types";
-import { formatViewDate } from "../../utils";
+import { formatCurrency, formatViewDate } from "../../utils";
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.lighter};
@@ -63,7 +63,7 @@ export const Transaction = <T extends IOutcome>({ item }: { item: T }): JSX.Elem
       <Typography style={{
         ...theme.texts.brandSubFont
       }}>
-        $ {item.amount}
+        {formatCurrency(item.amount)}
       </Typography>
     </div>
   </TransactionContainer>);
