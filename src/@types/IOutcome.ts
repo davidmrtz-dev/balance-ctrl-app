@@ -23,39 +23,5 @@ export interface OutcomesPagination {
   fixed: number;
 }
 
-export type IOutcomeNew = {
-  transaction_type: string,
-  description: string,
-  amount: string,
-  purchase_date: Date | string;
-}
-
-export const newCurrentOutcome = (): IOutcomeNew => ({
-  transaction_type: 'current',
-  description: '',
-  amount: '',
-  purchase_date: new Date()
-});
-
-// export const emptyOutcome
-
+// TBW
 // type EmptyOutcome<T extends TransactionType> = T extends 'current' ? ICurrentOutcome : IFixedOutcome;
-
-// const createEmptyOutcome = <T extends TransactionType>(type: T): EmptyOutcome<T> => {
-//   const basicObj = {
-//     id: 0,
-//     balance_id: 0,
-//     transaction_type: type,
-//     amount: '',
-//     description: '',
-//     purchase_date: ''
-//   };
-
-//   if (type === 'current') {
-//     return basicObj as unknown as EmptyOutcome<T>;
-//   } else if (type === 'fixed') {
-//     return { ...basicObj, quotas: 0 } as EmptyOutcome<T>;
-//   } else {
-//     throw new Error(`Unsupported type: ${type}`);
-//   }
-// };
