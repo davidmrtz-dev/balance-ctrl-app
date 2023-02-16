@@ -30,8 +30,8 @@ export type IOutcomeNew = {
   purchase_date: Date | string;
 }
 
-export const newCurrentOutcome = (type: TransactionType): IOutcomeNew => ({
-  transaction_type: type,
+export const newCurrentOutcome = (): IOutcomeNew => ({
+  transaction_type: 'current',
   description: '',
   amount: '',
   purchase_date: new Date()

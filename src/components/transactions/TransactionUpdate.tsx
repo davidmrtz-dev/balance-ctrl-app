@@ -19,7 +19,7 @@ export const TransactionUpdate = ({
   handleUpdate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcomeNew>(newCurrentOutcome(type));
+  const [values, setValues] = useState<IOutcomeNew>(newCurrentOutcome());
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -38,7 +38,7 @@ export const TransactionUpdate = ({
       });
       setTimeout(async () => {
         await handleUpdate(outcome);
-        setValues(newCurrentOutcome(type));
+        setValues(newCurrentOutcome());
         setLoading(false);
         closeModal();
       }, 1000);
@@ -48,7 +48,7 @@ export const TransactionUpdate = ({
           icon: 'error',
           text: (err.error || err.errors[0] || 'There was an error, please try again.'),
         });
-        setValues(newCurrentOutcome(type));
+        setValues(newCurrentOutcome());
         setLoading(false);
         closeModal();
       }, 1000);
@@ -56,7 +56,7 @@ export const TransactionUpdate = ({
   };
 
   const handleCancel = () => {
-    setValues(newCurrentOutcome(type));
+    setValues(newCurrentOutcome());
     closeModal();
   };
 
