@@ -1,4 +1,4 @@
-import { ITransaction, TransactionType } from "./ITransaction";
+import { ITransaction } from "./ITransaction";
 
 export interface OutcomesHash { [key: number]: IOutcome [] };
 
@@ -11,12 +11,10 @@ export type IOutcome = ICurrentOutcome | IFixedOutcome;
 
 export interface ICurrentOutcome extends ITransaction {
   transaction_type: 'current';
-  purchase_date: string;
 }
 
 export interface IFixedOutcome extends ITransaction {
   transaction_type: 'fixed',
-  purchase_date: string;
   quotas: number;
 }
 
@@ -25,16 +23,12 @@ export interface OutcomesPagination {
   fixed: number;
 }
 
-export type IOutcomeNew = {
+export type ICurrentOutcomeNew = {
   transaction_type: string,
   description: string,
   amount: string,
-  purchase_date: any
+  purchase_date: string;
 }
 
-export const newOutcome = (type: TransactionType): IOutcomeNew => ({
-  transaction_type: type,
-  description: '',
-  amount: '',
-  purchase_date: new Date()
-});
+// TBW
+// type EmptyOutcome<T extends TransactionType> = T extends 'current' ? ICurrentOutcome : IFixedOutcome;
