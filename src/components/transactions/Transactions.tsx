@@ -7,7 +7,6 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
-import { formatDate } from "../../utils";
 import { emptyCurrentOutcome } from "../../generators/emptyObjects";
 const { Panel } = Collapse;
 
@@ -77,9 +76,12 @@ export const Transactions = ({
   }, [loading, page, pages]);
 
   const handleTransactionClick = (id: number) => {
-    setShowUpdate(true);
-    setOutcome(outcomes[page]
-      .find((outcome) => outcome.id === id) || emptyCurrentOutcome());
+    if (outcomes && outcomes[page].length) {
+      setShowUpdate(true);
+      const obj = outcomes[page]
+        .find((outcome) => outcome.id === id)
+        if (obj) setOutcome(obj);
+    }
   };
 
   const handleCreate = useCallback(async (outcome: IOutcome) => {
