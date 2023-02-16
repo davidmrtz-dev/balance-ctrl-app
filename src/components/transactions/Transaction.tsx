@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../Theme";
@@ -14,10 +14,16 @@ const TransactionContainer = styled.div`
   height: 6em;
   border-radius: 10px;
   margin: 10px 0;
-  cursor: pointer;
+  cursor: default;
 `;
 
-export const Transaction = <T extends IOutcome>({ item }: { item: T }): JSX.Element => {
+export const Transaction = <T extends IOutcome>({
+  item,
+  onClick
+}: {
+  item: T,
+  onClick: () => void;
+}): JSX.Element => {
   return (<TransactionContainer>
     <div style={{
       flex: 1,
@@ -58,8 +64,20 @@ export const Transaction = <T extends IOutcome>({ item }: { item: T }): JSX.Elem
     </div>
     <div style={{
       flex: 2,
-      textAlign: 'center'
+      textAlign: 'center',
+      position: 'relative'
     }}>
+      <FontAwesomeIcon
+        onClick={onClick}
+        style={{
+          position: 'absolute',
+          top: -25,
+          right: 10,
+          cursor: 'pointer'
+        }}
+        color={theme.colors.blacks.normal}
+        icon={faEdit}
+      />
       <Typography style={{
         ...theme.texts.brandSubFont
       }}>

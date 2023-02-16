@@ -11,12 +11,12 @@ export const TransactionUpdate = ({
   open,
   type,
   closeModal,
-  handleCreate
+  handleUpdate
 }: {
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleCreate: (outcome: IOutcome) => Promise<void>;
+  handleUpdate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcomeNew>(newOutcome(type));
@@ -37,7 +37,7 @@ export const TransactionUpdate = ({
         ...values
       });
       setTimeout(async () => {
-        await handleCreate(outcome);
+        await handleUpdate(outcome);
         setValues(newOutcome(type));
         setLoading(false);
         closeModal();
@@ -68,7 +68,7 @@ export const TransactionUpdate = ({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > New {type} outcome
+        > Update {type} outcome
         </Typography.Text>}
       style={{
         maxWidth: 360

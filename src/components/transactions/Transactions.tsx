@@ -6,7 +6,7 @@ import { IOutcome } from "../../@types/IOutcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionCreate, TransactionNav } from ".";
+import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -134,7 +134,11 @@ export const Transactions = ({
                 </LoadingWrapper>)
               : (<TransactionsContainer reveal={reveal} >
                   {(outcomes[page] || []).map(transaction =>
-                    <Transaction key={transaction.id} item={transaction} />)}
+                    <Transaction
+                      key={transaction.id}
+                      item={transaction}
+                      onClick={() => setShowUpdate(true)}
+                    />)}
                 </TransactionsContainer>
               )
             }
@@ -153,6 +157,12 @@ export const Transactions = ({
         type={type}
         closeModal={() => setShowNew(false)}
         handleCreate={handleCreate}
+      />
+      <TransactionUpdate
+        open={showUpdate}
+        type={type}
+        closeModal={() => setShowUpdate(false)}
+        handleUpdate={async() => {}}
       />
     </>
   );
