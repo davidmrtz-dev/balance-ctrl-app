@@ -1,13 +1,13 @@
 import { Form, Input, InputNumber } from "antd";
 import { useEffect } from "react";
-import { IOutcomeNew } from "../../@types";
+import { IOutcome, IOutcomeNew } from "../../@types";
 
 export const TransactionForm = ({
   values,
   setValues
 }: {
-  values: IOutcomeNew;
-  setValues: (values: IOutcomeNew) => void;
+  values: IOutcomeNew | IOutcome;
+  setValues: (values: IOutcomeNew | IOutcome) => void;
 }): JSX.Element => {
   const [form] = Form.useForm();
 

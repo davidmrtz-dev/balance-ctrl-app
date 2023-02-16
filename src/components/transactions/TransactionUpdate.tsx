@@ -1,7 +1,7 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
 import { IOutcome, IOutcomeNew, TransactionType } from "../../@types";
-import { newOutcome } from "../../@types/IOutcome";
+import { newCurrentOutcome } from "../../@types/IOutcome";
 import { createOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -19,7 +19,7 @@ export const TransactionUpdate = ({
   handleUpdate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcomeNew>(newOutcome(type));
+  const [values, setValues] = useState<IOutcomeNew>(newCurrentOutcome(type));
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -38,7 +38,7 @@ export const TransactionUpdate = ({
       });
       setTimeout(async () => {
         await handleUpdate(outcome);
-        setValues(newOutcome(type));
+        setValues(newCurrentOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -48,7 +48,7 @@ export const TransactionUpdate = ({
           icon: 'error',
           text: (err.error || err.errors[0] || 'There was an error, please try again.'),
         });
-        setValues(newOutcome(type));
+        setValues(newCurrentOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -56,7 +56,7 @@ export const TransactionUpdate = ({
   };
 
   const handleCancel = () => {
-    setValues(newOutcome(type));
+    setValues(newCurrentOutcome(type));
     closeModal();
   };
 
