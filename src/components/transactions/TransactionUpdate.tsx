@@ -1,8 +1,8 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
-import { IOutcome, IOutcomeNew, TransactionType } from "../../@types";
-import { newCurrentOutcome } from "../../@types/IOutcome";
+import { IOutcome, ICurrentOutcomeNew, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
+import { newCurrentOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
@@ -19,7 +19,7 @@ export const TransactionUpdate = ({
   handleUpdate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcomeNew>(newCurrentOutcome());
+  const [values, setValues] = useState<ICurrentOutcomeNew>(newCurrentOutcome());
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {

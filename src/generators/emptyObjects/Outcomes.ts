@@ -1,11 +1,6 @@
-export type IOutcomeNew = {
-  transaction_type: string,
-  description: string,
-  amount: string,
-  purchase_date: Date | string;
-}
+import { ICurrentOutcomeNew } from "../../@types";
 
-export const newCurrentOutcome = (): IOutcomeNew => ({
+export const newCurrentOutcome = (): ICurrentOutcomeNew => ({
   transaction_type: 'current',
   description: '',
   amount: '',

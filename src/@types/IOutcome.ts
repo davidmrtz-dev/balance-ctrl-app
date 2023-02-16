@@ -1,4 +1,4 @@
-import { ITransaction, TransactionType } from "./ITransaction";
+import { ITransaction } from "./ITransaction";
 
 export interface OutcomesHash { [key: number]: IOutcome [] };
 
@@ -21,6 +21,13 @@ export interface IFixedOutcome extends ITransaction {
 export interface OutcomesPagination {
   current: number;
   fixed: number;
+}
+
+export type ICurrentOutcomeNew = {
+  transaction_type: string,
+  description: string,
+  amount: string,
+  purchase_date: Date | string;
 }
 
 // TBW
