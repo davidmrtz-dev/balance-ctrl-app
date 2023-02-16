@@ -90,6 +90,20 @@ export const Transactions = ({
     await updateBalance();
   }, [outcomes, updateBalance]);
 
+  const handleUpdate = useCallback(async (outcome: IOutcome) => {
+    if (outcomes && outcomes[page].length) {
+      const updatedOutcomes = outcomes[page].map(out => {
+        if (out.id === outcome.id) {
+          return outcome;
+        } else {
+          return out;
+        }
+      });
+      setOutcomes({...outcomes, [page]: updatedOutcomes});
+      await updateBalance();
+    }
+  }, [outcomes, page, updateBalance]);
+
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
@@ -174,7 +188,7 @@ export const Transactions = ({
         open={showUpdate}
         type={type}
         closeModal={() => setShowUpdate(false)}
-        handleUpdate={async() => {}}
+        handleUpdate={handleUpdate}
       />
     </>
   );
