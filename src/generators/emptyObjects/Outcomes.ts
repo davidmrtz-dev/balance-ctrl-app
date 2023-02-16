@@ -1,10 +1,20 @@
-import { ICurrentOutcomeNew } from "../../@types";
+import { ICurrentOutcomeNew, IOutcome } from "../../@types";
+import { formatDate } from "../../utils";
 
 export const newCurrentOutcome = (): ICurrentOutcomeNew => ({
   transaction_type: 'current',
   description: '',
   amount: '',
-  purchase_date: new Date()
+  purchase_date: formatDate(new Date())
+});
+
+export const emptyCurrentOutcome = (): IOutcome => ({
+  id: 0,
+  balance_id: 0,
+  transaction_type: 'current',
+  amount: '0.0',
+  description: '',
+  purchase_date: formatDate(new Date())
 });
 
 

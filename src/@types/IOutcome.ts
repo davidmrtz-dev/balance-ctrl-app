@@ -27,7 +27,7 @@ export type ICurrentOutcomeNew = {
   transaction_type: string,
   description: string,
   amount: string,
-  purchase_date: Date | string;
+  purchase_date: string;
 }
 
 // TBW
