@@ -8,6 +8,7 @@ import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
 import { formatDate } from "../../utils";
+import { emptyCurrentOutcome } from "../../generators/emptyObjects";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -55,6 +56,7 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [outcome, setOutcome] = useState<IOutcome>(emptyCurrentOutcome());
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
@@ -73,6 +75,12 @@ export const Transactions = ({
       setDisableBtns({ left: true, right: true });
     }
   }, [loading, page, pages]);
+
+  const handleTransactionClick = (id: number) => {
+    setShowUpdate(true);
+    setOutcome(outcomes[page]
+      .find((outcome) => outcome.id === id) || emptyCurrentOutcome());
+  };
 
   const handleCreate = useCallback(async (outcome: IOutcome) => {
     const rest = outcomes[1].splice(0, 4);
@@ -138,7 +146,7 @@ export const Transactions = ({
                     <Transaction
                       key={transaction.id}
                       item={transaction}
-                      onClick={() => setShowUpdate(true)}
+                      onClick={() => handleTransactionClick(transaction.id)}
                     />)}
                 </TransactionsContainer>
               )
@@ -160,14 +168,7 @@ export const Transactions = ({
         handleCreate={handleCreate}
       />
       <TransactionUpdate
-        outcome={{
-          id: 1,
-          balance_id: 2,
-          transaction_type: 'current',
-          amount: '233.34',
-          description: 'Example',
-          purchase_date: formatDate(new Date())
-        }}
+        outcome={outcome}
         open={showUpdate}
         type={type}
         closeModal={() => setShowUpdate(false)}
