@@ -1,7 +1,7 @@
 import { Button, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { IOutcome, ICurrentOutcomeNew, TransactionType } from "../../@types";
-import { createOutcome } from "../../api/core/Outcome";
+import { IOutcome, TransactionType } from "../../@types";
+import { updateOutcome } from "../../api/core/Outcome";
 import { emptyCurrentOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -21,7 +21,7 @@ export const TransactionUpdate = ({
   handleUpdate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<ICurrentOutcomeNew>(emptyCurrentOutcome());
+  const [values, setValues] = useState<IOutcome>(emptyCurrentOutcome());
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -35,11 +35,11 @@ export const TransactionUpdate = ({
     setLoading(true);
 
     try {
-      // const outcome = await createOutcome({
-      //   ...values
-      // });
+      const outcome = await updateOutcome({
+        ...values
+      });
       setTimeout(async () => {
-        // await handleUpdate(outcome);
+        await handleUpdate(outcome);
         setValues(emptyCurrentOutcome());
         setLoading(false);
         closeModal();
@@ -48,7 +48,7 @@ export const TransactionUpdate = ({
       setTimeout(() => {
         Alert({
           icon: 'error',
-          text: (err.error || err.errors[0] || 'There was an error, please try again.'),
+          text: (err.error || 'There was an error, please try again.'),
         });
         setValues(emptyCurrentOutcome());
         setLoading(false);
@@ -63,7 +63,7 @@ export const TransactionUpdate = ({
   };
 
   useEffect(() => {
-    if (outcome) {
+    if (!Object.values(outcome).some(val => val === '')) {
       setValues(outcome);
     }
   }, [outcome])

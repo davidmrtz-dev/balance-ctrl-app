@@ -28,3 +28,13 @@ export const createOutcome = async(values: ICurrentOutcomeNew): Promise<IOutcome
 
   return result.data.outcome;
 };
+
+export const updateOutcome = async(values: IOutcome): Promise<IOutcome> => {
+  const result = await Http.put(`/api/outcomes/${values.id}`, { outcome: values }, { headers: {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  }});
+
+  return result.data.outcome;
+};
