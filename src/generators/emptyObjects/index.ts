@@ -1,1 +1,1 @@
-export { newCurrentOutcome } from './Outcomes'
+export { newCurrentOutcome, emptyCurrentOutcome } from './Outcomes'

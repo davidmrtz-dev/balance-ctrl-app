@@ -7,6 +7,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
+import { formatDate } from "../../utils";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -159,6 +160,14 @@ export const Transactions = ({
         handleCreate={handleCreate}
       />
       <TransactionUpdate
+        outcome={{
+          id: 1,
+          balance_id: 2,
+          transaction_type: 'current',
+          amount: '233.34',
+          description: 'Example',
+          purchase_date: formatDate(new Date())
+        }}
         open={showUpdate}
         type={type}
         closeModal={() => setShowUpdate(false)}
