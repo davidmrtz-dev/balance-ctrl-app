@@ -1,0 +1,1 @@
+export { newCurrentOutcome } from './Outcomes'

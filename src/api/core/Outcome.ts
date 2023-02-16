@@ -1,5 +1,5 @@
 import * as Http from '../Http';
-import { IOutcome, IOutcomeNew, IOutcomes, TransactionType } from '../../@types';
+import { IOutcome, ICurrentOutcomeNew, IOutcomes, TransactionType } from '../../@types';
 
 export const getOutcomes = async({
   offset,
@@ -19,7 +19,7 @@ export const getOutcomes = async({
   return result.data;
 };
 
-export const createOutcome = async(values: IOutcomeNew): Promise<IOutcome> => {
+export const createOutcome = async(values: ICurrentOutcomeNew): Promise<IOutcome> => {
   const result = await Http.post('/api/outcomes/', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
