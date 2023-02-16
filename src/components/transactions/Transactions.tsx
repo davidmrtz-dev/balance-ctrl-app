@@ -6,7 +6,8 @@ import { IOutcome } from "../../@types/IOutcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionCreate, TransactionNav } from ".";
+import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
+import { emptyCurrentOutcome } from "../../generators/emptyObjects";
 const { Panel } = Collapse;
 
 type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
@@ -53,6 +54,8 @@ export const Transactions = ({
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [outcome, setOutcome] = useState<IOutcome>(emptyCurrentOutcome());
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
@@ -72,11 +75,34 @@ export const Transactions = ({
     }
   }, [loading, page, pages]);
 
+  const handleTransactionClick = (id: number) => {
+    if (outcomes && outcomes[page].length) {
+      setShowUpdate(true);
+      const obj = outcomes[page]
+        .find((outcome) => outcome.id === id)
+        if (obj) setOutcome(obj);
+    }
+  };
+
   const handleCreate = useCallback(async (outcome: IOutcome) => {
     const rest = outcomes[1].splice(0, 4);
     setOutcomes({ 1: [outcome, ...rest] });
     await updateBalance();
   }, [outcomes, updateBalance]);
+
+  const handleUpdate = useCallback(async (outcome: IOutcome) => {
+    if (outcomes && outcomes[page].length) {
+      const updatedOutcomes = outcomes[page].map(out => {
+        if (out.id === outcome.id) {
+          return outcome;
+        } else {
+          return out;
+        }
+      });
+      setOutcomes({...outcomes, [page]: updatedOutcomes});
+      await updateBalance();
+    }
+  }, [outcomes, page, updateBalance]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
@@ -133,7 +159,11 @@ export const Transactions = ({
                 </LoadingWrapper>)
               : (<TransactionsContainer reveal={reveal} >
                   {(outcomes[page] || []).map(transaction =>
-                    <Transaction key={transaction.id} item={transaction} />)}
+                    <Transaction
+                      key={transaction.id}
+                      item={transaction}
+                      onClick={() => handleTransactionClick(transaction.id)}
+                    />)}
                 </TransactionsContainer>
               )
             }
@@ -152,6 +182,13 @@ export const Transactions = ({
         type={type}
         closeModal={() => setShowNew(false)}
         handleCreate={handleCreate}
+      />
+      <TransactionUpdate
+        outcome={outcome}
+        open={showUpdate}
+        type={type}
+        closeModal={() => setShowUpdate(false)}
+        handleUpdate={handleUpdate}
       />
     </>
   );

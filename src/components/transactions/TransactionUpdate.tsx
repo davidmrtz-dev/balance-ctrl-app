@@ -1,25 +1,27 @@
 import { Button, Modal, Typography } from "antd";
-import { useState } from "react";
-import { IOutcome, ICurrentOutcomeNew, TransactionType } from "../../@types";
-import { createOutcome } from "../../api/core/Outcome";
-import { newCurrentOutcome } from "../../generators/emptyObjects";
+import { useEffect, useState } from "react";
+import { IOutcome, TransactionType } from "../../@types";
+import { updateOutcome } from "../../api/core/Outcome";
+import { emptyCurrentOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
 
-export const TransactionCreate = ({
+export const TransactionUpdate = ({
+  outcome,
   open,
   type,
   closeModal,
-  handleCreate
+  handleUpdate
 }: {
+  outcome: IOutcome;
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleCreate: (outcome: IOutcome) => Promise<void>;
+  handleUpdate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<ICurrentOutcomeNew>(newCurrentOutcome());
+  const [values, setValues] = useState<IOutcome>(emptyCurrentOutcome());
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -33,12 +35,12 @@ export const TransactionCreate = ({
     setLoading(true);
 
     try {
-      const outcome = await createOutcome({
+      const outcome = await updateOutcome({
         ...values
       });
       setTimeout(async () => {
-        await handleCreate(outcome);
-        setValues(newCurrentOutcome());
+        await handleUpdate(outcome);
+        setValues(emptyCurrentOutcome());
         setLoading(false);
         closeModal();
       }, 1000);
@@ -46,9 +48,9 @@ export const TransactionCreate = ({
       setTimeout(() => {
         Alert({
           icon: 'error',
-          text: (err.error || err.errors[0] || 'There was an error, please try again.'),
+          text: (err.error || 'There was an error, please try again.'),
         });
-        setValues(newCurrentOutcome());
+        setValues(emptyCurrentOutcome());
         setLoading(false);
         closeModal();
       }, 1000);
@@ -56,9 +58,15 @@ export const TransactionCreate = ({
   };
 
   const handleCancel = () => {
-    setValues(newCurrentOutcome());
+    setValues(emptyCurrentOutcome());
     closeModal();
   };
+
+  useEffect(() => {
+    if (!Object.values(outcome).some(val => val === '')) {
+      setValues(outcome);
+    }
+  }, [outcome])
 
   return (
     <Modal
@@ -68,7 +76,7 @@ export const TransactionCreate = ({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > New {type} outcome
+        > Update {type} outcome
         </Typography.Text>}
       style={{
         maxWidth: 360

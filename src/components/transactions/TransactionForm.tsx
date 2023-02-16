@@ -1,13 +1,12 @@
 import { Form, Input, InputNumber } from "antd";
 import { useEffect } from "react";
-import { IOutcomeNew } from "../../@types";
 
-export const TransactionForm = ({
+export const TransactionForm = <T,>({
   values,
   setValues
 }: {
-  values: IOutcomeNew;
-  setValues: (values: IOutcomeNew) => void;
+  values: T;
+  setValues: (values: T) => void;
 }): JSX.Element => {
   const [form] = Form.useForm();
 
@@ -20,14 +19,14 @@ export const TransactionForm = ({
       name='new-transaction'
       form={form}
       layout='vertical'
-      initialValues={{}}
+      initialValues={values || {}}
       onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
-      <Form.Item label="Name" rules={[{ required: true, message: 'Please provide a description.' }]} name='description'>
+      <Form.Item label="Name" name='description'>
         <Input maxLength={20} />
       </Form.Item>
-      <Form.Item label='Amount' rules={[{ required: true, message: 'Please provide an amount.' }]} name='amount'>
+      <Form.Item label='Amount' name='amount'>
         <InputNumber
           min={0}
           style={{ width: '100%' }}
@@ -35,7 +34,7 @@ export const TransactionForm = ({
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
         />
       </Form.Item>
-      {/* <Form.Item label="Purchase date" rules={[{ required: true, message: 'Please provide a date.' }]} name='purchase_date'>
+      {/* <Form.Item label="Purchase date" name='purchase_date'>
         <DatePicker style={{ width: '100%' }} />
       </Form.Item> */}
     </Form>
