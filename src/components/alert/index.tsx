@@ -8,7 +8,7 @@ const Alert = ({
   showCancelButton = false
 }: {
   text: string;
-  icon: SweetAlertIcon
+  icon: SweetAlertIcon;
   showCancelButton?: boolean;
   title?: string;
 }): Promise<SweetAlertResult<any>> => {
@@ -18,7 +18,8 @@ const Alert = ({
     text,
     width: 360,
     color: theme.colors.blacks.normal,
-    confirmButtonColor: theme.colors.blues.normal,
+    confirmButtonColor: icon === 'warning' ? theme.colors.warning : theme.colors.blues.normal,
+    cancelButtonColor: theme.colors.grays.normal,
     showCancelButton
   });
 };
