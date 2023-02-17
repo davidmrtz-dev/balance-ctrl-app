@@ -29,11 +29,11 @@ const Home = (): JSX.Element => {
       const balance = await getBalance();
       setBalance(balance);
       setLoading(false);
-    } catch (_err) {
+    } catch (err: any) {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: 'There was an error, please try again later'
+        text: err.error || 'There was an error, please try again later'
       }), 1000);
     }
   }, []);

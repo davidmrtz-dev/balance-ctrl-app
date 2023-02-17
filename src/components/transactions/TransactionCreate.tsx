@@ -44,9 +44,10 @@ export const TransactionCreate = ({
       }, 1000);
     } catch(err: any) {
       setTimeout(() => {
+        const error = err.errors.length && err.errors[0];
         Alert({
           icon: 'error',
-          text: (err.error || err.errors[0] || 'There was an error, please try again.'),
+          text: (error || 'There was an error, please try again.'),
         });
         setValues(newCurrentOutcome());
         setLoading(false);
