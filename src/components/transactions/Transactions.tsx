@@ -84,6 +84,11 @@ export const Transactions = ({
     }
   };
 
+  const handleCloseUpdate = () => {
+    setShowUpdate(false);
+    setOutcome(emptyCurrentOutcome());
+  };
+
   const handleCreate = useCallback(async (outcome: IOutcome) => {
     const rest = outcomes[1].splice(0, 4);
     setOutcomes({ 1: [outcome, ...rest] });
@@ -187,7 +192,7 @@ export const Transactions = ({
         outcome={outcome}
         open={showUpdate}
         type={type}
-        closeModal={() => setShowUpdate(false)}
+        closeModal={handleCloseUpdate}
         handleUpdate={handleUpdate}
       />
     </>
