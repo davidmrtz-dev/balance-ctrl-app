@@ -26,6 +26,7 @@ export const TransactionUpdate = ({
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcome>(emptyCurrentOutcome());
+  const [showDelete, setShowDelete] = useState(false);
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -94,18 +95,20 @@ export const TransactionUpdate = ({
         </Button>
       ]}
     >
-      <TransactionForm
-        values={values}
-        setValues={setValues}
-      />
-      <RemoveTransaction />
+      <>
+        <TransactionForm
+          values={values}
+          setValues={setValues}
+        />
+        {RemoveTransaction(() => setShowDelete(true))}
+      </>
     </Modal>
   );
 };
 
-const RemoveTransaction = (): JSX.Element => {
+const RemoveTransaction = (showModal: () => void): JSX.Element => {
   return (<FontAwesomeIcon
-    onClick={() => {}}
+    onClick={showModal}
     style={{
       position: 'absolute',
       top: 25,
