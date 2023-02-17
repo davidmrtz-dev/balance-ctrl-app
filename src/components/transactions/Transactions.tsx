@@ -110,7 +110,7 @@ export const Transactions = ({
   }, [outcomes, page, updateBalance]);
 
   const handleDelete = async() => {
-    setTimeout(() => Promise.resolve(null), 1000);
+    setTimeout(() => Promise.resolve(console.log('resolved!')), 1000);
   };
 
   useEffect(() => {

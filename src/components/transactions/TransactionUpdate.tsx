@@ -71,7 +71,7 @@ export const TransactionUpdate = ({
     if (!Object.values(outcome).some(val => val === '')) {
       setValues(outcome);
     }
-  }, [outcome])
+  }, [outcome]);
 
   useEffect(() => {
     if (showDelete) {
@@ -80,9 +80,20 @@ export const TransactionUpdate = ({
         text: 'This action cannot be undone',
         icon: 'warning',
         showCancelButton: true
-      }).then((result) => {
+      }).then(async (result) => {
         setShowDelete(false);
-        if (result.isConfirmed) closeModal();
+        if (result.isConfirmed) {
+          try {
+            await handleDelete(outcome);
+            closeModal();
+          } catch (err: any) {
+            const error = err.errors.length && err.errors[0];
+            Alert({
+              icon: 'error',
+              text: (error || 'There was an error, please try again.'),
+            });
+          }
+        }
       })
     }
   }, [showDelete]);
