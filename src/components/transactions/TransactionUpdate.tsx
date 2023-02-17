@@ -2,6 +2,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { IOutcome, TransactionType } from "../../@types";
 import { updateOutcome } from "../../api/core/Outcome";
 import { emptyCurrentOutcome } from "../../generators/emptyObjects";
@@ -71,6 +72,20 @@ export const TransactionUpdate = ({
       setValues(outcome);
     }
   }, [outcome])
+
+  useEffect(() => {
+    if (showDelete) {
+      Alert({
+        title: 'Are you sure?',
+        text: 'This action cannot be undone',
+        icon: 'warning',
+        showCancelButton: true
+      }).then((result) => {
+        setShowDelete(false);
+        if (result.isConfirmed) closeModal();
+      })
+    }
+  }, [showDelete]);
 
   return (
     <Modal
