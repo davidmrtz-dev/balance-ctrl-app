@@ -104,13 +104,23 @@ export const Transactions = ({
           return out;
         }
       });
-      setOutcomes({...outcomes, [page]: updatedOutcomes});
+      setOutcomes({ ...outcomes, [page]: updatedOutcomes });
       await updateBalance();
     }
   }, [outcomes, page, updateBalance]);
 
-  const handleDelete = async() => {
-    setTimeout(() => Promise.resolve(console.log('resolved!')), 1000);
+  const handleDelete = async (outcome: IOutcome) => {
+    if (outcomes && outcomes[page].length) {
+      const updatedOutcomes = outcomes[page].filter(out => out.id !== outcome.id);
+      debugger;
+      if (outcomes[page + 1]) {
+        const lastOutcome = outcomes[page + 1][0];
+        setOutcomes({...outcomes, [page]: [...updatedOutcomes, lastOutcome]});
+      } else {
+        setOutcomes({ ...outcomes, [page]: updatedOutcomes });
+      }
+    };
+    Promise.resolve(console.log('resolved!'));
   };
 
   useEffect(() => {
