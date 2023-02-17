@@ -10,7 +10,6 @@ export const newCurrentOutcome = (): ICurrentOutcomeNew => ({
 
 export const emptyCurrentOutcome = (): IOutcome => ({
   id: 0,
-  balance_id: 0,
   transaction_type: 'current',
   amount: '0.0',
   description: '',
@@ -22,7 +21,6 @@ export const emptyCurrentOutcome = (): IOutcome => ({
 // const createEmptyOutcome = <T extends TransactionType>(type: T): EmptyOutcome<T> => {
 //   const basicObj = {
 //     id: 0,
-//     balance_id: 0,
 //     transaction_type: type,
 //     amount: '',
 //     description: '',
