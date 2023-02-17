@@ -1,3 +1,5 @@
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
@@ -12,13 +14,15 @@ export const TransactionUpdate = ({
   open,
   type,
   closeModal,
-  handleUpdate
+  handleUpdate,
+  handleDelete
 }: {
   outcome: IOutcome;
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
   handleUpdate: (outcome: IOutcome) => Promise<void>;
+  handleDelete: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcome>(emptyCurrentOutcome());
@@ -31,9 +35,7 @@ export const TransactionUpdate = ({
       });
       return;
     }
-
     setLoading(true);
-
     try {
       const outcome = await updateOutcome({
         ...values
@@ -80,7 +82,8 @@ export const TransactionUpdate = ({
         > Update {type} outcome
         </Typography.Text>}
       style={{
-        maxWidth: 360
+        maxWidth: 360,
+        position: 'relative'
       }}
       footer={[
         <Button key="cancel" onClick={handleCancel} disabled={loading}>
@@ -95,6 +98,21 @@ export const TransactionUpdate = ({
         values={values}
         setValues={setValues}
       />
+      <RemoveTransaction />
     </Modal>
   );
+};
+
+const RemoveTransaction = (): JSX.Element => {
+  return (<FontAwesomeIcon
+    onClick={() => {}}
+    style={{
+      position: 'absolute',
+      top: 25,
+      right: 25,
+      cursor: 'pointer'
+    }}
+    color={theme.colors.blacks.normal}
+    icon={faTrash}
+  />);
 };
