@@ -109,6 +109,10 @@ export const Transactions = ({
     }
   }, [outcomes, page, updateBalance]);
 
+  const handleDelete = async() => {
+    setTimeout(() => Promise.resolve(null), 1000);
+  };
+
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
@@ -194,6 +198,7 @@ export const Transactions = ({
         type={type}
         closeModal={handleCloseUpdate}
         handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
       />
     </>
   );
