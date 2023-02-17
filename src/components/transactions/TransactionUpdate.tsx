@@ -2,6 +2,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { IOutcome, TransactionType } from "../../@types";
 import { updateOutcome } from "../../api/core/Outcome";
 import { emptyCurrentOutcome } from "../../generators/emptyObjects";
@@ -26,6 +27,7 @@ export const TransactionUpdate = ({
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcome>(emptyCurrentOutcome());
+  const [showDelete, setShowDelete] = useState(false);
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -71,6 +73,20 @@ export const TransactionUpdate = ({
     }
   }, [outcome])
 
+  useEffect(() => {
+    if (showDelete) {
+      Alert({
+        title: 'Are you sure?',
+        text: 'This action cannot be undone',
+        icon: 'warning',
+        showCancelButton: true
+      }).then((result) => {
+        setShowDelete(false);
+        if (result.isConfirmed) closeModal();
+      })
+    }
+  }, [showDelete]);
+
   return (
     <Modal
       destroyOnClose
@@ -94,18 +110,20 @@ export const TransactionUpdate = ({
         </Button>
       ]}
     >
-      <TransactionForm
-        values={values}
-        setValues={setValues}
-      />
-      <RemoveTransaction />
+      <>
+        <TransactionForm
+          values={values}
+          setValues={setValues}
+        />
+        {RemoveTransaction(() => setShowDelete(true))}
+      </>
     </Modal>
   );
 };
 
-const RemoveTransaction = (): JSX.Element => {
+const RemoveTransaction = (showModal: () => void): JSX.Element => {
   return (<FontAwesomeIcon
-    onClick={() => {}}
+    onClick={showModal}
     style={{
       position: 'absolute',
       top: 25,
