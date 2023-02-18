@@ -4,7 +4,7 @@ import { Button, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { IOutcome, TransactionType } from "../../@types";
-import { updateOutcome } from "../../api/core/Outcome";
+import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
 import { emptyCurrentOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -84,6 +84,7 @@ export const TransactionUpdate = ({
         setShowDelete(false);
         if (result.isConfirmed) {
           try {
+            await deleteOutcome(outcome.id);
             await handleDelete(outcome);
             closeModal();
           } catch (err: any) {
