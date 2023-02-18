@@ -2,12 +2,14 @@ import Swal, { SweetAlertIcon, SweetAlertResult } from "sweetalert2";
 import { theme } from "../../Theme";
 
 const Alert = ({
-  icon,
   text,
+  icon,
   title,
+  showCancelButton = false
 }: {
-  icon: SweetAlertIcon
   text: string;
+  icon: SweetAlertIcon;
+  showCancelButton?: boolean;
   title?: string;
 }): Promise<SweetAlertResult<any>> => {
   return Swal.fire({
@@ -16,7 +18,9 @@ const Alert = ({
     text,
     width: 360,
     color: theme.colors.blacks.normal,
-    confirmButtonColor: theme.colors.blues.normal
+    confirmButtonColor: icon === 'warning' ? theme.colors.warning : theme.colors.blues.normal,
+    cancelButtonColor: theme.colors.grays.normal,
+    showCancelButton
   });
 };
 
