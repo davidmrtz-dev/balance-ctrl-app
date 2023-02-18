@@ -127,24 +127,6 @@ export const Transactions = ({
     }
   }, [outcomes, page, updateBalance]);
 
-  const handleDelete = useCallback(async (outcome: IOutcome) => {
-    if (outcomes && outcomes[page].length) {
-      const updatedOutcomes = outcomes[page].filter(out => out.id !== outcome.id);
-      if (outcomes[page + 1]) {
-        const lastOutcome = outcomes[page + 1][0];
-        let newOutcomes = {};
-        for (let i = 1; i < page; i++) {
-          newOutcomes = {...newOutcomes, [i]: outcomes[i]}
-        }
-        setOutcomes({...newOutcomes, [page]: [...updatedOutcomes, lastOutcome]});
-      } else {
-        setOutcomes({ ...outcomes, [page]: updatedOutcomes });
-      }
-      await updateBalance();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
