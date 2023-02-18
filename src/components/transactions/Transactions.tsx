@@ -109,7 +109,7 @@ export const Transactions = ({
     }
   }, [outcomes, page, updateBalance]);
 
-  const handleDelete = async (outcome: IOutcome) => {
+  const handleDelete = useCallback(async (outcome: IOutcome) => {
     if (outcomes && outcomes[page].length) {
       const updatedOutcomes = outcomes[page].filter(out => out.id !== outcome.id);
       if (outcomes[page + 1]) {
@@ -124,7 +124,7 @@ export const Transactions = ({
       }
       await updateBalance();
     }
-  };
+  }, [outcomes, page, updateBalance]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
