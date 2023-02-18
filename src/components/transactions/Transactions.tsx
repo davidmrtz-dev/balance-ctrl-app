@@ -89,11 +89,29 @@ export const Transactions = ({
     setOutcome(emptyCurrentOutcome());
   };
 
-  const handleCreate = useCallback(async (outcome: IOutcome) => {
-    const rest = outcomes[1].splice(0, 4);
-    setOutcomes({ 1: [outcome, ...rest] });
+  const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
+    try {
+      setLoading(true);
+      const data = await fetchData(offset, type);
+      if (data) {
+        setOutcomes({...outcomes,  [page]: data.outcomes });
+        setPages({ current: data.total_pages, fixed: data.total_pages });
+        setTimeout(() => setLoading(false), 1500);
+      }
+    } catch(error) {
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'There was an error, please try again later'
+      }), 1000);
+    }
+  }, [fetchData, outcomes, type]);
+
+  const handleCreate = useCallback(async () => {
+    await fetchOutcomes(page, (page * 5) - 5);
     await updateBalance();
-  }, [outcomes, updateBalance]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleUpdate = useCallback(async (outcome: IOutcome) => {
     if (outcomes && outcomes[page].length) {
@@ -124,36 +142,21 @@ export const Transactions = ({
       }
       await updateBalance();
     }
-  }, [outcomes, page, updateBalance]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
   useEffect(() => {
-    const fetchOutcomes = async (page: number, offset: number): Promise<void> => {
-      try {
-        setLoading(true);
-        const data = await fetchData(offset, type);
-        if (data) {
-          setOutcomes({...outcomes,  [page]: data.outcomes });
-          setPages({ current: data.total_pages, fixed: data.total_pages });
-          setTimeout(() => setLoading(false), 1500);
-        }
-      } catch(error) {
-        setTimeout(() => Alert({
-          icon: 'error',
-          title: 'Ops!',
-          text: 'There was an error, please try again later'
-        }), 1000);
-      }
-    };
-
     if (page && !outcomes[page]) {
       setReveal(false);
       fetchOutcomes(page, (page * 5) - 5);
     }
-  }, [page, outcomes, fetchData, type]);
+
+    console.log('outcomes:', outcomes);
+  }, [page, outcomes, fetchOutcomes]);
 
   useEffect(() => {
     handleBlock();
