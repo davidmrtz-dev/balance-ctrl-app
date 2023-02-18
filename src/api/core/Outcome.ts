@@ -38,3 +38,11 @@ export const updateOutcome = async(values: IOutcome): Promise<IOutcome> => {
 
   return result.data.outcome;
 };
+
+export const deleteOutcome = async(id: number): Promise<void> => {
+  await Http.destroy(`/api/outcomes/${id}`, null, {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  });
+};
