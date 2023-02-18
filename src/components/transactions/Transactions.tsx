@@ -214,7 +214,6 @@ export const Transactions = ({
         type={type}
         closeModal={handleCloseUpdate}
         handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
       />
     </>
   );
