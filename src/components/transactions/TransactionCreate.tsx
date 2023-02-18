@@ -32,6 +32,9 @@ export const TransactionCreate = ({
 
     setLoading(true);
 
+    // to be implemented, each time a outcome is created, instead of
+    // updating the outcomes, simply re-fetch all of them since this
+    // operation will only be possible from the first page.
     try {
       const outcome = await createOutcome({
         ...values
