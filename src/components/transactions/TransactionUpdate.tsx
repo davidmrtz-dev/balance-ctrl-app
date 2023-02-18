@@ -1,5 +1,5 @@
 import { Button, Modal, Typography } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
 import { updateOutcome } from "../../api/core/Outcome";
 import { emptyCurrentOutcome } from "../../generators/emptyObjects";
@@ -60,12 +60,6 @@ export const TransactionUpdate = ({
     setValues(emptyCurrentOutcome());
     closeModal();
   };
-
-  useEffect(() => {
-    if (!Object.values(outcome).some(val => val === '')) {
-      setValues(outcome);
-    }
-  }, [outcome]);
 
   return (
     <Modal

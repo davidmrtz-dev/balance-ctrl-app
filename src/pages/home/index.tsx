@@ -61,7 +61,7 @@ const Home = (): JSX.Element => {
       <br />
       <HeaderContainer>
         <HeaderCard concept='Income' variation='data' value={balance?.total_incomes || '0'} loading={loading} />
-        <HeaderCard concept='Expenses' variation='data' value={balance?.total_outcomes || '0'} loading={loading} />
+        <HeaderCard concept='Outcomes' variation='data' value={balance?.total_outcomes || '0'} loading={loading} />
         <HeaderCard concept='Balance' variation='data' value={balance?.current_amount || '0'} loading={loading} />
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
