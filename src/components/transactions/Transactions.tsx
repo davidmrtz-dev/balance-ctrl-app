@@ -112,15 +112,18 @@ export const Transactions = ({
   const handleDelete = async (outcome: IOutcome) => {
     if (outcomes && outcomes[page].length) {
       const updatedOutcomes = outcomes[page].filter(out => out.id !== outcome.id);
-      debugger;
       if (outcomes[page + 1]) {
         const lastOutcome = outcomes[page + 1][0];
-        setOutcomes({...outcomes, [page]: [...updatedOutcomes, lastOutcome]});
+        let newOutcomes = {};
+        for (let i = 1; i < page; i++) {
+          newOutcomes = {...newOutcomes, [i]: outcomes[i]}
+        }
+        setOutcomes({...newOutcomes, [page]: [...updatedOutcomes, lastOutcome]});
       } else {
         setOutcomes({ ...outcomes, [page]: updatedOutcomes });
       }
-    };
-    Promise.resolve(console.log('resolved!'));
+      await updateBalance();
+    }
   };
 
   useEffect(() => {
