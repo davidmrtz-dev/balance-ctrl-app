@@ -19,14 +19,12 @@ export const getOutcomes = async({
   return result.data;
 };
 
-export const createOutcome = async(values: ICurrentOutcomeNew): Promise<IOutcome> => {
-  const result = await Http.post('/api/outcomes/', { outcome: values }, { headers: {
+export const createOutcome = async(values: ICurrentOutcomeNew): Promise<void> => {
+  await Http.post('/api/outcomes/', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
   }});
-
-  return result.data.outcome;
 };
 
 export const updateOutcome = async(values: IOutcome): Promise<IOutcome> => {
