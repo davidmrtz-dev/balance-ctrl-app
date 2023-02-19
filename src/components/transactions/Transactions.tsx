@@ -59,13 +59,13 @@ export const Transactions = ({
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
-  const handleRightClick = () => page < pages.current && setPage(page + 1);
+  const handleRightClick = () => page < pages[type] && setPage(page + 1);
 
   const handleBlock = useCallback(() => {
     if (!loading) {
       if (page === 1) {
         setDisableBtns({ left: true, right: false });
-      } else if (page === pages.current) {
+      } else if (page === pages[type]) {
         setDisableBtns({ left: false, right: true });
       } else {
         setDisableBtns({ left: false, right: false });
@@ -73,7 +73,7 @@ export const Transactions = ({
     } else {
       setDisableBtns({ left: true, right: true });
     }
-  }, [loading, page, pages]);
+  }, [loading, page, pages, type]);
 
   const handleTransactionClick = (id: number) => {
     if (outcomes && outcomes[page].length) {
