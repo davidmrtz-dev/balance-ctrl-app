@@ -1,11 +1,12 @@
-import { ICurrentOutcomeNew, IOutcome } from "../../@types";
+import { IOutcomeNew, IOutcome, TransactionType } from "../../@types";
 import { formatDate } from "../../utils";
 
-export const newCurrentOutcome = (): ICurrentOutcomeNew => ({
+export const newOutcome = (type: TransactionType): IOutcomeNew => ({
   transaction_type: 'current',
   description: '',
   amount: '',
-  purchase_date: formatDate(new Date())
+  purchase_date: formatDate(new Date()),
+  quotas: type === 'fixed' ? 12 : undefined
 });
 
 export const emptyCurrentOutcome = (): IOutcome => ({

@@ -7,6 +7,6 @@ export type {
   IFixedOutcome,
   OutcomesPagination,
   OutcomesHash,
-  ICurrentOutcomeNew
+  IOutcomeNew
 } from './IOutcome';
 export type { ITransaction, TransactionType } from './ITransaction';
