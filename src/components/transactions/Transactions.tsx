@@ -10,8 +10,6 @@ import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } fro
 import { emptyCurrentOutcome } from "../../generators/emptyObjects";
 const { Panel } = Collapse;
 
-type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
-
 type BtnStatus = {
   left: boolean;
   right: boolean;
@@ -36,13 +34,11 @@ const PanelWrapper = styled.div`
 
 export const Transactions = ({
   category,
-  keepOpen,
   type,
   fetchData,
   updateBalance
 }: {
-  category: Category;
-  keepOpen?: boolean;
+  category: string;
   type: TransactionType;
   fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
   updateBalance: () => Promise<void>;
@@ -146,7 +142,7 @@ export const Transactions = ({
     <>
       <Collapse
         style={{ margin: '16px 0' }}
-        defaultActiveKey={keepOpen ? category : undefined}
+        defaultActiveKey={category}
         collapsible='disabled'
         expandIcon={() =>
           <AddTransaction
