@@ -26,7 +26,7 @@ export const Transaction = <T extends IOutcome>({
 }): JSX.Element => {
   return (<TransactionContainer>
     <div style={{
-      flex: 1,
+      flex: 2,
       display: 'flex',
       justifyContent: 'center'
     }}>
@@ -41,7 +41,7 @@ export const Transaction = <T extends IOutcome>({
       />
     </div>
     <div style={{
-      flex: 3,
+      flex: 4,
       display: 'flex',
       flexDirection: 'column'
     }}>
