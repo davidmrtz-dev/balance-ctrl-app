@@ -7,10 +7,8 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
-import { emptyCurrentOutcome } from "../../generators/emptyObjects";
+import { newOutcome } from "../../generators/emptyObjects";
 const { Panel } = Collapse;
-
-type Category = 'Recent Outcomes' | 'Fixed Outcomes' | 'Regular Income' | 'Unfixed Income';
 
 type BtnStatus = {
   left: boolean;
@@ -36,13 +34,11 @@ const PanelWrapper = styled.div`
 
 export const Transactions = ({
   category,
-  keepOpen,
   type,
   fetchData,
   updateBalance
 }: {
-  category: Category;
-  keepOpen?: boolean;
+  category: string;
   type: TransactionType;
   fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
   updateBalance: () => Promise<void>;
@@ -55,17 +51,17 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>(emptyCurrentOutcome());
+  const [outcome, setOutcome] = useState<IOutcome>(newOutcome(type));
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
-  const handleRightClick = () => page < pages.current && setPage(page + 1);
+  const handleRightClick = () => page < pages[type] && setPage(page + 1);
 
   const handleBlock = useCallback(() => {
     if (!loading) {
       if (page === 1) {
         setDisableBtns({ left: true, right: false });
-      } else if (page === pages.current) {
+      } else if (page === pages[type]) {
         setDisableBtns({ left: false, right: true });
       } else {
         setDisableBtns({ left: false, right: false });
@@ -73,7 +69,7 @@ export const Transactions = ({
     } else {
       setDisableBtns({ left: true, right: true });
     }
-  }, [loading, page, pages]);
+  }, [loading, page, pages, type]);
 
   const handleTransactionClick = (id: number) => {
     if (outcomes && outcomes[page].length) {
@@ -86,7 +82,7 @@ export const Transactions = ({
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
-    setOutcome(emptyCurrentOutcome());
+    setOutcome(newOutcome(type));
   };
 
   const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
@@ -146,7 +142,7 @@ export const Transactions = ({
     <>
       <Collapse
         style={{ margin: '16px 0' }}
-        defaultActiveKey={keepOpen ? category : undefined}
+        defaultActiveKey={category}
         collapsible='disabled'
         expandIcon={() =>
           <AddTransaction

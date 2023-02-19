@@ -70,13 +70,13 @@ const Home = (): JSX.Element => {
         updateBalance={fetchBalance}
         category='Recent Outcomes'
         type='current'
-        keepOpen
       />
-      {/* <Transactions
+      <Transactions
         fetchData={fetchOutcomes}
-        outcomeType='fixed'
-        category='Fixed Outcomes'
-      /> */}
+        updateBalance={fetchBalance}
+        category='Recurring Outcomes'
+        type={'fixed'}
+      />
     </>
   );
 };
