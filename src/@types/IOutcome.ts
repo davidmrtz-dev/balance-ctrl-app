@@ -23,11 +23,12 @@ export interface OutcomesPagination {
   fixed: number;
 }
 
-export type ICurrentOutcomeNew = {
+export type IOutcomeNew = {
   transaction_type: string,
   description: string,
   amount: string,
   purchase_date: string;
+  quotas?: number;
 }
 
 // TBW

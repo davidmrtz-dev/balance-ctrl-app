@@ -94,6 +94,7 @@ export const Transactions = ({
         setPages({ current: data.total_pages, fixed: data.total_pages });
         setTimeout(() => setLoading(false), 1500);
       }
+      console.log(outcomes);
     } catch (error) {
       setTimeout(() => Alert({
         icon: 'error',

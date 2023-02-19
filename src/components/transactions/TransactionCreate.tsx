@@ -1,8 +1,8 @@
 import { Button, Modal, Typography } from "antd";
-import { useState } from "react";
-import { ICurrentOutcomeNew, TransactionType } from "../../@types";
+import { useEffect, useState } from "react";
+import { IOutcomeNew, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
-import { newCurrentOutcome } from "../../generators/emptyObjects";
+import { newOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
@@ -19,7 +19,7 @@ export const TransactionCreate = ({
   handleCreate: () => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<ICurrentOutcomeNew>(newCurrentOutcome());
+  const [values, setValues] = useState<IOutcomeNew>(newOutcome(type));
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -38,7 +38,7 @@ export const TransactionCreate = ({
       });
       setTimeout(async () => {
         await handleCreate();
-        setValues(newCurrentOutcome());
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -49,15 +49,19 @@ export const TransactionCreate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues(newCurrentOutcome());
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
     }
   };
 
+  useEffect(() => {
+    console.log('values:', values);
+  }, [values])
+
   const handleCancel = () => {
-    setValues(newCurrentOutcome());
+    setValues(newOutcome(type));
     closeModal();
   };
 
