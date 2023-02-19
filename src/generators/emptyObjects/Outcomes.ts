@@ -4,7 +4,7 @@ import { formatDate } from "../../utils";
 export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
   const newObj = {
     id: 0,
-    transaction_type: 'current',
+    transaction_type: type as TransactionType,
     description: '',
     purchase_date: formatDate(new Date()),
   };

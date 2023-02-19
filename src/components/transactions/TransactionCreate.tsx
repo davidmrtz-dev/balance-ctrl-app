@@ -56,16 +56,16 @@ export const TransactionCreate = ({
     }
   };
 
-  useEffect(() => {
-    if (Object.keys(values).length) {
-      console.log('values:', values);
-    }
-  }, [values])
-
   const handleCancel = () => {
     setValues(newOutcome(type));
     closeModal();
   };
+
+  useEffect(() => {
+    if (Object.keys(values).length) {
+      console.log('values:', values);
+    }
+  }, [values]);
 
   return (
     <Modal
