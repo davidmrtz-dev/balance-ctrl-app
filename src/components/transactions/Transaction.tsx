@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { faEdit, faFileInvoice } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../Theme";
@@ -33,10 +33,11 @@ export const Transaction = <T extends IOutcome>({
       <FontAwesomeIcon
         style={{
           alignSelf: 'flex-end',
-          padding: 5
+          paddingLeft: 15
         }}
-        color={theme.colors.blacks.normal}
-        icon={faFileInvoice}
+        color={theme.colors.grays.darker}
+        size='2x'
+        icon={faMoneyBill1Wave}
       />
     </div>
     <div style={{

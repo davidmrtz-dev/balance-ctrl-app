@@ -1,5 +1,4 @@
 import { Form, Input, InputNumber } from "antd";
-import { useEffect } from "react";
 
 export const TransactionForm = <T,>({
   values,
@@ -9,10 +8,6 @@ export const TransactionForm = <T,>({
   setValues: (values: T) => void;
 }): JSX.Element => {
   const [form] = Form.useForm();
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
 
   return (
     <Form

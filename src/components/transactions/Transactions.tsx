@@ -136,8 +136,6 @@ export const Transactions = ({
       setReveal(false);
       fetchOutcomes(page, (page * 5) - 5);
     }
-
-    console.log('outcomes:', outcomes);
   }, [page, outcomes, fetchOutcomes]);
 
   useEffect(() => {
