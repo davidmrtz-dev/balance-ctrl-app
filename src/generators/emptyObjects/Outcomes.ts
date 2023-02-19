@@ -2,7 +2,7 @@ import { IOutcomeNew, IOutcome, TransactionType } from "../../@types";
 import { formatDate } from "../../utils";
 
 export const newOutcome = (type: TransactionType): IOutcomeNew => ({
-  transaction_type: 'current',
+  transaction_type: type,
   description: '',
   amount: '',
   purchase_date: formatDate(new Date()),

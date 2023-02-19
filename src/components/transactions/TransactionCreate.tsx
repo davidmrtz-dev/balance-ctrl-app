@@ -57,7 +57,9 @@ export const TransactionCreate = ({
   };
 
   useEffect(() => {
-    console.log('values:', values);
+    if (Object.keys(values).length) {
+      console.log('values:', values);
+    }
   }, [values])
 
   const handleCancel = () => {
