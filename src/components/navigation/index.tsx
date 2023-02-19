@@ -7,6 +7,7 @@ import { Button, Drawer, Space, Typography } from 'antd';
 import { theme } from '../../Theme';
 import { useStyletron } from "styletron-react";
 import { useAuthContext } from '../../context/AuthContext';
+import Alert from '../alert';
 
 const Navigation = (): JSX.Element => {
   const auth = useAuthContext();
@@ -36,8 +37,14 @@ const Navigation = (): JSX.Element => {
     try {
       await auth.unauthenticate();
       history.push('/login');
-    } catch(error) {
-      console.log(error);
+    } catch (err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length && err.errors[0];
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again.'),
+        });
+      }, 1000);
     }
     setShow(false);
   }
