@@ -7,7 +7,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
-import { emptyCurrentOutcome } from "../../generators/emptyObjects";
+import { newOutcome } from "../../generators/emptyObjects";
 const { Panel } = Collapse;
 
 type BtnStatus = {
@@ -51,7 +51,7 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>(emptyCurrentOutcome());
+  const [outcome, setOutcome] = useState<IOutcome>(newOutcome(type));
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
@@ -82,7 +82,7 @@ export const Transactions = ({
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
-    setOutcome(emptyCurrentOutcome());
+    setOutcome(newOutcome(type));
   };
 
   const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
