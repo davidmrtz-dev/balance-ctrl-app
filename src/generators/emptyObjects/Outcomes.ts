@@ -1,21 +1,22 @@
-import { IOutcomeNew, IOutcome, TransactionType } from "../../@types";
+import { IOutcome, TransactionType } from "../../@types";
 import { formatDate } from "../../utils";
 
-export const newOutcome = (type: TransactionType): IOutcomeNew => ({
-  transaction_type: type,
-  description: '',
-  amount: '',
-  purchase_date: formatDate(new Date()),
-  quotas: type === 'fixed' ? 12 : undefined
-});
+export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
+  const newObj = {
+    id: 0,
+    transaction_type: 'current',
+    description: '',
+    purchase_date: formatDate(new Date()),
+  };
 
-export const emptyCurrentOutcome = (): IOutcome => ({
-  id: 0,
-  transaction_type: 'current',
-  amount: '0.0',
-  description: '',
-  purchase_date: formatDate(new Date())
-});
+  if (type === 'current') {
+    return newObj as IOutcome;
+  } else if (type === 'fixed') {
+    return { ...newObj, quotas: 1 } as IOutcome;
+  } else {
+    throw new Error(`Unsupported type: ${type}`)
+  }
+};
 
 
 // TBW
