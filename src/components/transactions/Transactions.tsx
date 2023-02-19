@@ -98,7 +98,7 @@ export const Transactions = ({
         setPages({ current: data.total_pages, fixed: data.total_pages });
         setTimeout(() => setLoading(false), 1500);
       }
-    } catch(error) {
+    } catch (error) {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
@@ -136,8 +136,6 @@ export const Transactions = ({
       setReveal(false);
       fetchOutcomes(page, (page * 5) - 5);
     }
-
-    console.log('outcomes:', outcomes);
   }, [page, outcomes, fetchOutcomes]);
 
   useEffect(() => {

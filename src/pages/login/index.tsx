@@ -31,7 +31,7 @@ const SignIn = () => {
     try {
       await auth.authenticate(values);
       history.push('/');
-    } catch(err: any) {
+    } catch (err: any) {
       setError(err.errors[0] || 'There was an error, please try again.')
       setValues({ email: '', password: ''});
       form.resetFields();
