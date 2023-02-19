@@ -3,10 +3,7 @@ export type { IBalance } from './IBalance';
 export type {
   IOutcomes,
   IOutcome,
-  ICurrentOutcome,
-  IFixedOutcome,
   OutcomesPagination,
-  OutcomesHash,
-  IOutcomeNew
+  OutcomesHash
 } from './IOutcome';
 export type { ITransaction, TransactionType } from './ITransaction';
