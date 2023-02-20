@@ -49,13 +49,13 @@ export const Transaction =({
         ellipsis
         style={{
         maxWidth: 150,
-        ...theme.texts.brandSubFont,
+        ...theme.texts.brandFont,
         textAlign: 'center'
       }}>
         {item.description}
       </Typography.Text>
       <Typography style={{
-        ...theme.texts.brandFont,
+        ...theme.texts.brandSubFont,
         paddingTop: 5,
         textAlign: 'center'
       }}
@@ -63,7 +63,7 @@ export const Transaction =({
         {formatViewDate(item.purchase_date)}
       </Typography>
       {item.quotas && <Typography style={{
-        ...theme.texts.brandFont,
+        ...theme.texts.brandSubFont,
         paddingTop: 5,
         textAlign: 'center'
       }}
@@ -80,15 +80,15 @@ export const Transaction =({
         onClick={onClick}
         style={{
           position: 'absolute',
-          top: -25,
-          right: 10,
+          top: -24,
+          right: 5,
           cursor: 'pointer'
         }}
         color={theme.colors.blacks.normal}
         icon={faEdit}
       />
       <Typography style={{
-        ...theme.texts.brandSubFont
+        ...theme.texts.brandFont
       }}>
         {formatCurrency(item.amount)}
       </Typography>

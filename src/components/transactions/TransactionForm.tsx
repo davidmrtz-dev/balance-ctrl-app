@@ -1,5 +1,6 @@
-import { Form, Input, InputNumber, Select } from "antd";
+import { Form, Input, InputNumber, Select, Typography } from "antd";
 import { IOutcome } from "../../@types";
+import { theme } from "../../Theme";
 
 export const TransactionForm = ({
   values,
@@ -19,13 +20,19 @@ export const TransactionForm = ({
       onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
-      <Form.Item label="Name" name='description'>
-        <Input maxLength={20} />
+      <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
+        Name
+      </Typography.Text>}
+        name='description'>
+        <Input maxLength={20} style={{ ...theme.texts.brandSubFont }}/>
       </Form.Item>
-      <Form.Item label='Amount' name='amount'>
+      <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
+        Amount
+      </Typography.Text>}
+        name='amount'>
         <InputNumber
           min={1}
-          style={{ width: '100%' }}
+          style={{ width: '100%', ...theme.texts.brandSubFont }}
           formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 1}
         />

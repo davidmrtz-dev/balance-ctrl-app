@@ -57,7 +57,7 @@ const HeaderCard = ({ variation, concept, value, loading }: {
       icon={variation === 'data' ? faDatabase : faChartPie }
     />
     <Typography style={{
-      ...theme.texts.brandSubFont,
+      ...theme.texts.brandFont,
       color: variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal
     }}>{concept} <FontAwesomeIcon style={{
       paddingLeft: 5
