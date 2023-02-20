@@ -90,6 +90,7 @@ export const TransactionCreate = ({
       ]}
     >
       <TransactionForm
+        type={type}
         values={values}
         setValues={setValues}
       />
