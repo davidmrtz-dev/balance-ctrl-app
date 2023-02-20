@@ -4,6 +4,14 @@ import { getOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
+import styled from "styled-components";
+
+const OutcomesContainer = styled.div<{ reveal: boolean }>`
+  opacity: ${p => p.reveal ? 1 : 0};
+  transition: opacity 1s ease-in-out;
+  height: 100%;
+  width: 100%;
+`;
 
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -35,7 +43,9 @@ const Outcomes = (): JSX.Element => {
   return(<>
     {loading
       ? <LoadingMask fixed />
-      : <Outcome />
+      : <OutcomesContainer reveal={reveal}>
+          {(outcomes || []).map(_outcome => <Outcome />)}
+        </OutcomesContainer>
     }
   </>);
 };
