@@ -50,7 +50,7 @@ const Home = (): JSX.Element => {
   return (
     <>
       <Typography style={{
-        ...theme.texts.brandFont
+        ...theme.texts.brandH5
       }}>
         Hi, {auth.user?.name}
       </Typography>
