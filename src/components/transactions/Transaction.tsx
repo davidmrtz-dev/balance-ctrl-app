@@ -17,11 +17,11 @@ const TransactionContainer = styled.div`
   cursor: default;
 `;
 
-export const Transaction = <T extends IOutcome>({
+export const Transaction = ({
   item,
   onClick
 }: {
-  item: T,
+  item: IOutcome,
   onClick: () => void;
 }): JSX.Element => {
   return (<TransactionContainer>

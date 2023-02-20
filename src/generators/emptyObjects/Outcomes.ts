@@ -7,6 +7,7 @@ export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
     transaction_type: type as TransactionType,
     description: '',
     purchase_date: formatDate(new Date()),
+    amount: '1'
   };
 
   if (type === 'current') {

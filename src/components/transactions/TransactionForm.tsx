@@ -1,12 +1,10 @@
 import { Form, Input, InputNumber, Select } from "antd";
-import { IOutcome, TransactionType } from "../../@types";
+import { IOutcome } from "../../@types";
 
-export const TransactionForm = <T extends TransactionType>({
-  type,
+export const TransactionForm = ({
   values,
   setValues
 }: {
-  type: T;
   values: IOutcome;
   setValues: (values: IOutcome) => void;
 }): JSX.Element => {
@@ -26,10 +24,10 @@ export const TransactionForm = <T extends TransactionType>({
       </Form.Item>
       <Form.Item label='Amount' name='amount'>
         <InputNumber
-          min={0}
+          min={1}
           style={{ width: '100%' }}
           formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 0}
+          parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 1}
         />
       </Form.Item>
       {values.hasOwnProperty('quotas') && (

@@ -90,7 +90,6 @@ export const TransactionUpdate = ({
     >
       <>
         <TransactionForm
-          type={type}
           values={values}
           setValues={setValues}
         />
