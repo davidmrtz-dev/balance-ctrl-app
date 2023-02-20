@@ -5,8 +5,7 @@ export interface ICurrentOutcome extends ITransaction {
 }
 
 export interface IFixedOutcome extends ITransaction {
-  transaction_type: 'fixed',
-  quotas: number;
+  transaction_type: 'fixed';
 }
 
 export type IOutcome = ICurrentOutcome | IFixedOutcome;

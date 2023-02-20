@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { faEdit, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faMoneyBill1Wave, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../Theme";
@@ -17,11 +17,11 @@ const TransactionContainer = styled.div`
   cursor: default;
 `;
 
-export const Transaction = <T extends IOutcome>({
+export const Transaction =({
   item,
   onClick
 }: {
-  item: T,
+  item: IOutcome,
   onClick: () => void;
 }): JSX.Element => {
   return (<TransactionContainer>
@@ -37,7 +37,7 @@ export const Transaction = <T extends IOutcome>({
         }}
         color={theme.colors.grays.darker}
         size='2x'
-        icon={faMoneyBill1Wave}
+        icon={item.transaction_type === 'current' ? faMoneyBill1Wave : faMoneyCheckDollar}
       />
     </div>
     <div style={{
@@ -62,6 +62,14 @@ export const Transaction = <T extends IOutcome>({
       >
         {formatViewDate(item.purchase_date)}
       </Typography>
+      {item.quotas && <Typography style={{
+        ...theme.texts.brandFont,
+        paddingTop: 5,
+        textAlign: 'center'
+      }}
+      >
+        {item.quotas} quotas
+      </Typography>}
     </div>
     <div style={{
       flex: 2,
