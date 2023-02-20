@@ -1,8 +1,8 @@
 import { faBalanceScale } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Drawer } from "antd";
-import { LoadingMask } from "../../atoms/LoadingMask";
-import { theme } from "../../Theme";
+import { LoadingMask } from "./LoadingMask";
+import { theme } from "../Theme";
 
 const InitialScreen = (props: any): JSX.Element =>
   <Drawer

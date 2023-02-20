@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
-import InitialScreen from "../../pages/home/InitialScreen";
+import InitialScreen from "../../atoms/InitialScreen";
 import Alert from "../alert";
 import LayoutContainer, { LayoutContent } from "../containers";
 import Navigation from "../navigation";
