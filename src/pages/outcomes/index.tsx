@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IOutcome } from "../../@types";
 import { getOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
+import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
 
 const Outcomes = (): JSX.Element => {
@@ -34,7 +35,7 @@ const Outcomes = (): JSX.Element => {
   return(<>
     {loading
       ? <LoadingMask fixed />
-      : <>hello outcomes details</>
+      : <Outcome />
     }
   </>);
 };
