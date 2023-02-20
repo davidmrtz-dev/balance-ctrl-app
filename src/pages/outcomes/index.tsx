@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { IOutcome } from "../../@types";
 import { getOutcomes } from "../../api/core/Outcome";
+import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
 
 const Outcomes = (): JSX.Element => {
+  const [loading, setLoading] = useState(true);
+  const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
 
   useEffect(() => {
@@ -11,6 +14,7 @@ const Outcomes = (): JSX.Element => {
       try {
         const data = await getOutcomes({ offset: 0, limit: 20 });
         setOutcomes(data.outcomes);
+        setTimeout(() => setLoading(false), 1500);
       } catch (err) {
         setTimeout(() => Alert({
           icon: 'error',
@@ -23,7 +27,16 @@ const Outcomes = (): JSX.Element => {
     fetchOutcomes();
   }, []);
 
-  return(<>hello outcomes</>);
+  useEffect(() => {
+    if (!loading) setTimeout(() => setReveal(true), 250);
+  }, [loading]);
+
+  return(<>
+    {loading
+      ? <LoadingMask fixed />
+      : <>hello outcomes details</>
+    }
+  </>);
 };
 
 export default Outcomes;
