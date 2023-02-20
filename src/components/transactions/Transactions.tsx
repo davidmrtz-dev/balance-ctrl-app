@@ -89,11 +89,9 @@ export const Transactions = ({
     try {
       setLoading(true);
       const data = await fetchData(offset, type);
-      if (data) {
-        setOutcomes({...outcomes,  [page]: data.outcomes });
-        setPages({ current: data.total_pages, fixed: data.total_pages });
-        setTimeout(() => setLoading(false), 1500);
-      }
+      setOutcomes({...outcomes,  [page]: data.outcomes });
+      setPages({ current: data.total_pages, fixed: data.total_pages });
+      setTimeout(() => setLoading(false), 1500);
     } catch (error) {
       setTimeout(() => Alert({
         icon: 'error',

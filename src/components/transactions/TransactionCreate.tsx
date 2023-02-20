@@ -61,12 +61,6 @@ export const TransactionCreate = ({
     closeModal();
   };
 
-  useEffect(() => {
-    if (Object.keys(values).length) {
-      console.log('values:', values);
-    }
-  }, [values]);
-
   return (
     <Modal
       destroyOnClose

@@ -8,9 +8,10 @@ export const getOutcomes = async({
 }: {
   offset: number;
   limit?: number;
-  type: TransactionType
+  type?: TransactionType
 }): Promise<IOutcomes> => {
-  const result = await Http.get(`/api/outcomes/${type}`, { limit, offset }, {
+  const route = type ? `/api/outcomes/${type}` : '/api/outcomes'
+  const result = await Http.get(route, { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
