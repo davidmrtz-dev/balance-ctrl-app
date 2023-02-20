@@ -30,7 +30,7 @@ export const TransactionForm = ({
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 1}
         />
       </Form.Item>
-      {values.hasOwnProperty('quotas') && (
+      {values.quotas && (
         <Form.Item label='Quotas' name='quotas'>
           <Select
             style={{ width: '100%' }}
