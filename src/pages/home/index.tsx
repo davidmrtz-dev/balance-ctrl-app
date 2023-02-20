@@ -9,7 +9,6 @@ import { HeaderCard } from "../../components/dashboard";
 import { Transactions } from "../../components/transactions";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
-import InitialScreen from "./InitialScreen";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -22,7 +21,6 @@ const Home = (): JSX.Element => {
   const auth = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
-  const [showInit, setShowInit] = useState(true);
 
   const fetchBalance = useCallback(async (): Promise<void> => {
     try {
@@ -44,7 +42,6 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     setTimeout(() => {
-      setShowInit(false);
       fetchBalance();
     }, 2000);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +49,6 @@ const Home = (): JSX.Element => {
 
   return (
     <>
-      <InitialScreen open={showInit || !balance} />
       <Typography style={{
         ...theme.texts.brandFont
       }}>
