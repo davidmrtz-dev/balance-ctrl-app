@@ -8,6 +8,7 @@ import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
 import { newOutcome } from "../../generators/emptyObjects";
+import { theme } from "../../Theme";
 const { Panel } = Collapse;
 
 type BtnStatus = {
@@ -139,7 +140,7 @@ export const Transactions = ({
   return (
     <>
       <Collapse
-        style={{ margin: '16px 0' }}
+        style={{ margin: '16px 0', backgroundColor: theme.colors.grays.light }}
         defaultActiveKey={category}
         collapsible='disabled'
         expandIcon={() =>

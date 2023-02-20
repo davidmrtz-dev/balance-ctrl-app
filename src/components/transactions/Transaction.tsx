@@ -7,7 +7,7 @@ import { IOutcome } from "../../@types";
 import { formatCurrency, formatViewDate } from "../../utils";
 
 const TransactionContainer = styled.div`
-  background-color: ${p => p.theme.colors.grays.lighter};
+  background-color: ${p => p.theme.colors.grays.light};
   display: flex;
   align-items: center;
   justify-content: center;
