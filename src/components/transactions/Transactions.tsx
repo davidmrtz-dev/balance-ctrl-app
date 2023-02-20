@@ -1,4 +1,4 @@
-import { Button, Collapse } from "antd";
+import { Button, Collapse, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType } from "../../@types";
@@ -151,7 +151,9 @@ export const Transactions = ({
         }
         expandIconPosition='end'
       >
-        <Panel header={category} key={category} >
+        <Panel header={<Typography.Text style={{ ...theme.texts.brandFont }}>
+          {category}
+        </Typography.Text>} key={category} >
           <PanelWrapper>
             {loading
               ? (<LoadingWrapper height='450px'>
