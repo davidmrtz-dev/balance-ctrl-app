@@ -1,5 +1,6 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
@@ -9,7 +10,6 @@ import { HeaderCard } from "../../components/dashboard";
 import { Transactions } from "../../components/transactions";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
-import InitialScreen from "./InitialScreen";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -22,7 +22,7 @@ const Home = (): JSX.Element => {
   const auth = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
-  const [showInit, setShowInit] = useState(true);
+  const history = useHistory();
 
   const fetchBalance = useCallback(async (): Promise<void> => {
     try {
@@ -44,7 +44,6 @@ const Home = (): JSX.Element => {
 
   useEffect(() => {
     setTimeout(() => {
-      setShowInit(false);
       fetchBalance();
     }, 2000);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,16 +51,21 @@ const Home = (): JSX.Element => {
 
   return (
     <>
-      <InitialScreen open={showInit || !balance} />
       <Typography style={{
-        ...theme.texts.brandFont
+        ...theme.texts.brandH5
       }}>
         Hi, {auth.user?.name}
       </Typography>
       <br />
       <HeaderContainer>
         <HeaderCard concept='Income' variation='data' value={balance?.total_incomes || '0'} loading={loading} />
-        <HeaderCard concept='Outcomes' variation='data' value={balance?.total_outcomes || '0'} loading={loading} />
+        <HeaderCard
+          concept='Outcomes'
+          variation='data'
+          value={balance?.total_outcomes || '0'}
+          onClick={() => history.push('/outcomes')}
+          loading={loading}
+        />
         <HeaderCard concept='Balance' variation='data' value={balance?.current_amount || '0'} loading={loading} />
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>

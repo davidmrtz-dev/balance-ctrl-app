@@ -39,7 +39,7 @@ export const Navigation = ({
       onClick={leftClick}
       disabled={leftDisabled}
       style={{
-        backgroundColor: `${leftDisabled ? theme.colors.grays.normal : theme.colors.grays.lighter }`
+        backgroundColor: `${leftDisabled ? theme.colors.grays.light : theme.colors.grays.lighter }`
       }}
     >
       <FontAwesomeIcon
@@ -58,7 +58,7 @@ export const Navigation = ({
       onClick={rightClick}
       disabled={rightDisabled}
       style={{
-        backgroundColor: `${rightDisabled ? theme.colors.grays.normal : theme.colors.grays.lighter }`
+        backgroundColor: `${rightDisabled ? theme.colors.grays.light : theme.colors.grays.lighter }`
       }}
     >
       <FontAwesomeIcon

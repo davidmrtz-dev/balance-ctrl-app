@@ -4,6 +4,7 @@ import { IAuthContext, useAuthContext } from '../context/AuthContext';
 import About from './about';
 import Home from './home';
 import Login from './login';
+import Outcomes from './outcomes';
 
 const GeneralRoute = (_props: RouteProps, auth: IAuthContext) => (
   <Route exact key='default' path='*'>
@@ -20,6 +21,7 @@ const Router = (props: RouteProps) => {
 
   return (<Switch>
     <PrivateRoute exact key='home' path='/' component={Home} />
+    <PrivateRoute exact key='outcomes' path='/outcomes' component={Outcomes} />
     <Route exact key='login' path='/login' component={Login} />
     <Route exact key='about' path='/about' component={About} />
     {GeneralRoute(props, auth)}

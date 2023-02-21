@@ -28,10 +28,17 @@ const CardContainer = styled.div<{
   transition: opacity 1.2s ease-in-out;
 `;
 
-const HeaderCard = ({ variation, concept, value, loading }: {
+const HeaderCard = ({
+  variation,
+  concept,
+  value,
+  onClick,
+  loading
+}: {
   variation: Variation;
   concept: string;
-  value: string
+  value: string;
+  onClick?: () => void;
   loading?: boolean;
 }): JSX.Element => {
   const [reveal, setReveal] = useState(false);
@@ -47,6 +54,7 @@ const HeaderCard = ({ variation, concept, value, loading }: {
   return (<CardContainer
     variation={variation}
     reveal={reveal}
+    onClick={onClick}
   >
     <FontAwesomeIcon
       style={{
@@ -57,7 +65,7 @@ const HeaderCard = ({ variation, concept, value, loading }: {
       icon={variation === 'data' ? faDatabase : faChartPie }
     />
     <Typography style={{
-      ...theme.texts.brandSubFont,
+      ...theme.texts.brandFont,
       color: variation === 'data' ? theme.colors.whites.normal : theme.colors.blacks.normal
     }}>{concept} <FontAwesomeIcon style={{
       paddingLeft: 5

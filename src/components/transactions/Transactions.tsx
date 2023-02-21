@@ -1,4 +1,4 @@
-import { Button, Collapse } from "antd";
+import { Button, Collapse, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType } from "../../@types";
@@ -8,6 +8,7 @@ import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
 import { newOutcome } from "../../generators/emptyObjects";
+import { theme } from "../../Theme";
 const { Panel } = Collapse;
 
 type BtnStatus = {
@@ -89,11 +90,9 @@ export const Transactions = ({
     try {
       setLoading(true);
       const data = await fetchData(offset, type);
-      if (data) {
-        setOutcomes({...outcomes,  [page]: data.outcomes });
-        setPages({ current: data.total_pages, fixed: data.total_pages });
-        setTimeout(() => setLoading(false), 1500);
-      }
+      setOutcomes({...outcomes,  [page]: data.outcomes });
+      setPages({ current: data.total_pages, fixed: data.total_pages });
+      setTimeout(() => setLoading(false), 1500);
     } catch (error) {
       setTimeout(() => Alert({
         icon: 'error',
@@ -141,7 +140,7 @@ export const Transactions = ({
   return (
     <>
       <Collapse
-        style={{ margin: '16px 0' }}
+        style={{ margin: '16px 0', backgroundColor: theme.colors.grays.light }}
         defaultActiveKey={category}
         collapsible='disabled'
         expandIcon={() =>
@@ -152,7 +151,9 @@ export const Transactions = ({
         }
         expandIconPosition='end'
       >
-        <Panel header={category} key={category} >
+        <Panel header={<Typography.Text style={{ ...theme.texts.brandFont }}>
+          {category}
+        </Typography.Text>} key={category} >
           <PanelWrapper>
             {loading
               ? (<LoadingWrapper height='450px'>
