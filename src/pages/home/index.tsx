@@ -1,5 +1,6 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
@@ -21,6 +22,7 @@ const Home = (): JSX.Element => {
   const auth = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
+  const history = useHistory();
 
   const fetchBalance = useCallback(async (): Promise<void> => {
     try {
@@ -57,7 +59,13 @@ const Home = (): JSX.Element => {
       <br />
       <HeaderContainer>
         <HeaderCard concept='Income' variation='data' value={balance?.total_incomes || '0'} loading={loading} />
-        <HeaderCard concept='Outcomes' variation='data' value={balance?.total_outcomes || '0'} loading={loading} />
+        <HeaderCard
+          concept='Outcomes'
+          variation='data'
+          value={balance?.total_outcomes || '0'}
+          onClick={() => history.push('/outcomes')}
+          loading={loading}
+        />
         <HeaderCard concept='Balance' variation='data' value={balance?.current_amount || '0'} loading={loading} />
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
