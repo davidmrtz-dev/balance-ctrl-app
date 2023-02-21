@@ -1,6 +1,8 @@
 import { Button, Typography } from "antd";
 import styled from "styled-components";
+import { IOutcome } from "../../@types";
 import { theme } from "../../Theme";
+import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
 
 const OutcomeContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.light};
@@ -30,7 +32,7 @@ const OutcomeActions = styled.div`
   padding: 10px;
 `;
 
-export const Outcome = (): JSX.Element => {
+export const Outcome = (outcome: IOutcome): JSX.Element => {
   return <OutcomeContainer>
     <div style={{ flex: 4, textAlign: 'initial' }}>
       <OutcomeGrid>
@@ -45,7 +47,7 @@ export const Outcome = (): JSX.Element => {
           <Typography.Text style={{
             ...theme.texts.brandSubFont
           }}>
-            Recreation
+            {outcome.description}
           </Typography.Text>
         </div>
         <div style={{ gridArea: '2 / 1 / 3 / 2' }}>
@@ -59,7 +61,7 @@ export const Outcome = (): JSX.Element => {
           <Typography.Text style={{
             ...theme.texts.brandSubFont
           }}>
-            12-02-2023
+            {formatViewDate(outcome.purchase_date)}
           </Typography.Text>
         </div>
         <div style={{ gridArea: '3 / 1 / 4 / 2' }}>
@@ -73,7 +75,7 @@ export const Outcome = (): JSX.Element => {
           <Typography.Text style={{
             ...theme.texts.brandSubFont
           }}>
-            $1550.50
+            {formatCurrency(outcome.amount)}
           </Typography.Text>
         </div>
         <div style={{ gridArea: '4 / 1 / 5 / 2' }}>
@@ -87,7 +89,7 @@ export const Outcome = (): JSX.Element => {
           <Typography.Text style={{
             ...theme.texts.brandSubFont
           }}>
-            12 months
+            {outcome.quotas ? `${outcome.quotas} months` : 'N/A'}
           </Typography.Text>
         </div>
         <div style={{ gridArea: '5 / 1 / 6 / 2' }}>
@@ -101,7 +103,7 @@ export const Outcome = (): JSX.Element => {
           <Typography.Text style={{
             ...theme.texts.brandSubFont
           }}>
-            Fixed
+            {capitalizeFirst(outcome.transaction_type)}
           </Typography.Text>
         </div>
         <div style={{ gridArea: '6 / 1 / 7 / 2' }}>
