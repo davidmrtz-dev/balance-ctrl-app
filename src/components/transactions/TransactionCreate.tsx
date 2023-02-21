@@ -61,12 +61,6 @@ export const TransactionCreate = ({
     closeModal();
   };
 
-  useEffect(() => {
-    if (Object.keys(values).length) {
-      console.log('values:', values);
-    }
-  }, [values]);
-
   return (
     <Modal
       destroyOnClose
@@ -82,10 +76,16 @@ export const TransactionCreate = ({
       }}
       footer={[
         <Button key="cancel" onClick={handleCancel} disabled={loading}>
-          Cancel
+          <Typography.Text style={{ ...theme.texts.brandFont }}>
+            Cancel
+          </Typography.Text>
         </Button>,
         <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
-          Submit
+          <Typography.Text
+            style={{ ...theme.texts.brandFont, color: theme.colors.whites.normal }}
+          >
+            Create
+          </Typography.Text>
         </Button>
       ]}
     >
