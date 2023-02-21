@@ -5,7 +5,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
 import styled from "styled-components";
-import { Select, Typography } from "antd";
+import { Button, Select, Typography } from "antd";
 import { theme } from "../../Theme";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
@@ -20,6 +20,18 @@ const Outcomes = (): JSX.Element => {
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [filterBy, setFilterBy] = useState('');
+
+  const filteredOutcomes = (): IOutcome [] => {
+    if (outcomes.length && filterBy) {
+      if (filterBy === 'current') {
+        return outcomes.filter(out => out.transaction_type === 'current')
+      } else if (filterBy === 'fixed') {
+        return outcomes.filter(out => out.transaction_type === 'fixed')
+      }
+    }
+
+    return outcomes;
+  };
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -51,8 +63,8 @@ const Outcomes = (): JSX.Element => {
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Filter onSelect={setFilterBy}/>
-          {(outcomes || []).map(outcome =>
+          <Filter onSelect={setFilterBy} clearFilter={() => setFilterBy('')} disabled={false} />
+          {(filteredOutcomes() || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
         </OutcomesContainer>
@@ -71,9 +83,13 @@ const FilterWrapper = styled.div`
 `;
 
 const Filter = ({
-  onSelect
+  onSelect,
+  clearFilter,
+  disabled
 }: {
   onSelect: (text: string) => void
+  clearFilter: () => void;
+  disabled: boolean;
 }): JSX.Element => <FilterWrapper>
   <Typography.Text style={{
     ...theme.texts.brandSubFont
@@ -81,16 +97,17 @@ const Filter = ({
     Filter by:
   </Typography.Text>
   <Select
+    disabled={disabled}
     placeholder={'Option'}
     style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
     dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
     onSelect={onSelect}
     options={[
-      { value: 'purchase_date', label: 'Purchase date' },
-      { value: 'amount', label: 'Amount' },
-      { value: 'type', label: 'Type' }
+      { value: 'current', label: 'Current' },
+      { value: 'fixed', label: 'Fixed' }
     ]}
   />
+  <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
 </FilterWrapper>;
 
 export default Outcomes;
