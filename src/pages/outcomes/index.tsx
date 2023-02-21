@@ -19,6 +19,7 @@ const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
+  const [filterBy, setFilterBy] = useState('');
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -42,11 +43,15 @@ const Outcomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
+  useEffect(() => {
+    if (filterBy) console.log(filterBy);
+  }, [filterBy])
+
   return(<>
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Filter />
+          <Filter onSelect={setFilterBy}/>
           {(outcomes || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
@@ -65,16 +70,21 @@ const FilterWrapper = styled.div`
   justify-content: space-around;
 `;
 
-const Filter = (): JSX.Element => <FilterWrapper>
+const Filter = ({
+  onSelect
+}: {
+  onSelect: (text: string) => void
+}): JSX.Element => <FilterWrapper>
   <Typography.Text style={{
     ...theme.texts.brandSubFont
   }}>
     Filter by:
   </Typography.Text>
   <Select
+    placeholder={'Option'}
     style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
     dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
-    defaultValue='purchase_date'
+    onSelect={onSelect}
     options={[
       { value: 'purchase_date', label: 'Purchase date' },
       { value: 'amount', label: 'Amount' },
