@@ -44,7 +44,7 @@ const Outcomes = (): JSX.Element => {
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          {(outcomes || []).map(_outcome => <Outcome />)}
+          {(outcomes || []).map(outcome => <Outcome key={outcome.id} />)}
         </OutcomesContainer>
     }
   </>);
