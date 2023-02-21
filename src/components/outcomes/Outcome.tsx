@@ -1,4 +1,7 @@
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Typography } from "antd";
+import { useState } from "react";
 import styled from "styled-components";
 import { IOutcome } from "../../@types";
 import { theme } from "../../Theme";
@@ -12,29 +15,35 @@ const OutcomeContainer = styled.div`
   border-radius: 10px;
   margin: 5px 0;
   cursor: default;
+  position: relative;
 `;
 
 const OutcomeGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   grid-template-rows: repeat(6, 1fr);
-  grid-gap: 5px;
   padding: 10px;
 `;
 
 const OutcomeActions = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  min-height: 100px;
-  padding: 10px;
+  position: absolute;
+  top: 20;
+  right: 0;
+  background-color: ${p => p.theme.colors.grays.normal};
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
 `;
 
 export const Outcome = (outcome: IOutcome): JSX.Element => {
+  const [showActions, setShowActions] = useState(false);
+
   return <OutcomeContainer>
-    <div style={{ flex: 4, textAlign: 'initial' }}>
+    <div style={{ textAlign: 'initial' }}>
       <OutcomeGrid>
         <div style={{ gridArea: '1 / 1 / 2 / 2' }}>
           <Typography.Text style={{
@@ -122,10 +131,11 @@ export const Outcome = (outcome: IOutcome): JSX.Element => {
         </div>
       </OutcomeGrid>
     </div>
-    <OutcomeActions>
+    {showActions && (<OutcomeActions>
       <Button style={{
-        width: '100%',
-        backgroundColor: theme.colors.yellows.normal
+        width: 80,
+        backgroundColor: theme.colors.yellows.normal,
+        marginBottom: 5
       }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
@@ -134,7 +144,7 @@ export const Outcome = (outcome: IOutcome): JSX.Element => {
         </Typography.Text>
       </Button>
       <Button style={{
-        width: '100%',
+        width: 80,
         backgroundColor: theme.colors.warning
       }}>
       <Typography.Text style={{
@@ -143,6 +153,23 @@ export const Outcome = (outcome: IOutcome): JSX.Element => {
           Delete
         </Typography.Text>
       </Button>
-    </OutcomeActions>
+    </OutcomeActions>)}
+    <ActionBtn onClick={() => setShowActions(!showActions)} />
   </OutcomeContainer>
 };
+
+const ActionBtn = ({
+  onClick
+}: {
+  onClick: () => void;
+}): JSX.Element => <FontAwesomeIcon
+  onClick={onClick}
+  style={{
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    cursor: 'pointer'
+  }}
+  color={theme.colors.blacks.normal}
+  icon={faEdit}
+/>

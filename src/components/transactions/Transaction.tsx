@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { faEdit, faMoneyBill1Wave, faMoneyCheckDollar } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faMoneyBill1Wave, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../Theme";
@@ -37,7 +37,7 @@ export const Transaction =({
         }}
         color={theme.colors.grays.darker}
         size='2x'
-        icon={item.transaction_type === 'current' ? faMoneyBill1Wave : faMoneyCheckDollar}
+        icon={item.transaction_type === 'current' ? faMoneyBill1Wave : faRepeat}
       />
     </div>
     <div style={{
