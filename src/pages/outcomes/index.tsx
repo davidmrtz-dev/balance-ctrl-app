@@ -21,9 +21,17 @@ const Outcomes = (): JSX.Element => {
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [filterBy, setFilterBy] = useState('');
 
-  const filteredOutcomes = outcomes.length && filterBy ?
-    outcomes.filter(out => out.transaction_type.includes('fixed')) :
-    outcomes;
+  const filteredOutcomes = (): IOutcome [] => {
+    if (outcomes.length && filterBy) {
+      if (filterBy === 'current') {
+        return outcomes.filter(out => out.transaction_type === 'current')
+      } else if (filterBy === 'fixed') {
+        return outcomes.filter(out => out.transaction_type === 'fixed')
+      }
+    }
+
+    return outcomes;
+  };
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -55,8 +63,8 @@ const Outcomes = (): JSX.Element => {
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Filter onSelect={setFilterBy} clearFilter={() => setFilterBy('')} />
-          {(filteredOutcomes || []).map(outcome =>
+          <Filter onSelect={setFilterBy} clearFilter={() => setFilterBy('')} disabled={false} />
+          {(filteredOutcomes() || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
         </OutcomesContainer>
@@ -76,10 +84,12 @@ const FilterWrapper = styled.div`
 
 const Filter = ({
   onSelect,
-  clearFilter
+  clearFilter,
+  disabled
 }: {
   onSelect: (text: string) => void
   clearFilter: () => void;
+  disabled: boolean;
 }): JSX.Element => <FilterWrapper>
   <Typography.Text style={{
     ...theme.texts.brandSubFont
@@ -87,17 +97,17 @@ const Filter = ({
     Filter by:
   </Typography.Text>
   <Select
+    disabled={disabled}
     placeholder={'Option'}
     style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
     dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
     onSelect={onSelect}
     options={[
-      { value: 'purchase_date', label: 'Purchase date' },
-      { value: 'amount', label: 'Amount' },
-      { value: 'type', label: 'Type' }
+      { value: 'current', label: 'Current' },
+      { value: 'fixed', label: 'Fixed' }
     ]}
   />
-  <Button onClick={clearFilter}>Clear</Button>
+  <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
 </FilterWrapper>;
 
 export default Outcomes;
