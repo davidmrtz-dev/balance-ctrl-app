@@ -5,7 +5,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
 import styled from "styled-components";
-import { Select, Typography } from "antd";
+import { Button, Select, Typography } from "antd";
 import { theme } from "../../Theme";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
@@ -20,6 +20,10 @@ const Outcomes = (): JSX.Element => {
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [filterBy, setFilterBy] = useState('');
+
+  const filteredOutcomes = outcomes.length && filterBy ?
+    outcomes.filter(out => out.transaction_type.includes('fixed')) :
+    outcomes;
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -51,8 +55,8 @@ const Outcomes = (): JSX.Element => {
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Filter onSelect={setFilterBy}/>
-          {(outcomes || []).map(outcome =>
+          <Filter onSelect={setFilterBy} clearFilter={() => setFilterBy('')} />
+          {(filteredOutcomes || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
         </OutcomesContainer>
@@ -71,9 +75,11 @@ const FilterWrapper = styled.div`
 `;
 
 const Filter = ({
-  onSelect
+  onSelect,
+  clearFilter
 }: {
   onSelect: (text: string) => void
+  clearFilter: () => void;
 }): JSX.Element => <FilterWrapper>
   <Typography.Text style={{
     ...theme.texts.brandSubFont
@@ -91,6 +97,7 @@ const Filter = ({
       { value: 'type', label: 'Type' }
     ]}
   />
+  <Button onClick={clearFilter}>Clear</Button>
 </FilterWrapper>;
 
 export default Outcomes;
