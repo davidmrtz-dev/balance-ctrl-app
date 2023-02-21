@@ -5,6 +5,8 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
 import styled from "styled-components";
+import { Select, Typography } from "antd";
+import { theme } from "../../Theme";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -44,6 +46,7 @@ const Outcomes = (): JSX.Element => {
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
+          <Filter />
           {(outcomes || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
@@ -51,5 +54,33 @@ const Outcomes = (): JSX.Element => {
     }
   </>);
 };
+
+const FilterWrapper = styled.div`
+  background-color: ${p => p.theme.colors.grays.light};
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const Filter = (): JSX.Element => <FilterWrapper>
+  <Typography.Text style={{
+    ...theme.texts.brandSubFont
+  }}>
+    Filter by:
+  </Typography.Text>
+  <Select
+    style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
+    dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
+    defaultValue='purchase_date'
+    options={[
+      { value: 'purchase_date', label: 'Purchase date' },
+      { value: 'amount', label: 'Amount' },
+      { value: 'type', label: 'Type' }
+    ]}
+  />
+</FilterWrapper>;
 
 export default Outcomes;
