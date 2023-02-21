@@ -43,7 +43,7 @@ export const Outcome = (outcome: IOutcome): JSX.Element => {
   const [showActions, setShowActions] = useState(false);
 
   return <OutcomeContainer>
-    <div style={{ textAlign: 'initial' }}>
+    <div style={{ textAlign: 'initial' }} onClick={() => setShowActions(false)}>
       <OutcomeGrid>
         <div style={{ gridArea: '1 / 1 / 2 / 2' }}>
           <Typography.Text style={{
