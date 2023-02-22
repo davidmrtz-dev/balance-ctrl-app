@@ -9,6 +9,7 @@ import { Button, Input, Select, Typography } from "antd";
 import { theme } from "../../Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useDebouncedState } from "../../hooks/useDebouncedState";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -23,7 +24,7 @@ const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useDebouncedState<string>('', 500);
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -47,11 +48,15 @@ const Outcomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
+  useEffect(() => {
+    console.log('search: ', search);
+  }, [search]);
+
   return(<>
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Search />
+          <Search value={search} setValue={setSearch} />
           {(outcomes || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
@@ -60,7 +65,13 @@ const Outcomes = (): JSX.Element => {
   </>);
 };
 
-const Search = (): JSX.Element => <SearchWrapper>
+const Search = ({
+  value,
+  setValue
+}: {
+  value: string;
+  setValue: (value: string) => void;
+}): JSX.Element => <SearchWrapper>
   <Input
     style={{ margin: '0 5px' }}
     prefix={<FontAwesomeIcon
@@ -74,6 +85,8 @@ const Search = (): JSX.Element => <SearchWrapper>
       size='1x'
       icon={faClose}
     />}
+    value={value}
+    onChange={(e) => setValue(e.target.value)}
   />
   <Button style={{ marginRight: 5 }}>
     <FontAwesomeIcon
