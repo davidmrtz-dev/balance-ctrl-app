@@ -48,15 +48,22 @@ const Outcomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-  useEffect(() => {
+  const handleChange = (value: string) => {
+    setSearch(value);
     console.log('search: ', search);
-  }, [search]);
+    if (value.length > 3) {
+      console.log('perform search!');
+    }
+  };
 
   return(<>
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Search value={search} setValue={setSearch} />
+          <Search
+            value={search}
+            setValue={handleChange}
+          />
           {(outcomes || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
