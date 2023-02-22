@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
-import { getOutcomes } from "../../api/core/Outcome";
+import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
@@ -24,7 +24,16 @@ const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
-  const [search, setSearch] = useDebouncedState<string>('', 500);
+  const [searchedOutcomes, setSearchedOutcomes] = useState<IOutcome []>([]);
+  const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
+
+  const displayOutcomes = () => {
+    if (searchTerm) {
+      return searchedOutcomes;
+    } else {
+      return outcomes;
+    }
+  };
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -48,23 +57,37 @@ const Outcomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-  const handleChange = (value: string) => {
-    setSearch(value);
-    console.log('search: ', search);
-    if (value.length > 3) {
-      console.log('perform search!');
+  useEffect(() => {
+    if (searchTerm) {
+      search(searchTerm);
+    }
+  }, [searchTerm]);
+
+  const search = async (value: string): Promise<void> => {
+    try {
+      setLoading(true);
+      const data = await searchOutcomes({ offset: 0, limit: 20, keyword: value});
+      setSearchedOutcomes(data.outcomes);
+      setTimeout(() => setLoading(false), 1000);
+    } catch (err: any) {
+      const error = err.errors && err.errors.length && err.errors[0];
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: (error || 'There was an error, please try again.'),
+      }), 1000);
     }
   };
 
   return(<>
+    <Search
+      value={searchTerm}
+      setValue={setSearchTerm}
+    />
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Search
-            value={search}
-            setValue={handleChange}
-          />
-          {(outcomes || []).map(outcome =>
+          {(displayOutcomes() || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
         </OutcomesContainer>
@@ -88,9 +111,11 @@ const Search = ({
       icon={faSearch}
     />}
     suffix={<FontAwesomeIcon
+      style={{ cursor: 'pointer' }}
       color={theme.colors.blacks.normal}
       size='1x'
       icon={faClose}
+      onClick={() => value && setValue('')}
     />}
     value={value}
     onChange={(e) => setValue(e.target.value)}

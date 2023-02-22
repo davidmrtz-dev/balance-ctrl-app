@@ -45,3 +45,21 @@ export const deleteOutcome = async(id: number): Promise<void> => {
     uid: sessionStorage.getItem('authorization:uid') || ''
   });
 };
+
+export const searchOutcomes = async({
+  offset,
+  keyword,
+  limit = 5
+}: {
+  offset: number;
+  keyword: string;
+  limit?: number;
+}): Promise<IOutcomes> => {
+  const result = await Http.get('/api/outcomes/search', { limit, offset, keyword }, {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  });
+
+  return result.data;
+};
