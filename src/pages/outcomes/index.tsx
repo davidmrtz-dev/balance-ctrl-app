@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { IOutcome } from "../../@types";
+import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
 import styled from "styled-components";
-import { Button, Select, Typography } from "antd";
+import { Button, Input, Select, Typography } from "antd";
 import { theme } from "../../Theme";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -15,23 +17,12 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
   width: 100%;
 `;
 
+type Selector =  TransactionType  | '';
+
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
-  const [filterBy, setFilterBy] = useState('');
-
-  const filteredOutcomes = (): IOutcome [] => {
-    if (outcomes.length && filterBy) {
-      if (filterBy === 'current') {
-        return outcomes.filter(out => out.transaction_type === 'current')
-      } else if (filterBy === 'fixed') {
-        return outcomes.filter(out => out.transaction_type === 'fixed')
-      }
-    }
-
-    return outcomes;
-  };
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -55,16 +46,12 @@ const Outcomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-  useEffect(() => {
-    if (filterBy) console.log(filterBy);
-  }, [filterBy])
-
   return(<>
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Filter onSelect={setFilterBy} clearFilter={() => setFilterBy('')} disabled={false} />
-          {(filteredOutcomes() || []).map(outcome =>
+          <Search />
+          {(outcomes || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
         </OutcomesContainer>
@@ -87,14 +74,14 @@ const Filter = ({
   clearFilter,
   disabled
 }: {
-  onSelect: (text: string) => void
+  onSelect: (text: Selector) => void
   clearFilter: () => void;
   disabled: boolean;
 }): JSX.Element => <FilterWrapper>
   <Typography.Text style={{
     ...theme.texts.brandSubFont
   }}>
-    Filter by:
+    Filter :
   </Typography.Text>
   <Select
     disabled={disabled}
@@ -109,5 +96,42 @@ const Filter = ({
   />
   <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
 </FilterWrapper>;
+
+const SearchWrapper = styled.div`
+  background-color: ${p => p.theme.colors.grays.light};
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 5px;
+`;
+
+const Search = (): JSX.Element => <SearchWrapper>
+  <Input
+    style={{ margin: '0 5px' }}
+    prefix={<FontAwesomeIcon
+      style={{ flex: 1 }}
+      color={theme.colors.blacks.normal}
+      size='1x'
+      icon={faSearch}
+    />}
+    suffix={<FontAwesomeIcon
+      color={theme.colors.blacks.normal}
+      size='1x'
+      icon={faClose}
+    />}
+  />
+  <Button style={{ marginRight: 5 }}>
+    <FontAwesomeIcon
+      color={theme.colors.blacks.normal}
+      size='1x'
+      icon={faChevronDown}
+    />
+  </Button>
+</SearchWrapper>
+
+
 
 export default Outcomes;
