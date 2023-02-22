@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IOutcome } from "../../@types";
+import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
@@ -15,17 +15,19 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
   width: 100%;
 `;
 
+type Selector =  TransactionType  | '';
+
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
-  const [filterBy, setFilterBy] = useState('');
+  const [select, setSelect] = useState<Selector>('');
 
   const filteredOutcomes = (): IOutcome [] => {
-    if (outcomes.length && filterBy) {
-      if (filterBy === 'current') {
+    if (outcomes.length && select) {
+      if (select === 'current') {
         return outcomes.filter(out => out.transaction_type === 'current')
-      } else if (filterBy === 'fixed') {
+      } else if (select === 'fixed') {
         return outcomes.filter(out => out.transaction_type === 'fixed')
       }
     }
@@ -56,14 +58,14 @@ const Outcomes = (): JSX.Element => {
   }, [loading]);
 
   useEffect(() => {
-    if (filterBy) console.log(filterBy);
-  }, [filterBy])
+    if (select) console.log(select);
+  }, [select])
 
   return(<>
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Filter onSelect={setFilterBy} clearFilter={() => setFilterBy('')} disabled={false} />
+          <Filter onSelect={setSelect} clearFilter={() => setSelect('')} disabled={false} />
           {(filteredOutcomes() || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
@@ -87,7 +89,7 @@ const Filter = ({
   clearFilter,
   disabled
 }: {
-  onSelect: (text: string) => void
+  onSelect: (text: Selector) => void
   clearFilter: () => void;
   disabled: boolean;
 }): JSX.Element => <FilterWrapper>
