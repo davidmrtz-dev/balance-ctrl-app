@@ -17,12 +17,13 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
   width: 100%;
 `;
 
-type Selector =  TransactionType  | '';
+// type Selector =  TransactionType  | '';
 
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -59,55 +60,6 @@ const Outcomes = (): JSX.Element => {
   </>);
 };
 
-const FilterWrapper = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-const Filter = ({
-  onSelect,
-  clearFilter,
-  disabled
-}: {
-  onSelect: (text: Selector) => void
-  clearFilter: () => void;
-  disabled: boolean;
-}): JSX.Element => <FilterWrapper>
-  <Typography.Text style={{
-    ...theme.texts.brandSubFont
-  }}>
-    Filter :
-  </Typography.Text>
-  <Select
-    disabled={disabled}
-    placeholder={'Option'}
-    style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
-    dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
-    onSelect={onSelect}
-    options={[
-      { value: 'current', label: 'Current' },
-      { value: 'fixed', label: 'Fixed' }
-    ]}
-  />
-  <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
-</FilterWrapper>;
-
-const SearchWrapper = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0 5px;
-`;
-
 const Search = (): JSX.Element => <SearchWrapper>
   <Input
     style={{ margin: '0 5px' }}
@@ -132,6 +84,53 @@ const Search = (): JSX.Element => <SearchWrapper>
   </Button>
 </SearchWrapper>
 
+// const FilterWrapper = styled.div`
+//   background-color: ${p => p.theme.colors.grays.light};
+//   width: 100%;
+//   height: 50px;
+//   border-radius: 10px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-around;
+// `;
 
+// const Filter = ({
+//   onSelect,
+//   clearFilter,
+//   disabled
+// }: {
+//   onSelect: (text: Selector) => void
+//   clearFilter: () => void;
+//   disabled: boolean;
+// }): JSX.Element => <FilterWrapper>
+//   <Typography.Text style={{
+//     ...theme.texts.brandSubFont
+//   }}>
+//     Filter :
+//   </Typography.Text>
+//   <Select
+//     disabled={disabled}
+//     placeholder={'Option'}
+//     style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
+//     dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
+//     onSelect={onSelect}
+//     options={[
+//       { value: 'current', label: 'Current' },
+//       { value: 'fixed', label: 'Fixed' }
+//     ]}
+//   />
+//   <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
+// </FilterWrapper>;
+
+const SearchWrapper = styled.div`
+  background-color: ${p => p.theme.colors.grays.light};
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 5px;
+`;
 
 export default Outcomes;

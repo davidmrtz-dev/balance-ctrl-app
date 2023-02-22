@@ -1,9 +1,7 @@
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { IUser, Login } from "../@types";
 import { login, logout } from "../api/core/Auth";
 import Alert from "../components/alert";
-import { theme } from "../Theme";
 
 export const DEFAULT_USER_AUTH: IUser = { id: 0, email: "", name: '', nickname: '' };
 
