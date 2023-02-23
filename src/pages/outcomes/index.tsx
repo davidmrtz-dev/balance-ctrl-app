@@ -168,7 +168,6 @@ const Filters = ({
 }: {
 	visible: boolean;
 }): JSX.Element => <FiltersContainer visible={visible}>
-
 </FiltersContainer>;
 
 // const FilterWrapper = styled.div`
