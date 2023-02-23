@@ -95,39 +95,81 @@ const Outcomes = (): JSX.Element => {
   </>);
 };
 
+const SearchWrapper = styled.div<{ showFilters: boolean }>`
+  background-color: ${p => p.theme.colors.grays.light};
+  width: 100%;
+  height: 50px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-left-radius: ${p => p.showFilters ? '0' : '10'}px;
+	border-bottom-right-radius: ${p => p.showFilters ? '0': '10'}px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 5px;
+`;
+
 const Search = ({
   value,
   setValue
 }: {
   value: string;
   setValue: (value: string) => void;
-}): JSX.Element => <SearchWrapper>
-  <Input
-    style={{ margin: '0 5px' }}
-    prefix={<FontAwesomeIcon
-      style={{ flex: 1 }}
-      color={theme.colors.blacks.normal}
-      size='1x'
-      icon={faSearch}
-    />}
-    suffix={<FontAwesomeIcon
-      style={{ cursor: 'pointer' }}
-      color={theme.colors.blacks.normal}
-      size='1x'
-      icon={faClose}
-      onClick={() => value && setValue('')}
-    />}
-    value={value}
-    onChange={(e) => setValue(e.target.value)}
-  />
-  <Button style={{ marginRight: 5 }}>
-    <FontAwesomeIcon
-      color={theme.colors.blacks.normal}
-      size='1x'
-      icon={faChevronDown}
-    />
-  </Button>
-</SearchWrapper>
+}): JSX.Element => {
+	const [showFilters, setShowFilters] = useState(false);
+	return (<>
+		<SearchWrapper showFilters={showFilters}>
+			<Input
+				style={{ margin: '0 5px' }}
+				prefix={<FontAwesomeIcon
+					style={{ flex: 1 }}
+					color={theme.colors.blacks.normal}
+					size='1x'
+					icon={faSearch}
+				/>}
+				suffix={<FontAwesomeIcon
+					style={{ cursor: 'pointer' }}
+					color={theme.colors.blacks.normal}
+					size='1x'
+					icon={faClose}
+					onClick={() => value && setValue('')}
+				/>}
+				value={value}
+				onChange={(e) => setValue(e.target.value)}
+			/>
+			<Button
+				style={{ marginRight: 5 }}
+				onClick={() => setShowFilters(!showFilters)}
+			>
+				<FontAwesomeIcon
+					color={theme.colors.blacks.normal}
+					size='1x'
+					icon={faChevronDown}
+				/>
+			</Button>
+		</SearchWrapper>
+		<Filters visible={showFilters} />
+	</>);
+};
+
+const FiltersContainer = styled.div<{ visible: boolean }>`
+  background-color: ${p => p.theme.colors.grays.light};
+  width: 100%;
+  height: ${p => p.visible ? '150' : '0'}px;
+	overflow: hidden;
+	transition: height .5s ease-in-out;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+  padding: 0 5px;
+`;
+
+const Filters = ({
+	visible
+}: {
+	visible: boolean;
+}): JSX.Element => <FiltersContainer visible={visible}>
+
+</FiltersContainer>;
 
 // const FilterWrapper = styled.div`
 //   background-color: ${p => p.theme.colors.grays.light};
@@ -166,16 +208,5 @@ const Search = ({
 //   />
 //   <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
 // </FilterWrapper>;
-
-const SearchWrapper = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0 5px;
-`;
 
 export default Outcomes;
