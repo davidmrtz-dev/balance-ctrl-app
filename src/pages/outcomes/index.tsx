@@ -19,7 +19,7 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
   width: 100%;
 `;
 
-// type Selector =  TransactionType  | '';
+type Selector =  TransactionType  | '';
 
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -157,15 +157,17 @@ const Search = ({
 const FiltersContainer = styled.div<{ visible: boolean }>`
   background-color: ${p => p.theme.colors.grays.light};
   width: 100%;
-  height: ${p => p.visible ? '150' : '0'}px;
+  height: ${p => p.visible ? '126' : '0'}px;
 	overflow: hidden;
 	transition: height .5s ease-in-out;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
   padding: 0 5px;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-bottom: 10px;
 `;
 
 const Filters = ({
@@ -181,44 +183,40 @@ const Filters = ({
     allowClear
     onCalendarChange={(values) => console.log(values)}
     />
+    <TypeSelector onSelect={() => {}} clearSelect={() => {}} disabled={false} />
+    <Button type='primary'>Apply</Button>
 </FiltersContainer>;
 
-// const FilterWrapper = styled.div`
-//   background-color: ${p => p.theme.colors.grays.light};
-//   width: 100%;
-//   height: 50px;
-//   border-radius: 10px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-around;
-// `;
+const TypeSelectorWrapper = styled.div`
+  background-color: ${p => p.theme.colors.grays.light};
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+`;
 
-// const Filter = ({
-//   onSelect,
-//   clearFilter,
-//   disabled
-// }: {
-//   onSelect: (text: Selector) => void
-//   clearFilter: () => void;
-//   disabled: boolean;
-// }): JSX.Element => <FilterWrapper>
-//   <Typography.Text style={{
-//     ...theme.texts.brandSubFont
-//   }}>
-//     Filter :
-//   </Typography.Text>
-//   <Select
-//     disabled={disabled}
-//     placeholder={'Option'}
-//     style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
-//     dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
-//     onSelect={onSelect}
-//     options={[
-//       { value: 'current', label: 'Current' },
-//       { value: 'fixed', label: 'Fixed' }
-//     ]}
-//   />
-//   <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
-// </FilterWrapper>;
+const TypeSelector = ({
+  onSelect,
+  clearSelect,
+  disabled
+}: {
+  onSelect: (text: Selector) => void
+  clearSelect: () => void;
+  disabled: boolean;
+}): JSX.Element => <TypeSelectorWrapper>
+  <Select
+    allowClear
+    onClear={clearSelect}
+    disabled={disabled}
+    placeholder={'Type'}
+    style={{ backgroundColor: theme.colors.grays.light, flex: 3 }}
+    dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
+    onSelect={onSelect}
+    options={[
+      { value: 'current', label: 'Current' },
+      { value: 'fixed', label: 'Fixed' }
+    ]}
+  />
+</TypeSelectorWrapper>;
 
 export default Outcomes;
