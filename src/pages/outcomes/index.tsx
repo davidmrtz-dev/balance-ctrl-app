@@ -5,11 +5,12 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
 import styled from "styled-components";
-import { Button, Input, Select, Typography } from "antd";
+import { Button, DatePicker, Input, Select, Typography } from "antd";
 import { theme } from "../../Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
+const { RangePicker } = DatePicker;
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -122,7 +123,7 @@ const Search = ({
 			<Input
 				style={{ margin: '0 5px' }}
 				prefix={<FontAwesomeIcon
-					style={{ flex: 1 }}
+					style={{ flex: 1, paddingRight: 5 }}
 					color={theme.colors.blacks.normal}
 					size='1x'
 					icon={faSearch}
@@ -136,6 +137,7 @@ const Search = ({
 				/>}
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
+        placeholder='Search'
 			/>
 			<Button
 				style={{ marginRight: 5 }}
@@ -161,6 +163,9 @@ const FiltersContainer = styled.div<{ visible: boolean }>`
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
   padding: 0 5px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const Filters = ({
@@ -168,6 +173,14 @@ const Filters = ({
 }: {
 	visible: boolean;
 }): JSX.Element => <FiltersContainer visible={visible}>
+  <RangePicker
+    style={{
+      width: '100%',
+      margin: '0 5px'
+    }}
+    allowClear
+    onCalendarChange={(values) => console.log(values)}
+    />
 </FiltersContainer>;
 
 // const FilterWrapper = styled.div`

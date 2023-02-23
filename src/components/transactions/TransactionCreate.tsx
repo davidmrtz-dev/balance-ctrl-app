@@ -1,5 +1,5 @@
 import { Button, Modal, Typography } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
 import { newOutcome } from "../../generators/emptyObjects";
