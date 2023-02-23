@@ -1,7 +1,7 @@
 import { Button, DatePicker, Select } from "antd";
 import styled from "styled-components";
 import { theme } from "../../../Theme";
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 const { RangePicker } = DatePicker;
 

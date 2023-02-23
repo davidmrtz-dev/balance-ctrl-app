@@ -1,12 +1,12 @@
 import { IOutcome, TransactionType } from "../../@types";
-import { formatDate } from "../../utils";
+import dayjs from 'dayjs';
 
 export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
   const newObj = {
     id: 0,
     transaction_type: type as TransactionType,
     description: '',
-    purchase_date: formatDate(new Date()),
+    purchase_date: dayjs().format('YYYY-MM-DD'),
     amount: '1'
   };
 
