@@ -1,6 +1,7 @@
 import { Button, DatePicker, Select } from "antd";
 import styled from "styled-components";
 import { theme } from "../../../Theme";
+import dayjs from 'dayjs'
 
 const { RangePicker } = DatePicker;
 
@@ -31,7 +32,13 @@ export const Filters = ({
       margin: '0 5px'
     }}
     allowClear
-    onCalendarChange={(values) => console.log(values)}
+    onCalendarChange={(values) => {
+      if (values?.every(val => val)) {
+        const from = dayjs(values[0]).format('YYYY-MM-DD');
+        const to = dayjs(values[1]).format('YYYY-MM-DD');
+        console.log('from:', from, 'to:', to);
+      }
+    }}
     />
   <Select
     allowClear
