@@ -76,8 +76,8 @@ const Outcomes = (): JSX.Element => {
 
   return(<>
     <Search
-      value={searchTerm}
-      setValue={setSearchTerm}
+      search={searchTerm}
+      setSearch={setSearchTerm}
     />
     {loading
       ? <LoadingMask fixed />
