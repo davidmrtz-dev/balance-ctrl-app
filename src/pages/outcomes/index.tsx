@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { Button, Input, Select, Typography } from "antd";
 import { theme } from "../../Theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
@@ -144,7 +144,7 @@ const Search = ({
 				<FontAwesomeIcon
 					color={theme.colors.blacks.normal}
 					size='1x'
-					icon={faChevronDown}
+					icon={showFilters ? faChevronUp : faChevronDown}
 				/>
 			</Button>
 		</SearchWrapper>
