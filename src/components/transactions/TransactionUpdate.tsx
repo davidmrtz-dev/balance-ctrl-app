@@ -85,7 +85,7 @@ export const TransactionUpdate = ({
       backgroundColor: theme.colors.warning
     }}
       key="delete"
-      loading={loading}
+      loading={true}
       onClick={() => setConfirm(true)}
     >
     <Typography.Text
