@@ -21,11 +21,13 @@ const SearchWrapper = styled.div<{ showFilters: boolean }>`
 `;
 
 const Search = ({
-  value,
-  setValue
+  search,
+  setSearch,
+	setDates
 }: {
-  value: string;
-  setValue: (value: string) => void;
+  search: string;
+  setSearch: (value: string) => void;
+	setDates: (values: string []) => void;
 }): JSX.Element => {
 	const [showFilters, setShowFilters] = useState(false);
 	return (<>
@@ -43,10 +45,10 @@ const Search = ({
 					color={theme.colors.blacks.normal}
 					size='1x'
 					icon={faClose}
-					onClick={() => value && setValue('')}
+					onClick={() => search && setSearch('')}
 				/>}
-				value={value}
-				onChange={(e) => setValue(e.target.value)}
+				value={search}
+				onChange={(e) => setSearch(e.target.value)}
         placeholder='Search'
 			/>
 			<Button
@@ -60,7 +62,7 @@ const Search = ({
 				/>
 			</Button>
 		</SearchWrapper>
-		<Filters visible={showFilters} />
+		<Filters visible={showFilters} setDates={setDates} onApply={() => setShowFilters(false)} />
 	</>);
 };
 

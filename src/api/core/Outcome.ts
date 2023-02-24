@@ -49,13 +49,17 @@ export const deleteOutcome = async(id: number): Promise<void> => {
 export const searchOutcomes = async({
   offset,
   keyword,
+  start_date,
+  end_date,
   limit = 5
 }: {
   offset: number;
   keyword: string;
+  start_date: string;
+  end_date: string;
   limit?: number;
 }): Promise<IOutcomes> => {
-  const result = await Http.get('/api/outcomes/search', { limit, offset, keyword }, {
+  const result = await Http.get('/api/outcomes/search', { limit, offset, keyword, start_date, end_date }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
