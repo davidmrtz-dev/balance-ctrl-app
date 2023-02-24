@@ -24,7 +24,7 @@ const Outcomes = (): JSX.Element => {
   const [dates, setDates] = useState<string []>(['', '']);
 
   const displayOutcomes = () => {
-    if (searchOutcomes.length) {
+    if (searchTerm || (searchOutcomes.length && dates.every(d => d))) {
       return searchedOutcomes;
     } else {
       return outcomes;

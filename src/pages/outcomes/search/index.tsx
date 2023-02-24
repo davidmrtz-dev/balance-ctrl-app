@@ -62,7 +62,7 @@ const Search = ({
 				/>
 			</Button>
 		</SearchWrapper>
-		<Filters visible={showFilters} setDates={setDates} />
+		<Filters visible={showFilters} setDates={setDates} onApply={() => setShowFilters(false)} />
 	</>);
 };
 

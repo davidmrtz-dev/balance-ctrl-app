@@ -2,6 +2,7 @@ import { Button, DatePicker, Select } from "antd";
 import styled from "styled-components";
 import { theme } from "../../../Theme";
 import dayjs from 'dayjs';
+import { useState } from "react";
 
 const { RangePicker } = DatePicker;
 
@@ -23,42 +24,59 @@ const FiltersContainer = styled.div<{ visible: boolean }>`
 
 export const Filters = ({
 	visible,
-  setDates
+  setDates,
+  onApply
 }: {
 	visible: boolean;
   setDates: (values: string []) => void;
-}): JSX.Element => <FiltersContainer visible={visible}>
-  <RangePicker
-    style={{
-      width: '100%',
-      margin: '0 5px'
-    }}
-    allowClear
-    onCalendarChange={(values) => {
-      if (values?.every(val => val)) {
-        const from = dayjs(values[0]).format('YYYY-MM-DD');
-        const to = dayjs(values[1]).format('YYYY-MM-DD');
-        setDates([from, to]);
-      } else if (values === null) {
-        setDates(['', '']);
-      }
-    }}
-  />
-  <Select
-    allowClear
-    onClear={() => {}}
-    disabled={false}
-    placeholder={'Type'}
-    style={{
-      width: '100%',
-      padding: '10px 0'
-    }}
-    dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
-    onSelect={() => {}}
-    options={[
-      { value: 'current', label: 'Current' },
-      { value: 'fixed', label: 'Fixed' }
-    ]}
-  />
-  <Button type='primary'>Apply</Button>
-</FiltersContainer>;
+  onApply: () => void;
+}): JSX.Element => {
+  const [selection, setSelection] = useState<string []>(['', '']);
+
+  const handleApply = () => {
+    setDates(selection);
+    onApply();
+  };
+
+  return(<FiltersContainer visible={visible}>
+    <RangePicker
+      style={{
+        width: '100%',
+        margin: '0 5px'
+      }}
+      allowClear
+      onCalendarChange={(values) => {
+        if (values?.every(val => val)) {
+          const from = dayjs(values[0]).format('YYYY-MM-DD');
+          const to = dayjs(values[1]).format('YYYY-MM-DD');
+          setSelection([from, to]);
+        } else if (values === null) {
+          setSelection(['', '']);
+          setDates(['', '']);
+          onApply();
+        }
+      }}
+    />
+    <Select
+      allowClear
+      onClear={() => {}}
+      disabled={false}
+      placeholder={'Type'}
+      style={{
+        width: '100%',
+        padding: '10px 0'
+      }}
+      dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
+      onSelect={() => {}}
+      options={[
+        { value: 'current', label: 'Current' },
+        { value: 'fixed', label: 'Fixed' }
+      ]}
+    />
+    <Button
+      disabled={selection.some(s => !s)}
+      type='primary' onClick={handleApply}>
+      Apply
+    </Button>
+  </FiltersContainer>);
+};
