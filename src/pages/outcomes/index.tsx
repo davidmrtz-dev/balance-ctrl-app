@@ -20,7 +20,6 @@ const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
-  const [searchedOutcomes, setSearchedOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
@@ -28,17 +27,11 @@ const Outcomes = (): JSX.Element => {
   const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const displayOutcomes = () => {
-    let items;
-
-    if (searchTerm || (searchOutcomes.length && dates.every(d => d))) {
-      items = searchedOutcomes;
+    if (type) {
+      return outcomes.filter(i => i.transaction_type === type);
     } else {
-      items = outcomes;
+      return outcomes
     }
-
-    if (type) items = items.filter(i => i.transaction_type === type);
-
-    return items;
   };
 
   const search = async (keyword: string, dates: string []): Promise<void> => {
@@ -51,7 +44,7 @@ const Outcomes = (): JSX.Element => {
         start_date: dates[0],
         end_date: dates[1]
       });
-      setSearchedOutcomes(data.outcomes);
+      setOutcomes(data.outcomes);
       setTimeout(() => setLoading(false), 1000);
     } catch (err: any) {
       const error = err.errors && err.errors.length && err.errors[0];
@@ -82,24 +75,14 @@ const Outcomes = (): JSX.Element => {
           return out;
         }
       });
-      const updatedSearched = searchedOutcomes.map(out => {
-        if (out.id === outcome.id) {
-          return outcome;
-        } else {
-          return out;
-        }
-      });
       setOutcomes(updatedOutcomes);
-      setSearchedOutcomes(updatedSearched);
     }
   };
 
   const handleDelete = (id: number) => {
     if (outcomes.length) {
       const updatedOutcomes = outcomes.filter(out => out.id !== id);
-      const updatedSearched = searchedOutcomes.filter(out => out.id !== id);
       setOutcomes(updatedOutcomes);
-      setSearchedOutcomes(updatedSearched);
     }
   };
 
