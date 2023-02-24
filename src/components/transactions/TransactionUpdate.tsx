@@ -20,6 +20,7 @@ export const TransactionUpdate = ({
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState<IOutcome>({} as IOutcome);
 
@@ -56,6 +57,10 @@ export const TransactionUpdate = ({
     }
   }, [closeModal, handleUpdate, values]);
 
+  const handleSubmitDelete = async () => {
+
+  };
+
   const handleCancel = () => {
     setValues({} as IOutcome);
     closeModal();
@@ -66,12 +71,21 @@ export const TransactionUpdate = ({
   }, [outcome]);
 
   const footerComponents = [
-    <Button key="cancel" onClick={handleCancel} disabled={loading}>
+    <Button
+      key="cancel"
+      onClick={handleCancel}
+      disabled={loading}
+    >
       <Typography.Text style={{ ...theme.texts.brandFont }}>
         Cancel
       </Typography.Text>
     </Button>,
-    <Button key="submit" type="primary" loading={loading} onClick={handleSubmitUpdate}>
+    <Button
+      key="submit"
+      type="primary"
+      loading={loading}
+      onClick={handleSubmitUpdate}
+    >
       <Typography.Text
         style={{ ...theme.texts.brandFont, color: theme.colors.whites.normal }}
       >
@@ -85,8 +99,8 @@ export const TransactionUpdate = ({
       backgroundColor: theme.colors.warning
     }}
       key="delete"
-      loading={true}
       onClick={() => setConfirm(true)}
+      disabled={loading}
     >
     <Typography.Text
       style={{
