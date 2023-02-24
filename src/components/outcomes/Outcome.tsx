@@ -31,9 +31,10 @@ const OutcomeActions = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 20;
-  right: 0;
-  background-color: ${p => p.theme.colors.grays.normal};
+  top: 25px;
+  right: 5px;
+  background-color: ${p => p.theme.colors.grays.light};
+  border: 2px solid ${p => p.theme.colors.grays.dark};
   width: 100px;
   height: 100px;
   border-radius: 10px;
