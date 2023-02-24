@@ -43,7 +43,6 @@ export const Filters = ({
         width: '100%',
         margin: '0 5px'
       }}
-      popupStyle={{ maxWidth: 328 }}
       allowClear
       onCalendarChange={(values) => {
         if (values?.every(val => val)) {

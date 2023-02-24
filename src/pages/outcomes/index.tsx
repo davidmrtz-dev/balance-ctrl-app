@@ -82,14 +82,24 @@ const Outcomes = (): JSX.Element => {
           return out;
         }
       });
+      const updatedSearched = searchedOutcomes.map(out => {
+        if (out.id === outcome.id) {
+          return outcome;
+        } else {
+          return out;
+        }
+      });
       setOutcomes(updatedOutcomes);
+      setSearchedOutcomes(updatedSearched);
     }
   };
 
   const handleDelete = (id: number) => {
     if (outcomes.length) {
       const updatedOutcomes = outcomes.filter(out => out.id !== id);
+      const updatedSearched = searchedOutcomes.filter(out => out.id !== id);
       setOutcomes(updatedOutcomes);
+      setSearchedOutcomes(updatedSearched);
     }
   };
 
