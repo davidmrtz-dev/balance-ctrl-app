@@ -7,7 +7,7 @@ import Alert from "../../components/alert";
 import styled from "styled-components";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Search from "./search";
-import { TransactionUpdate } from "../../components/transactions";
+import { TransactionUpdate as OutcomeUpdate } from "../../components/transactions";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -63,13 +63,9 @@ const Outcomes = (): JSX.Element => {
     }
   };
 
-  const handleOutcomeClick = (id: number) => {
-    if (outcomes.length) {
-      setEdit(true);
-      const obj = outcomes
-        .find((outcome) => outcome.id === id)
-      if (obj) setOutcome(obj);
-    }
+  const handleOutcomeClick = (outcome: IOutcome) => {
+    setEdit(true);
+    setOutcome(outcome);
   };
 
   const handleEditClose = () => {
@@ -117,12 +113,12 @@ const Outcomes = (): JSX.Element => {
             <Outcome
               key={outcome.id}
               outcome={outcome}
-              onClick={() => handleOutcomeClick(outcome.id)}
+              onClick={() => handleOutcomeClick(outcome)}
             />
           )}
         </OutcomesContainer>
     }
-    <TransactionUpdate
+    <OutcomeUpdate
       outcome={outcome}
       open={edit}
       closeModal={handleEditClose}

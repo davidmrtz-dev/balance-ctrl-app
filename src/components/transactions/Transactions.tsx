@@ -71,13 +71,9 @@ export const Transactions = ({
     }
   }, [loading, page, pages, type]);
 
-  const handleTransactionClick = (id: number) => {
-    if (outcomes && outcomes[page].length) {
-      setShowUpdate(true);
-      const obj = outcomes[page]
-        .find((outcome) => outcome.id === id)
-        if (obj) setOutcome(obj);
-    }
+  const handleTransactionClick = (outcome: IOutcome) => {
+    setShowUpdate(true);
+    setOutcome(outcome);
   };
 
   const handleCloseUpdate = () => {
@@ -163,7 +159,7 @@ export const Transactions = ({
                     <Transaction
                       key={transaction.id}
                       item={transaction}
-                      onClick={() => handleTransactionClick(transaction.id)}
+                      onClick={() => handleTransactionClick(transaction)}
                     />)}
                 </TransactionsContainer>
               )
