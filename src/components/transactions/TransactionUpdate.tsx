@@ -24,7 +24,7 @@ export const TransactionUpdate = ({
   const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState<IOutcome>({} as IOutcome);
 
-  const handleSubmitUpdate = useCallback(async() => {
+  const handleSubmitUpdate = useCallback(async () => {
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',

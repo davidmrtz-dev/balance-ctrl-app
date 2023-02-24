@@ -94,7 +94,7 @@ const Outcomes = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const fetchOutcomes = async(): Promise<void> => {
+    const fetchOutcomes = async (): Promise<void> => {
       try {
         const data = await getOutcomes({ offset: 0, limit: 20 });
         setOutcomes(data.outcomes);
