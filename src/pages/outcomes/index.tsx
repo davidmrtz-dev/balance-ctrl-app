@@ -136,6 +136,7 @@ const Outcomes = (): JSX.Element => {
       open={edit}
       closeModal={handleEditClose}
       handleUpdate={handleUpdate}
+      handleDelete={() => {}}
     />
   </>);
 };
