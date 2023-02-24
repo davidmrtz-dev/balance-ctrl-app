@@ -20,6 +20,7 @@ export const TransactionUpdate = ({
   handleDelete?: (outcome: IOutcome) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState<IOutcome>({} as IOutcome);
 
   const handleSubmit = useCallback(async() => {
@@ -85,7 +86,7 @@ export const TransactionUpdate = ({
     }}
       key="delete"
       loading={loading}
-      onClick={() => {}}
+      onClick={() => setConfirm(true)}
     >
     <Typography.Text
       style={{
@@ -97,6 +98,14 @@ export const TransactionUpdate = ({
     </Typography.Text>
   </Button>);
   }
+
+  if (confirm) Alert({
+    icon: 'warning',
+    text: 'Are you sure you want to delete this transaction?',
+    showCancelButton: true
+  }).then(result => {
+    if (result.dismiss) setConfirm(false);
+  });
 
   return (
     <Modal
