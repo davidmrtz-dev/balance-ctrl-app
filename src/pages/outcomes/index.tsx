@@ -73,6 +73,19 @@ const Outcomes = (): JSX.Element => {
     setOutcome({} as IOutcome);
   };
 
+  const handleUpdate = async (outcome: IOutcome) => {
+    if (outcomes.length) {
+      const updatedOutcomes = outcomes.map(out => {
+        if (out.id === outcome.id) {
+          return outcome;
+        } else {
+          return out;
+        }
+      });
+      setOutcomes(updatedOutcomes);
+    }
+  };
+
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
       try {
@@ -122,7 +135,7 @@ const Outcomes = (): JSX.Element => {
       outcome={outcome}
       open={edit}
       closeModal={handleEditClose}
-      handleUpdate={async () => {}}
+      handleUpdate={handleUpdate}
     />
   </>);
 };
