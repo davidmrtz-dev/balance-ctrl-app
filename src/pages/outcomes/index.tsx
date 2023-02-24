@@ -7,6 +7,8 @@ import Alert from "../../components/alert";
 import styled from "styled-components";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Search from "./search";
+import { newOutcome } from "../../generators/emptyObjects";
+import { TransactionUpdate } from "../../components/transactions";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -23,6 +25,8 @@ const Outcomes = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
+  const [edit, setEdit] = useState(false);
+  const [outcome, setOutcome] = useState<IOutcome | null>(null);
 
   const displayOutcomes = () => {
     let items;
@@ -36,6 +40,38 @@ const Outcomes = (): JSX.Element => {
     if (type) items = items.filter(i => i.transaction_type === type);
 
     return items;
+  };
+
+  const search = async (keyword: string, dates: string []): Promise<void> => {
+    try {
+      setLoading(true);
+      const data = await searchOutcomes({
+        offset: 0,
+        limit: 20,
+        keyword,
+        start_date: dates[0],
+        end_date: dates[1]
+      });
+      setSearchedOutcomes(data.outcomes);
+      setTimeout(() => setLoading(false), 1000);
+    } catch (err: any) {
+      const error = err.errors && err.errors.length && err.errors[0];
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: (error || 'There was an error, please try again.'),
+      }), 1000);
+    }
+  };
+
+  const handleOutcomeClick = (outcome: IOutcome) => {
+    setOutcome(outcome);
+    setEdit(true);
+  };
+
+  const handleEditClose = () => {
+    setOutcome(null);
+    setEdit(false);
   };
 
   useEffect(() => {
@@ -64,32 +100,6 @@ const Outcomes = (): JSX.Element => {
     if (searchTerm || dates.every(d => d)) search(searchTerm, dates);
   }, [searchTerm, dates]);
 
-  useEffect(() => {
-    console.log(type);
-  }, [type])
-
-  const search = async (keyword: string, dates: string []): Promise<void> => {
-    try {
-      setLoading(true);
-      const data = await searchOutcomes({
-        offset: 0,
-        limit: 20,
-        keyword,
-        start_date: dates[0],
-        end_date: dates[1]
-      });
-      setSearchedOutcomes(data.outcomes);
-      setTimeout(() => setLoading(false), 1000);
-    } catch (err: any) {
-      const error = err.errors && err.errors.length && err.errors[0];
-      setTimeout(() => Alert({
-        icon: 'error',
-        title: 'Ops!',
-        text: (error || 'There was an error, please try again.'),
-      }), 1000);
-    }
-  };
-
   return(<>
     <Search
       search={searchTerm}
@@ -101,10 +111,21 @@ const Outcomes = (): JSX.Element => {
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
           {(displayOutcomes() || []).map(outcome =>
-            <Outcome key={outcome.id} {...outcome} />
+            <Outcome
+              key={outcome.id}
+              outcome={outcome}
+              onClick={() => handleOutcomeClick(outcome)}
+            />
           )}
         </OutcomesContainer>
     }
+    {outcome && (<TransactionUpdate
+      outcome={outcome}
+      open={edit}
+      type={outcome.transaction_type}
+      closeModal={handleEditClose}
+      handleUpdate={async () => {}}
+    />)}
   </>);
 };
 

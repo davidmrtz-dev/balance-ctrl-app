@@ -25,7 +25,13 @@ const OutcomeGrid = styled.div`
   padding: 10px;
 `;
 
-export const Outcome = (outcome: IOutcome): JSX.Element => {
+export const Outcome = ({
+  outcome,
+  onClick
+}: {
+  outcome: IOutcome;
+  onClick: () => void;
+}): JSX.Element => {
   return <OutcomeContainer>
     <div style={{ textAlign: 'initial' }}>
       <OutcomeGrid>
@@ -115,7 +121,7 @@ export const Outcome = (outcome: IOutcome): JSX.Element => {
         </div>
       </OutcomeGrid>
     </div>
-    <ActionBtn onClick={() => {}} />
+    <ActionBtn onClick={onClick} />
   </OutcomeContainer>
 };
 
