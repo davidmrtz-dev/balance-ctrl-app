@@ -27,7 +27,7 @@ const Search = ({
 }: {
   search: string;
   setSearch: (value: string) => void;
-	setDates: (values: string [] | null) => void;
+	setDates: (values: string []) => void;
 }): JSX.Element => {
 	const [showFilters, setShowFilters] = useState(false);
 	return (<>

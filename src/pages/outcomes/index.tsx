@@ -21,10 +21,10 @@ const Outcomes = (): JSX.Element => {
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [searchedOutcomes, setSearchedOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
-  const [dates, setDates] = useState<string [] | null>(null);
+  const [dates, setDates] = useState<string []>(['', '']);
 
   const displayOutcomes = () => {
-    if (searchTerm) {
+    if (searchOutcomes.length) {
       return searchedOutcomes;
     } else {
       return outcomes;
@@ -54,15 +54,19 @@ const Outcomes = (): JSX.Element => {
   }, [loading]);
 
   useEffect(() => {
-    if (searchTerm) {
-      search(searchTerm);
-    }
-  }, [searchTerm]);
+    if (searchTerm || dates.every(d => d)) search(searchTerm, dates);
+  }, [searchTerm, dates]);
 
-  const search = async (value: string): Promise<void> => {
+  const search = async (keyword: string, dates: string []): Promise<void> => {
     try {
       setLoading(true);
-      const data = await searchOutcomes({ offset: 0, limit: 20, keyword: value});
+      const data = await searchOutcomes({
+        offset: 0,
+        limit: 20,
+        keyword,
+        start_date: dates[0],
+        end_date: dates[1]
+      });
       setSearchedOutcomes(data.outcomes);
       setTimeout(() => setLoading(false), 1000);
     } catch (err: any) {

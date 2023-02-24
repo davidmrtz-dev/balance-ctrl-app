@@ -26,7 +26,7 @@ export const Filters = ({
   setDates
 }: {
 	visible: boolean;
-  setDates: (values: string [] | null) => void;
+  setDates: (values: string []) => void;
 }): JSX.Element => <FiltersContainer visible={visible}>
   <RangePicker
     style={{
@@ -40,7 +40,7 @@ export const Filters = ({
         const to = dayjs(values[1]).format('YYYY-MM-DD');
         setDates([from, to]);
       } else if (values === null) {
-        setDates(null);
+        setDates(['', '']);
       }
     }}
   />
