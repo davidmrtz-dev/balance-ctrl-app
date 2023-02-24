@@ -7,8 +7,7 @@ import Alert from "../../components/alert";
 import styled from "styled-components";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Search from "./search";
-import { newOutcome } from "../../generators/emptyObjects";
-import { TransactionUpdate } from "../../components/transactions";
+import { TransactionUpdate as OutcomeUpdate } from "../../components/transactions";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -26,7 +25,7 @@ const Outcomes = (): JSX.Element => {
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
   const [edit, setEdit] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome | null>(null);
+  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const displayOutcomes = () => {
     let items;
@@ -65,13 +64,26 @@ const Outcomes = (): JSX.Element => {
   };
 
   const handleOutcomeClick = (outcome: IOutcome) => {
-    setOutcome(outcome);
     setEdit(true);
+    setOutcome(outcome);
   };
 
   const handleEditClose = () => {
-    setOutcome(null);
     setEdit(false);
+    setOutcome({} as IOutcome);
+  };
+
+  const handleUpdate = async (outcome: IOutcome) => {
+    if (outcomes.length) {
+      const updatedOutcomes = outcomes.map(out => {
+        if (out.id === outcome.id) {
+          return outcome;
+        } else {
+          return out;
+        }
+      });
+      setOutcomes(updatedOutcomes);
+    }
   };
 
   useEffect(() => {
@@ -119,13 +131,12 @@ const Outcomes = (): JSX.Element => {
           )}
         </OutcomesContainer>
     }
-    {outcome && (<TransactionUpdate
+    <OutcomeUpdate
       outcome={outcome}
       open={edit}
-      type={outcome.transaction_type}
       closeModal={handleEditClose}
-      handleUpdate={async () => {}}
-    />)}
+      handleUpdate={handleUpdate}
+    />
   </>);
 };
 
