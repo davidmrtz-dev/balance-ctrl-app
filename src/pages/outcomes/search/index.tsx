@@ -22,10 +22,12 @@ const SearchWrapper = styled.div<{ showFilters: boolean }>`
 
 const Search = ({
   search,
-  setSearch
+  setSearch,
+	setDates
 }: {
   search: string;
   setSearch: (value: string) => void;
+	setDates: (values: string [] | null) => void;
 }): JSX.Element => {
 	const [showFilters, setShowFilters] = useState(false);
 	return (<>
@@ -60,7 +62,7 @@ const Search = ({
 				/>
 			</Button>
 		</SearchWrapper>
-		<Filters visible={showFilters} />
+		<Filters visible={showFilters} setDates={setDates} />
 	</>);
 };
 

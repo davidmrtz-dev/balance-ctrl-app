@@ -21,6 +21,7 @@ const Outcomes = (): JSX.Element => {
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [searchedOutcomes, setSearchedOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
+  const [dates, setDates] = useState<string [] | null>(null);
 
   const displayOutcomes = () => {
     if (searchTerm) {
@@ -78,6 +79,7 @@ const Outcomes = (): JSX.Element => {
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}
+      setDates={setDates}
     />
     {loading
       ? <LoadingMask fixed />

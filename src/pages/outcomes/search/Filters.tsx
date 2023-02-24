@@ -22,9 +22,11 @@ const FiltersContainer = styled.div<{ visible: boolean }>`
 `;
 
 export const Filters = ({
-	visible
+	visible,
+  setDates
 }: {
 	visible: boolean;
+  setDates: (values: string [] | null) => void;
 }): JSX.Element => <FiltersContainer visible={visible}>
   <RangePicker
     style={{
@@ -36,10 +38,12 @@ export const Filters = ({
       if (values?.every(val => val)) {
         const from = dayjs(values[0]).format('YYYY-MM-DD');
         const to = dayjs(values[1]).format('YYYY-MM-DD');
-        console.log('from:', from, 'to:', to);
+        setDates([from, to]);
+      } else if (values === null) {
+        setDates(null);
       }
     }}
-    />
+  />
   <Select
     allowClear
     onClear={() => {}}
