@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IOutcome} from "../../@types";
+import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
@@ -22,13 +22,20 @@ const Outcomes = (): JSX.Element => {
   const [searchedOutcomes, setSearchedOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
+  const [type, setType] = useState<TransactionType | ''>('');
 
   const displayOutcomes = () => {
+    let items;
+
     if (searchTerm || (searchOutcomes.length && dates.every(d => d))) {
-      return searchedOutcomes;
+      items = searchedOutcomes;
     } else {
-      return outcomes;
+      items = outcomes;
     }
+
+    if (type) items = items.filter(i => i.transaction_type === type);
+
+    return items;
   };
 
   useEffect(() => {
@@ -57,6 +64,10 @@ const Outcomes = (): JSX.Element => {
     if (searchTerm || dates.every(d => d)) search(searchTerm, dates);
   }, [searchTerm, dates]);
 
+  useEffect(() => {
+    console.log(type);
+  }, [type])
+
   const search = async (keyword: string, dates: string []): Promise<void> => {
     try {
       setLoading(true);
@@ -84,6 +95,7 @@ const Outcomes = (): JSX.Element => {
       search={searchTerm}
       setSearch={setSearchTerm}
       setDates={setDates}
+      setType={setType}
     />
     {loading
       ? <LoadingMask fixed />

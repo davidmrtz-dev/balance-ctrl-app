@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { theme } from "../../../Theme";
 import dayjs from 'dayjs';
 import { useState } from "react";
+import { TransactionType } from "../../../@types";
 
 const { RangePicker } = DatePicker;
 
@@ -25,18 +26,16 @@ const FiltersContainer = styled.div<{ visible: boolean }>`
 export const Filters = ({
 	visible,
   setDates,
-  onApply
+  onApply,
+  setType
 }: {
 	visible: boolean;
   setDates: (values: string []) => void;
   onApply: () => void;
+  setType: (value: TransactionType | '') => void;
 }): JSX.Element => {
   const [selection, setSelection] = useState<string []>(['', '']);
-
-  const handleApply = () => {
-    setDates(selection);
-    onApply();
-  };
+  const [filter, setFilter] = useState<TransactionType | ''>('');
 
   return(<FiltersContainer visible={visible}>
     <RangePicker
@@ -59,7 +58,11 @@ export const Filters = ({
     />
     <Select
       allowClear
-      onClear={() => {}}
+      onClear={() => {
+        setFilter('');
+        setType('');
+        onApply();
+      }}
       disabled={false}
       placeholder={'Type'}
       style={{
@@ -67,16 +70,20 @@ export const Filters = ({
         padding: '10px 0'
       }}
       dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
-      onSelect={() => {}}
+      onSelect={setFilter}
       options={[
         { value: 'current', label: 'Current' },
         { value: 'fixed', label: 'Fixed' }
       ]}
     />
     <Button
-      disabled={selection.some(s => !s)}
+      disabled={selection.some(s => !s) && !filter}
       type='primary'
-      onClick={handleApply}
+      onClick={() => {
+        setDates(selection);
+        setType(filter);
+        onApply();
+      }}
     >
       Apply
     </Button>

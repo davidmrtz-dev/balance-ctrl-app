@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Input } from "antd";
 import { useState } from "react";
 import styled from "styled-components";
+import { TransactionType } from "../../../@types";
 import { theme } from "../../../Theme";
 import { Filters } from "./Filters";
 
@@ -23,11 +24,13 @@ const SearchWrapper = styled.div<{ showFilters: boolean }>`
 const Search = ({
   search,
   setSearch,
-	setDates
+	setDates,
+	setType
 }: {
   search: string;
   setSearch: (value: string) => void;
 	setDates: (values: string []) => void;
+	setType: (value: TransactionType | '') => void;
 }): JSX.Element => {
 	const [showFilters, setShowFilters] = useState(false);
 	return (<>
@@ -62,7 +65,12 @@ const Search = ({
 				/>
 			</Button>
 		</SearchWrapper>
-		<Filters visible={showFilters} setDates={setDates} onApply={() => setShowFilters(false)} />
+		<Filters
+			visible={showFilters}
+			setDates={setDates}
+			onApply={() => setShowFilters(false)}
+			setType={setType}
+		/>
 	</>);
 };
 
