@@ -22,7 +22,7 @@ const SignIn = () => {
     password: ''
   });
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     if (Object.values(values).some(val => val === '')) {
       setError('Please fill both fields.');
       return;

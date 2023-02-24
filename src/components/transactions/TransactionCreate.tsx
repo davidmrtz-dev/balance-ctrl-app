@@ -21,7 +21,7 @@ export const TransactionCreate = ({
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcome>(newOutcome(type));
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',

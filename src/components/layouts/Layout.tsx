@@ -12,7 +12,7 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
   const history = useHistory();
 
   useEffect(() => {
-    const verify = async(): Promise<void> => {
+    const verify = async (): Promise<void> => {
       try {
         await auth.verifyLoggedIn();
       } catch (err: any) {

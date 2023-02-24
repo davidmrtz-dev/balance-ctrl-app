@@ -79,7 +79,7 @@ const Home = (): JSX.Element => {
         fetchData={fetchOutcomes}
         updateBalance={fetchBalance}
         category='Recurring Outcomes'
-        type={'fixed'}
+        type='fixed'
       />
     </>
   );

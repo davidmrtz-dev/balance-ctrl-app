@@ -1,7 +1,7 @@
 import * as Http from '../Http';
 import { IOutcome, IOutcomes, TransactionType } from '../../@types';
 
-export const getOutcomes = async({
+export const getOutcomes = async ({
   offset,
   limit = 5,
   type
@@ -20,7 +20,7 @@ export const getOutcomes = async({
   return result.data;
 };
 
-export const createOutcome = async(values: IOutcome): Promise<void> => {
+export const createOutcome = async (values: IOutcome): Promise<void> => {
   await Http.post('/api/outcomes/', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
@@ -28,7 +28,7 @@ export const createOutcome = async(values: IOutcome): Promise<void> => {
   }});
 };
 
-export const updateOutcome = async(values: IOutcome): Promise<IOutcome> => {
+export const updateOutcome = async (values: IOutcome): Promise<IOutcome> => {
   const result = await Http.put(`/api/outcomes/${values.id}`, { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
@@ -38,7 +38,7 @@ export const updateOutcome = async(values: IOutcome): Promise<IOutcome> => {
   return result.data.outcome;
 };
 
-export const deleteOutcome = async(id: number): Promise<void> => {
+export const deleteOutcome = async (id: number): Promise<void> => {
   await Http.destroy(`/api/outcomes/${id}`, null, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
@@ -46,7 +46,7 @@ export const deleteOutcome = async(id: number): Promise<void> => {
   });
 };
 
-export const searchOutcomes = async({
+export const searchOutcomes = async ({
   offset,
   keyword,
   start_date,

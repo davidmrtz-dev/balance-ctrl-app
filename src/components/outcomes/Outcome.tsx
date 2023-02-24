@@ -1,7 +1,6 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Typography } from "antd";
-import { useState } from "react";
+import { Typography } from "antd";
 import styled from "styled-components";
 import { IOutcome } from "../../@types";
 import { theme } from "../../Theme";
@@ -25,25 +24,15 @@ const OutcomeGrid = styled.div`
   padding: 10px;
 `;
 
-const OutcomeActions = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 20;
-  right: 0;
-  background-color: ${p => p.theme.colors.grays.normal};
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-`;
-
-export const Outcome = (outcome: IOutcome): JSX.Element => {
-  const [showActions, setShowActions] = useState(false);
-
+export const Outcome = ({
+  outcome,
+  onClick
+}: {
+  outcome: IOutcome;
+  onClick: () => void;
+}): JSX.Element => {
   return <OutcomeContainer>
-    <div style={{ textAlign: 'initial' }} onClick={() => setShowActions(false)}>
+    <div style={{ textAlign: 'initial' }}>
       <OutcomeGrid>
         <div style={{ gridArea: '1 / 1 / 2 / 2' }}>
           <Typography.Text style={{
@@ -131,30 +120,7 @@ export const Outcome = (outcome: IOutcome): JSX.Element => {
         </div>
       </OutcomeGrid>
     </div>
-    {showActions && (<OutcomeActions>
-      <Button style={{
-        width: 80,
-        backgroundColor: theme.colors.yellows.normal,
-        marginBottom: 5
-      }}>
-        <Typography.Text style={{
-          ...theme.texts.brandSubFont
-        }}>
-          Update
-        </Typography.Text>
-      </Button>
-      <Button style={{
-        width: 80,
-        backgroundColor: theme.colors.warning
-      }}>
-      <Typography.Text style={{
-          ...theme.texts.brandSubFont
-        }}>
-          Delete
-        </Typography.Text>
-      </Button>
-    </OutcomeActions>)}
-    <ActionBtn onClick={() => setShowActions(!showActions)} />
+    <ActionBtn onClick={onClick} />
   </OutcomeContainer>
 };
 
