@@ -17,13 +17,13 @@ export const TransactionUpdate = ({
   open: boolean;
   closeModal: () => void;
   handleUpdate: (outcome: IOutcome) => Promise<void>;
-  handleDelete?: (outcome: IOutcome) => void;
+  handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState<IOutcome>({} as IOutcome);
 
-  const handleSubmit = useCallback(async() => {
+  const handleSubmitUpdate = useCallback(async() => {
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
@@ -71,7 +71,7 @@ export const TransactionUpdate = ({
         Cancel
       </Typography.Text>
     </Button>,
-    <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
+    <Button key="submit" type="primary" loading={loading} onClick={handleSubmitUpdate}>
       <Typography.Text
         style={{ ...theme.texts.brandFont, color: theme.colors.whites.normal }}
       >
