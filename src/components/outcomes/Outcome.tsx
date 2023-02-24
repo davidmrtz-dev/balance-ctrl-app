@@ -1,7 +1,6 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Typography } from "antd";
-import { useState } from "react";
+import { Typography } from "antd";
 import styled from "styled-components";
 import { IOutcome } from "../../@types";
 import { theme } from "../../Theme";

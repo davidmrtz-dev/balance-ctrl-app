@@ -7,7 +7,6 @@ import Alert from "../../components/alert";
 import styled from "styled-components";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Search from "./search";
-import { newOutcome } from "../../generators/emptyObjects";
 import { TransactionUpdate } from "../../components/transactions";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
