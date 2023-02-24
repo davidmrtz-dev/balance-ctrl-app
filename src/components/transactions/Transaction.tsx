@@ -26,7 +26,7 @@ export const Transaction =({
 }): JSX.Element => {
   return (<TransactionContainer>
     <div style={{
-      flex: 2,
+      flex: 1,
       display: 'flex',
       justifyContent: 'center'
     }}>
@@ -41,7 +41,7 @@ export const Transaction =({
       />
     </div>
     <div style={{
-      flex: 4,
+      flex: 3,
       display: 'flex',
       flexDirection: 'column'
     }}>

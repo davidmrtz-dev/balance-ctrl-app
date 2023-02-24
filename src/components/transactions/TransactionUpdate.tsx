@@ -1,8 +1,7 @@
 import { Button, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
+import { IOutcome } from "../../@types";
 import { updateOutcome } from "../../api/core/Outcome";
-import { newOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
@@ -10,18 +9,16 @@ import { TransactionForm } from "./TransactionForm";
 export const TransactionUpdate = ({
   outcome,
   open,
-  type,
   closeModal,
   handleUpdate
 }: {
   outcome: IOutcome;
   open: boolean;
-  type: TransactionType;
   closeModal: () => void;
   handleUpdate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcome>(newOutcome(type));
+  const [values, setValues] = useState<IOutcome>({} as IOutcome);
 
   const handleSubmit = async() => {
     if (Object.values(values).some(val => val === '')) {
@@ -38,7 +35,7 @@ export const TransactionUpdate = ({
       });
       setTimeout(async () => {
         await handleUpdate(outcome);
-        setValues(newOutcome(type));
+        setValues({} as IOutcome);
         setLoading(false);
         closeModal();
       }, 1000);
@@ -49,7 +46,7 @@ export const TransactionUpdate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues(newOutcome(type));
+        setValues({} as IOutcome);
         setLoading(false);
         closeModal();
       }, 1000);
@@ -57,7 +54,7 @@ export const TransactionUpdate = ({
   };
 
   const handleCancel = () => {
-    setValues(newOutcome(type));
+    setValues({} as IOutcome);
     closeModal();
   };
 
@@ -73,7 +70,7 @@ export const TransactionUpdate = ({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > Update {type} outcome
+        > Update {outcome.transaction_type} outcome
         </Typography.Text>}
       style={{
         maxWidth: 360,

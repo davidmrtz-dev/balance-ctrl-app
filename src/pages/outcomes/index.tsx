@@ -26,7 +26,7 @@ const Outcomes = (): JSX.Element => {
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
   const [edit, setEdit] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome | null>(null);
+  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const displayOutcomes = () => {
     let items;
@@ -64,14 +64,18 @@ const Outcomes = (): JSX.Element => {
     }
   };
 
-  const handleOutcomeClick = (outcome: IOutcome) => {
-    setOutcome(outcome);
-    setEdit(true);
+  const handleOutcomeClick = (id: number) => {
+    if (outcomes.length) {
+      setEdit(true);
+      const obj = outcomes
+        .find((outcome) => outcome.id === id)
+      if (obj) setOutcome(obj);
+    }
   };
 
   const handleEditClose = () => {
-    setOutcome(null);
     setEdit(false);
+    setOutcome({} as IOutcome);
   };
 
   useEffect(() => {
@@ -114,18 +118,17 @@ const Outcomes = (): JSX.Element => {
             <Outcome
               key={outcome.id}
               outcome={outcome}
-              onClick={() => handleOutcomeClick(outcome)}
+              onClick={() => handleOutcomeClick(outcome.id)}
             />
           )}
         </OutcomesContainer>
     }
-    {outcome && (<TransactionUpdate
+    <TransactionUpdate
       outcome={outcome}
       open={edit}
-      type={outcome.transaction_type}
       closeModal={handleEditClose}
       handleUpdate={async () => {}}
-    />)}
+    />
   </>);
 };
 
