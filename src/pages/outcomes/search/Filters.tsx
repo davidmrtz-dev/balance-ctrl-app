@@ -75,7 +75,9 @@ export const Filters = ({
     />
     <Button
       disabled={selection.some(s => !s)}
-      type='primary' onClick={handleApply}>
+      type='primary'
+      onClick={handleApply}
+    >
       Apply
     </Button>
   </FiltersContainer>);
