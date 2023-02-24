@@ -33,7 +33,7 @@ const Navigation = (): JSX.Element => {
     color: theme.colors.blacks.normal
   });
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     try {
       await auth.unauthenticate();
       history.push('/login');

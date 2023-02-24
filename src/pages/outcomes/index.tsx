@@ -86,8 +86,15 @@ const Outcomes = (): JSX.Element => {
     }
   };
 
+  const handleDelete = (id: number) => {
+    if (outcomes.length) {
+      const updatedOutcomes = outcomes.filter(out => out.id !== id);
+      setOutcomes(updatedOutcomes);
+    }
+  };
+
   useEffect(() => {
-    const fetchOutcomes = async(): Promise<void> => {
+    const fetchOutcomes = async (): Promise<void> => {
       try {
         const data = await getOutcomes({ offset: 0, limit: 20 });
         setOutcomes(data.outcomes);
@@ -136,7 +143,7 @@ const Outcomes = (): JSX.Element => {
       open={edit}
       closeModal={handleEditClose}
       handleUpdate={handleUpdate}
-      handleDelete={() => {}}
+      handleDelete={handleDelete}
     />
   </>);
 };

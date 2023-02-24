@@ -1,7 +1,7 @@
 import { Button, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { IOutcome } from "../../@types";
-import { updateOutcome } from "../../api/core/Outcome";
+import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
@@ -20,10 +20,11 @@ export const TransactionUpdate = ({
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState<IOutcome>({} as IOutcome);
 
-  const handleSubmitUpdate = useCallback(async() => {
+  const handleSubmitUpdate = useCallback(async () => {
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
@@ -56,6 +57,30 @@ export const TransactionUpdate = ({
     }
   }, [closeModal, handleUpdate, values]);
 
+  const handleSubmitDelete = async () => {
+    setDeleting(true);
+    try {
+      await deleteOutcome(outcome.id);
+      setTimeout(async () => {
+        handleDelete && handleDelete(outcome.id);
+        setValues({} as IOutcome);
+        setDeleting(false);
+        closeModal();
+      }, 1000);
+    } catch (err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length && err.errors[0];
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again.'),
+        });
+        setValues({} as IOutcome);
+        setDeleting(false);
+        closeModal();
+      }, 1000);
+    }
+  };
+
   const handleCancel = () => {
     setValues({} as IOutcome);
     closeModal();
@@ -66,14 +91,27 @@ export const TransactionUpdate = ({
   }, [outcome]);
 
   const footerComponents = [
-    <Button key="cancel" onClick={handleCancel} disabled={loading}>
+    <Button
+      key="cancel"
+      onClick={handleCancel}
+      disabled={loading || deleting}
+    >
       <Typography.Text style={{ ...theme.texts.brandFont }}>
         Cancel
       </Typography.Text>
     </Button>,
-    <Button key="submit" type="primary" loading={loading} onClick={handleSubmitUpdate}>
-      <Typography.Text
-        style={{ ...theme.texts.brandFont, color: theme.colors.whites.normal }}
+    <Button
+      key="submit"
+      type="primary"
+      loading={loading}
+      disabled={deleting}
+      onClick={handleSubmitUpdate}
+      style={{ backgroundColor: theme.colors.blues.normal }}
+    >
+      <Typography.Text style={{
+        ...theme.texts.brandFont,
+        color: theme.colors.whites.normal
+      }}
       >
         Update
       </Typography.Text>
@@ -85,8 +123,9 @@ export const TransactionUpdate = ({
       backgroundColor: theme.colors.warning
     }}
       key="delete"
-      loading={true}
       onClick={() => setConfirm(true)}
+      disabled={loading}
+      loading={deleting}
     >
     <Typography.Text
       style={{
@@ -104,7 +143,10 @@ export const TransactionUpdate = ({
     text: 'Are you sure you want to delete this transaction?',
     showCancelButton: true
   }).then(result => {
-    if (result.dismiss) setConfirm(false);
+    setConfirm(false);
+    if (result.isConfirmed) {
+      handleSubmitDelete();
+    }
   });
 
   return (
