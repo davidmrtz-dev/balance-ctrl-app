@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
@@ -34,7 +34,21 @@ const Outcomes = (): JSX.Element => {
     }
   };
 
-  const search = async (keyword: string, dates: string []): Promise<void> => {
+  const fetchOutcomes = async (): Promise<void> => {
+    try {
+      const data = await getOutcomes({ offset: 0, limit: 20 });
+      setOutcomes(data.outcomes);
+      setTimeout(() => setLoading(false), 1500);
+    } catch (err) {
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'There was an error, please try again later'
+      }), 1000);
+    }
+  };
+
+  const search = useCallback(async (keyword: string, dates: string []): Promise<void> => {
     try {
       setLoading(true);
       const data = await searchOutcomes({
@@ -54,7 +68,7 @@ const Outcomes = (): JSX.Element => {
         text: (error || 'There was an error, please try again.'),
       }), 1000);
     }
-  };
+  }, []);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
     setEdit(true);
@@ -87,20 +101,6 @@ const Outcomes = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const fetchOutcomes = async (): Promise<void> => {
-      try {
-        const data = await getOutcomes({ offset: 0, limit: 20 });
-        setOutcomes(data.outcomes);
-        setTimeout(() => setLoading(false), 1500);
-      } catch (err) {
-        setTimeout(() => Alert({
-          icon: 'error',
-          title: 'Ops!',
-          text: 'There was an error, please try again later'
-        }), 1000);
-      }
-    };
-
     fetchOutcomes();
   }, []);
 
@@ -109,8 +109,12 @@ const Outcomes = (): JSX.Element => {
   }, [loading]);
 
   useEffect(() => {
-    if (searchTerm || dates.every(d => d)) search(searchTerm, dates);
-  }, [searchTerm, dates]);
+    if (searchTerm || dates.every(d => d)) {
+      search(searchTerm, dates);
+    } else {
+      fetchOutcomes();
+    }
+  }, [searchTerm, dates, search]);
 
   return(<>
     <Search
