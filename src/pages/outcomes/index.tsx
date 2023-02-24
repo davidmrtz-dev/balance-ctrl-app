@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
-import { getOutcomes } from "../../api/core/Outcome";
+import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import Alert from "../../components/alert";
 import styled from "styled-components";
-import { Button, Input, Select, Typography } from "antd";
-import { theme } from "../../Theme";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useDebouncedState } from "../../hooks/useDebouncedState";
+import Search from "./search";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -17,12 +15,28 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
   width: 100%;
 `;
 
-type Selector =  TransactionType  | '';
-
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
+  const [searchedOutcomes, setSearchedOutcomes] = useState<IOutcome []>([]);
+  const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
+  const [dates, setDates] = useState<string []>(['', '']);
+  const [type, setType] = useState<TransactionType | ''>('');
+
+  const displayOutcomes = () => {
+    let items;
+
+    if (searchTerm || (searchOutcomes.length && dates.every(d => d))) {
+      items = searchedOutcomes;
+    } else {
+      items = outcomes;
+    }
+
+    if (type) items = items.filter(i => i.transaction_type === type);
+
+    return items;
+  };
 
   useEffect(() => {
     const fetchOutcomes = async(): Promise<void> => {
@@ -46,92 +60,52 @@ const Outcomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
+  useEffect(() => {
+    if (searchTerm || dates.every(d => d)) search(searchTerm, dates);
+  }, [searchTerm, dates]);
+
+  useEffect(() => {
+    console.log(type);
+  }, [type])
+
+  const search = async (keyword: string, dates: string []): Promise<void> => {
+    try {
+      setLoading(true);
+      const data = await searchOutcomes({
+        offset: 0,
+        limit: 20,
+        keyword,
+        start_date: dates[0],
+        end_date: dates[1]
+      });
+      setSearchedOutcomes(data.outcomes);
+      setTimeout(() => setLoading(false), 1000);
+    } catch (err: any) {
+      const error = err.errors && err.errors.length && err.errors[0];
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: (error || 'There was an error, please try again.'),
+      }), 1000);
+    }
+  };
+
   return(<>
+    <Search
+      search={searchTerm}
+      setSearch={setSearchTerm}
+      setDates={setDates}
+      setType={setType}
+    />
     {loading
       ? <LoadingMask fixed />
       : <OutcomesContainer reveal={reveal}>
-          <Search />
-          {(outcomes || []).map(outcome =>
+          {(displayOutcomes() || []).map(outcome =>
             <Outcome key={outcome.id} {...outcome} />
           )}
         </OutcomesContainer>
     }
   </>);
 };
-
-const FilterWrapper = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-const Filter = ({
-  onSelect,
-  clearFilter,
-  disabled
-}: {
-  onSelect: (text: Selector) => void
-  clearFilter: () => void;
-  disabled: boolean;
-}): JSX.Element => <FilterWrapper>
-  <Typography.Text style={{
-    ...theme.texts.brandSubFont
-  }}>
-    Filter :
-  </Typography.Text>
-  <Select
-    disabled={disabled}
-    placeholder={'Option'}
-    style={{ backgroundColor: theme.colors.grays.light, width: 135 }}
-    dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
-    onSelect={onSelect}
-    options={[
-      { value: 'current', label: 'Current' },
-      { value: 'fixed', label: 'Fixed' }
-    ]}
-  />
-  <Button disabled={disabled} onClick={clearFilter}>Clear</Button>
-</FilterWrapper>;
-
-const SearchWrapper = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0 5px;
-`;
-
-const Search = (): JSX.Element => <SearchWrapper>
-  <Input
-    style={{ margin: '0 5px' }}
-    prefix={<FontAwesomeIcon
-      style={{ flex: 1 }}
-      color={theme.colors.blacks.normal}
-      size='1x'
-      icon={faSearch}
-    />}
-    suffix={<FontAwesomeIcon
-      color={theme.colors.blacks.normal}
-      size='1x'
-      icon={faClose}
-    />}
-  />
-  <Button style={{ marginRight: 5 }}>
-    <FontAwesomeIcon
-      color={theme.colors.blacks.normal}
-      size='1x'
-      icon={faChevronDown}
-    />
-  </Button>
-</SearchWrapper>
-
-
 
 export default Outcomes;
