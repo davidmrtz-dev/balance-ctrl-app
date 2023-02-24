@@ -2,7 +2,7 @@ import { Button, DatePicker, Select } from "antd";
 import styled from "styled-components";
 import { theme } from "../../../Theme";
 import dayjs from 'dayjs';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TransactionType } from "../../../@types";
 
 const { RangePicker } = DatePicker;
@@ -37,6 +37,13 @@ export const Filters = ({
   const [selection, setSelection] = useState<string []>(['', '']);
   const [filter, setFilter] = useState<TransactionType | ''>('');
 
+  useEffect(() => {
+    const collapse = () => { if (!filter && selection.every(e => !e)) onApply() };
+
+    collapse();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selection, filter]);
+
   return(<FiltersContainer visible={visible}>
     <RangePicker
       style={{
@@ -52,7 +59,6 @@ export const Filters = ({
         } else if (values === null) {
           setSelection(['', '']);
           setDates(['', '']);
-          onApply();
         }
       }}
     />
@@ -61,7 +67,6 @@ export const Filters = ({
       onClear={() => {
         setFilter('');
         setType('');
-        onApply();
       }}
       disabled={false}
       placeholder={'Type'}
