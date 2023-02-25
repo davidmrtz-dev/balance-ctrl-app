@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const IncomesContainer = styled.div`
@@ -5,6 +6,17 @@ const IncomesContainer = styled.div`
 `;
 
 const Incomes = (): JSX.Element => {
+
+  // const fetchIncomes = () => {
+  //   try {
+  //     const data = await 
+  //   }
+  // };
+
+  // useEffect(() => {
+
+  // }, []);
+
   return<>hello incomes</>;
 };
 

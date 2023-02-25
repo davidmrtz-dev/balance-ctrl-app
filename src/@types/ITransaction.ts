@@ -4,6 +4,7 @@ export interface ITransaction {
   description: string;
   purchase_date: string;
   quotas?: number;
+  frequency?: number;
 }
 
 export type TransactionType = 'current' | 'fixed';

@@ -6,4 +6,8 @@ export type {
   OutcomesPagination,
   OutcomesHash
 } from './IOutcome';
+export type {
+  IIncomes,
+  IIncome
+} from './IIncome';
 export type { ITransaction, TransactionType } from './ITransaction';
