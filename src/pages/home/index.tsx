@@ -1,15 +1,15 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getOutcomes } from "../../api/core/Outcome";
-import Alert from "../../components/alert";
 import { HeaderCard } from "../../components/dashboard";
 import { Transactions } from "../../components/transactions";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
+import styled from "styled-components";
+import Alert from "../../components/alert";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -58,7 +58,13 @@ const Home = (): JSX.Element => {
       </Typography>
       <br />
       <HeaderContainer>
-        <HeaderCard concept='Income' variation='data' value={balance?.total_incomes || '0'} loading={loading} />
+        <HeaderCard
+          concept='Income'
+          variation='data'
+          value={balance?.total_incomes || '0'}
+          onClick={() => history.push('/incomes')}
+          loading={loading}
+        />
         <HeaderCard
           concept='Outcomes'
           variation='data'
