@@ -3,11 +3,11 @@ import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
+import { useDebouncedState } from "../../hooks/useDebouncedState";
+import { TransactionUpdate as OutcomeUpdate } from "../../components/transactions";
 import Alert from "../../components/alert";
 import styled from "styled-components";
-import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Search from "./search";
-import { TransactionUpdate as OutcomeUpdate } from "../../components/transactions";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
