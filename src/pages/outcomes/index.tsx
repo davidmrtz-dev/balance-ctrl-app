@@ -12,8 +12,7 @@ import Search from "./search";
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
 `;
 
 const Outcomes = (): JSX.Element => {
