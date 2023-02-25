@@ -38,11 +38,11 @@ const Outcomes = (): JSX.Element => {
       const data = await getOutcomes({ offset: 0, limit: 20 });
       setOutcomes(data.outcomes);
       setTimeout(() => setLoading(false), 1500);
-    } catch (err) {
+    } catch (err: any) {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: 'There was an error, please try again later'
+        text: err.error || 'There was an error, please try again later'
       }), 1000);
     }
   };
