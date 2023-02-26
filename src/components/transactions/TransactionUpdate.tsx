@@ -1,28 +1,28 @@
 import { Button, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { IOutcome } from "../../@types";
+import { ITransaction } from "../../@types";
 import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
 
 export const TransactionUpdate = ({
-  outcome,
+  transaction,
   open,
   closeModal,
   handleUpdate,
   handleDelete
 }: {
-  outcome: IOutcome;
+  transaction: ITransaction;
   open: boolean;
   closeModal: () => void;
-  handleUpdate: (outcome: IOutcome) => Promise<void>;
+  handleUpdate: (outcome: ITransaction) => Promise<void>;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [values, setValues] = useState<IOutcome>({} as IOutcome);
+  const [values, setValues] = useState<ITransaction>({} as ITransaction);
 
   const handleSubmitUpdate = useCallback(async () => {
     if (Object.values(values).some(val => val === '')) {
@@ -39,7 +39,7 @@ export const TransactionUpdate = ({
       });
       setTimeout(async () => {
         await handleUpdate(outcome);
-        setValues({} as IOutcome);
+        setValues({} as ITransaction);
         setLoading(false);
         closeModal();
       }, 1000);
@@ -50,7 +50,7 @@ export const TransactionUpdate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues({} as IOutcome);
+        setValues({} as ITransaction);
         setLoading(false);
         closeModal();
       }, 1000);
@@ -60,10 +60,10 @@ export const TransactionUpdate = ({
   const handleSubmitDelete = async () => {
     setDeleting(true);
     try {
-      await deleteOutcome(outcome.id);
+      await deleteOutcome(transaction.id);
       setTimeout(async () => {
-        handleDelete && handleDelete(outcome.id);
-        setValues({} as IOutcome);
+        handleDelete && handleDelete(transaction.id);
+        setValues({} as ITransaction);
         setDeleting(false);
         closeModal();
       }, 1000);
@@ -74,7 +74,7 @@ export const TransactionUpdate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues({} as IOutcome);
+        setValues({} as ITransaction);
         setDeleting(false);
         closeModal();
       }, 1000);
@@ -82,13 +82,13 @@ export const TransactionUpdate = ({
   };
 
   const handleCancel = () => {
-    setValues({} as IOutcome);
+    setValues({} as ITransaction);
     closeModal();
   };
 
   useEffect(() => {
-    setValues(outcome);
-  }, [outcome]);
+    setValues(transaction);
+  }, [transaction]);
 
   const footerComponents = [
     <Button
@@ -157,7 +157,7 @@ export const TransactionUpdate = ({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > Update {outcome.transaction_type} outcome
+        > Update {transaction.transaction_type} outcome
         </Typography.Text>}
       style={{
         maxWidth: 360,

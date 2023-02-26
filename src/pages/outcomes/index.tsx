@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
+import { ITransaction, TransactionType } from "../../@types";
 import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
@@ -20,8 +20,8 @@ const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
-  const [outcomes, setOutcomes] = useState<IOutcome []>([]);
+  const [outcome, setOutcome] = useState<ITransaction>({} as ITransaction);
+  const [outcomes, setOutcomes] = useState<ITransaction []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
@@ -70,17 +70,17 @@ const Outcomes = (): JSX.Element => {
     }
   }, []);
 
-  const handleOutcomeClick = (outcome: IOutcome) => {
+  const handleOutcomeClick = (outcome: ITransaction) => {
     setEdit(true);
     setOutcome(outcome);
   };
 
   const handleEditClose = () => {
     setEdit(false);
-    setOutcome({} as IOutcome);
+    setOutcome({} as ITransaction);
   };
 
-  const handleUpdate = async (outcome: IOutcome) => {
+  const handleUpdate = async (outcome: ITransaction) => {
     if (outcomes.length) {
       const updatedOutcomes = outcomes.map(out => {
         if (out.id === outcome.id) {
@@ -137,7 +137,7 @@ const Outcomes = (): JSX.Element => {
         </OutcomesContainer>
     }
     <OutcomeUpdate
-      outcome={outcome}
+      transaction={outcome}
       open={edit}
       closeModal={handleEditClose}
       handleUpdate={handleUpdate}

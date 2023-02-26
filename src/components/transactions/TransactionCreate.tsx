@@ -1,8 +1,8 @@
 import { Button, Modal, Typography } from "antd";
+import dayjs from "dayjs";
 import { useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
+import { ITransaction, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
-import { newOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
@@ -19,9 +19,13 @@ export const TransactionCreate = ({
   handleCreate: () => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcome>(newOutcome(type));
+  const [values, setValues] = useState<ITransaction>({
+    purchase_date: dayjs().format('YYYY-MM-DD')
+  } as ITransaction);
 
   const handleSubmit = async () => {
+    debugger;
+    
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
@@ -38,7 +42,7 @@ export const TransactionCreate = ({
       });
       setTimeout(async () => {
         await handleCreate();
-        setValues(newOutcome(type));
+        setValues({} as ITransaction);
         setLoading(false);
         closeModal();
       }, 1000);
@@ -49,7 +53,7 @@ export const TransactionCreate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues(newOutcome(type));
+        setValues({} as ITransaction);
         setLoading(false);
         closeModal();
       }, 1000);
@@ -57,7 +61,7 @@ export const TransactionCreate = ({
   };
 
   const handleCancel = () => {
-    setValues(newOutcome(type));
+    setValues({} as ITransaction);
     closeModal();
   };
 

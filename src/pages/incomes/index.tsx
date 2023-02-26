@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IIncome } from "../../@types";
+import { ITransaction } from "../../@types";
 import { getIncomes } from "../../api/core/Income";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
 import { Income } from "../../components/incomes";
 import Title from "../../components/title";
+import { TransactionUpdate as IncomeUpdate } from "../../components/transactions";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -16,7 +17,7 @@ const IncomesContainer = styled.div<{ reveal: boolean }>`
 const Incomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
-  const [incomes, setIncomes] = useState<IIncome []>([]);
+  const [incomes, setIncomes] = useState<ITransaction []>([]);
 
   const fetchIncomes = async () => {
     try {
@@ -49,6 +50,9 @@ const Incomes = (): JSX.Element => {
         <Income key={income.id} income={income} />
       )}
     </IncomesContainer>)}
+    {/* <IncomeUpdate 
+
+    /> */}
   </>);
 };
 

@@ -77,19 +77,19 @@ const About = (): JSX.Element => {
 </AboutContainer>);
 };
 
-const LinkComponent = ({
-  href,
-  text
-}: {
-  href: string;
-  text: string;
-}): JSX.Element => <a
-    target='_blank'
-    rel="noreferrer"
-    style={{ color: 'inherit' }}
-    href={href}
-  >
-  {text}
-</a>;
+// const LinkComponent = ({
+//   href,
+//   text
+// }: {
+//   href: string;
+//   text: string;
+// }): JSX.Element => <a
+//     target='_blank'
+//     rel="noreferrer"
+//     style={{ color: 'inherit' }}
+//     href={href}
+//   >
+//   {text}
+// </a>;
 
 export default About;

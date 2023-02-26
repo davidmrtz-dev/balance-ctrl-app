@@ -1,6 +1,6 @@
 import { Typography } from "antd";
 import styled from "styled-components";
-import { IOutcome } from "../../@types";
+import { ITransaction } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
@@ -17,7 +17,7 @@ export const Outcome = ({
   outcome,
   onClick
 }: {
-  outcome: IOutcome;
+  outcome: ITransaction;
   onClick: () => void;
 }): JSX.Element => <OutcomeContainer>
   <div style={{ textAlign: 'initial' }}>
