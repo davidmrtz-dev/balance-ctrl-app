@@ -22,6 +22,7 @@ const TitleWrapper = styled.div`
   justify-content: flex-start;
   padding: 0 5px;
   border-radius: 10px;
+  margin-bottom: 10px;
 `;
 
 const Incomes = (): JSX.Element => {
