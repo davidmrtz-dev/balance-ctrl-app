@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IIncome } from "../../@types";
 import { getIncomes } from "../../api/core/Income";
+import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
 import { theme } from "../../Theme";
 
-const IncomesContainer = styled.div`
+const IncomesContainer = styled.div<{ reveal: boolean }>`
+  opacity: ${p => p.reveal ? 1 : 0};
+  transition: opacity 1s ease-in-out;
   min-height: 100vh;
 `;
 
@@ -22,7 +25,8 @@ const TitleWrapper = styled.div`
 `;
 
 const Incomes = (): JSX.Element => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [reveal, setReveal] = useState(false);
   const [incomes, setIncomes] = useState<IIncome []>([]);
 
   const fetchIncomes = async () => {
@@ -43,6 +47,10 @@ const Incomes = (): JSX.Element => {
     fetchIncomes();
   }, []);
 
+  useEffect(() => {
+    if (!loading) setTimeout(() => setReveal(true), 250);
+  }, [loading]);
+
   return(<>
     <TitleWrapper>
       <Typography.Text style={{
@@ -52,11 +60,13 @@ const Incomes = (): JSX.Element => {
         Incomes
       </Typography.Text>
     </TitleWrapper>
-    <IncomesContainer>
+    {loading
+      ? <LoadingMask fixed />
+      : (<IncomesContainer reveal={reveal}>
       {(incomes || []).map(income =>
         <Income key={income.id} />
       )}
-    </IncomesContainer>
+    </IncomesContainer>)}
   </>);
 };
 
