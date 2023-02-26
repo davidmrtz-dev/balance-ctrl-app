@@ -3,7 +3,7 @@ import { faEdit, faMoneyBill1Wave, faRepeat } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../Theme";
-import { IOutcome } from "../../@types";
+import { ITransaction } from "../../@types";
 import { formatCurrency, formatViewDate } from "../../utils";
 
 const TransactionContainer = styled.div`
@@ -21,7 +21,7 @@ export const Transaction =({
   item,
   onClick
 }: {
-  item: IOutcome,
+  item: ITransaction,
   onClick: () => void;
 }): JSX.Element => {
   return (<TransactionContainer>

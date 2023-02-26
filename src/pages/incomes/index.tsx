@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IIncome } from "../../@types";
+import { ITransaction } from "../../@types";
 import { getIncomes } from "../../api/core/Income";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
@@ -17,7 +17,7 @@ const IncomesContainer = styled.div<{ reveal: boolean }>`
 const Incomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
-  const [incomes, setIncomes] = useState<IIncome []>([]);
+  const [incomes, setIncomes] = useState<ITransaction []>([]);
 
   const fetchIncomes = async () => {
     try {

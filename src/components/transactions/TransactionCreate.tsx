@@ -1,6 +1,6 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
+import { ITransaction, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
 import { newOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
@@ -19,7 +19,7 @@ export const TransactionCreate = ({
   handleCreate: () => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IOutcome>(newOutcome(type));
+  const [values, setValues] = useState<ITransaction>(newOutcome(type));
 
   const handleSubmit = async () => {
     if (Object.values(values).some(val => val === '')) {
