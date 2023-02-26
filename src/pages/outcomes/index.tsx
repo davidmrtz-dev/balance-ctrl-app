@@ -8,11 +8,25 @@ import { TransactionUpdate as OutcomeUpdate } from "../../components/transaction
 import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
+import { Typography } from "antd";
+import { theme } from "../../Theme";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
   min-height: 100vh;
+`;
+
+const TitleWrapper = styled.div`
+  background-color: ${p => p.theme.colors.grays.light};
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 `;
 
 const Outcomes = (): JSX.Element => {
@@ -116,6 +130,14 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search]);
 
   return(<>
+    <TitleWrapper>
+      <Typography.Text style={{
+        ...theme.texts.brandH5,
+        paddingLeft: 5
+      }}>
+        Outcomes
+      </Typography.Text>
+    </TitleWrapper>
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}

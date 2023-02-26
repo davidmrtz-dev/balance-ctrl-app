@@ -54,7 +54,7 @@ const Incomes = (): JSX.Element => {
     </TitleWrapper>
     <IncomesContainer>
       {(incomes || []).map(income =>
-        <Income />
+        <Income key={income.id} />
       )}
     </IncomesContainer>
   </>);
