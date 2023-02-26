@@ -46,7 +46,7 @@ const Incomes = (): JSX.Element => {
       ? <LoadingMask fixed />
       : (<IncomesContainer reveal={reveal}>
       {(incomes || []).map(income =>
-        <Income key={income.id} />
+        <Income key={income.id} income={income} />
       )}
     </IncomesContainer>)}
   </>);
