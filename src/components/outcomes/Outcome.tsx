@@ -1,21 +1,10 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import styled from "styled-components";
 import { IOutcome } from "../../@types";
+import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
-
-const OutcomeContainer = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  margin: 5px 0;
-  cursor: default;
-  position: relative;
-`;
+import { TransactionContainer as OutcomeContainer } from "../containers";
 
 const OutcomeGrid = styled.div`
   display: grid;
@@ -119,21 +108,6 @@ export const Outcome = ({
       </div>
     </OutcomeGrid>
   </div>
-  <ActionBtn onClick={onClick} />
+  <ActionButton onClick={onClick} />
 </OutcomeContainer>;
 
-const ActionBtn = ({
-  onClick
-}: {
-  onClick: () => void;
-}): JSX.Element => <FontAwesomeIcon
-  onClick={onClick}
-  style={{
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    cursor: 'pointer'
-  }}
-  color={theme.colors.blacks.normal}
-  icon={faEdit}
-/>

@@ -1,19 +1,10 @@
 import { Typography } from "antd";
 import styled from "styled-components";
 import { IIncome } from "../../@types";
+import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
-import { capitalizeFirst, formatCurrency, formatViewDate } from "../../utils";
-
-const IncomeContainer = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  margin: 5px 0;
-  cursor: default;
-  position: relative;
-`;
+import { capitalizeFirst, formatCurrency } from "../../utils";
+import { TransactionContainer as IncomeContainer } from "../containers";
 
 const IncomeGrid = styled.div`
   display: grid;
@@ -101,4 +92,5 @@ export const Income = ({
       </div>
     </IncomeGrid>
   </div>
+  <ActionButton onClick={() => {}} />
 </IncomeContainer>;
