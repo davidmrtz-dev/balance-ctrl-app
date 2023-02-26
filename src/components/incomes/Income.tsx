@@ -4,17 +4,7 @@ import { IIncome } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { capitalizeFirst, formatCurrency } from "../../utils";
-
-const IncomeContainer = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  margin: 5px 0;
-  cursor: default;
-  position: relative;
-`;
+import { TransactionContainer as IncomeContainer } from "../containers";
 
 const IncomeGrid = styled.div`
   display: grid;

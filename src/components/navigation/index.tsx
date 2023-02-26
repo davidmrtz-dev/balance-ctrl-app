@@ -1,13 +1,13 @@
 import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
-import { NavigationContainer } from '../containers/NavigationContainer';
 import { useState } from 'react';
 import { Button, Drawer, Space, Typography } from 'antd';
 import { theme } from '../../Theme';
 import { useStyletron } from "styletron-react";
 import { useAuthContext } from '../../context/AuthContext';
 import Alert from '../alert';
+import { NavigationContainer } from '../containers';
 
 const Navigation = (): JSX.Element => {
   const auth = useAuthContext();
