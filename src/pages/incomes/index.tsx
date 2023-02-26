@@ -4,6 +4,7 @@ import { IIncome } from "../../@types";
 import { getIncomes } from "../../api/core/Income";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
+import { Income } from "../../components/incomes";
 import Title from "../../components/title";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
@@ -50,21 +51,5 @@ const Incomes = (): JSX.Element => {
     </IncomesContainer>)}
   </>);
 };
-
-const IncomeContainer = styled.div`
-  background-color: ${p => p.theme.colors.grays.light};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  margin: 5px 0;
-  cursor: default;
-  position: relative;
-  height: 150px;
-`;
-
-const Income = (): JSX.Element => <IncomeContainer>
-
-</IncomeContainer>
 
 export default Incomes;
