@@ -1,8 +1,7 @@
 import { Button, Collapse, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType } from "../../@types";
-import { IOutcome } from "../../@types/IOutcome";
+import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, ITransaction } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
@@ -51,7 +50,7 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
+  const [outcome, setOutcome] = useState<ITransaction>({} as ITransaction);
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
@@ -71,14 +70,14 @@ export const Transactions = ({
     }
   }, [loading, page, pages, type]);
 
-  const handleTransactionClick = (outcome: IOutcome) => {
+  const handleTransactionClick = (outcome: ITransaction) => {
     setShowUpdate(true);
     setOutcome(outcome);
   };
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
-    setOutcome({} as IOutcome);
+    setOutcome({} as ITransaction);
   };
 
   const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
@@ -103,7 +102,7 @@ export const Transactions = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleUpdate = useCallback(async (outcome: IOutcome) => {
+  const handleUpdate = useCallback(async (outcome: ITransaction) => {
     if (outcomes && outcomes[page].length) {
       const updatedOutcomes = outcomes[page].map(out => {
         if (out.id === outcome.id) {

@@ -1,13 +1,4 @@
-export interface ITransaction {
-  id: number;
-  amount: string;
-  description: string;
-  purchase_date: string;
-  quotas?: number;
-  frequency?: string;
-}
-
-interface IBaseTransaction {
+export interface IBaseTransaction {
   id: number;
   amount: string;
   description: string;
@@ -24,6 +15,6 @@ export interface ICurrentTransaction extends IBaseTransaction {
   transaction_type: 'current'
 }
 
-export type IITransaction = IFixedTransaction | ICurrentTransaction; 
+export type ITransaction = IFixedTransaction | ICurrentTransaction; 
 
 export type TransactionType = 'current' | 'fixed';
