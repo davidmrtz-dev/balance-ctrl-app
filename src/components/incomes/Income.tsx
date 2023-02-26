@@ -1,28 +1,26 @@
 import { Typography } from "antd";
 import styled from "styled-components";
-import { IOutcome } from "../../@types";
+import { IIncome } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
-import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
-import { TransactionContainer as OutcomeContainer } from "../containers";
+import { capitalizeFirst, formatCurrency } from "../../utils";
+import { TransactionContainer as IncomeContainer } from "../containers";
 
-const OutcomeGrid = styled.div`
+const IncomeGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   padding: 10px;
 `;
 
-export const Outcome = ({
-  outcome,
-  onClick
+export const Income = ({
+  income
 }: {
-  outcome: IOutcome;
-  onClick: () => void;
-}): JSX.Element => <OutcomeContainer>
+  income: IIncome;
+}): JSX.Element => <IncomeContainer>
   <div style={{ textAlign: 'initial' }}>
-    <OutcomeGrid>
-      <div style={{ gridArea: '1 / 1 / 2 / 2' }}>
+    <IncomeGrid>
+    <div style={{ gridArea: '1 / 1 / 2 / 2' }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
@@ -33,21 +31,21 @@ export const Outcome = ({
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {outcome.description}
+          {income.description}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '2 / 1 / 3 / 2' }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          <strong>Purchase date:</strong>
+          <strong>Frequency:</strong>
         </Typography.Text>
       </div>
       <div style={{ gridArea: '2 / 2 / 3 / 3', textAlign: 'center' }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {formatViewDate(outcome.purchase_date)}
+          {capitalizeFirst(income.frequency || '')}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '3 / 1 / 4 / 2' }}>
@@ -61,53 +59,38 @@ export const Outcome = ({
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {formatCurrency(outcome.amount)}
+          {formatCurrency(income.amount)}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '4 / 1 / 5 / 2' }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          <strong>Payments:</strong>
+          <strong>Type:</strong>
         </Typography.Text>
       </div>
       <div style={{ gridArea: '4 / 2 / 5 / 3', textAlign: 'center' }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {outcome.quotas ? `${outcome.quotas} months` : 'N/A'}
+          {capitalizeFirst(income.transaction_type)}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '5 / 1 / 6 / 2' }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          <strong>Type:</strong>
+          <strong>Status:</strong>
         </Typography.Text>
       </div>
       <div style={{ gridArea: '5 / 2 / 6 / 3', textAlign: 'center' }}>
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {capitalizeFirst(outcome.transaction_type)}
-        </Typography.Text>
-      </div>
-      <div style={{ gridArea: '6 / 1 / 7 / 2' }}>
-        <Typography.Text style={{
-          ...theme.texts.brandSubFont
-        }}>
-          <strong>Status:</strong>
-        </Typography.Text>
-      </div>
-      <div style={{ gridArea: '6 / 2 / 7 / 3', textAlign: 'center' }}>
-        <Typography.Text style={{
-          ...theme.texts.brandSubFont
-        }}>
           Active
         </Typography.Text>
       </div>
-    </OutcomeGrid>
+    </IncomeGrid>
   </div>
-  <ActionButton onClick={onClick} />
-</OutcomeContainer>;
-
+  <ActionButton onClick={() => {}} />
+</IncomeContainer>;

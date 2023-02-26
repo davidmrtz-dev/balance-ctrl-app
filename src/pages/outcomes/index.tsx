@@ -3,28 +3,28 @@ import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
+import { useDebouncedState } from "../../hooks/useDebouncedState";
+import { TransactionUpdate as OutcomeUpdate } from "../../components/transactions";
 import Alert from "../../components/alert";
 import styled from "styled-components";
-import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Search from "./search";
-import { TransactionUpdate as OutcomeUpdate } from "../../components/transactions";
+import Title from "../../components/title";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
 `;
 
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
-  const [edit, setEdit] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const displayOutcomes = () => {
     if (type) {
@@ -39,11 +39,11 @@ const Outcomes = (): JSX.Element => {
       const data = await getOutcomes({ offset: 0, limit: 20 });
       setOutcomes(data.outcomes);
       setTimeout(() => setLoading(false), 1500);
-    } catch (err) {
+    } catch (err: any) {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: 'There was an error, please try again later'
+        text: err.error || 'There was an error, please try again later'
       }), 1000);
     }
   };
@@ -117,6 +117,7 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search]);
 
   return(<>
+    {Title('Outcomes')}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}

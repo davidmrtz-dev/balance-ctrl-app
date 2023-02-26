@@ -29,3 +29,7 @@ export const AppMainContainer = styled.div`
 `;
 
 export default LayoutContainer;
+
+export { TransactionContainer } from './TransactionContainer';
+export { NavigationContainer } from './NavigationContainer'
+
