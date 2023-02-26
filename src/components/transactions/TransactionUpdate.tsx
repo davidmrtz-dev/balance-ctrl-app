@@ -1,19 +1,19 @@
 import { Button, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { IOutcome } from "../../@types";
+import { IITransaction, IOutcome } from "../../@types";
 import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
 
 export const TransactionUpdate = ({
-  outcome,
+  transaction,
   open,
   closeModal,
   handleUpdate,
   handleDelete
 }: {
-  outcome: IOutcome;
+  transaction: IITransaction;
   open: boolean;
   closeModal: () => void;
   handleUpdate: (outcome: IOutcome) => Promise<void>;
@@ -60,9 +60,9 @@ export const TransactionUpdate = ({
   const handleSubmitDelete = async () => {
     setDeleting(true);
     try {
-      await deleteOutcome(outcome.id);
+      await deleteOutcome(transaction.id);
       setTimeout(async () => {
-        handleDelete && handleDelete(outcome.id);
+        handleDelete && handleDelete(transaction.id);
         setValues({} as IOutcome);
         setDeleting(false);
         closeModal();
@@ -87,8 +87,8 @@ export const TransactionUpdate = ({
   };
 
   useEffect(() => {
-    setValues(outcome);
-  }, [outcome]);
+    setValues(transaction);
+  }, [transaction]);
 
   const footerComponents = [
     <Button
@@ -157,7 +157,7 @@ export const TransactionUpdate = ({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > Update {outcome.transaction_type} outcome
+        > Update {transaction.transaction_type} outcome
         </Typography.Text>}
       style={{
         maxWidth: 360,

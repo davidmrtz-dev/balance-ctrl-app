@@ -137,7 +137,7 @@ const Outcomes = (): JSX.Element => {
         </OutcomesContainer>
     }
     <OutcomeUpdate
-      outcome={outcome}
+      transaction={outcome}
       open={edit}
       closeModal={handleEditClose}
       handleUpdate={handleUpdate}

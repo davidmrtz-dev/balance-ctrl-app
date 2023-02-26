@@ -10,4 +10,8 @@ export type {
   IIncomes,
   IIncome
 } from './IIncome';
-export type { ITransaction, TransactionType } from './ITransaction';
+export type {
+  ITransaction,
+  TransactionType,
+  IITransaction
+} from './ITransaction';
