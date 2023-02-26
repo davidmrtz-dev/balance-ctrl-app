@@ -8,23 +8,36 @@ import { TransactionUpdate as OutcomeUpdate } from "../../components/transaction
 import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
+import { Typography } from "antd";
+import { theme } from "../../Theme";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  height: 100%;
+  min-height: 100vh;
+`;
+
+const TitleWrapper = styled.div`
+  background-color: ${p => p.theme.colors.grays.light};
   width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 5px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 `;
 
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
-  const [edit, setEdit] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const displayOutcomes = () => {
     if (type) {
@@ -39,11 +52,11 @@ const Outcomes = (): JSX.Element => {
       const data = await getOutcomes({ offset: 0, limit: 20 });
       setOutcomes(data.outcomes);
       setTimeout(() => setLoading(false), 1500);
-    } catch (err) {
+    } catch (err: any) {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: 'There was an error, please try again later'
+        text: err.error || 'There was an error, please try again later'
       }), 1000);
     }
   };
@@ -117,6 +130,14 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search]);
 
   return(<>
+    <TitleWrapper>
+      <Typography.Text style={{
+        ...theme.texts.brandH5,
+        paddingLeft: 5
+      }}>
+        Outcomes
+      </Typography.Text>
+    </TitleWrapper>
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}

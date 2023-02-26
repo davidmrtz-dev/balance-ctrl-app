@@ -8,7 +8,7 @@ export const getOutcomes = async ({
 }: {
   offset: number;
   limit?: number;
-  type?: TransactionType
+  type?: TransactionType;
 }): Promise<IOutcomes> => {
   const route = type ? `/api/outcomes/${type}` : '/api/outcomes'
   const result = await Http.get(route, { limit, offset }, {
