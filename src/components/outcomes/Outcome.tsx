@@ -1,8 +1,7 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import styled from "styled-components";
 import { IOutcome } from "../../@types";
+import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
 
@@ -119,21 +118,6 @@ export const Outcome = ({
       </div>
     </OutcomeGrid>
   </div>
-  <ActionBtn onClick={onClick} />
+  <ActionButton onClick={onClick} />
 </OutcomeContainer>;
 
-const ActionBtn = ({
-  onClick
-}: {
-  onClick: () => void;
-}): JSX.Element => <FontAwesomeIcon
-  onClick={onClick}
-  style={{
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    cursor: 'pointer'
-  }}
-  color={theme.colors.blacks.normal}
-  icon={faEdit}
-/>

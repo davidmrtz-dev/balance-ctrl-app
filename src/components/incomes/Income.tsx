@@ -1,8 +1,9 @@
 import { Typography } from "antd";
 import styled from "styled-components";
 import { IIncome } from "../../@types";
+import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
-import { capitalizeFirst, formatCurrency, formatViewDate } from "../../utils";
+import { capitalizeFirst, formatCurrency } from "../../utils";
 
 const IncomeContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.light};
@@ -101,4 +102,5 @@ export const Income = ({
       </div>
     </IncomeGrid>
   </div>
+  <ActionButton onClick={() => {}} />
 </IncomeContainer>;
