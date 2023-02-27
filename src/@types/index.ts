@@ -1,5 +1,6 @@
 export type { IUser, Login } from './IUser';
 export type { IBalance } from './IBalance';
+export type { ITransaction, TransactionType } from './ITransaction';
 export type {
   IOutcome,
   IOutcomes,
@@ -8,5 +9,5 @@ export type {
 } from './IOutcome';
 export type {
   IIncome,
-  IIncomes,
+  IIncomes
 } from './IIncome';

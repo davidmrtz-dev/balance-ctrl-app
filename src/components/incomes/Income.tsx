@@ -1,6 +1,6 @@
 import { Typography } from "antd";
 import styled from "styled-components";
-import { ITransaction } from "../../@types";
+import { IIncome } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { capitalizeFirst, formatCurrency } from "../../utils";
@@ -16,7 +16,7 @@ const IncomeGrid = styled.div`
 export const Income = ({
   income
 }: {
-  income: ITransaction;
+  income: IIncome;
 }): JSX.Element => <IncomeContainer>
   <div style={{ textAlign: 'initial' }}>
     <IncomeGrid>

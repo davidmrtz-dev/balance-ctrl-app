@@ -5,6 +5,7 @@ import { Typography } from "antd";
 import { theme } from "../../Theme";
 import { ITransaction } from "../../@types";
 import { formatCurrency, formatViewDate } from "../../utils";
+import dayjs from "dayjs";
 
 const TransactionContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.light};
@@ -60,7 +61,7 @@ export const Transaction =({
         textAlign: 'center'
       }}
       >
-        {formatViewDate(item.purchase_date)}
+        {formatViewDate(item.purchase_date || dayjs().format('YYYY-MM-DD'))}
       </Typography>
       {item.quotas && <Typography style={{
         ...theme.texts.brandSubFont,

@@ -1,4 +1,4 @@
-export type OperationType = 'income' | 'outcome';
+type OperationType = 'income' | 'outcome';
 
 export type TransactionType = 'current' | 'fixed';
 
