@@ -12,11 +12,3 @@ export interface ITransaction {
   quotas?: number;
   frequency?: string;
 }
-
-export interface IIncome extends ITransaction {
-  operation_type: 'income';
-}
-
-export interface IOutcome extends ITransaction {
-  operation_type: 'outcome';
-}
