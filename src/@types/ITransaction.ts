@@ -15,6 +15,6 @@ export interface ICurrentTransaction extends IBaseTransaction {
   transaction_type: 'current'
 }
 
-export type ITransaction = IFixedTransaction | ICurrentTransaction; 
+export type ITransaction = IFixedTransaction | ICurrentTransaction;
 
 export type TransactionType = 'current' | 'fixed';

@@ -20,12 +20,9 @@ export const TransactionCreate = ({
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<ITransaction>({
-    purchase_date: dayjs().format('YYYY-MM-DD')
   } as ITransaction);
 
   const handleSubmit = async () => {
-    debugger;
-    
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
