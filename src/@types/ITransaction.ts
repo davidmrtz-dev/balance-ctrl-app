@@ -1,20 +1,22 @@
-export interface IBaseTransaction {
+export type OperationType = 'income' | 'outcome';
+
+export type TransactionType = 'current' | 'fixed';
+
+export interface ITransaction {
   id: number;
   amount: string;
   description: string;
-  purchase_date: string;
+  transaction_type: TransactionType;
+  operation_type : OperationType;
+  purchase_date?: string;
   quotas?: number;
   frequency?: string;
 }
 
-export interface IFixedTransaction extends IBaseTransaction {
-  transaction_type: 'fixed'
+export interface IIncome extends ITransaction {
+  operation_type: 'income';
 }
 
-export interface ICurrentTransaction extends IBaseTransaction {
-  transaction_type: 'current'
+export interface IOutcome extends ITransaction {
+  operation_type: 'outcome';
 }
-
-export type ITransaction = IFixedTransaction | ICurrentTransaction;
-
-export type TransactionType = 'current' | 'fixed';
