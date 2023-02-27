@@ -1,5 +1,4 @@
 import { Button, Modal, Typography } from "antd";
-import dayjs from "dayjs";
 import { useState } from "react";
 import { ITransaction, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
