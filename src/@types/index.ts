@@ -9,5 +9,5 @@ export type {
 } from './IOutcome';
 export type {
   IIncome,
-  IIncomes,
+  IIncomes
 } from './IIncome';
