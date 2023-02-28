@@ -8,7 +8,7 @@ import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
 import Title from "../../components/title";
-import { OutcomeUpdate } from "../../components/outcomes";
+import { OutcomeCreate, OutcomeUpdate } from "../../components/outcomes";
 import { newOutcome } from "../../generators/emptyObjects";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
@@ -20,6 +20,7 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
+  const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [outcome, setOutcome] = useState<IOutcome>(newOutcome('current'));
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
@@ -137,6 +138,9 @@ const Outcomes = (): JSX.Element => {
           )}
         </OutcomesContainer>
     }
+    {/* <OutcomeCreate
+      open={showNew}
+    /> */}
     <OutcomeUpdate
       outcome={outcome}
       open={showUpdate}
