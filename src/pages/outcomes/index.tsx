@@ -83,6 +83,12 @@ const Outcomes = (): JSX.Element => {
     setOutcome(newOutcome('current'));
   };
 
+  const handleCreate = async (outcome: IOutcome) => {
+    if (outcomes.length) {
+      setOutcomes(outcomes => [outcome, ...outcomes]);
+    }
+  };
+
   const handleUpdate = async (outcome: IOutcome) => {
     if (outcomes.length) {
       const updatedOutcomes = outcomes.map(out => {
@@ -152,10 +158,10 @@ const Outcomes = (): JSX.Element => {
         </OutcomesContainer>
     }
     {selectedType && (<OutcomeCreate
-      open={Boolean(showNew && selectedType)}
+      open={showNew}
       type={selectedType}
       closeModal={handleAddClose}
-      handleCreate={async () => {}}
+      handleCreate={handleCreate}
     />)}
     <OutcomeUpdate
       outcome={outcome}
