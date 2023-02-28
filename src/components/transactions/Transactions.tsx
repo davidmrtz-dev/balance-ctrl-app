@@ -1,11 +1,22 @@
 import { Button, Collapse, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, ITransaction, IOutcome } from "../../@types";
+import {
+  IOutcome,
+  IOutcomes,
+  OutcomesPagination,
+  OutcomesHash,
+  TransactionType
+} from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
+import {
+  Transaction,
+  TransactionCreate,
+  TransactionNav,
+  TransactionUpdate
+} from ".";
 import { theme } from "../../Theme";
 const { Panel } = Collapse;
 
