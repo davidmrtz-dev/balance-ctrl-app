@@ -50,7 +50,7 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const [outcome, setOutcome] = useState<ITransaction>({} as ITransaction);
+  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
@@ -70,14 +70,14 @@ export const Transactions = ({
     }
   }, [loading, page, pages, type]);
 
-  const handleTransactionClick = (outcome: ITransaction) => {
+  const handleTransactionClick = (outcome: IOutcome) => {
     setShowUpdate(true);
     setOutcome(outcome);
   };
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
-    setOutcome({} as ITransaction);
+    setOutcome({} as IOutcome);
   };
 
   const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
