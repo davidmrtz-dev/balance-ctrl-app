@@ -1,5 +1,5 @@
 export { OutcomesNavigation } from './OutcomesNavigation';
 export { Outcomes } from './Outcomes';
 export { Outcome } from './Outcome';
-export { TransactionCreate } from './TransactionCreate';
+export { OutcomeCreate } from './OutcomeCreate';
 export { TransactionUpdate } from './TransactionUpdate';

@@ -7,7 +7,7 @@ import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
 import { newOutcome } from '../../generators/emptyObjects/index';
 
-export const TransactionCreate = ({
+export const OutcomeCreate = ({
   open,
   type,
   closeModal,
