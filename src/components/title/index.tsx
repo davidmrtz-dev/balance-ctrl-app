@@ -1,5 +1,7 @@
 import { Button, Popover, Typography } from "antd";
+import { useState } from "react";
 import styled from "styled-components"
+import { TransactionType } from "../../@types";
 import { theme } from "../../Theme";
 
 const TitleWrapper = styled.div`
@@ -14,40 +16,59 @@ const TitleWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const TypeOptions = (
-  <div style={{
-    display: 'flex',
-    flexDirection: 'column'
-  }}>
-    <Button style={{
-      ...theme.texts.brandSubFont,
-      marginBottom: 5
-    }}>
-      Current
-    </Button>
-    <Button style={{
-      ...theme.texts.brandSubFont
-    }}>
-      Fixed
-    </Button>
-  </div>
-);
+const Title = (text: string, setType: (type: TransactionType) => void): JSX.Element => {
+  const [open, setOpen] = useState(false);
 
-const Title = (text: string): JSX.Element => <TitleWrapper>
-  <Typography.Text style={{
-    ...theme.texts.brandH5,
-    paddingLeft: 5
-  }}>
-    {text}
-  </Typography.Text>
-  <Popover
-    content={TypeOptions}
-    title={`${text.slice(0, -1)} type`}
-    trigger="click"
-    overlayStyle={{ width: 150 }}
-  >
-    <Button style={{ width: 46 }}>+</Button>
-  </Popover>
-</TitleWrapper>;
+  return(<TitleWrapper>
+    <Typography.Text style={{
+      ...theme.texts.brandH5,
+      paddingLeft: 5
+    }}>
+      {text}
+    </Typography.Text>
+    <Popover
+      open={open}
+      content={<div style={{
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        <Button style={{
+          ...theme.texts.brandSubFont,
+          marginBottom: 5
+        }}
+        onClick={() => {
+          setType('current');
+          setOpen(false);
+        }}
+        >
+          Current
+        </Button>
+        <Button style={{
+          ...theme.texts.brandSubFont
+        }}
+        onClick={() => {
+          setType('fixed');
+          setOpen(false);
+        }}
+        >
+          Fixed
+        </Button>
+      </div>}
+      title={`${text.slice(0, -1)} type`}
+      trigger="click"
+      overlayStyle={{ width: 150 }}
+    >
+      <Button
+        style={{
+          ...theme.texts.brandSubFont,
+          width: 46
+        }}
+        onClick={() => setOpen(!open)}
+        >
+          +
+        </Button>
+    </Popover>
+  </TitleWrapper>);
+};
 
 export default Title;
