@@ -13,7 +13,7 @@ import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import {
   Outcome,
-  TransactionCreate,
+  OutcomeCreate,
   OutcomesNavigation,
   TransactionUpdate
 } from ".";
@@ -184,7 +184,7 @@ export const Outcomes = ({
           />
         </Panel>
       </Collapse>
-      <TransactionCreate
+      <OutcomeCreate
         open={showNew}
         type={type}
         closeModal={() => setShowNew(false)}
