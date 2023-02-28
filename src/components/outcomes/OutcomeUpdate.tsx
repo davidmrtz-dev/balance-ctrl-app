@@ -169,7 +169,7 @@ export const OutcomeUpdate = <T,>({
       footer={footerComponents}
     >
       <OutcomeForm
-        values={values as any}
+        values={values as IOutcome}
         setValues={setValues}
       />
     </Modal>

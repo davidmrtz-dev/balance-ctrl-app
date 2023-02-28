@@ -8,6 +8,8 @@ import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
 import Title from "../../components/title";
+import { OutcomeCreate, OutcomeUpdate } from "../../components/outcomes";
+import { newOutcome } from "../../generators/emptyObjects";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -18,8 +20,10 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
+  const [showNew, setShowNew] = useState(false);
+  const [selectedType, setSelectedType] = useState<TransactionType>('' as TransactionType);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [outcome, setOutcome] = useState<IOutcome>(newOutcome('current'));
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
@@ -70,13 +74,19 @@ const Outcomes = (): JSX.Element => {
   }, []);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
-    setEdit(true);
+    setShowUpdate(true);
     setOutcome(outcome);
   };
 
-  const handleEditClose = () => {
-    setEdit(false);
-    setOutcome({} as IOutcome);
+  const handleUpdateClose = () => {
+    setShowUpdate(false);
+    setOutcome(newOutcome('current'));
+  };
+
+  const handleCreate = async (outcome: IOutcome) => {
+    if (outcomes.length) {
+      setOutcomes(outcomes => [outcome, ...outcomes]);
+    }
   };
 
   const handleUpdate = async (outcome: IOutcome) => {
@@ -115,8 +125,20 @@ const Outcomes = (): JSX.Element => {
     }
   }, [searchTerm, dates, search]);
 
+  const handleAddOpen = (type: TransactionType) => {
+    setSelectedType(type);
+    setShowNew(true);
+  };
+
+  const handleAddClose = () => {
+    setShowNew(false);
+    setTimeout(
+      () => setSelectedType('' as TransactionType), 500
+    );
+  };
+
   return(<>
-    {Title('Outcomes')}
+    {Title('Outcomes', handleAddOpen)}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}
@@ -135,6 +157,20 @@ const Outcomes = (): JSX.Element => {
           )}
         </OutcomesContainer>
     }
+    {selectedType && (<OutcomeCreate
+      open={showNew}
+      type={selectedType}
+      closeModal={handleAddClose}
+      handleCreate={handleCreate}
+    />)}
+    <OutcomeUpdate
+      outcome={outcome}
+      open={showUpdate}
+      type={outcome.transaction_type}
+      closeModal={handleUpdateClose}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />
   </>);
 };
 

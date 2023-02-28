@@ -16,7 +16,7 @@ export const OutcomeCreate = ({
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleCreate: () => Promise<void>;
+  handleCreate: (outcome: IOutcome) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcome>(newOutcome(type));
@@ -33,11 +33,11 @@ export const OutcomeCreate = ({
     setLoading(true);
 
     try {
-      await createOutcome({
+      const outcome = await createOutcome({
         ...values
       } as IOutcome);
       setTimeout(async () => {
-        await handleCreate();
+        await handleCreate(outcome);
         setValues(newOutcome(type));
         setLoading(false);
         closeModal();

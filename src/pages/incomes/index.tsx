@@ -41,7 +41,7 @@ const Incomes = (): JSX.Element => {
   }, [loading]);
 
   return(<>
-    {Title('Incomes')}
+    {/* {Title('Incomes')} */}
     {loading
       ? <LoadingMask fixed />
       : (<IncomesContainer reveal={reveal}>
