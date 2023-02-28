@@ -42,7 +42,7 @@ const PanelWrapper = styled.div`
   justify-content: center;
 `;
 
-export const Transactions = ({
+export const Outcomes = ({
   category,
   type,
   fetchData,
