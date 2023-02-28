@@ -109,6 +109,18 @@ const Outcomes = (): JSX.Element => {
     }
   };
 
+  const handleAddOpen = (type: TransactionType) => {
+    setSelectedType(type);
+    setShowNew(true);
+  };
+
+  const handleAddClose = () => {
+    setShowNew(false);
+    setTimeout(
+      () => setSelectedType('' as TransactionType), 500
+    );
+  };
+
   useEffect(() => {
     fetchOutcomes();
   }, []);
@@ -124,18 +136,6 @@ const Outcomes = (): JSX.Element => {
       fetchOutcomes();
     }
   }, [searchTerm, dates, search]);
-
-  const handleAddOpen = (type: TransactionType) => {
-    setSelectedType(type);
-    setShowNew(true);
-  };
-
-  const handleAddClose = () => {
-    setShowNew(false);
-    setTimeout(
-      () => setSelectedType('' as TransactionType), 500
-    );
-  };
 
   return(<>
     {Title('Outcomes', handleAddOpen)}

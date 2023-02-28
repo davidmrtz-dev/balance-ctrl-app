@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IIncome } from "../../@types";
+import { IIncome, TransactionType } from "../../@types";
 import { getIncomes } from "../../api/core/Income";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
@@ -17,6 +17,8 @@ const Incomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [incomes, setIncomes] = useState<IIncome []>([]);
+  const [selectedType, setSelectedType] = useState<TransactionType>('' as TransactionType);
+  const [showNew, setShowNew] = useState(false);
 
   const fetchIncomes = async () => {
     try {
@@ -32,6 +34,18 @@ const Incomes = (): JSX.Element => {
     }
   };
 
+  const handleAddOpen = (type: TransactionType) => {
+    setSelectedType(type);
+    setShowNew(true);
+  };
+
+  const handleAddClose = () => {
+    setShowNew(false);
+    setTimeout(
+      () => setSelectedType('' as TransactionType), 500
+    );
+  };
+
   useEffect(() => {
     fetchIncomes();
   }, []);
@@ -41,7 +55,7 @@ const Incomes = (): JSX.Element => {
   }, [loading]);
 
   return(<>
-    {/* {Title('Incomes')} */}
+    {Title('Incomes', handleAddOpen)}
     {loading
       ? <LoadingMask fixed />
       : (<IncomesContainer reveal={reveal}>
