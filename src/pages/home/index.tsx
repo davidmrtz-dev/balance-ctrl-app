@@ -9,7 +9,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 import styled from "styled-components";
 import Alert from "../../components/alert";
-import { Outcomes } from "../../components/transactions";
+import { Outcomes } from "../../components/dashboard/transactions";
 
 const HeaderContainer = styled.div`
   display: grid;

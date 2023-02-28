@@ -1,10 +1,10 @@
 import { Button, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
-import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
-import { newOutcome } from "../../generators/emptyObjects";
-import { theme } from "../../Theme";
-import Alert from "../alert";
+import { IOutcome, TransactionType } from "../../../@types";
+import { deleteOutcome, updateOutcome } from "../../../api/core/Outcome";
+import { newOutcome } from "../../../generators/emptyObjects";
+import { theme } from "../../../Theme";
+import Alert from "../../alert";
 import { OutcomeForm } from "./OutcomeForm";
 
 export const OutcomeUpdate = <T,>({

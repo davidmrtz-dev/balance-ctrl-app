@@ -7,17 +7,17 @@ import {
   OutcomesPagination,
   OutcomesHash,
   TransactionType
-} from "../../@types";
-import { LoadingMask } from "../../atoms/LoadingMask";
-import Alert from "../alert";
-import { LoadingWrapper } from "../containers";
+} from "../../../@types";
+import { LoadingMask } from "../../../atoms/LoadingMask";
+import Alert from "../../alert";
+import { LoadingWrapper } from "../../containers";
 import {
   Outcome,
   OutcomeCreate,
   OutcomesNavigation,
   OutcomeUpdate
 } from ".";
-import { theme } from "../../Theme";
+import { theme } from "../../../Theme";
 const { Panel } = Collapse;
 
 type BtnStatus = {

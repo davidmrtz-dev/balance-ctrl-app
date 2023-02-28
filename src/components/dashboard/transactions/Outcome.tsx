@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { faEdit, faMoneyBill1Wave, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
-import { theme } from "../../Theme";
-import { IOutcome } from "../../@types";
-import { formatCurrency, formatViewDate } from "../../utils";
+import { theme } from "../../../Theme";
+import { IOutcome } from "../../../@types";
+import { formatCurrency, formatViewDate } from "../../../utils";
 import dayjs from "dayjs";
 
 const OutcomeContainer = styled.div`
