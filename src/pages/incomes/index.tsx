@@ -6,7 +6,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
 import { Income } from "../../components/incomes";
 import Title from "../../components/title";
-import { TransactionUpdate as IncomeUpdate } from "../../components/transactions";
+// import { TransactionUpdate as IncomeUpdate } from "../../components/transactions";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
