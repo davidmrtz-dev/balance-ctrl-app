@@ -50,7 +50,7 @@ const Incomes = (): JSX.Element => {
         <Income key={income.id} income={income} />
       )}
     </IncomesContainer>)}
-    {/* <IncomeUpdate 
+    {/* <IncomeUpdate
 
     /> */}
   </>);
