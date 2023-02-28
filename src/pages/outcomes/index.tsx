@@ -152,7 +152,7 @@ const Outcomes = (): JSX.Element => {
         </OutcomesContainer>
     }
     {selectedType && (<OutcomeCreate
-      open={Boolean(showNew && selectedType)}
+      open={showNew}
       type={selectedType}
       closeModal={handleAddClose}
       handleCreate={async () => {}}
