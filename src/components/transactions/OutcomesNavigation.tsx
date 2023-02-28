@@ -21,7 +21,7 @@ const CurrentWrapper = styled.div`
   border-radius: 10px;
 `;
 
-export const Navigation = ({
+export const OutcomesNavigation = ({
   currentPage,
   leftClick,
   rightClick,

@@ -1,4 +1,4 @@
-export { Navigation as TransactionNav } from './Navigation';
+export { OutcomesNavigation } from './OutcomesNavigation';
 export { Outcomes } from './Outcomes';
 export { Transaction } from './Transaction';
 export { TransactionCreate } from './TransactionCreate';
