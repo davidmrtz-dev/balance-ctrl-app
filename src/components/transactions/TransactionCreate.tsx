@@ -1,10 +1,11 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
-import { IOutcome, ITransaction, TransactionType } from "../../@types";
+import { IOutcome, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
+import { newOutcome } from '../../generators/emptyObjects/index';
 
 export const TransactionCreate = ({
   open,
@@ -18,8 +19,7 @@ export const TransactionCreate = ({
   handleCreate: () => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<ITransaction>({
-  } as ITransaction);
+  const [values, setValues] = useState<IOutcome>(newOutcome(type));
 
   const handleSubmit = async () => {
     if (Object.values(values).some(val => val === '')) {
@@ -38,7 +38,7 @@ export const TransactionCreate = ({
       } as IOutcome);
       setTimeout(async () => {
         await handleCreate();
-        setValues({} as ITransaction);
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -49,7 +49,7 @@ export const TransactionCreate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues({} as ITransaction);
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -57,7 +57,7 @@ export const TransactionCreate = ({
   };
 
   const handleCancel = () => {
-    setValues({} as ITransaction);
+    setValues(newOutcome(type));
     closeModal();
   };
 
