@@ -1,12 +1,12 @@
 import { Button, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { ITransaction } from "../../@types";
+import { IOutcome, ITransaction } from "../../@types";
 import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
 
-export const TransactionUpdate = ({
+export const TransactionUpdate = <T,>({
   transaction,
   open,
   closeModal,
@@ -16,7 +16,7 @@ export const TransactionUpdate = ({
   transaction: ITransaction;
   open: boolean;
   closeModal: () => void;
-  handleUpdate: (outcome: ITransaction) => Promise<void>;
+  handleUpdate: (outcome: T) => Promise<void>;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
@@ -36,9 +36,9 @@ export const TransactionUpdate = ({
     try {
       const outcome = await updateOutcome({
         ...values
-      });
+      } as IOutcome);
       setTimeout(async () => {
-        await handleUpdate(outcome);
+        await handleUpdate(outcome as T);
         setValues({} as ITransaction);
         setLoading(false);
         closeModal();

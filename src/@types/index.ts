@@ -1,14 +1,13 @@
 export type { IUser, Login } from './IUser';
 export type { IBalance } from './IBalance';
+export type { ITransaction, TransactionType } from './ITransaction';
 export type {
+  IOutcome,
   IOutcomes,
-  OutcomesPagination,
-  OutcomesHash
+  OutcomesHash,
+  OutcomesPagination
 } from './IOutcome';
 export type {
-  IIncomes,
+  IIncome,
+  IIncomes
 } from './IIncome';
-export type {
-  ITransaction,
-  TransactionType
-} from './ITransaction';
