@@ -1,20 +1,23 @@
 import { Button, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { IOutcome, ITransaction } from "../../@types";
+import { IOutcome, TransactionType } from "../../@types";
 import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
+import { newOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
 
 export const TransactionUpdate = <T,>({
-  transaction,
+  outcome,
   open,
+  type,
   closeModal,
   handleUpdate,
   handleDelete
 }: {
-  transaction: ITransaction;
+  outcome: IOutcome;
   open: boolean;
+  type: TransactionType;
   closeModal: () => void;
   handleUpdate: (outcome: T) => Promise<void>;
   handleDelete?: (id: number) => void;
@@ -22,7 +25,7 @@ export const TransactionUpdate = <T,>({
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [values, setValues] = useState<ITransaction>({} as ITransaction);
+  const [values, setValues] = useState<IOutcome>(newOutcome(type));
 
   const handleSubmitUpdate = useCallback(async () => {
     if (Object.values(values).some(val => val === '')) {
@@ -39,7 +42,7 @@ export const TransactionUpdate = <T,>({
       } as IOutcome);
       setTimeout(async () => {
         await handleUpdate(outcome as T);
-        setValues({} as ITransaction);
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
@@ -50,20 +53,20 @@ export const TransactionUpdate = <T,>({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues({} as ITransaction);
+        setValues(newOutcome(type));
         setLoading(false);
         closeModal();
       }, 1000);
     }
-  }, [closeModal, handleUpdate, values]);
+  }, [closeModal, handleUpdate, values, type]);
 
   const handleSubmitDelete = async () => {
     setDeleting(true);
     try {
-      await deleteOutcome(transaction.id);
+      await deleteOutcome(outcome.id);
       setTimeout(async () => {
-        handleDelete && handleDelete(transaction.id);
-        setValues({} as ITransaction);
+        handleDelete && handleDelete(outcome.id);
+        setValues(newOutcome(type));
         setDeleting(false);
         closeModal();
       }, 1000);
@@ -74,7 +77,7 @@ export const TransactionUpdate = <T,>({
           icon: 'error',
           text: (error || 'There was an error, please try again.'),
         });
-        setValues({} as ITransaction);
+        setValues(newOutcome(type));
         setDeleting(false);
         closeModal();
       }, 1000);
@@ -82,13 +85,13 @@ export const TransactionUpdate = <T,>({
   };
 
   const handleCancel = () => {
-    setValues({} as ITransaction);
+    setValues(newOutcome(type));
     closeModal();
   };
 
   useEffect(() => {
-    setValues(transaction);
-  }, [transaction]);
+    setValues(outcome);
+  }, [outcome]);
 
   const footerComponents = [
     <Button
@@ -157,7 +160,7 @@ export const TransactionUpdate = <T,>({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > Update {transaction.transaction_type} outcome
+        > Update {outcome.transaction_type} outcome
         </Typography.Text>}
       style={{
         maxWidth: 360,
