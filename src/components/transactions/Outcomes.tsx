@@ -12,7 +12,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
 import {
-  Transaction,
+  Outcome,
   TransactionCreate,
   OutcomesNavigation,
   TransactionUpdate
@@ -166,7 +166,7 @@ export const Outcomes = ({
                 </LoadingWrapper>)
               : (<OutcomesContainer reveal={reveal} >
                   {(outcomes[page] || []).map(outcome =>
-                    <Transaction
+                    <Outcome
                       key={outcome.id}
                       item={outcome}
                       onClick={() => handleOutcomeClick(outcome)}
