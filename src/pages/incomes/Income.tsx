@@ -4,7 +4,7 @@ import { IIncome } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { capitalizeFirst, formatCurrency } from "../../utils";
-import { TransactionContainer as IncomeContainer } from "../containers";
+import { TransactionContainer as IncomeContainer } from "../../components/containers";
 
 const IncomeGrid = styled.div`
   display: grid;
