@@ -106,11 +106,10 @@ export const Outcomes = ({
     }
   }, [fetchData, outcomes, type]);
 
-  const handleCreate = useCallback(async () => {
+  const handleCreate = useCallback(async (_outcome: IOutcome) => {
     await fetchOutcomes(page, (page * 5) - 5);
     await updateBalance();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchOutcomes, updateBalance, page]);
 
   const handleUpdate = useCallback(async (outcome: IOutcome) => {
     if (outcomes && outcomes[page].length) {
