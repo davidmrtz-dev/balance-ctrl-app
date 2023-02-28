@@ -8,6 +8,8 @@ import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
 import Title from "../../components/title";
+import { OutcomeUpdate } from "../../components/outcomes";
+import { newOutcome } from "../../generators/emptyObjects";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -18,8 +20,8 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [outcome, setOutcome] = useState<IOutcome>(newOutcome('current'));
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
@@ -70,13 +72,13 @@ const Outcomes = (): JSX.Element => {
   }, []);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
-    setEdit(true);
+    setShowUpdate(true);
     setOutcome(outcome);
   };
 
-  const handleEditClose = () => {
-    setEdit(false);
-    setOutcome({} as IOutcome);
+  const handleUpdateClose = () => {
+    setShowUpdate(false);
+    setOutcome(newOutcome('current'));
   };
 
   const handleUpdate = async (outcome: IOutcome) => {
@@ -135,6 +137,14 @@ const Outcomes = (): JSX.Element => {
           )}
         </OutcomesContainer>
     }
+    <OutcomeUpdate
+      outcome={outcome}
+      open={showUpdate}
+      type={outcome.transaction_type}
+      closeModal={handleUpdateClose}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />
   </>);
 };
 
