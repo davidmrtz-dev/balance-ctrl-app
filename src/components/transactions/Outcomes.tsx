@@ -14,7 +14,7 @@ import { LoadingWrapper } from "../containers";
 import {
   Transaction,
   TransactionCreate,
-  TransactionNav,
+  OutcomesNavigation,
   TransactionUpdate
 } from ".";
 import { theme } from "../../Theme";
@@ -175,7 +175,7 @@ export const Outcomes = ({
               )
             }
           </PanelWrapper>
-          <TransactionNav
+          <OutcomesNavigation
             leftClick={handleLeftClick}
             rightClick={handleRightClick}
             leftDisabled={disableBtns.left}
