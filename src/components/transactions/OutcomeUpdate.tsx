@@ -7,7 +7,7 @@ import { theme } from "../../Theme";
 import Alert from "../alert";
 import { TransactionForm } from "./TransactionForm";
 
-export const TransactionUpdate = <T,>({
+export const OutcomeUpdate = <T,>({
   outcome,
   open,
   type,
