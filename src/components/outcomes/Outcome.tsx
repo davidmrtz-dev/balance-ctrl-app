@@ -1,6 +1,7 @@
 import { Typography } from "antd";
+import dayjs from "dayjs";
 import styled from "styled-components";
-import { ITransaction } from "../../@types";
+import { IOutcome } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
@@ -17,7 +18,7 @@ export const Outcome = ({
   outcome,
   onClick
 }: {
-  outcome: ITransaction;
+  outcome: IOutcome;
   onClick: () => void;
 }): JSX.Element => <OutcomeContainer>
   <div style={{ textAlign: 'initial' }}>
@@ -47,7 +48,7 @@ export const Outcome = ({
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {formatViewDate(outcome.purchase_date)}
+          {formatViewDate(outcome.purchase_date || dayjs().format('YYYY-MM-DD'))}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '3 / 1 / 4 / 2' }}>
