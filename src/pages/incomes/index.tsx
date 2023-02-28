@@ -4,7 +4,7 @@ import { IIncome } from "../../@types";
 import { getIncomes } from "../../api/core/Income";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
-import { Income } from "../../components/incomes";
+import { Income } from "./Income";
 import Title from "../../components/title";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
