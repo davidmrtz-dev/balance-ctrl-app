@@ -7,17 +7,17 @@ import {
   OutcomesPagination,
   OutcomesHash,
   TransactionType
-} from "../../@types";
-import { LoadingMask } from "../../atoms/LoadingMask";
-import Alert from "../alert";
-import { LoadingWrapper } from "../containers";
+} from "../../../@types";
+import { LoadingMask } from "../../../atoms/LoadingMask";
+import Alert from "../../alert";
+import { LoadingWrapper } from "../../containers";
 import {
-  Transaction,
-  TransactionCreate,
-  TransactionNav,
-  TransactionUpdate
+  Outcome,
+  OutcomeCreate,
+  OutcomesNavigation,
+  OutcomeUpdate
 } from ".";
-import { theme } from "../../Theme";
+import { theme } from "../../../Theme";
 const { Panel } = Collapse;
 
 type BtnStatus = {
@@ -25,7 +25,7 @@ type BtnStatus = {
   right: boolean;
 };
 
-const TransactionsContainer = styled.div<{
+const OutcomesContainer = styled.div<{
   reveal: boolean;
 }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -42,7 +42,7 @@ const PanelWrapper = styled.div`
   justify-content: center;
 `;
 
-export const Transactions = ({
+export const Outcomes = ({
   category,
   type,
   fetchData,
@@ -81,7 +81,7 @@ export const Transactions = ({
     }
   }, [loading, page, pages, type]);
 
-  const handleTransactionClick = (outcome: IOutcome) => {
+  const handleOutcomeClick = (outcome: IOutcome) => {
     setShowUpdate(true);
     setOutcome(outcome);
   };
@@ -149,7 +149,7 @@ export const Transactions = ({
         defaultActiveKey={category}
         collapsible='disabled'
         expandIcon={() =>
-          <AddTransaction
+          <AddOutcome
             disabled={!disableBtns.left || (disableBtns.left && disableBtns.right)}
             onClick={() => setShowNew(true)}
           />
@@ -164,18 +164,18 @@ export const Transactions = ({
               ? (<LoadingWrapper height='450px'>
                   <LoadingMask />
                 </LoadingWrapper>)
-              : (<TransactionsContainer reveal={reveal} >
-                  {(outcomes[page] || []).map(transaction =>
-                    <Transaction
-                      key={transaction.id}
-                      item={transaction}
-                      onClick={() => handleTransactionClick(transaction)}
+              : (<OutcomesContainer reveal={reveal} >
+                  {(outcomes[page] || []).map(outcome =>
+                    <Outcome
+                      key={outcome.id}
+                      item={outcome}
+                      onClick={() => handleOutcomeClick(outcome)}
                     />)}
-                </TransactionsContainer>
+                </OutcomesContainer>
               )
             }
           </PanelWrapper>
-          <TransactionNav
+          <OutcomesNavigation
             leftClick={handleLeftClick}
             rightClick={handleRightClick}
             leftDisabled={disableBtns.left}
@@ -184,13 +184,13 @@ export const Transactions = ({
           />
         </Panel>
       </Collapse>
-      <TransactionCreate
+      <OutcomeCreate
         open={showNew}
         type={type}
         closeModal={() => setShowNew(false)}
         handleCreate={handleCreate}
       />
-      <TransactionUpdate
+      <OutcomeUpdate
         outcome={outcome}
         open={showUpdate}
         type={type}
@@ -201,7 +201,7 @@ export const Transactions = ({
   );
 };
 
-const AddTransaction = ({
+const AddOutcome = ({
   disabled,
   onClick
 }: {

@@ -1,13 +1,13 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
-import { createOutcome } from "../../api/core/Outcome";
-import { theme } from "../../Theme";
-import Alert from "../alert";
-import { TransactionForm } from "./TransactionForm";
-import { newOutcome } from '../../generators/emptyObjects/index';
+import { IOutcome, TransactionType } from "../../../@types";
+import { createOutcome } from "../../../api/core/Outcome";
+import { theme } from "../../../Theme";
+import Alert from "../../alert";
+import { OutcomeForm } from "./OutcomeForm";
+import { newOutcome } from '../../../generators/emptyObjects/index';
 
-export const TransactionCreate = ({
+export const OutcomeCreate = ({
   open,
   type,
   closeModal,
@@ -89,7 +89,7 @@ export const TransactionCreate = ({
         </Button>
       ]}
     >
-      <TransactionForm
+      <OutcomeForm
         values={values}
         setValues={setValues}
       />

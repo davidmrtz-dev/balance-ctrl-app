@@ -5,11 +5,11 @@ import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getOutcomes } from "../../api/core/Outcome";
 import { HeaderCard } from "../../components/dashboard";
-import { Transactions } from "../../components/transactions";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 import styled from "styled-components";
 import Alert from "../../components/alert";
+import { Outcomes } from "../../components/dashboard/outcomes";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -75,13 +75,13 @@ const Home = (): JSX.Element => {
         <HeaderCard concept='Balance' variation='data' value={balance?.current_amount || '0'} loading={loading} />
         <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
       </HeaderContainer>
-      <Transactions
+      <Outcomes
         fetchData={fetchOutcomes}
         updateBalance={fetchBalance}
         category='Recent Outcomes'
         type='current'
       />
-      <Transactions
+      <Outcomes
         fetchData={fetchOutcomes}
         updateBalance={fetchBalance}
         category='Recurring Outcomes'

@@ -1,13 +1,13 @@
 import { Button, Modal, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
-import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
-import { newOutcome } from "../../generators/emptyObjects";
-import { theme } from "../../Theme";
-import Alert from "../alert";
-import { TransactionForm } from "./TransactionForm";
+import { IOutcome, TransactionType } from "../../../@types";
+import { deleteOutcome, updateOutcome } from "../../../api/core/Outcome";
+import { newOutcome } from "../../../generators/emptyObjects";
+import { theme } from "../../../Theme";
+import Alert from "../../alert";
+import { OutcomeForm } from "./OutcomeForm";
 
-export const TransactionUpdate = <T,>({
+export const OutcomeUpdate = <T,>({
   outcome,
   open,
   type,
@@ -168,12 +168,10 @@ export const TransactionUpdate = <T,>({
       }}
       footer={footerComponents}
     >
-      <>
-        <TransactionForm
-          values={values as any}
-          setValues={setValues}
-        />
-      </>
+      <OutcomeForm
+        values={values as any}
+        setValues={setValues}
+      />
     </Modal>
   );
 };

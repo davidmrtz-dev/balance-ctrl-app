@@ -1,8 +1,8 @@
 import { Form, Input, InputNumber, Select, Typography } from "antd";
-import { IOutcome } from "../../@types";
-import { theme } from "../../Theme";
+import { IOutcome } from "../../../@types";
+import { theme } from "../../../Theme";
 
-export const TransactionForm = ({
+export const OutcomeForm = ({
   values,
   setValues
 }: {
@@ -13,7 +13,7 @@ export const TransactionForm = ({
 
   return (
     <Form
-      name='new-transaction'
+      name='outcome-form'
       form={form}
       layout='vertical'
       initialValues={values}
