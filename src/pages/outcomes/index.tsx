@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
-import { Outcome } from "../../components/outcomes";
+import { Outcome } from "./Outcome";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Alert from "../../components/alert";
 import styled from "styled-components";
