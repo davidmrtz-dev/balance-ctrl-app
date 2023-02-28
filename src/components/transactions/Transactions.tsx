@@ -191,8 +191,9 @@ export const Transactions = ({
         handleCreate={handleCreate}
       />
       <TransactionUpdate
-        transaction={outcome}
+        outcome={outcome}
         open={showUpdate}
+        type={type}
         closeModal={handleCloseUpdate}
         handleUpdate={handleUpdate}
       />

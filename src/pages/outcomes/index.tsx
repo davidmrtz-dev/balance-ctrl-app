@@ -4,7 +4,6 @@ import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "../../components/outcomes";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
-import { TransactionUpdate as OutcomeUpdate } from "../../components/transactions";
 import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
@@ -136,13 +135,6 @@ const Outcomes = (): JSX.Element => {
           )}
         </OutcomesContainer>
     }
-    <OutcomeUpdate
-      transaction={outcome}
-      open={edit}
-      closeModal={handleEditClose}
-      handleUpdate={handleUpdate}
-      handleDelete={handleDelete}
-    />
   </>);
 };
 
