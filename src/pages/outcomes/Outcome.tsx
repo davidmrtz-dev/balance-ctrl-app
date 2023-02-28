@@ -5,7 +5,7 @@ import { IOutcome } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
-import { TransactionContainer as OutcomeContainer } from "../containers";
+import { TransactionContainer as OutcomeContainer } from "../../components/containers";
 
 const OutcomeGrid = styled.div`
   display: grid;
