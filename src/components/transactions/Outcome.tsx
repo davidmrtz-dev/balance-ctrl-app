@@ -3,11 +3,11 @@ import { faEdit, faMoneyBill1Wave, faRepeat } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../Theme";
-import { ITransaction } from "../../@types";
+import { IOutcome } from "../../@types";
 import { formatCurrency, formatViewDate } from "../../utils";
 import dayjs from "dayjs";
 
-const TransactionContainer = styled.div`
+const OutcomeContainer = styled.div`
   background-color: ${p => p.theme.colors.grays.light};
   display: flex;
   align-items: center;
@@ -18,14 +18,14 @@ const TransactionContainer = styled.div`
   cursor: default;
 `;
 
-export const Transaction =({
+export const Outcome =({
   item,
   onClick
 }: {
-  item: ITransaction,
+  item: IOutcome,
   onClick: () => void;
 }): JSX.Element => {
-  return (<TransactionContainer>
+  return (<OutcomeContainer>
     <div style={{
       flex: 2,
       display: 'flex',
@@ -94,5 +94,5 @@ export const Transaction =({
         {formatCurrency(item.amount)}
       </Typography>
     </div>
-  </TransactionContainer>);
+  </OutcomeContainer>);
 };
