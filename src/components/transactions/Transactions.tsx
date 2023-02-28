@@ -1,11 +1,22 @@
 import { Button, Collapse, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, ITransaction, IOutcome } from "../../@types";
+import {
+  IOutcome,
+  IOutcomes,
+  OutcomesPagination,
+  OutcomesHash,
+  TransactionType
+} from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
-import { Transaction, TransactionCreate, TransactionNav, TransactionUpdate } from ".";
+import {
+  Transaction,
+  TransactionCreate,
+  TransactionNav,
+  TransactionUpdate
+} from ".";
 import { theme } from "../../Theme";
 const { Panel } = Collapse;
 
@@ -50,7 +61,7 @@ export const Transactions = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const [outcome, setOutcome] = useState<ITransaction>({} as ITransaction);
+  const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
@@ -70,14 +81,14 @@ export const Transactions = ({
     }
   }, [loading, page, pages, type]);
 
-  const handleTransactionClick = (outcome: ITransaction) => {
+  const handleTransactionClick = (outcome: IOutcome) => {
     setShowUpdate(true);
     setOutcome(outcome);
   };
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
-    setOutcome({} as ITransaction);
+    setOutcome({} as IOutcome);
   };
 
   const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
@@ -180,8 +191,9 @@ export const Transactions = ({
         handleCreate={handleCreate}
       />
       <TransactionUpdate
-        transaction={outcome}
+        outcome={outcome}
         open={showUpdate}
+        type={type}
         closeModal={handleCloseUpdate}
         handleUpdate={handleUpdate}
       />
