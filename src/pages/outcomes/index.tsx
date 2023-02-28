@@ -21,6 +21,7 @@ const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [showNew, setShowNew] = useState(false);
+  const [selectedType, setSelectedType] = useState<TransactionType>('' as TransactionType);
   const [showUpdate, setShowUpdate] = useState(false);
   const [outcome, setOutcome] = useState<IOutcome>(newOutcome('current'));
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
@@ -118,8 +119,18 @@ const Outcomes = (): JSX.Element => {
     }
   }, [searchTerm, dates, search]);
 
+  const handleAddClick = (type: TransactionType) => {
+    setSelectedType(type);
+    setShowNew(true);
+  };
+
+  const handleAddClose = () => {
+    setSelectedType('' as TransactionType);
+    setShowNew(false);
+  };
+
   return(<>
-    {Title('Outcomes')}
+    {Title('Outcomes', handleAddClick)}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}
@@ -138,9 +149,12 @@ const Outcomes = (): JSX.Element => {
           )}
         </OutcomesContainer>
     }
-    {/* <OutcomeCreate
-      open={showNew}
-    /> */}
+    {selectedType && (<OutcomeCreate
+      open={Boolean(showNew && selectedType)}
+      type={selectedType}
+      closeModal={handleAddClose}
+      handleCreate={async () => {}}
+    />)}
     <OutcomeUpdate
       outcome={outcome}
       open={showUpdate}
