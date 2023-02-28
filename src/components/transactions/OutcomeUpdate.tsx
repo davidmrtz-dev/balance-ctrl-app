@@ -5,7 +5,7 @@ import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
 import { newOutcome } from "../../generators/emptyObjects";
 import { theme } from "../../Theme";
 import Alert from "../alert";
-import { TransactionForm } from "./TransactionForm";
+import { OutcomeForm } from "./OutcomeForm";
 
 export const OutcomeUpdate = <T,>({
   outcome,
@@ -168,12 +168,10 @@ export const OutcomeUpdate = <T,>({
       }}
       footer={footerComponents}
     >
-      <>
-        <TransactionForm
-          values={values as any}
-          setValues={setValues}
-        />
-      </>
+      <OutcomeForm
+        values={values as any}
+        setValues={setValues}
+      />
     </Modal>
   );
 };
