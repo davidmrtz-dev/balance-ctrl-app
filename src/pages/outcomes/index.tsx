@@ -119,18 +119,20 @@ const Outcomes = (): JSX.Element => {
     }
   }, [searchTerm, dates, search]);
 
-  const handleAddClick = (type: TransactionType) => {
+  const handleAddOpen = (type: TransactionType) => {
     setSelectedType(type);
     setShowNew(true);
   };
 
   const handleAddClose = () => {
-    setSelectedType('' as TransactionType);
     setShowNew(false);
+    setTimeout(
+      () => setSelectedType('' as TransactionType), 500
+    );
   };
 
   return(<>
-    {Title('Outcomes', handleAddClick)}
+    {Title('Outcomes', handleAddOpen)}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}

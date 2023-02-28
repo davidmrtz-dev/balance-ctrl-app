@@ -15,6 +15,6 @@ export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
   } else if (type === 'fixed') {
     return { ...newObj, quotas: 3 } as IOutcome;
   } else {
-    throw new Error(`Unsupported type: ${type}`)
+    throw new Error(`Unsupported type: ${type}`);
   }
 };
