@@ -18,8 +18,7 @@ export const TransactionCreate = ({
   handleCreate: () => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<ITransaction>({
-  } as ITransaction);
+  const [values, setValues] = useState<ITransaction>({} as ITransaction);
 
   const handleSubmit = async () => {
     if (Object.values(values).some(val => val === '')) {
