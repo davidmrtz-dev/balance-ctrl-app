@@ -25,7 +25,7 @@ type BtnStatus = {
   right: boolean;
 };
 
-const TransactionsContainer = styled.div<{
+const OutcomesContainer = styled.div<{
   reveal: boolean;
 }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -42,7 +42,7 @@ const PanelWrapper = styled.div`
   justify-content: center;
 `;
 
-export const Transactions = ({
+export const Outcomes = ({
   category,
   type,
   fetchData,
@@ -81,7 +81,7 @@ export const Transactions = ({
     }
   }, [loading, page, pages, type]);
 
-  const handleTransactionClick = (outcome: IOutcome) => {
+  const handleOutcomeClick = (outcome: IOutcome) => {
     setShowUpdate(true);
     setOutcome(outcome);
   };
@@ -149,7 +149,7 @@ export const Transactions = ({
         defaultActiveKey={category}
         collapsible='disabled'
         expandIcon={() =>
-          <AddTransaction
+          <AddOutcome
             disabled={!disableBtns.left || (disableBtns.left && disableBtns.right)}
             onClick={() => setShowNew(true)}
           />
@@ -164,14 +164,14 @@ export const Transactions = ({
               ? (<LoadingWrapper height='450px'>
                   <LoadingMask />
                 </LoadingWrapper>)
-              : (<TransactionsContainer reveal={reveal} >
-                  {(outcomes[page] || []).map(transaction =>
+              : (<OutcomesContainer reveal={reveal} >
+                  {(outcomes[page] || []).map(outcome =>
                     <Transaction
-                      key={transaction.id}
-                      item={transaction}
-                      onClick={() => handleTransactionClick(transaction)}
+                      key={outcome.id}
+                      item={outcome}
+                      onClick={() => handleOutcomeClick(outcome)}
                     />)}
-                </TransactionsContainer>
+                </OutcomesContainer>
               )
             }
           </PanelWrapper>
@@ -201,7 +201,7 @@ export const Transactions = ({
   );
 };
 
-const AddTransaction = ({
+const AddOutcome = ({
   disabled,
   onClick
 }: {
