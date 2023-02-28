@@ -167,7 +167,7 @@ export const TransactionUpdate = <T,>({
     >
       <>
         <TransactionForm
-          values={values}
+          values={values as any}
           setValues={setValues}
         />
       </>

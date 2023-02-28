@@ -1,13 +1,13 @@
 import { Form, Input, InputNumber, Select, Typography } from "antd";
-import { ITransaction } from "../../@types";
+import { IOutcome } from "../../@types";
 import { theme } from "../../Theme";
 
 export const TransactionForm = ({
   values,
   setValues
 }: {
-  values: ITransaction;
-  setValues: (values: ITransaction) => void;
+  values: IOutcome;
+  setValues: (values: IOutcome) => void;
 }): JSX.Element => {
   const [form] = Form.useForm();
 
