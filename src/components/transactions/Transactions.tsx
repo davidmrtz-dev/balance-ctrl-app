@@ -1,7 +1,7 @@
 import { Button, Collapse, Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, ITransaction } from "../../@types";
+import { IOutcomes, OutcomesPagination, OutcomesHash, TransactionType, ITransaction, IOutcome } from "../../@types";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../alert";
 import { LoadingWrapper } from "../containers";
@@ -102,7 +102,7 @@ export const Transactions = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleUpdate = useCallback(async (outcome: ITransaction) => {
+  const handleUpdate = useCallback(async (outcome: IOutcome) => {
     if (outcomes && outcomes[page].length) {
       const updatedOutcomes = outcomes[page].map(out => {
         if (out.id === outcome.id) {

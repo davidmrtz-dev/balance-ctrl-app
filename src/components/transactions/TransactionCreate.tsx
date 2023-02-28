@@ -1,6 +1,6 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
-import { ITransaction, TransactionType } from "../../@types";
+import { IOutcome, ITransaction, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
@@ -35,7 +35,7 @@ export const TransactionCreate = ({
     try {
       await createOutcome({
         ...values
-      });
+      } as IOutcome);
       setTimeout(async () => {
         await handleCreate();
         setValues({} as ITransaction);
