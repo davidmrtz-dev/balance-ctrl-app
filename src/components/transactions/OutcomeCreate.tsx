@@ -4,7 +4,7 @@ import { IOutcome, TransactionType } from "../../@types";
 import { createOutcome } from "../../api/core/Outcome";
 import { theme } from "../../Theme";
 import Alert from "../alert";
-import { TransactionForm } from "./TransactionForm";
+import { OutcomeForm } from "./OutcomeForm";
 import { newOutcome } from '../../generators/emptyObjects/index';
 
 export const OutcomeCreate = ({
@@ -89,7 +89,7 @@ export const OutcomeCreate = ({
         </Button>
       ]}
     >
-      <TransactionForm
+      <OutcomeForm
         values={values}
         setValues={setValues}
       />
