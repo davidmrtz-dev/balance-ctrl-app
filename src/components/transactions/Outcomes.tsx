@@ -15,7 +15,7 @@ import {
   Outcome,
   OutcomeCreate,
   OutcomesNavigation,
-  TransactionUpdate
+  OutcomeUpdate
 } from ".";
 import { theme } from "../../Theme";
 const { Panel } = Collapse;
@@ -190,7 +190,7 @@ export const Outcomes = ({
         closeModal={() => setShowNew(false)}
         handleCreate={handleCreate}
       />
-      <TransactionUpdate
+      <OutcomeUpdate
         outcome={outcome}
         open={showUpdate}
         type={type}
