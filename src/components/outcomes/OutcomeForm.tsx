@@ -1,6 +1,6 @@
 import { Form, Input, InputNumber, Select, Typography } from "antd";
-import { IOutcome } from "../../../@types";
-import { theme } from "../../../Theme";
+import { IOutcome } from "../../@types";
+import { theme } from "../../Theme";
 
 export const OutcomeForm = ({
   values,

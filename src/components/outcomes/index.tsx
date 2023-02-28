@@ -1,1 +1,2 @@
-export { Outcome } from './Outcome';
+export { OutcomeCreate } from './OutcomeCreate';
+export { OutcomeUpdate } from './OutcomeUpdate';

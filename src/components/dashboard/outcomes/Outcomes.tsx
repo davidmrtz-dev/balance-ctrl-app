@@ -13,11 +13,10 @@ import Alert from "../../alert";
 import { LoadingWrapper } from "../../containers";
 import {
   Outcome,
-  OutcomeCreate,
-  OutcomesNavigation,
-  OutcomeUpdate
+  OutcomesNavigation
 } from ".";
 import { theme } from "../../../Theme";
+import { OutcomeCreate, OutcomeUpdate } from "../../outcomes";
 const { Panel } = Collapse;
 
 type BtnStatus = {
