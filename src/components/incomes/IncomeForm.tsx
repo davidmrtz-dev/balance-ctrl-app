@@ -49,9 +49,6 @@ export const IncomeForm = ({
           />
         </Form.Item>
       )}
-      {/* <Form.Item label="Purchase date" name='purchase_date'>
-        <DatePicker style={{ width: '100%' }} />
-      </Form.Item> */}
     </Form>
   );
 };
