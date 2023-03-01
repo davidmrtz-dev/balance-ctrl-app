@@ -68,7 +68,7 @@ const Outcomes = (): JSX.Element => {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: (error || 'There was an error, please try again.'),
+        text: (error || 'There was an error, please try again later.'),
       }), 1000);
     }
   }, []);

@@ -47,6 +47,12 @@ const Incomes = (): JSX.Element => {
     );
   };
 
+  const handleCreate = async (income: IIncome) => {
+    if (incomes.length) {
+      setIncomes(incomes => [income, ...incomes]);
+    }
+  };
+
   useEffect(() => {
     fetchIncomes();
   }, []);
@@ -64,10 +70,12 @@ const Incomes = (): JSX.Element => {
         <Income key={income.id} income={income} />
       )}
     </IncomesContainer>)}
-    {/* {selectedType && (<IncomeCreate
+    {selectedType && (<IncomeCreate
       open={showNew}
-
-    />)} */}
+      type={selectedType}
+      close={handleAddClose}
+      handleCreate={handleCreate}
+    />)}
   </>);
 };
 
