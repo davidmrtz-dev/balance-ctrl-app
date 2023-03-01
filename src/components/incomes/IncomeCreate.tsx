@@ -68,7 +68,7 @@ export const IncomeCreate = ({
     open={open}
     title={<Typography.Text
       style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-      > New {type} outcome
+      > New {type} income
       </Typography.Text>}
     style={{
       maxWidth: 360
