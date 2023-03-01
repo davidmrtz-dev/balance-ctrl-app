@@ -25,7 +25,7 @@ export const OutcomeCreate = ({
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
-        text: 'All fields are required',
+        text: 'All fields are required'
       });
       return;
     }
@@ -47,7 +47,7 @@ export const OutcomeCreate = ({
         const error = err.errors && err.errors.length && err.errors[0];
         Alert({
           icon: 'error',
-          text: (error || 'There was an error, please try again.'),
+          text: (error || 'There was an error, please try again later.'),
         });
         setValues(newOutcome(type));
         setLoading(false);

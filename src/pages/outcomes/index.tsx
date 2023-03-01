@@ -68,14 +68,14 @@ const Outcomes = (): JSX.Element => {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: (error || 'There was an error, please try again.'),
+        text: (error || 'There was an error, please try again later.'),
       }), 1000);
     }
   }, []);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
-    setShowUpdate(true);
     setOutcome(outcome);
+    setShowUpdate(true);
   };
 
   const handleUpdateClose = () => {
@@ -109,6 +109,18 @@ const Outcomes = (): JSX.Element => {
     }
   };
 
+  const handleAddOpen = (type: TransactionType) => {
+    setSelectedType(type);
+    setShowNew(true);
+  };
+
+  const handleAddClose = () => {
+    setShowNew(false);
+    setTimeout(
+      () => setSelectedType('' as TransactionType), 500
+    );
+  };
+
   useEffect(() => {
     fetchOutcomes();
   }, []);
@@ -124,18 +136,6 @@ const Outcomes = (): JSX.Element => {
       fetchOutcomes();
     }
   }, [searchTerm, dates, search]);
-
-  const handleAddOpen = (type: TransactionType) => {
-    setSelectedType(type);
-    setShowNew(true);
-  };
-
-  const handleAddClose = () => {
-    setShowNew(false);
-    setTimeout(
-      () => setSelectedType('' as TransactionType), 500
-    );
-  };
 
   return(<>
     {Title('Outcomes', handleAddOpen)}

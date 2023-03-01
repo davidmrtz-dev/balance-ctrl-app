@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IIncome } from "../../@types";
+import { IIncome, TransactionType } from "../../@types";
 import { getIncomes } from "../../api/core/Income";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
 import { Income } from "./Income";
 import Title from "../../components/title";
+import { IncomeCreate, IncomeUpdate } from "../../components/incomes";
+import { newIncome } from "../../generators/emptyObjects";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -17,6 +19,10 @@ const Incomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [incomes, setIncomes] = useState<IIncome []>([]);
+  const [income, setIncome] = useState<IIncome>(newIncome('current'));
+  const [selectedType, setSelectedType] = useState<TransactionType>('' as TransactionType);
+  const [showNew, setShowNew] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   const fetchIncomes = async () => {
     try {
@@ -32,6 +38,54 @@ const Incomes = (): JSX.Element => {
     }
   };
 
+  const handleAddOpen = (type: TransactionType) => {
+    setSelectedType(type);
+    setShowNew(true);
+  };
+
+  const handleAddClose = () => {
+    setShowNew(false);
+    setTimeout(
+      () => setSelectedType('' as TransactionType), 500
+    );
+  };
+
+  const handleUpdateClose = () => {
+    setShowUpdate(false);
+    setIncome(newIncome('current'));
+  };
+
+  const handleIncomeClick = (income: IIncome) => {
+    setIncome(income);
+    setShowUpdate(true);
+  };
+
+  const handleCreate = async (income: IIncome) => {
+    if (incomes.length) {
+      setIncomes(incomes => [income, ...incomes]);
+    }
+  };
+
+  const handleUpdate = async (income: IIncome) => {
+    if (incomes.length) {
+      const updatedIncomes = incomes.map(inc => {
+        if (inc.id === income.id) {
+          return income;
+        } else {
+          return inc;
+        }
+      });
+      setIncomes(updatedIncomes);
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    if (incomes.length) {
+      const updatedIncomes = incomes.filter(inc => inc.id !== id);
+      setIncomes(updatedIncomes);
+    }
+  };
+
   useEffect(() => {
     fetchIncomes();
   }, []);
@@ -41,14 +95,32 @@ const Incomes = (): JSX.Element => {
   }, [loading]);
 
   return(<>
-    {/* {Title('Incomes')} */}
+    {Title('Incomes', handleAddOpen)}
     {loading
       ? <LoadingMask fixed />
       : (<IncomesContainer reveal={reveal}>
       {(incomes || []).map(income =>
-        <Income key={income.id} income={income} />
+        <Income
+          key={income.id}
+          income={income}
+          onClick={() => handleIncomeClick(income)}
+        />
       )}
     </IncomesContainer>)}
+    {selectedType && (<IncomeCreate
+      open={showNew}
+      type={selectedType}
+      close={handleAddClose}
+      handleCreate={handleCreate}
+    />)}
+    <IncomeUpdate
+      income={income}
+      open={showUpdate}
+      type={income.transaction_type}
+      close={handleUpdateClose}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />
   </>);
 };
 

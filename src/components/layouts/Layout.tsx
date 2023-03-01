@@ -20,7 +20,7 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
           const error = err.errors && err.errors.length && err.errors[0];
           Alert({
             icon: 'error',
-            text: (error || 'There was an error, please try again.'),
+            text: (error || 'There was an error, please try again later.'),
           });
         }, 1000);
       }

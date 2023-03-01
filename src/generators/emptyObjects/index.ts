@@ -1,1 +1,1 @@
-export { newOutcome } from './Outcomes'
+export { newOutcome, newIncome } from './Transactions'

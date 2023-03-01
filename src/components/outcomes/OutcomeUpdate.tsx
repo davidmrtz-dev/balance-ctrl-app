@@ -7,7 +7,7 @@ import { theme } from "../../Theme";
 import Alert from "../alert";
 import { OutcomeForm } from "./OutcomeForm";
 
-export const OutcomeUpdate = <T,>({
+export const OutcomeUpdate = ({
   outcome,
   open,
   type,
@@ -19,7 +19,7 @@ export const OutcomeUpdate = <T,>({
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleUpdate: (outcome: T) => Promise<void>;
+  handleUpdate: (outcome: IOutcome) => Promise<void>;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
@@ -31,17 +31,19 @@ export const OutcomeUpdate = <T,>({
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
-        text: 'All fields are required',
+        text: 'All fields are required'
       });
       return;
     }
+
     setLoading(true);
+
     try {
       const outcome = await updateOutcome({
         ...values
       } as IOutcome);
       setTimeout(async () => {
-        await handleUpdate(outcome as T);
+        await handleUpdate(outcome);
         setValues(newOutcome(type));
         setLoading(false);
         closeModal();
@@ -51,7 +53,7 @@ export const OutcomeUpdate = <T,>({
         const error = err.errors && err.errors.length && err.errors[0];
         Alert({
           icon: 'error',
-          text: (error || 'There was an error, please try again.'),
+          text: (error || 'There was an error, please try again later.')
         });
         setValues(newOutcome(type));
         setLoading(false);
@@ -62,6 +64,7 @@ export const OutcomeUpdate = <T,>({
 
   const handleSubmitDelete = async () => {
     setDeleting(true);
+
     try {
       await deleteOutcome(outcome.id);
       setTimeout(async () => {
@@ -75,7 +78,7 @@ export const OutcomeUpdate = <T,>({
         const error = err.errors && err.errors.length && err.errors[0];
         Alert({
           icon: 'error',
-          text: (error || 'There was an error, please try again.'),
+          text: (error || 'There was an error, please try again later.')
         });
         setValues(newOutcome(type));
         setDeleting(false);
@@ -169,7 +172,7 @@ export const OutcomeUpdate = <T,>({
       footer={footerComponents}
     >
       <OutcomeForm
-        values={values as IOutcome}
+        values={values}
         setValues={setValues}
       />
     </Modal>
