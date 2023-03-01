@@ -172,7 +172,7 @@ export const OutcomeUpdate = ({
       footer={footerComponents}
     >
       <OutcomeForm
-        values={values as IOutcome}
+        values={values}
         setValues={setValues}
       />
     </Modal>

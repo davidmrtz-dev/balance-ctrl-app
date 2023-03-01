@@ -93,7 +93,7 @@ export const IncomeUpdate = ({
 	};
 
 	useEffect(() => {
-		setValues(income)
+		setValues(income);
 	}, [income]);
 
 	const footerComponents = [
@@ -171,7 +171,7 @@ export const IncomeUpdate = ({
 		footer={footerComponents}
 	>
 		<IncomeForm
-			values={values as IIncome}
+			values={values}
 			setValues={setValues}
 		/>
 	</Modal>);
