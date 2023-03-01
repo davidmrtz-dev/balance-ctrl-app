@@ -74,8 +74,8 @@ const Outcomes = (): JSX.Element => {
   }, []);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
-    setShowUpdate(true);
     setOutcome(outcome);
+    setShowUpdate(true);
   };
 
   const handleUpdateClose = () => {

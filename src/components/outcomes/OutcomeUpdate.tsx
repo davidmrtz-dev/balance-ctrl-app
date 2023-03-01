@@ -31,11 +31,13 @@ export const OutcomeUpdate = ({
     if (Object.values(values).some(val => val === '')) {
       Alert({
         icon: 'error',
-        text: 'All fields are required',
+        text: 'All fields are required'
       });
       return;
     }
+
     setLoading(true);
+
     try {
       const outcome = await updateOutcome({
         ...values
@@ -51,7 +53,7 @@ export const OutcomeUpdate = ({
         const error = err.errors && err.errors.length && err.errors[0];
         Alert({
           icon: 'error',
-          text: (error || 'There was an error, please try again later.'),
+          text: (error || 'There was an error, please try again later.')
         });
         setValues(newOutcome(type));
         setLoading(false);
@@ -62,6 +64,7 @@ export const OutcomeUpdate = ({
 
   const handleSubmitDelete = async () => {
     setDeleting(true);
+
     try {
       await deleteOutcome(outcome.id);
       setTimeout(async () => {
@@ -75,7 +78,7 @@ export const OutcomeUpdate = ({
         const error = err.errors && err.errors.length && err.errors[0];
         Alert({
           icon: 'error',
-          text: (error || 'There was an error, please try again later.'),
+          text: (error || 'There was an error, please try again later.')
         });
         setValues(newOutcome(type));
         setDeleting(false);
@@ -169,7 +172,7 @@ export const OutcomeUpdate = ({
       footer={footerComponents}
     >
       <OutcomeForm
-        values={values as IOutcome}
+        values={values}
         setValues={setValues}
       />
     </Modal>

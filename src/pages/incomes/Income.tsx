@@ -14,9 +14,11 @@ const IncomeGrid = styled.div`
 `;
 
 export const Income = ({
-  income
+  income,
+  onClick
 }: {
   income: IIncome;
+  onClick: () => void;
 }): JSX.Element => <IncomeContainer>
   <div style={{ textAlign: 'initial' }}>
     <IncomeGrid>
@@ -45,7 +47,7 @@ export const Income = ({
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {capitalizeFirst(income.frequency || '')}
+          {capitalizeFirst(income.frequency || 'N/A')}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '3 / 1 / 4 / 2' }}>
@@ -92,5 +94,5 @@ export const Income = ({
       </div>
     </IncomeGrid>
   </div>
-  <ActionButton onClick={() => {}} />
+  <ActionButton onClick={onClick} />
 </IncomeContainer>;
