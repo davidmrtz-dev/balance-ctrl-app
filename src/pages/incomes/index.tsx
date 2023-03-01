@@ -6,6 +6,7 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
 import { Income } from "./Income";
 import Title from "../../components/title";
+import { IncomeCreate } from "../../components/incomes";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -63,6 +64,10 @@ const Incomes = (): JSX.Element => {
         <Income key={income.id} income={income} />
       )}
     </IncomesContainer>)}
+    {/* {selectedType && (<IncomeCreate
+      open={showNew}
+
+    />)} */}
   </>);
 };
 
