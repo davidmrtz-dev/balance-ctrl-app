@@ -1,4 +1,5 @@
 import { DatePicker, Form, Input, InputNumber, Select, Typography } from "antd";
+import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import { IOutcome } from "../../@types";
 import { theme } from "../../Theme";
@@ -18,6 +19,11 @@ export const OutcomeForm = ({
     } else {
       setValues({...values, ...e})
     }
+  };
+
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    const twentyDaysAgo = dayjs().subtract(20, 'day').startOf('day');
+    return current && (current >= dayjs().endOf('day') || current < twentyDaysAgo);
   };
 
   return (
@@ -61,7 +67,10 @@ export const OutcomeForm = ({
         </Form.Item>
       )}
       <Form.Item label="Purchase date" name='purchase_date'>
-        <DatePicker style={{ width: '100%' }} />
+        <DatePicker
+          style={{ width: '100%' }}
+          disabledDate={disabledDate}
+        />
       </Form.Item>
     </Form>
   );
