@@ -1,5 +1,5 @@
 import * as Http from '../Http';
-import { IIncomes } from '../../@types';
+import { IIncome, IIncomes } from '../../@types';
 
 export const getIncomes = async({
   offset,
@@ -15,4 +15,14 @@ export const getIncomes = async({
   });
 
   return result.data;
+};
+
+export const createIncome = async (values: IIncome): Promise<IIncome> => {
+  const result = await Http.post('/api/incomes/', { income: values }, { headers: {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  }});
+
+  return result.data.income;
 };
