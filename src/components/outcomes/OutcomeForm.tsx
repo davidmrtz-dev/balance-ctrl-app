@@ -1,4 +1,6 @@
-import { Form, Input, InputNumber, Select, Typography } from "antd";
+import { DatePicker, Form, Input, InputNumber, Select, Typography } from "antd";
+import { RangePickerProps } from "antd/es/date-picker";
+import dayjs from "dayjs";
 import { IOutcome } from "../../@types";
 import { theme } from "../../Theme";
 
@@ -11,13 +13,26 @@ export const OutcomeForm = ({
 }): JSX.Element => {
   const [form] = Form.useForm();
 
+  const handleValuesChange = (e: any) => {
+    if (e.purchase_date) {
+      setValues({...values, purchase_date: dayjs(e.purchase_date).format('YYYY-MM-DD') })
+    } else {
+      setValues({...values, ...e})
+    }
+  };
+
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    const twentyDaysAgo = dayjs().subtract(20, 'day').startOf('day');
+    return current && (current >= dayjs().endOf('day') || current < twentyDaysAgo);
+  };
+
   return (
     <Form
       name='outcome-form'
       form={form}
       layout='vertical'
       initialValues={values}
-      onValuesChange={e => setValues({...values, ...e})}
+      onValuesChange={handleValuesChange}
       style={{ width: '100%' }}
     >
       <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
@@ -51,9 +66,12 @@ export const OutcomeForm = ({
           />
         </Form.Item>
       )}
-      {/* <Form.Item label="Purchase date" name='purchase_date'>
-        <DatePicker style={{ width: '100%' }} />
-      </Form.Item> */}
+      <Form.Item label="Purchase date" name='purchase_date'>
+        <DatePicker
+          style={{ width: '100%' }}
+          disabledDate={disabledDate}
+        />
+      </Form.Item>
     </Form>
   );
 };
