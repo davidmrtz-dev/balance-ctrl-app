@@ -26,3 +26,13 @@ export const createIncome = async (values: IIncome): Promise<IIncome> => {
 
   return result.data.income;
 };
+
+export const updateIncome = async (values: IIncome): Promise<IIncome> => {
+  const result = await Http.put(`/api/outcomes/${values.id}`, { income: values }, { headers: {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  }});
+
+  return result.data.income;
+};
