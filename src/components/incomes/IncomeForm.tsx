@@ -42,9 +42,9 @@ export const IncomeForm = ({
           <Select
             style={{ width: '100%' }}
             options={[
-              { value: 0, label: 'weekly' },
-              { value: 1, label: 'biweekly' },
-              { value: 2, label: 'monthly' }
+              { value: 'weekly', label: 'weekly' },
+              { value: 'biweekly', label: 'biweekly' },
+              { value: 'monthly', label: 'monthly' }
             ]}
           />
         </Form.Item>

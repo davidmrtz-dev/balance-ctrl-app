@@ -24,14 +24,13 @@ export const newIncome = <T extends TransactionType>(type: T): IIncome => {
     id: 0,
     transaction_type: type as TransactionType,
     description: '',
-    frequency: '0',
     amount: '1'
   };
 
   if (type === 'current') {
     return newObj as IIncome;
   } else if (type === 'fixed') {
-    return { ...newObj, frequency: '0' } as IIncome;
+    return { ...newObj, frequency: 'monthly' } as IIncome;
   } else {
     throw new Error(`Unsupported type: ${type}`);
   }
