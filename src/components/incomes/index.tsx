@@ -1,0 +1,1 @@
+export { IncomeUpdate } from './IncomeUpdate';

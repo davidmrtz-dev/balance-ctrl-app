@@ -7,7 +7,7 @@ import { theme } from "../../Theme";
 import Alert from "../alert";
 import { OutcomeForm } from "./OutcomeForm";
 
-export const OutcomeUpdate = <T,>({
+export const OutcomeUpdate = ({
   outcome,
   open,
   type,
@@ -19,7 +19,7 @@ export const OutcomeUpdate = <T,>({
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleUpdate: (outcome: T) => Promise<void>;
+  handleUpdate: (outcome: IOutcome) => Promise<void>;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export const OutcomeUpdate = <T,>({
         ...values
       } as IOutcome);
       setTimeout(async () => {
-        await handleUpdate(outcome as T);
+        await handleUpdate(outcome);
         setValues(newOutcome(type));
         setLoading(false);
         closeModal();
