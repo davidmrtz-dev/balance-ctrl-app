@@ -66,7 +66,7 @@ export const OutcomeForm = ({
           />
         </Form.Item>
       )}
-      <Form.Item label="Purchase date" name='purchase_date'>
+      <Form.Item label="Purchase date" name='transaction_date'>
         <DatePicker
           style={{ width: '100%' }}
           disabledDate={disabledDate}
