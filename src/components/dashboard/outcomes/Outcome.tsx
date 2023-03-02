@@ -61,7 +61,7 @@ export const Outcome =({
         textAlign: 'center'
       }}
       >
-        {formatViewDate(item.transaction_date || dayjs().format('YYYY-MM-DD'))}
+        {/* {formatViewDate(item.transaction_date || dayjs().format('YYYY-MM-DD'))} */}
       </Typography>
       {item.quotas && <Typography style={{
         ...theme.texts.brandSubFont,

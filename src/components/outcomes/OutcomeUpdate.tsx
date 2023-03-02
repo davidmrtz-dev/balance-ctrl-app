@@ -94,7 +94,7 @@ export const OutcomeUpdate = ({
   };
 
   useEffect(() => {
-    setValues(outcome);
+    setValues({ ...outcome, transaction_date: dayjs(outcome.transaction_date) });
   }, [outcome]);
 
   const footerComponents = [
