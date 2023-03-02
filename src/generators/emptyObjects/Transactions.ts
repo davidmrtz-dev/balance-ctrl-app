@@ -23,6 +23,7 @@ export const newIncome = <T extends TransactionType>(type: T): IIncome => {
     id: 0,
     transaction_type: type as TransactionType,
     description: '',
+    transaction_date: '',
     amount: '1'
   };
 

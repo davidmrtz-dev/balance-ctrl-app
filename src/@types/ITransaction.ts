@@ -8,7 +8,7 @@ export interface ITransaction {
   description: string;
   transaction_type: TransactionType;
   operation_type : OperationType;
-  transaction_date?: string;
+  transaction_date: string;
   quotas?: number;
   frequency?: string;
 }
