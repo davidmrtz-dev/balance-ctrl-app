@@ -5,7 +5,7 @@ export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
     id: 0,
     transaction_type: type as TransactionType,
     description: '',
-    purchase_date: '',
+    transaction_date: '',
     amount: '1'
   };
 
