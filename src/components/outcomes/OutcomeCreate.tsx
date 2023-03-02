@@ -6,6 +6,7 @@ import { theme } from "../../Theme";
 import Alert from "../alert";
 import { OutcomeForm } from "./OutcomeForm";
 import { newOutcome } from '../../generators/emptyObjects/index';
+import dayjs from "dayjs";
 
 export const OutcomeCreate = ({
   open,
@@ -34,7 +35,7 @@ export const OutcomeCreate = ({
 
     try {
       const outcome = await createOutcome({
-        ...values
+        ...values, transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD')
       } as IOutcome);
       setTimeout(async () => {
         await handleCreate(outcome);
