@@ -1,4 +1,6 @@
-import { Form, Input, InputNumber, Select, Typography } from "antd";
+import { DatePicker, Form, Input, InputNumber, Select, Typography } from "antd";
+import { RangePickerProps } from "antd/es/date-picker";
+import dayjs from "dayjs";
 import { IIncome } from "../../@types";
 import { theme } from "../../Theme";
 
@@ -10,6 +12,11 @@ export const IncomeForm = ({
 	setValues: (values: IIncome) => void;
 }): JSX.Element => {
 	const [form] = Form.useForm();
+
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    const twentyDaysAgo = dayjs().subtract(20, 'day').startOf('day');
+    return current && (current >= dayjs().endOf('day') || current < twentyDaysAgo);
+  };
 
 	return (
     <Form
@@ -49,6 +56,12 @@ export const IncomeForm = ({
           />
         </Form.Item>
       )}
+      <Form.Item label="Last income date" name='transaction_date'>
+        <DatePicker
+          style={{ width: '100%' }}
+          disabledDate={disabledDate}
+        />
+      </Form.Item>
     </Form>
   );
 };
