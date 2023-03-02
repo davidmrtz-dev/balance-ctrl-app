@@ -1,4 +1,5 @@
 import { Button, Modal, Typography } from "antd";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { IIncome, TransactionType } from "../../@types";
 import { deleteIncome, updateIncome } from "../../api/core/Income";
@@ -93,7 +94,7 @@ export const IncomeUpdate = ({
 	};
 
 	useEffect(() => {
-		setValues(income);
+		setValues({ ...income, transaction_date: dayjs(income.transaction_date) });
 	}, [income]);
 
 	const footerComponents = [
