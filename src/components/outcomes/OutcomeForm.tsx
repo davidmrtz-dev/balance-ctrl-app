@@ -14,8 +14,8 @@ export const OutcomeForm = ({
   const [form] = Form.useForm();
 
   const handleValuesChange = (e: any) => {
-    if (e.purchase_date) {
-      setValues({...values, purchase_date: dayjs(e.purchase_date).format('YYYY-MM-DD') })
+    if (e.transaction_date) {
+      setValues({...values, transaction_date: dayjs(e.transaction_date).format('YYYY-MM-DD') })
     } else {
       setValues({...values, ...e})
     }
