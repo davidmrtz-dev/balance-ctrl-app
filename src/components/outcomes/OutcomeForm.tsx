@@ -13,14 +13,6 @@ export const OutcomeForm = ({
 }): JSX.Element => {
   const [form] = Form.useForm();
 
-  const handleValuesChange = (e: any) => {
-    if (e.transaction_date) {
-      setValues({...values, transaction_date: dayjs(e.transaction_date).format('YYYY-MM-DD') })
-    } else {
-      setValues({...values, ...e})
-    }
-  };
-
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     const twentyDaysAgo = dayjs().subtract(20, 'day').startOf('day');
     return current && (current >= dayjs().endOf('day') || current < twentyDaysAgo);
@@ -32,7 +24,7 @@ export const OutcomeForm = ({
       form={form}
       layout='vertical'
       initialValues={values}
-      onValuesChange={handleValuesChange}
+      onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
       <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>

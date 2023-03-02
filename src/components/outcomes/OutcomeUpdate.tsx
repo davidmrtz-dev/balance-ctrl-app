@@ -1,4 +1,5 @@
 import { Button, Modal, Typography } from "antd";
+import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
 import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
@@ -40,7 +41,7 @@ export const OutcomeUpdate = ({
 
     try {
       const outcome = await updateOutcome({
-        ...values
+        ...values, transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD')
       } as IOutcome);
       setTimeout(async () => {
         await handleUpdate(outcome);
@@ -93,7 +94,7 @@ export const OutcomeUpdate = ({
   };
 
   useEffect(() => {
-    setValues(outcome);
+    setValues({ ...outcome, transaction_date: dayjs(outcome.transaction_date) });
   }, [outcome]);
 
   const footerComponents = [

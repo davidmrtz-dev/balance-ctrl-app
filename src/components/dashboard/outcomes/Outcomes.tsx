@@ -81,8 +81,8 @@ export const Outcomes = ({
   }, [loading, page, pages, type]);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
-    setShowUpdate(true);
     setOutcome(outcome);
+    setShowUpdate(true);
   };
 
   const handleCloseUpdate = () => {
