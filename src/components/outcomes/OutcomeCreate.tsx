@@ -45,7 +45,8 @@ export const OutcomeCreate = ({
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
-        const error = err.errors && err.errors.length && err.errors[0];
+        const error = err.errors && err.errors.length && err.errors.join(', ');
+
         Alert({
           icon: 'error',
           text: (error || 'There was an error, please try again later.'),
