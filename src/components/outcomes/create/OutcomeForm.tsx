@@ -1,8 +1,8 @@
 import { DatePicker, Form, Input, InputNumber, Select, Typography } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import { IOutcome } from "../../@types";
-import { theme } from "../../Theme";
+import { IOutcome } from "../../../@types";
+import { theme } from "../../../Theme";
 
 export const OutcomeForm = ({
   values,
@@ -31,7 +31,7 @@ export const OutcomeForm = ({
         Name
       </Typography.Text>}
         name='description'>
-        <Input maxLength={20} style={{ ...theme.texts.brandSubFont }}/>
+        <Input maxLength={20} style={{ ...theme.texts.brandSubFont }} />
       </Form.Item>
       <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
         Amount

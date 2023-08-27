@@ -1,14 +1,14 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
-import { createOutcome } from "../../api/core/Outcome";
-import { theme } from "../../Theme";
-import Alert from "../alert";
+import { IOutcome, TransactionType } from "../../../@types";
+import { createOutcome } from "../../../api/core/Outcome";
+import { theme } from "../../../Theme";
+import Alert from "../../alert";
 import { OutcomeForm } from "./OutcomeForm";
-import { newOutcome } from '../../generators/emptyObjects/index';
+import { newOutcome } from '../../../generators/emptyObjects/index';
 import dayjs from "dayjs";
 
-export const OutcomeCreate = ({
+const OutcomeCreate = ({
   open,
   type,
   closeModal,
@@ -98,3 +98,5 @@ export const OutcomeCreate = ({
     </Modal>
   );
 };
+
+export default OutcomeCreate;

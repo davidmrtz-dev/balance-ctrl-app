@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { IOutcome } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
-import { formatCurrency, formatViewDate, capitalizeFirst } from "../../utils";
+import { formatCurrency, capitalizeFirst } from "../../utils";
 import { TransactionContainer as OutcomeContainer } from "../../components/containers";
 
 const OutcomeGrid = styled.div`
@@ -48,7 +48,7 @@ export const Outcome = ({
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {formatViewDate(outcome.transaction_date?.toString() as string || dayjs().format('YYYY-MM-DD'))}
+          {dayjs(outcome.transaction_date).format('YYYY-MM-DD')}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '3 / 1 / 4 / 2' }}>
