@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { faEdit, faMoneyBill1Wave, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBill1Wave, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
 import { IOutcome } from "../../../@types";
-import { formatCurrency, formatViewDate } from "../../../utils";
+import { formatCurrency } from "../../../utils";
 import dayjs from "dayjs";
 
 const OutcomeContainer = styled.div`
@@ -15,7 +15,7 @@ const OutcomeContainer = styled.div`
   height: 6em;
   border-radius: 10px;
   margin: 10px 0;
-  cursor: default;
+  cursor: pointer;
 `;
 
 export const Outcome =({
@@ -25,7 +25,7 @@ export const Outcome =({
   item: IOutcome,
   onClick: () => void;
 }): JSX.Element => {
-  return (<OutcomeContainer>
+  return (<OutcomeContainer onClick={onClick}>
     <div style={{
       flex: 2,
       display: 'flex',
@@ -61,7 +61,7 @@ export const Outcome =({
         textAlign: 'center'
       }}
       >
-        {formatViewDate(item.transaction_date?.toString() || dayjs().format('YYYY-MM-DD'))}
+        {dayjs(item.transaction_date).format('YYYY-MM-DD')}
       </Typography>
       {item.quotas && <Typography style={{
         ...theme.texts.brandSubFont,
@@ -77,17 +77,6 @@ export const Outcome =({
       textAlign: 'center',
       position: 'relative'
     }}>
-      <FontAwesomeIcon
-        onClick={onClick}
-        style={{
-          position: 'absolute',
-          top: -24,
-          right: 5,
-          cursor: 'pointer'
-        }}
-        color={theme.colors.blacks.normal}
-        icon={faEdit}
-      />
       <Typography style={{
         ...theme.texts.brandFont
       }}>

@@ -14,5 +14,3 @@ export const formatCurrency = (value: string) => new Intl.NumberFormat('en-US',
   { style: 'currency', currency: 'USD' }
 ).format(parseFloat(value));
 
-export const formatViewDate = (date: string) =>
-  date.split('-').reverse().join('-');

@@ -1,4 +1,4 @@
-import { Button, Collapse, Typography } from "antd";
+import { Button, Collapse } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import {
@@ -17,6 +17,7 @@ import {
 } from ".";
 import { theme } from "../../../Theme";
 import { OutcomeCreate, OutcomeUpdate } from "../../outcomes";
+import { FontText } from "../../../atoms/text";
 const { Panel } = Collapse;
 
 type BtnStatus = {
@@ -60,6 +61,7 @@ export const Outcomes = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
   const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
@@ -83,10 +85,16 @@ export const Outcomes = ({
   const handleOutcomeClick = (outcome: IOutcome) => {
     setOutcome(outcome);
     setShowUpdate(true);
+    // setShowDetail(true);
   };
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
+    setOutcome({} as IOutcome);
+  };
+
+  const handleCloseDetail = () => {
+    setShowDetail(false);
     setOutcome({} as IOutcome);
   };
 
@@ -154,9 +162,7 @@ export const Outcomes = ({
         }
         expandIconPosition='end'
       >
-        <Panel header={<Typography.Text style={{ ...theme.texts.brandFont }}>
-          {category}
-        </Typography.Text>} key={category} >
+        <Panel header={FontText(category)} key={category} >
           <PanelWrapper>
             {loading
               ? (<LoadingWrapper height='450px'>

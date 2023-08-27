@@ -1,2 +1,2 @@
-export { OutcomeCreate } from './OutcomeCreate';
-export { OutcomeUpdate } from './OutcomeUpdate';
+export { default as OutcomeCreate } from './create';
+export { default as OutcomeUpdate } from './update';
