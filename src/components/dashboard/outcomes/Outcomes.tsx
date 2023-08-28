@@ -61,7 +61,6 @@ export const Outcomes = ({
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
   const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
@@ -90,11 +89,6 @@ export const Outcomes = ({
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
-    setOutcome({} as IOutcome);
-  };
-
-  const handleCloseDetail = () => {
-    setShowDetail(false);
     setOutcome({} as IOutcome);
   };
 
