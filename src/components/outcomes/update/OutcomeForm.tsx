@@ -1,9 +1,23 @@
-import { DatePicker, Form, Input, InputNumber, Select, Typography } from "antd";
+import { Collapse, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
+import Payment from "../../payment";
+import { SubFontText } from "../../../atoms/text";
+
+const FormContentWrapper = styled.div`
+  border: 1px solid ${theme.colors.grays.light};
+  padding: 4px 11px;
+  border-radius: 6px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
+const { Panel } = Collapse;
 
 export const OutcomeForm = ({
   editable,
@@ -30,25 +44,19 @@ export const OutcomeForm = ({
       onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
-      <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
-        Name
-      </Typography.Text>}
-        name='description'>
-          {editable ? (<Input 
+      <Form.Item label='Name' name='description'>
+          {editable ? (<Input
             maxLength={20}
             style={{ ...theme.texts.brandSubFont }}
-          />): (<ContentWrapper>{values.description}</ContentWrapper>)}
+          />): (<FormContentWrapper>{values.description}</FormContentWrapper>)}
       </Form.Item>
-      <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
-        Amount
-      </Typography.Text>}
-        name='amount'>
+      <Form.Item label='Amount' name='amount'>
         {editable ? (<InputNumber
           min={1}
           style={{ width: '100%', ...theme.texts.brandSubFont }}
           formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 1}
-        />) : (<ContentWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</ContentWrapper>)}
+        />) : (<FormContentWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</FormContentWrapper>)}
       </Form.Item>
       {values.transaction_type === 'fixed' && (
         <Form.Item label='Quotas' name='quotas'>
@@ -61,25 +69,20 @@ export const OutcomeForm = ({
               { value: 12, label: '12' },
               { value: 24, label: '24' }
             ]}
-          />) : (<ContentWrapper>{values.quotas}</ContentWrapper>)}
+          />) : (<FormContentWrapper>{values.quotas}</FormContentWrapper>)}
         </Form.Item>
       )}
       <Form.Item label="Purchase date" name='transaction_date'>
         {editable ? (<DatePicker
           style={{ width: '100%' }}
           disabledDate={disabledDate}
-        />) : (<ContentWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</ContentWrapper>)}
+        />) : (<FormContentWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</FormContentWrapper>)}
       </Form.Item>
+      <Collapse expandIconPosition='end'>
+        <Panel header={SubFontText('Related Payments')} key={1}>
+          {(values.payments || []).map(payment => <Payment {...payment} />)}
+        </Panel>
+      </Collapse>
     </Form>
   );
 };
-
-
-const ContentWrapper = styled.div`
-  border: 1px solid ${theme.colors.grays.light};
-  padding: 4px 11px;
-  border-radius: 6px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-`;
