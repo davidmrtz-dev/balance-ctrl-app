@@ -12,3 +12,4 @@ export type {
   IIncomes
 } from './IIncome';
 export type { IPayment } from './IPayment';
+export type { IBilling } from './IBilling';

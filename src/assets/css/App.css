@@ -23,5 +23,5 @@
 .ant-collapse-header,
 .ant-collapse-header-text {
   color: #101313;
-  cursor: default !important;
+  cursor: pointer !important;
 }

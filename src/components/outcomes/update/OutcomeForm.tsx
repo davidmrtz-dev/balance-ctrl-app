@@ -1,11 +1,14 @@
 import { Collapse, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import { IOutcome } from "../../../@types";
+import { IBilling, IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
 import Payment from "../../payment";
 import { SubFontText } from "../../../atoms/text";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import { capitalizeFirst } from "../../../utils";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -78,11 +81,63 @@ export const OutcomeForm = ({
           disabledDate={disabledDate}
         />) : (<FormContentWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</FormContentWrapper>)}
       </Form.Item>
-      <Collapse expandIconPosition='end'>
+      <Collapse expandIconPosition='end' style={{ marginBottom: '24px' }}>
         <Panel header={SubFontText('Related Payments')} key={1}>
-          {(values.payments || []).map(payment => <Payment {...payment} />)}
+          {(values.payments || []).map(payment => <Payment {...payment} key={payment.id} />)}
         </Panel>
       </Collapse>
+      <Form.Item label="Billing information" name='billing_information'>
+        {(values.billings || []).map(billing => <BillinfInformation {...billing} key={billing.id} />)}
+      </Form.Item>
     </Form>
   );
+};
+
+const BillingWrapper = styled.div`
+  display: flex;
+  padding: 4px 11px;
+  border-radius: 6px;
+  background-color: ${theme.colors.whites.normal};
+  border: 1px solid ${theme.colors.grays.light};
+  justify-content: space-around;
+`;
+
+const BillingIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+`;
+
+const BillingDataWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const BillingRowWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const BillinfInformation = (billing: IBilling): JSX.Element => {
+  return (<BillingWrapper>
+    <BillingIconWrapper>
+      <FontAwesomeIcon icon={faCreditCard} style={{ color: theme.colors.blues.normal }} size="3x"/>
+    </BillingIconWrapper>
+    <BillingDataWrapper>
+      <BillingRowWrapper>
+        {SubFontText('Card Name: ')}
+        {SubFontText(billing.name)}
+      </BillingRowWrapper>
+      <BillingRowWrapper>
+        {SubFontText('State Date: ')}
+        &nbsp;&nbsp;&nbsp;
+        {SubFontText(dayjs(billing.state_date).format('YYYY-MM-DD'))}
+      </BillingRowWrapper>
+      <BillingRowWrapper>
+        {SubFontText('Card Type: ')}
+        {SubFontText(capitalizeFirst(billing.card_type))}
+      </BillingRowWrapper>
+    </BillingDataWrapper>
+  </BillingWrapper>);
 };
