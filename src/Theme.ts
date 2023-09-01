@@ -35,6 +35,16 @@ export const theme = {
     blacks: {
       normal: '#101313'
     },
+    greens: {
+      light: '#AED581',
+      normal: '#81C784',
+      dark: '#66BB6A',
+    },
+    reds: {
+      light: '#EF9A9A',
+      normal: '#E57373',
+      dark: '#EF5350',
+    },
     warning: '#d33'
   },
   shadows: {

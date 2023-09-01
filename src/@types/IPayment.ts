@@ -1,5 +1,5 @@
 export interface IPayment {
   id: number;
   amount: string;
-  status: string;
+  status: 'hold' | 'pending' | 'applied' | 'expired';
 };

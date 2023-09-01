@@ -19,7 +19,29 @@ const PaymentContentWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const StatusCircle = styled.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+`;
+
 const Payment = (payment: IPayment): JSX.Element => {
+  const getStatusColor = () => {
+    switch (payment.status) {
+      case 'hold':
+        return theme.colors.grays.normal;
+      case 'pending':
+        return theme.colors.yellows.normal;
+      case 'applied':
+        return theme.colors.greens.normal;
+      case 'expired':
+        return theme.colors.reds.normal;
+      default:
+        return theme.colors.grays.light;
+    };
+  };
+
   return (<PaymentWrapper>
       <PaymentContentWrapper>
         {SubFontText('Amount:')}
@@ -27,7 +49,10 @@ const Payment = (payment: IPayment): JSX.Element => {
       </PaymentContentWrapper>
       <PaymentContentWrapper>
         {SubFontText('Status:')}
-        {SubFontText(capitalizeFirst(payment.status))}
+        <div style={{ display: 'flex', alignItems: 'center', minWidth: '25%' }}>
+          <StatusCircle style={{ backgroundColor: getStatusColor() }} />
+          {SubFontText(capitalizeFirst(payment.status))}
+        </div>
       </PaymentContentWrapper>
   </PaymentWrapper>);
 };
