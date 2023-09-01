@@ -47,7 +47,7 @@ export const OutcomeForm = ({
     >
       <Form.Item label='Name' name='description'>
           {editable ? (<Input
-            maxLength={20}
+            maxLength={50}
             style={{ ...theme.texts.brandSubFont }}
           />): (<FormContentWrapper>{values.description}</FormContentWrapper>)}
       </Form.Item>

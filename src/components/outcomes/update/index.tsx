@@ -49,10 +49,13 @@ const OutcomeUpdate = ({
       } as IOutcome);
       setTimeout(async () => {
         await handleUpdate(outcome);
-        setValues(newOutcome(type));
+        setValues(outcome);
         setLoading(false);
         setEnableEdit(false);
-        closeModal();
+        Alert({
+          icon: 'success',
+          text: 'Outcome updated successfully'
+        })
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
