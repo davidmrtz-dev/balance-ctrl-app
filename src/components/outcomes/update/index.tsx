@@ -67,6 +67,7 @@ const OutcomeUpdate = ({
         });
         setValues(newOutcome(type));
         setLoading(false);
+        setEnableEdit(false);
         closeModal();
       }, 1000);
     }
@@ -111,7 +112,7 @@ const OutcomeUpdate = ({
   const footerComponents = [
     <Button
       key="cancel"
-      onClick={handleCancel}
+      onClick={enableEdit ? () => setEnableEdit(false) : handleCancel}
       disabled={loading || deleting}
     >
       {FontText(`${enableEdit ? 'Cancel' : 'Close'}`)}

@@ -13,3 +13,9 @@ export type {
 } from './IIncome';
 export type { IPayment } from './IPayment';
 export type { IBilling } from './IBilling';
+
+
+export type ICategory = {
+  id: number;
+  name: string;
+};

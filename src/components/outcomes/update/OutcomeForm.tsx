@@ -1,7 +1,7 @@
 import { Collapse, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import { IOutcome } from "../../../@types";
+import { ICategory, IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
 import Payment from "../../payment";
@@ -45,6 +45,19 @@ export const OutcomeForm = ({
       onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
+      <Form.Item label='Category' name='category'>
+        {/* <Select
+          style={{ width: '100%' }}
+          options={[
+            { value: 3, label: '3 months' },
+            { value: 6, label: '6 months' },
+            { value: 9, label: '9 months' },
+            { value: 12, label: '12 months' },
+            { value: 24, label: '24 months' }
+          ]}
+        /> */}
+        {(values.categories || []).map(category => <OutcomeCategory {...category} key={category.id} />)}
+      </Form.Item>
       <Form.Item label='Name' name='description'>
           {editable ? (<Input
             maxLength={50}
@@ -89,4 +102,27 @@ export const OutcomeForm = ({
       </Form.Item>
     </Form>
   );
+};
+
+const CategoryWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 4px 11px;
+  border-radius: 6px;
+  margin: 8px 0;
+  background-color: ${theme.colors.whites.normal};
+  border: 1px solid ${theme.colors.grays.light};
+`;
+
+const CategoryContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const OutcomeCategory = (category: ICategory): JSX.Element => {
+  return(<CategoryWrapper>
+    <CategoryContentWrapper>
+      {SubFontText(category.name)}
+    </CategoryContentWrapper>
+  </CategoryWrapper>)
 };
