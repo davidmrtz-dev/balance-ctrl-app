@@ -1,12 +1,13 @@
 import { Collapse, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import { ICategory, IOutcome } from "../../../@types";
+import { IOutcome, ICategory } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
 import Payment from "../../payment";
 import { SubFontText } from "../../../atoms/text";
 import BillinfInformation from "../../billing";
+import { OutcomeCategory } from "../Category";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -46,17 +47,7 @@ export const OutcomeForm = ({
       style={{ width: '100%' }}
     >
       <Form.Item label='Category' name='category'>
-        {/* <Select
-          style={{ width: '100%' }}
-          options={[
-            { value: 3, label: '3 months' },
-            { value: 6, label: '6 months' },
-            { value: 9, label: '9 months' },
-            { value: 12, label: '12 months' },
-            { value: 24, label: '24 months' }
-          ]}
-        /> */}
-        {(values.categories || []).map(category => <OutcomeCategory {...category} key={category.id} />)}
+        <CategorySelector enableSelector={editable} category={values.categories[0] || {} as ICategory} />
       </Form.Item>
       <Form.Item label='Name' name='description'>
           {editable ? (<Input
@@ -104,25 +95,23 @@ export const OutcomeForm = ({
   );
 };
 
-const CategoryWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 4px 11px;
-  border-radius: 6px;
-  margin: 8px 0;
-  background-color: ${theme.colors.whites.normal};
-  border: 1px solid ${theme.colors.grays.light};
-`;
 
-const CategoryContentWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const OutcomeCategory = (category: ICategory): JSX.Element => {
-  return(<CategoryWrapper>
-    <CategoryContentWrapper>
-      {SubFontText(category.name)}
-    </CategoryContentWrapper>
-  </CategoryWrapper>)
+const CategorySelector = ({
+  enableSelector,
+  category
+}: {
+  enableSelector: boolean;
+  category: ICategory;
+}): JSX.Element => {
+  return(enableSelector ? (<Select
+    defaultValue={category.name}
+    style={{ width: '100%' }}
+    options={[
+      { value: 3, label: '3 months' },
+      { value: 6, label: '6 months' },
+      { value: 9, label: '9 months' },
+      { value: 12, label: '12 months' },
+      { value: 24, label: '24 months' }
+    ]}
+  />): (<OutcomeCategory {...category} key={category.id} />));
 };
