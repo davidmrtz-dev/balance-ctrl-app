@@ -8,6 +8,9 @@ import Payment from "../../payment";
 import { SubFontText } from "../../../atoms/text";
 import BillinfInformation from "../../billing";
 import { OutcomeCategory } from "../Category";
+import { useEffect, useState } from "react";
+import { getCategories } from "../../../api/core/Category";
+import Alert from "../../alert";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -103,15 +106,34 @@ const CategorySelector = ({
   enableSelector: boolean;
   category: ICategory;
 }): JSX.Element => {
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [selectorOptions, setSelectorOptions] = useState<{ value: number; label: string } []>([]);
+
+  const fetchCategories = async () => {
+    try {
+      const data = await getCategories();
+      const selectorOptions = data.categories.map(cat => ({ value: cat.id, label: cat.name }));
+      setCategories(data.categories);
+      setSelectorOptions(selectorOptions);
+    } catch (error: any) {
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: (error.message || 'There was an error, please try again later')
+      }), 1000);
+    }
+  };
+
+  useEffect(() => {
+    if (enableSelector && !categories.length) {
+      fetchCategories();
+    }
+
+  }, [enableSelector, categories]);
+
   return(enableSelector ? (<Select
     defaultValue={category.name}
     style={{ width: '100%' }}
-    options={[
-      { value: 3, label: '3 months' },
-      { value: 6, label: '6 months' },
-      { value: 9, label: '9 months' },
-      { value: 12, label: '12 months' },
-      { value: 24, label: '24 months' }
-    ]}
+    options={selectorOptions}
   />): (<OutcomeCategory {...category} key={category.id} />));
 };
