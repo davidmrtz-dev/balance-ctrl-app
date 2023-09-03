@@ -98,7 +98,6 @@ export const OutcomeForm = ({
   );
 };
 
-
 const CategorySelector = ({
   enableSelector,
   category
@@ -106,15 +105,27 @@ const CategorySelector = ({
   enableSelector: boolean;
   category: ICategory;
 }): JSX.Element => {
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [selectorOptions, setSelectorOptions] = useState<{ value: number; label: string } []>([]);
+  const [selectorData, setSelectorData] =
+    useState<{
+      categories: ICategory[],
+      options: { value: number; label: string }[]
+    }>({ categories: [], options: [] });
 
   const fetchCategories = async () => {
     try {
-      const data = await getCategories();
-      const selectorOptions = data.categories.map(cat => ({ value: cat.id, label: cat.name }));
-      setCategories(data.categories);
-      setSelectorOptions(selectorOptions);
+      const storedCategories = localStorage.getItem('categories');
+
+      if (storedCategories) {
+        const parsedCategories = JSON.parse(storedCategories);
+        const selectorOptions = parsedCategories.map((cat: ICategory) => ({ value: cat.id, label: cat.name }));
+        setSelectorData({ categories: parsedCategories, options: selectorOptions });
+      } else {
+        const data = await getCategories();
+        const selectorOptions = data.categories.map(cat => ({ value: cat.id, label: cat.name }));
+        setSelectorData({ categories: data.categories, options: selectorOptions });
+
+        localStorage.setItem('categories', JSON.stringify(data.categories));
+      }
     } catch (error: any) {
       setTimeout(() => Alert({
         icon: 'error',
@@ -125,15 +136,20 @@ const CategorySelector = ({
   };
 
   useEffect(() => {
-    if (enableSelector && !categories.length) {
+    if (enableSelector && !selectorData.categories.length) {
       fetchCategories();
     }
+  }, [enableSelector, selectorData.categories]);
 
-  }, [enableSelector, categories]);
-
-  return(enableSelector ? (<Select
-    defaultValue={category.name}
-    style={{ width: '100%' }}
-    options={selectorOptions}
-  />): (<OutcomeCategory {...category} key={category.id} />));
+  return (
+    enableSelector ? (
+      <Select
+        defaultValue={category.name}
+        style={{ width: '100%' }}
+        options={selectorData.options}
+      />
+    ) : (
+      <OutcomeCategory {...category} key={category.id} />
+    )
+  );
 };
