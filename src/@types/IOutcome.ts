@@ -1,9 +1,10 @@
-import { ITransaction, IPayment } from "./";
+import { ITransaction, IPayment, ICategory } from "./";
 
 export interface IOutcome extends ITransaction {
   operation_type: 'outcome';
   quotas?: number;
   payments: IPayment [];
+  categories: ICategory [];
 }
 
 export interface IOutcomes {
