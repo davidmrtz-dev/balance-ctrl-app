@@ -10,6 +10,8 @@ import BillinfInformation from "../../billing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { CategorySelector } from "../CategorySelector";
+import { capitalizeFirst } from "../../../utils";
+import { Status } from "../Status";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -56,10 +58,16 @@ export const OutcomeForm = ({
         />
       </Form.Item>
       <Form.Item label='Name' name='description'>
-          {editable ? (<Input
-            maxLength={50}
-            style={{ ...theme.texts.brandSubFont }}
-          />): (<FormContentWrapper>{values.description}</FormContentWrapper>)}
+        {editable ? (<Input
+          maxLength={50}
+          style={{ ...theme.texts.brandSubFont }}
+        />): (<FormContentWrapper>{values.description}</FormContentWrapper>)}
+      </Form.Item>
+      <Form.Item label='Status' name='status'>
+        <FormContentWrapper style={{ justifyContent: 'space-between'}}>
+          {capitalizeFirst(values.status)}
+          <Status status={values.status} />
+        </FormContentWrapper>
       </Form.Item>
       <Form.Item label='Amount' name='amount'>
         {editable ? (<InputNumber
@@ -73,9 +81,9 @@ export const OutcomeForm = ({
         <Form.Item label={
           <span>
             Payments
-            <Tooltip title="Once a fixed outcome is created, it is not possible to change the number of payments">
+            {editable && <Tooltip title="Once a fixed outcome is created, it is not possible to change the number of payments">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
-            </Tooltip>
+            </Tooltip>}
           </span>
         } name='quotas'>
           {editable ? (<Select

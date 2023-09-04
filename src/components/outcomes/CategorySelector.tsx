@@ -63,7 +63,7 @@ export const CategorySelector = ({
       <Select
         defaultValue={values.categories[0]?.id}
         onChange={handleSelectorChange}
-        style={{ width: '100%' }}
+        style={{ width: '100%', margin: '8px 0' }}
         options={selectorData.options}
       />
     ) : (

@@ -5,6 +5,7 @@ export interface IOutcome extends ITransaction {
   quotas?: number;
   payments: IPayment [];
   categories: ICategory [];
+  status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown';
 }
 
 export interface IOutcomes {
