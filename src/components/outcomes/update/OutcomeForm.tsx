@@ -50,7 +50,11 @@ export const OutcomeForm = ({
       style={{ width: '100%' }}
     >
       <Form.Item label='Category' name='category'>
-        <CategorySelector enableSelector={editable} category={values.categories[0] || {} as ICategory} />
+        <CategorySelector
+          enableSelector={editable}
+          values={values}
+          setValues={setValues}
+        />
       </Form.Item>
       <Form.Item label='Name' name='description'>
           {editable ? (<Input
@@ -100,10 +104,12 @@ export const OutcomeForm = ({
 
 const CategorySelector = ({
   enableSelector,
-  category
+  values,
+  setValues
 }: {
   enableSelector: boolean;
-  category: ICategory;
+  values: IOutcome;
+  setValues: (values: IOutcome) => void;
 }): JSX.Element => {
   const [selectorData, setSelectorData] =
     useState<{
@@ -135,6 +141,14 @@ const CategorySelector = ({
     }
   };
 
+  const handleSelectorChange = (value: number) => {
+    const category = selectorData.categories.find(cat => cat.id === value);
+
+    if (!category) return;
+
+    setValues({ ...values, categories: [category] });
+  };
+
   useEffect(() => {
     if (enableSelector && !selectorData.categories.length) {
       fetchCategories();
@@ -144,12 +158,13 @@ const CategorySelector = ({
   return (
     enableSelector ? (
       <Select
-        defaultValue={category.name}
+        defaultValue={values.categories[0]?.id}
+        onChange={handleSelectorChange}
         style={{ width: '100%' }}
         options={selectorData.options}
       />
     ) : (
-      <OutcomeCategory {...category} key={category.id} />
+      <OutcomeCategory {...values.categories[0]} key={values.categories[0]?.id} />
     )
   );
 };
