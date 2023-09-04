@@ -18,7 +18,7 @@ const CategoryContentWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export const OutcomeCategory = (category: ICategory): JSX.Element => {
+export const Category = (category: ICategory): JSX.Element => {
   return(<CategoryWrapper>
     <CategoryContentWrapper>
       {SubFontText(category.name)}
