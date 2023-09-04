@@ -1,18 +1,17 @@
 import { Collapse, DatePicker, Form, Input, InputNumber, Select, Tooltip } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import { IOutcome, ICategory } from "../../../@types";
+import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
 import Payment from "../../payment";
 import { SubFontText } from "../../../atoms/text";
 import BillinfInformation from "../../billing";
-import { OutcomeCategory } from "../Category";
-import { useEffect, useState } from "react";
-import { getCategories } from "../../../api/core/Category";
-import Alert from "../../alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfo, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { CategorySelector } from "../CategorySelector";
+import { capitalizeFirst } from "../../../utils";
+import { Status } from "../Status";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -59,10 +58,16 @@ export const OutcomeForm = ({
         />
       </Form.Item>
       <Form.Item label='Name' name='description'>
-          {editable ? (<Input
-            maxLength={50}
-            style={{ ...theme.texts.brandSubFont }}
-          />): (<FormContentWrapper>{values.description}</FormContentWrapper>)}
+        {editable ? (<Input
+          maxLength={50}
+          style={{ ...theme.texts.brandSubFont }}
+        />): (<FormContentWrapper>{values.description}</FormContentWrapper>)}
+      </Form.Item>
+      <Form.Item label='Status' name='status'>
+        <FormContentWrapper style={{ justifyContent: 'space-between'}}>
+          {capitalizeFirst(values.status)}
+          <Status status={values.status} />
+        </FormContentWrapper>
       </Form.Item>
       <Form.Item label='Amount' name='amount'>
         {editable ? (<InputNumber
@@ -76,9 +81,9 @@ export const OutcomeForm = ({
         <Form.Item label={
           <span>
             Payments
-            <Tooltip title="Once a fixed outcome is created, it is not possible to change the number of payments">
+            {editable && <Tooltip title="Once a fixed outcome is created, it is not possible to change the number of payments">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
-            </Tooltip>
+            </Tooltip>}
           </span>
         } name='quotas'>
           {editable ? (<Select
@@ -109,72 +114,5 @@ export const OutcomeForm = ({
         {(values.billings || []).map(billing => <BillinfInformation {...billing} key={billing.id} />)}
       </Form.Item>
     </Form>
-  );
-};
-
-const CategorySelector = ({
-  enableSelector,
-  values,
-  setValues
-}: {
-  enableSelector: boolean;
-  values: IOutcome;
-  setValues: (values: IOutcome) => void;
-}): JSX.Element => {
-  const [selectorData, setSelectorData] =
-    useState<{
-      categories: ICategory[],
-      options: { value: number; label: string }[]
-    }>({ categories: [], options: [] });
-
-  const fetchCategories = async () => {
-    try {
-      const storedCategories = localStorage.getItem('categories');
-
-      if (storedCategories) {
-        const parsedCategories = JSON.parse(storedCategories);
-        const selectorOptions = parsedCategories.map((cat: ICategory) => ({ value: cat.id, label: cat.name }));
-        setSelectorData({ categories: parsedCategories, options: selectorOptions });
-      } else {
-        const data = await getCategories();
-        const selectorOptions = data.categories.map(cat => ({ value: cat.id, label: cat.name }));
-        setSelectorData({ categories: data.categories, options: selectorOptions });
-
-        localStorage.setItem('categories', JSON.stringify(data.categories));
-      }
-    } catch (error: any) {
-      setTimeout(() => Alert({
-        icon: 'error',
-        title: 'Ops!',
-        text: (error.message || 'There was an error, please try again later')
-      }), 1000);
-    }
-  };
-
-  const handleSelectorChange = (value: number) => {
-    const category = selectorData.categories.find(cat => cat.id === value);
-
-    if (!category) return;
-
-    setValues({ ...values, categories: [category] });
-  };
-
-  useEffect(() => {
-    if (enableSelector && !selectorData.categories.length) {
-      fetchCategories();
-    }
-  }, [enableSelector, selectorData.categories]);
-
-  return (
-    enableSelector ? (
-      <Select
-        defaultValue={values.categories[0]?.id}
-        onChange={handleSelectorChange}
-        style={{ width: '100%' }}
-        options={selectorData.options}
-      />
-    ) : (
-      <OutcomeCategory {...values.categories[0]} key={values.categories[0]?.id} />
-    )
   );
 };
