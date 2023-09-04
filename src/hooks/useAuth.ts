@@ -36,6 +36,7 @@ export const useAuth =  () => {
     await logout();
     setUser(DEFAULT_USER_AUTH);
     sessionStorage.clear();
+    localStorage.clear();
     setIsAuthenticated(false);
   };
 

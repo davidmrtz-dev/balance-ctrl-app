@@ -1,4 +1,4 @@
-import { Collapse, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { Collapse, DatePicker, Form, Input, InputNumber, Select, Tooltip } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import { IOutcome, ICategory } from "../../../@types";
@@ -8,6 +8,11 @@ import Payment from "../../payment";
 import { SubFontText } from "../../../atoms/text";
 import BillinfInformation from "../../billing";
 import { OutcomeCategory } from "../Category";
+import { useEffect, useState } from "react";
+import { getCategories } from "../../../api/core/Category";
+import Alert from "../../alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfo, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -47,7 +52,11 @@ export const OutcomeForm = ({
       style={{ width: '100%' }}
     >
       <Form.Item label='Category' name='category'>
-        <CategorySelector enableSelector={editable} category={values.categories[0] || {} as ICategory} />
+        <CategorySelector
+          enableSelector={editable}
+          values={values}
+          setValues={setValues}
+        />
       </Form.Item>
       <Form.Item label='Name' name='description'>
           {editable ? (<Input
@@ -64,8 +73,16 @@ export const OutcomeForm = ({
         />) : (<FormContentWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</FormContentWrapper>)}
       </Form.Item>
       {values.transaction_type === 'fixed' && (
-        <Form.Item label='Quotas' name='quotas'>
+        <Form.Item label={
+          <span>
+            Payments
+            <Tooltip title="Once a fixed outcome is created, it is not possible to change the number of payments">
+              <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
+            </Tooltip>
+          </span>
+        } name='quotas'>
           {editable ? (<Select
+            disabled
             style={{ width: '100%' }}
             options={[
               { value: 3, label: '3' },
@@ -95,23 +112,69 @@ export const OutcomeForm = ({
   );
 };
 
-
 const CategorySelector = ({
   enableSelector,
-  category
+  values,
+  setValues
 }: {
   enableSelector: boolean;
-  category: ICategory;
+  values: IOutcome;
+  setValues: (values: IOutcome) => void;
 }): JSX.Element => {
-  return(enableSelector ? (<Select
-    defaultValue={category.name}
-    style={{ width: '100%' }}
-    options={[
-      { value: 3, label: '3 months' },
-      { value: 6, label: '6 months' },
-      { value: 9, label: '9 months' },
-      { value: 12, label: '12 months' },
-      { value: 24, label: '24 months' }
-    ]}
-  />): (<OutcomeCategory {...category} key={category.id} />));
+  const [selectorData, setSelectorData] =
+    useState<{
+      categories: ICategory[],
+      options: { value: number; label: string }[]
+    }>({ categories: [], options: [] });
+
+  const fetchCategories = async () => {
+    try {
+      const storedCategories = localStorage.getItem('categories');
+
+      if (storedCategories) {
+        const parsedCategories = JSON.parse(storedCategories);
+        const selectorOptions = parsedCategories.map((cat: ICategory) => ({ value: cat.id, label: cat.name }));
+        setSelectorData({ categories: parsedCategories, options: selectorOptions });
+      } else {
+        const data = await getCategories();
+        const selectorOptions = data.categories.map(cat => ({ value: cat.id, label: cat.name }));
+        setSelectorData({ categories: data.categories, options: selectorOptions });
+
+        localStorage.setItem('categories', JSON.stringify(data.categories));
+      }
+    } catch (error: any) {
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: (error.message || 'There was an error, please try again later')
+      }), 1000);
+    }
+  };
+
+  const handleSelectorChange = (value: number) => {
+    const category = selectorData.categories.find(cat => cat.id === value);
+
+    if (!category) return;
+
+    setValues({ ...values, categories: [category] });
+  };
+
+  useEffect(() => {
+    if (enableSelector && !selectorData.categories.length) {
+      fetchCategories();
+    }
+  }, [enableSelector, selectorData.categories]);
+
+  return (
+    enableSelector ? (
+      <Select
+        defaultValue={values.categories[0]?.id}
+        onChange={handleSelectorChange}
+        style={{ width: '100%' }}
+        options={selectorData.options}
+      />
+    ) : (
+      <OutcomeCategory {...values.categories[0]} key={values.categories[0]?.id} />
+    )
+  );
 };
