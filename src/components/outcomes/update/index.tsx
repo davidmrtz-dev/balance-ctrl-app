@@ -45,7 +45,11 @@ const OutcomeUpdate = ({
 
     try {
       const outcome = await updateOutcome({
-        ...values, transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD')
+        ...values,
+        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
+        categorizations_attributes: [{
+          category_id: values.categories[0].id
+        }]
       } as IOutcome);
       setTimeout(async () => {
         await handleUpdate(outcome);
