@@ -1,4 +1,4 @@
-import { Collapse, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { Collapse, DatePicker, Form, Input, InputNumber, Select, Tooltip } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import { IOutcome, ICategory } from "../../../@types";
@@ -11,6 +11,8 @@ import { OutcomeCategory } from "../Category";
 import { useEffect, useState } from "react";
 import { getCategories } from "../../../api/core/Category";
 import Alert from "../../alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfo, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -71,8 +73,16 @@ export const OutcomeForm = ({
         />) : (<FormContentWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</FormContentWrapper>)}
       </Form.Item>
       {values.transaction_type === 'fixed' && (
-        <Form.Item label='Quotas' name='quotas'>
+        <Form.Item label={
+          <span>
+            Payments
+            <Tooltip title="Once a fixed outcome is created, it is not possible to change the number of payments">
+              <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
+            </Tooltip>
+          </span>
+        } name='quotas'>
           {editable ? (<Select
+            disabled
             style={{ width: '100%' }}
             options={[
               { value: 3, label: '3' },
