@@ -4,7 +4,6 @@ import styled from "styled-components";
 import {
   IOutcome,
   IOutcomes,
-  OutcomesPagination,
   OutcomesHash,
   TransactionType
 } from "../../../@types";
@@ -56,7 +55,7 @@ export const Outcomes = ({
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<OutcomesHash>({});
-  const [pages, setPages] = useState<OutcomesPagination>({ current: 0, fixed: 0});
+  const [pages, setPages] = useState(0);
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
@@ -65,17 +64,17 @@ export const Outcomes = ({
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
-  const handleRightClick = () => page < pages[type] && setPage(page + 1);
+  const handleRightClick = () => page < pages && setPage(page + 1);
 
   const handleBlock = useCallback(() => {
     if (!loading) {
       if (page === 1) {
-        if (pages.current > 1) {
+        if (pages > 1) {
           setDisableBtns({ left: true, right: false });
         } else {
           setDisableBtns({ left: true, right: true });
         }
-      } else if (page === pages[type]) {
+      } else if (page === pages) {
         setDisableBtns({ left: false, right: true });
       } else {
         setDisableBtns({ left: false, right: false });
@@ -83,7 +82,7 @@ export const Outcomes = ({
     } else {
       setDisableBtns({ left: true, right: true });
     }
-  }, [loading, page, pages, type]);
+  }, [loading, page, pages]);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
     setOutcome(outcome);
@@ -100,7 +99,7 @@ export const Outcomes = ({
       setLoading(true);
       const data = await fetchData(offset, type);
       setOutcomes({...outcomes,  [page]: data.outcomes });
-      setPages({ current: data.total_pages, fixed: data.total_pages });
+      setPages(data.total_pages);
       setTimeout(() => setLoading(false), 1500);
     } catch (error) {
       setTimeout(() => Alert({
