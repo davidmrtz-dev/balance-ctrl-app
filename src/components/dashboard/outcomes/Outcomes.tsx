@@ -1,4 +1,4 @@
-import { Button, Collapse } from "antd";
+import { Button, Collapse, Tooltip } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import {
@@ -17,6 +17,8 @@ import {
 import { theme } from "../../../Theme";
 import { OutcomeCreate, OutcomeUpdate } from "../../outcomes";
 import { FontText } from "../../../atoms/text";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 const { Panel } = Collapse;
 
 type BtnStatus = {
@@ -207,7 +209,24 @@ const AddOutcome = ({
 }: {
   disabled: boolean;
   onClick: () => void;
-}): JSX.Element =>
-  <Button disabled={disabled} onClick={onClick}>
-    +
-</Button>;
+}): JSX.Element => (
+  <>
+    <Tooltip
+      title="You can only add a new outcome on the most recent page in the dashboard"
+    >
+      <FontAwesomeIcon
+        icon={faInfoCircle}
+        style={{
+          padding: '0 5px',
+          color: theme.colors.grays.normal,
+          opacity: disabled ? 1 : 0,
+          transition: 'opacity .4s ease-in-out'
+        }}
+        size="1x"
+      />
+    </Tooltip>
+    <Button disabled={disabled} onClick={onClick}>
+      +
+    </Button>
+  </>
+);
