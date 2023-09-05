@@ -52,7 +52,8 @@ const Home = (): JSX.Element => {
   return (
     <>
       <Typography style={{
-        ...theme.texts.brandH5
+        ...theme.texts.brandH5,
+        marginTop: '16px'
       }}>
         Hi, {auth.user?.name}
       </Typography>

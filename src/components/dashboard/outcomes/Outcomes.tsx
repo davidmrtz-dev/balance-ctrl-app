@@ -70,7 +70,11 @@ export const Outcomes = ({
   const handleBlock = useCallback(() => {
     if (!loading) {
       if (page === 1) {
-        setDisableBtns({ left: true, right: false });
+        if (pages.current > 1) {
+          setDisableBtns({ left: true, right: false });
+        } else {
+          setDisableBtns({ left: true, right: true });
+        }
       } else if (page === pages[type]) {
         setDisableBtns({ left: false, right: true });
       } else {
@@ -84,7 +88,6 @@ export const Outcomes = ({
   const handleOutcomeClick = (outcome: IOutcome) => {
     setOutcome(outcome);
     setShowUpdate(true);
-    // setShowDetail(true);
   };
 
   const handleCloseUpdate = () => {
@@ -150,7 +153,7 @@ export const Outcomes = ({
         collapsible='disabled'
         expandIcon={() =>
           <AddOutcome
-            disabled={!disableBtns.left || (disableBtns.left && disableBtns.right)}
+            disabled={(!disableBtns.left && !disableBtns.right) || !disableBtns.left}
             onClick={() => setShowNew(true)}
           />
         }

@@ -49,7 +49,7 @@ const Payment = (payment: IPayment): JSX.Element => {
       </PaymentContentWrapper>
       <PaymentContentWrapper>
         {SubFontText('Status:')}
-        <div style={{ display: 'flex', alignItems: 'center', minWidth: '25%' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <StatusCircle style={{ backgroundColor: getStatusColor() }} />
           {SubFontText(capitalizeFirst(payment.status))}
         </div>
