@@ -14,8 +14,3 @@ export interface IOutcomes {
 }
 
 export interface OutcomesHash { [key: number]: IOutcome [] };
-
-export interface OutcomesPagination {
-  current: number;
-  fixed: number;
-}

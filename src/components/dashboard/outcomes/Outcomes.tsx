@@ -1,10 +1,9 @@
-import { Button, Collapse } from "antd";
+import { Button, Collapse, Tooltip } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   IOutcome,
   IOutcomes,
-  OutcomesPagination,
   OutcomesHash,
   TransactionType
 } from "../../../@types";
@@ -18,6 +17,8 @@ import {
 import { theme } from "../../../Theme";
 import { OutcomeCreate, OutcomeUpdate } from "../../outcomes";
 import { FontText } from "../../../atoms/text";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 const { Panel } = Collapse;
 
 type BtnStatus = {
@@ -56,7 +57,7 @@ export const Outcomes = ({
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [outcomes, setOutcomes] = useState<OutcomesHash>({});
-  const [pages, setPages] = useState<OutcomesPagination>({ current: 0, fixed: 0});
+  const [pages, setPages] = useState(0);
   const [page, setPage] = useState(1);
   const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
@@ -65,13 +66,17 @@ export const Outcomes = ({
 
   const handleLeftClick = () => page > 1 && setPage(page - 1);
 
-  const handleRightClick = () => page < pages[type] && setPage(page + 1);
+  const handleRightClick = () => page < pages && setPage(page + 1);
 
   const handleBlock = useCallback(() => {
     if (!loading) {
       if (page === 1) {
-        setDisableBtns({ left: true, right: false });
-      } else if (page === pages[type]) {
+        if (pages > 1) {
+          setDisableBtns({ left: true, right: false });
+        } else {
+          setDisableBtns({ left: true, right: true });
+        }
+      } else if (page === pages) {
         setDisableBtns({ left: false, right: true });
       } else {
         setDisableBtns({ left: false, right: false });
@@ -79,12 +84,11 @@ export const Outcomes = ({
     } else {
       setDisableBtns({ left: true, right: true });
     }
-  }, [loading, page, pages, type]);
+  }, [loading, page, pages]);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
     setOutcome(outcome);
     setShowUpdate(true);
-    // setShowDetail(true);
   };
 
   const handleCloseUpdate = () => {
@@ -97,7 +101,7 @@ export const Outcomes = ({
       setLoading(true);
       const data = await fetchData(offset, type);
       setOutcomes({...outcomes,  [page]: data.outcomes });
-      setPages({ current: data.total_pages, fixed: data.total_pages });
+      setPages(data.total_pages);
       setTimeout(() => setLoading(false), 1500);
     } catch (error) {
       setTimeout(() => Alert({
@@ -150,7 +154,7 @@ export const Outcomes = ({
         collapsible='disabled'
         expandIcon={() =>
           <AddOutcome
-            disabled={!disableBtns.left || (disableBtns.left && disableBtns.right)}
+            disabled={(!disableBtns.left && !disableBtns.right) || !disableBtns.left}
             onClick={() => setShowNew(true)}
           />
         }
@@ -205,7 +209,24 @@ const AddOutcome = ({
 }: {
   disabled: boolean;
   onClick: () => void;
-}): JSX.Element =>
-  <Button disabled={disabled} onClick={onClick}>
-    +
-</Button>;
+}): JSX.Element => (
+  <>
+    <Tooltip
+      title="You can only add a new outcome on the most recent page in the dashboard"
+    >
+      <FontAwesomeIcon
+        icon={faInfoCircle}
+        style={{
+          padding: '0 5px',
+          color: theme.colors.grays.normal,
+          opacity: disabled ? 1 : 0,
+          transition: 'opacity .4s ease-in-out'
+        }}
+        size="1x"
+      />
+    </Tooltip>
+    <Button disabled={disabled} onClick={onClick}>
+      +
+    </Button>
+  </>
+);
