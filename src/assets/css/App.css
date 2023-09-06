@@ -25,3 +25,7 @@
   color: #101313;
   cursor: pointer !important;
 }
+
+.ant-select-selection-item {
+  color: #101313;
+}

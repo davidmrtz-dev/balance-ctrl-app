@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { ICategory, IOutcome } from "../../@types";
-import { getCategories } from "../../api/core/Category";
-import Alert from "../alert";
+import { ICategory, IOutcome } from "../../../@types";
+import { getCategories } from "../../../api/core/Category";
+import Alert from "../../alert";
 import { Select } from "antd";
 import { Category } from "./Category";
 

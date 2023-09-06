@@ -1,8 +1,9 @@
-import { ITransaction, IPayment, ICategory } from "./";
+import { ITransaction, IPayment, ICategory, IBilling } from "./";
 
 export interface IOutcome extends ITransaction {
   operation_type: 'outcome';
   quotas?: number;
+  billings: IBilling [];
   payments: IPayment [];
   categories: ICategory [];
   status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown';

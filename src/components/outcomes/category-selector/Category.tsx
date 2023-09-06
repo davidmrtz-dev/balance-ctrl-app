@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { theme } from "../../Theme";
-import { ICategory } from "../../@types";
-import { SubFontText } from "../../atoms/text";
+import { theme } from "../../../Theme";
+import { ICategory } from "../../../@types";
+import { SubFontText } from "../../../atoms/text";
 
 const CategoryWrapper = styled.div`
   display: flex;

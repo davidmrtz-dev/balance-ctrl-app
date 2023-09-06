@@ -1,5 +1,4 @@
 import { Dayjs } from "dayjs";
-import { IBilling } from "./";
 
 type OperationType = 'income' | 'outcome';
 
@@ -12,5 +11,4 @@ export interface ITransaction {
   transaction_type: TransactionType;
   operation_type : OperationType;
   transaction_date?: string | Dayjs;
-  billings: IBilling [];
 }

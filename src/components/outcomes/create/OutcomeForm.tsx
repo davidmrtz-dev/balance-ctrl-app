@@ -3,6 +3,7 @@ import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
+import { CategorySelector } from "../category-selector/CategorySelector";
 
 export const OutcomeForm = ({
   values,
@@ -27,6 +28,13 @@ export const OutcomeForm = ({
       onValuesChange={e => setValues({...values, ...e})}
       style={{ width: '100%' }}
     >
+      <Form.Item label='Category' name='category'>
+        <CategorySelector
+          enableSelector
+          values={values}
+          setValues={setValues}
+        />
+      </Form.Item>
       <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
         Name
       </Typography.Text>}
