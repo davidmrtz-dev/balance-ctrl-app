@@ -35,7 +35,9 @@ const OutcomeCreate = ({
 
     try {
       const outcome = await createOutcome({
-        ...values, transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD')
+        ...values,
+        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
+        category_id: values.categories[0].id
       } as IOutcome);
       setTimeout(async () => {
         await handleCreate(outcome);

@@ -212,13 +212,13 @@ const AddOutcome = ({
 }): JSX.Element => (
   <>
     <Tooltip
-      title="You can only add a new outcome on the most recent page in the dashboard"
+      title="Outcome creation is only available in the most recent page"
     >
       <FontAwesomeIcon
         icon={faInfoCircle}
         style={{
           padding: '0 5px',
-          color: theme.colors.grays.normal,
+          color: theme.colors.blacks.normal,
           opacity: disabled ? 1 : 0,
           transition: 'opacity .4s ease-in-out'
         }}

@@ -9,7 +9,7 @@ import { SubFontText } from "../../../atoms/text";
 import BillinfInformation from "../../billing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { CategorySelector } from "../CategorySelector";
+import { CategorySelector } from "../category-selector/CategorySelector";
 import { capitalizeFirst } from "../../../utils";
 import { Status } from "../Status";
 
@@ -69,8 +69,16 @@ export const OutcomeForm = ({
           <Status status={values.status} />
         </FormContentWrapper>
       </Form.Item>
-      <Form.Item label='Amount' name='amount'>
+      <Form.Item label={
+          <span>
+            Amount
+            {values.transaction_type === 'fixed' && <Tooltip title="Once a fixed outcome is created, it is not possible to change the amount">
+              <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
+            </Tooltip>}
+          </span>
+        } name='amount'>
         {editable ? (<InputNumber
+          disabled={values.transaction_type === 'fixed'}
           min={1}
           style={{ width: '100%', ...theme.texts.brandSubFont }}
           formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}

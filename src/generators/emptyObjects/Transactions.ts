@@ -6,7 +6,12 @@ export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
     transaction_type: type as TransactionType,
     description: '',
     transaction_date: '',
-    amount: '1'
+    amount: '1',
+    categories: [],
+    payments: [],
+    status: 'unknown',
+    billings: [],
+    operation_type: 'outcome'
   };
 
   if (type === 'current') {
