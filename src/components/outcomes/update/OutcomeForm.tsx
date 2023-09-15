@@ -4,9 +4,9 @@ import dayjs from "dayjs";
 import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
-import { Payment } from "../payment-selector/Payment";
+import { Payment } from "../Payment";
+import { Billing } from "../Billing";
 import { SubFontText } from "../../../atoms/text";
-import BillinfInformation from "../../billing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { CategorySelector } from "../category-selector/CategorySelector";
@@ -119,7 +119,7 @@ export const OutcomeForm = ({
         </Panel>
       </Collapse>
       <Form.Item label="Billing information" name='billing_information'>
-        {(values.billings || []).map(billing => <BillinfInformation {...billing} key={billing.id} />)}
+        {(values.billings || []).map(billing => <Billing {...billing} key={billing.id} />)}
       </Form.Item>
     </Form>
   );

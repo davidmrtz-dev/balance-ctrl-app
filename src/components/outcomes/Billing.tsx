@@ -40,7 +40,7 @@ const BillingRow = styled.div`
   justify-content: space-between;
 `;
 
-const BillinfInformation = (billing: IBilling): JSX.Element => {
+export const Billing = (billing: IBilling): JSX.Element => {
   return (<BillingWrapper>
     <BillingIconWrapper>
       <FontAwesomeIcon icon={faCreditCard} style={{ color: theme.colors.blues.normal }} size="3x"/>
@@ -73,5 +73,3 @@ const BillinfInformation = (billing: IBilling): JSX.Element => {
     </BillingDataWrapper>
   </BillingWrapper>);
 };
-
-export default BillinfInformation;
