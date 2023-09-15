@@ -10,7 +10,7 @@ export const getOutcomes = async ({
   limit?: number;
   type?: TransactionType;
 }): Promise<IOutcomes> => {
-  const route = type ? `/api/outcomes/${type}` : '/api/outcomes'
+  const route = type ? `/api/v1/outcomes/${type}` : '/api/v1/outcomes'
   const result = await Http.get(route, { limit, offset }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
@@ -21,7 +21,7 @@ export const getOutcomes = async ({
 };
 
 export const createOutcome = async (values: IOutcome): Promise<IOutcome> => {
-  const result = await Http.post('/api/outcomes/', { outcome: values }, { headers: {
+  const result = await Http.post('/api/v1/outcomes/', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
@@ -31,7 +31,7 @@ export const createOutcome = async (values: IOutcome): Promise<IOutcome> => {
 };
 
 export const updateOutcome = async (values: IOutcome): Promise<IOutcome> => {
-  const result = await Http.put(`/api/outcomes/${values.id}`, { outcome: values }, { headers: {
+  const result = await Http.put(`/api/v1/outcomes/${values.id}`, { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
@@ -41,7 +41,7 @@ export const updateOutcome = async (values: IOutcome): Promise<IOutcome> => {
 };
 
 export const deleteOutcome = async (id: number): Promise<void> => {
-  await Http.destroy(`/api/outcomes/${id}`, null, {
+  await Http.destroy(`/api/v1/outcomes/${id}`, null, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
@@ -61,7 +61,7 @@ export const searchOutcomes = async ({
   end_date: string;
   limit?: number;
 }): Promise<IOutcomes> => {
-  const result = await Http.get('/api/outcomes/search', { limit, offset, keyword, start_date, end_date }, {
+  const result = await Http.get('/api/v1/outcomes/search', { limit, offset, keyword, start_date, end_date }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
