@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
-import Payment from "../../payment";
+import { Payment } from "../payment-selector/Payment";
 import { SubFontText } from "../../../atoms/text";
 import BillinfInformation from "../../billing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

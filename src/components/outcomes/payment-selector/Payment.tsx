@@ -1,8 +1,8 @@
 import styled from "styled-components"
-import { theme } from "../../Theme"
-import { SubFontText } from "../../atoms/text";
-import { IPayment } from "../../@types";
-import { capitalizeFirst } from "../../utils";
+import { theme } from "../../../Theme"
+import { SubFontText } from "../../../atoms/text";
+import { IPayment } from "../../../@types";
+import { capitalizeFirst } from "../../../utils";
 
 const PaymentWrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const StatusCircle = styled.div`
   margin-right: 8px;
 `;
 
-const Payment = (payment: IPayment): JSX.Element => {
+export const Payment = (payment: IPayment): JSX.Element => {
   const getStatusColor = () => {
     switch (payment.status) {
       case 'hold':
@@ -56,5 +56,3 @@ const Payment = (payment: IPayment): JSX.Element => {
       </PaymentContentWrapper>
   </PaymentWrapper>);
 };
-
-export default Payment;
