@@ -1,15 +1,16 @@
 import styled from "styled-components";
-import { theme } from "../../Theme";
-import { IBilling } from "../../@types";
+import { theme } from "../../../Theme";
+import { IBilling } from "../../../@types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
-import { SubFontText } from "../../atoms/text";
+import { SubFontText } from "../../../atoms/text";
 import dayjs from "dayjs";
-import { capitalizeFirst } from "../../utils";
+import { capitalizeFirst } from "../../../utils";
 
 const BillingWrapper = styled.div`
   display: flex;
   padding: 4px 11px;
+  margin: 10px 0;
   border-radius: 6px;
   background-color: ${theme.colors.whites.normal};
   border: 1px solid ${theme.colors.grays.light};

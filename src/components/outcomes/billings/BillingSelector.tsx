@@ -1,0 +1,88 @@
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import { IBilling } from "../../../@types";
+import { getBillings } from "../../../api/core/Billing";
+import Alert from "../../alert";
+import { Button, Modal, Typography } from "antd";
+import { FontText } from "../../../atoms/text";
+import { theme } from "../../../Theme";
+import { LoadingMask } from "../../../atoms/LoadingMask";
+import { Billing } from "./Billing";
+
+const BillingContainer = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+`;
+
+export const BillingSelector = (): JSX.Element => {
+  const [showList, setShowList] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [billings, setBillings] = useState<IBilling []>([]);
+
+  const fetchBillings = async () => {
+    setLoading(true);
+    try {
+      const data = await getBillings();
+      setBillings(data.billings);
+      setTimeout(() => setLoading(false), 1000);
+    } catch (error: any) {
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: (error.message || 'There was an error, please try again later')
+      }), 1000);
+    }
+  };
+
+  useEffect(() => {
+    if (showList && !billings.length) {
+      fetchBillings();
+    }
+  }, [showList, billings]);
+
+  const footerComponents = [
+    <Button
+      key="cancel"
+      onClick={() => setShowList(false)}
+      disabled={loading}
+    >
+      {FontText('Cancel')}
+    </Button>
+  ];
+
+  return (
+    <>
+      <Button
+        type='primary'
+        style={{
+          width: '100%',
+          marginBottom: 16,
+          ...theme.texts.brandFont }}
+        onClick={() => setShowList(true)}
+      >
+        Select payment method
+      </Button>
+      <Modal
+        destroyOnClose
+        maskClosable={false}
+        closable={false}
+        open={showList}
+        title={<Typography.Text
+          style={{...theme.texts.brandFont, fontWeight: 'normal'}}
+          > {loading ? '' : 'Select payment method'}
+          </Typography.Text>}
+        style={{
+          maxWidth: 360
+        }}
+        footer={footerComponents}
+      >
+        {loading ?
+          <LoadingMask height={75} width={75} withIcon iconSize="2x" /> :
+          <BillingContainer>
+            {(billings || []).map(billing => <Billing {...billing} key={billing.id} />)}
+          </BillingContainer>
+        }
+      </Modal>
+    </>
+  );
+};
