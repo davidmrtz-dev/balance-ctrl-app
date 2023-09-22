@@ -79,7 +79,7 @@ export const BillingSelector = (): JSX.Element => {
         {loading ?
           <LoadingMask height={75} width={75} withIcon iconSize="2x" /> :
           <BillingContainer>
-            {(billings || []).map(billing => <Billing {...billing} key={billing.id} />)}
+            {(billings || []).map(billing => <Billing billing={billing} key={billing.id} selectable />)}
           </BillingContainer>
         }
       </Modal>

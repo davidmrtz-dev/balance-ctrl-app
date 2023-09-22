@@ -7,7 +7,9 @@ import { SubFontText } from "../../../atoms/text";
 import dayjs from "dayjs";
 import { capitalizeFirst } from "../../../utils";
 
-const BillingWrapper = styled.div`
+const BillingWrapper = styled.div<{
+  selectable: boolean;
+}>`
   display: flex;
   padding: 4px 11px;
   margin: 10px 0;
@@ -15,6 +17,7 @@ const BillingWrapper = styled.div`
   background-color: ${theme.colors.whites.normal};
   border: 1px solid ${theme.colors.grays.light};
   justify-content: space-around;
+  cursor: ${p => p.selectable ? 'pointer' : 'default'};
 `;
 
 const BillingIconWrapper = styled.div`
@@ -41,8 +44,14 @@ const BillingRow = styled.div`
   justify-content: space-between;
 `;
 
-export const Billing = (billing: IBilling): JSX.Element => {
-  return (<BillingWrapper>
+export const Billing = ({
+  billing,
+  selectable
+}:{
+  billing: IBilling;
+  selectable?: boolean;
+}): JSX.Element => {
+  return (<BillingWrapper selectable={selectable || false}>
     <BillingIconWrapper>
       <FontAwesomeIcon icon={faCreditCard} style={{ color: theme.colors.blues.normal }} size="3x"/>
     </BillingIconWrapper>

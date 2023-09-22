@@ -1,16 +1,9 @@
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Select, Typography } from "antd";
+import { DatePicker, Form, Input, InputNumber, Select, Typography } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import { IBilling, IOutcome } from "../../../@types";
+import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import { CategorySelector } from "../categories/CategorySelector";
-import { useEffect, useState } from "react";
-import { LoadingMask } from "../../../atoms/LoadingMask";
-import { FontText } from "../../../atoms/text";
-import { getBillings } from "../../../api/core/Billing";
-import Alert from "../../alert";
-import { Billing } from "../billings/Billing";
-import styled from "styled-components";
 import { BillingSelector } from "../billings/BillingSelector";
 
 export const OutcomeForm = ({

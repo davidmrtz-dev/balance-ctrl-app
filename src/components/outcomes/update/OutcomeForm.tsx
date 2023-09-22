@@ -128,7 +128,7 @@ export const OutcomeForm = ({
             </Tooltip>}
           </span>
         } name='billing_information'>
-        {(values.billings || []).map(billing => <Billing {...billing} key={billing.id} />)}
+        {(values.billings || []).map(billing => <Billing billing={billing} key={billing.id} />)}
       </Form.Item>
     </Form>
   );

@@ -166,7 +166,7 @@ export const Outcomes = ({
               ? (<LoadingWrapper height='450px'>
                   <LoadingMask />
                 </LoadingWrapper>)
-              : (<OutcomesContainer reveal={reveal} >
+              : (<OutcomesContainer reveal={reveal}>
                   {(outcomes[page] || []).map(outcome =>
                     <Outcome
                       key={outcome.id}
