@@ -4,14 +4,15 @@ import dayjs from "dayjs";
 import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import styled from "styled-components";
-import Payment from "../../payment";
+import { Payment } from "../Payment";
+import { Billing } from "../billings/Billing";
 import { SubFontText } from "../../../atoms/text";
-import BillinfInformation from "../../billing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { CategorySelector } from "../category-selector/CategorySelector";
+import { CategorySelector } from "../categories/CategorySelector";
 import { capitalizeFirst } from "../../../utils";
 import { Status } from "../Status";
+import { BillingSelector } from "../billings/BillingSelector";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -72,7 +73,7 @@ export const OutcomeForm = ({
       <Form.Item label={
           <span>
             Amount
-            {values.transaction_type === 'fixed' && <Tooltip title="Once a fixed outcome is created, it is not possible to change the amount">
+            {(values.transaction_type === 'fixed' && editable) && <Tooltip title="Once a fixed outcome is created, it is not possible to change the amount">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
             </Tooltip>}
           </span>
@@ -115,12 +116,27 @@ export const OutcomeForm = ({
       </Form.Item>
       <Collapse expandIconPosition='end' style={{ marginBottom: '24px' }}>
         <Panel header={SubFontText('Related Payments')} key={1}>
-          {(values.payments || []).map(payment => <Payment {...payment} key={payment.id} />)}
+          <PaymentsContainer>
+            {(values.payments || []).map(payment => <Payment {...payment} key={payment.id} />)}
+          </PaymentsContainer>
         </Panel>
       </Collapse>
-      <Form.Item label="Billing information" name='billing_information'>
-        {(values.billings || []).map(billing => <BillinfInformation {...billing} key={billing.id} />)}
+      <Form.Item label={
+          <span>
+            Billing Information
+            {(values.transaction_type === 'fixed' && editable) && <Tooltip title="Once a fixed outcome is created, it is not possible to change the payment method">
+              <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
+            </Tooltip>}
+          </span>
+        } name='billing_information'>
+        {(values.billings || []).map(billing => <Billing billing={billing} key={billing.id} />)}
       </Form.Item>
+      {(values.transaction_type === 'current' && editable) && <BillingSelector values={values} setValues={setValues} /> }
     </Form>
   );
 };
+
+const PaymentsContainer = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+`;

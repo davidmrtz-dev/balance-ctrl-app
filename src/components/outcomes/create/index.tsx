@@ -23,13 +23,25 @@ const OutcomeCreate = ({
   const [values, setValues] = useState<IOutcome>(newOutcome(type));
 
   const handleSubmit = async () => {
+    let valid = true;
+    let errorText = '';
     if (Object.values(values).some(val => val === '')) {
-      Alert({
-        icon: 'error',
-        text: 'All fields are required'
-      });
-      return;
+      valid = false;
+      errorText = 'All fields are required';
+    } else if (
+      values.categories.length === 0 ||
+      values.billings.length === 0
+    ) {
+      valid = false;
+      errorText = 'You must have to select a category and a payment method'
     }
+
+    Alert({
+      icon: 'error',
+      text: errorText
+    });
+
+    if (!valid) return;
 
     setLoading(true);
 
@@ -37,7 +49,8 @@ const OutcomeCreate = ({
       const outcome = await createOutcome({
         ...values,
         transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
-        category_id: values.categories[0].id
+        category_id: values.categories[0].id,
+        billing_id: values.billings[0].id
       } as IOutcome);
       setTimeout(async () => {
         await handleCreate(outcome);

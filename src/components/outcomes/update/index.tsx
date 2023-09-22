@@ -49,6 +49,9 @@ const OutcomeUpdate = ({
         transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
         categorizations_attributes: [{
           category_id: values.categories[0].id
+        }],
+        billing_transactions_attributes: [{
+          billing_id: values.billings[0].id
         }]
       } as IOutcome);
       setTimeout(async () => {
