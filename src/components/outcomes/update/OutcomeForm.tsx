@@ -12,6 +12,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { CategorySelector } from "../categories/CategorySelector";
 import { capitalizeFirst } from "../../../utils";
 import { Status } from "../Status";
+import { BillingSelector } from "../billings/BillingSelector";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
@@ -123,13 +124,14 @@ export const OutcomeForm = ({
       <Form.Item label={
           <span>
             Billing Information
-            {(values.transaction_type === 'fixed' && editable)&& <Tooltip title="Once a fixed outcome is created, it is not possible to change the payment method">
+            {(values.transaction_type === 'fixed' && editable) && <Tooltip title="Once a fixed outcome is created, it is not possible to change the payment method">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
             </Tooltip>}
           </span>
         } name='billing_information'>
         {(values.billings || []).map(billing => <Billing billing={billing} key={billing.id} />)}
       </Form.Item>
+      {(values.transaction_type === 'current' && editable) && <BillingSelector values={values} setValues={setValues} /> }
     </Form>
   );
 };

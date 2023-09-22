@@ -46,12 +46,14 @@ const BillingRow = styled.div`
 
 export const Billing = ({
   billing,
-  selectable
+  selectable,
+  onClick
 }:{
   billing: IBilling;
   selectable?: boolean;
+  onClick?: () => void;
 }): JSX.Element => {
-  return (<BillingWrapper selectable={selectable || false}>
+  return (<BillingWrapper selectable={selectable || false} onClick={onClick}>
     <BillingIconWrapper>
       <FontAwesomeIcon icon={faCreditCard} style={{ color: theme.colors.blues.normal }} size="3x"/>
     </BillingIconWrapper>

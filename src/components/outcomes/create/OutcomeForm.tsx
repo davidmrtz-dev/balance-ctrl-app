@@ -1,10 +1,13 @@
-import { DatePicker, Form, Input, InputNumber, Select, Typography } from "antd";
+import { DatePicker, Form, Input, InputNumber, Select, Tooltip, Typography } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
 import { CategorySelector } from "../categories/CategorySelector";
 import { BillingSelector } from "../billings/BillingSelector";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { Billing } from "../billings/Billing";
 
 export const OutcomeForm = ({
   values,
@@ -73,7 +76,17 @@ export const OutcomeForm = ({
           disabledDate={disabledDate}
         />
       </Form.Item>
-      <BillingSelector />
+      {(values.billings.length > 0) && (<Form.Item label={
+          <span>
+            Billing Information
+            {(values.transaction_type === 'fixed')&& <Tooltip title="Once a fixed outcome is created, it is not possible to change the payment method">
+              <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
+            </Tooltip>}
+          </span>
+        } name='billing_information'>
+        {(values.billings || []).map(billing => <Billing billing={billing} key={billing.id} />)}
+      </Form.Item>)}
+      <BillingSelector values={values} setValues={setValues} />
     </Form>
   );
 };

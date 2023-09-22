@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { IBilling } from "../../../@types";
+import { IBilling, IOutcome } from "../../../@types";
 import { getBillings } from "../../../api/core/Billing";
 import Alert from "../../alert";
 import { Button, Modal, Typography } from "antd";
@@ -14,7 +14,13 @@ const BillingContainer = styled.div`
   overflow-y: auto;
 `;
 
-export const BillingSelector = (): JSX.Element => {
+export const BillingSelector = ({
+  values,
+  setValues
+}: {
+  values: IOutcome;
+  setValues: (values: IOutcome) => void;
+}): JSX.Element => {
   const [showList, setShowList] = useState(false);
   const [loading, setLoading] = useState(false);
   const [billings, setBillings] = useState<IBilling []>([]);
@@ -40,6 +46,11 @@ export const BillingSelector = (): JSX.Element => {
     }
   }, [showList, billings]);
 
+  const handleBillingChange = (billing: IBilling) => {
+    setValues({ ...values, billings: [billing] });
+    setShowList(false);
+  }
+
   const footerComponents = [
     <Button
       key="cancel"
@@ -60,7 +71,7 @@ export const BillingSelector = (): JSX.Element => {
           ...theme.texts.brandFont }}
         onClick={() => setShowList(true)}
       >
-        Select payment method
+        {values.billings.length > 0 ? 'Change' : 'Select'} payment method
       </Button>
       <Modal
         destroyOnClose
@@ -79,7 +90,12 @@ export const BillingSelector = (): JSX.Element => {
         {loading ?
           <LoadingMask height={75} width={75} withIcon iconSize="2x" /> :
           <BillingContainer>
-            {(billings || []).map(billing => <Billing billing={billing} key={billing.id} selectable />)}
+            {(billings || []).map(billing => <Billing
+              billing={billing}
+              key={billing.id}
+              selectable
+              onClick={() => handleBillingChange(billing)}
+            />)}
           </BillingContainer>
         }
       </Modal>
