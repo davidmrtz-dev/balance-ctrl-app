@@ -36,12 +36,14 @@ const OutcomeCreate = ({
       errorText = 'You must have to select a category and a payment method'
     }
 
-    Alert({
-      icon: 'error',
-      text: errorText
-    });
+    if (!valid) {
+      Alert({
+        icon: 'error',
+        text: errorText
+      });
 
-    if (!valid) return;
+      return;
+    }
 
     setLoading(true);
 
