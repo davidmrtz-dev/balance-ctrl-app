@@ -16,7 +16,7 @@ export const login = async (params: Login): Promise<IUser> => {
 };
 
 export const logout = async (): Promise<void> => {
-  await Http.destroy('/api/v1/auth/sign_out', {}, {
+  await Http.destroy('/api/v1/auth/sign_out', null, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || '',
