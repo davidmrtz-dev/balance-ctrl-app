@@ -38,7 +38,7 @@ export const updateIncome = async (values: IIncome): Promise<IIncome> => {
 };
 
 export const deleteIncome = async (id: number): Promise<void> => {
-  await Http.destroy(`/api/v1/incomes/${id}`, null, {
+  await Http.destroy(`/api/v1/incomes/${id}`, undefined, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''

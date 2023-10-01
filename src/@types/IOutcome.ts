@@ -6,7 +6,7 @@ export interface IOutcome extends ITransaction {
   billings: IBilling [];
   payments: IPayment [];
   categories: ICategory [];
-  status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown';
+  status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown' | 'cancelled';
 }
 
 export interface IOutcomes {
