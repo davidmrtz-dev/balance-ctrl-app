@@ -37,6 +37,8 @@ export const Payment = (payment: IPayment): JSX.Element => {
         return theme.colors.greens.normal;
       case 'expired':
         return theme.colors.reds.normal;
+      case 'cancelled':
+        return theme.colors.reds.normal;
       default:
         return theme.colors.grays.light;
     };
