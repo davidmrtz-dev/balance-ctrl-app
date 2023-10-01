@@ -41,7 +41,7 @@ export const updateOutcome = async (values: IOutcome): Promise<IOutcome> => {
 };
 
 export const deleteOutcome = async (id: number): Promise<void> => {
-  await Http.destroy(`/api/v1/outcomes/${id}`, null, {
+  await Http.destroy(`/api/v1/outcomes/${id}`, undefined, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
