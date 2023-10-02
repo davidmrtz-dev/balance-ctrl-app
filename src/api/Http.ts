@@ -27,7 +27,7 @@ export const get = async (path: string, data?: any, headers?: any): Promise<Http
   return axiosClient.get(path, { params: data, headers });
 };
 
-export const post = async (path: string, data?: any, headers?: any): Promise<any> => {
+export const post = async (path: string, data?: any, headers?: any): Promise<HttpResult> => {
   return axiosClient.post(path, data, headers);
 };
 

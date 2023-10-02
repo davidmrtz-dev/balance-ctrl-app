@@ -1,14 +1,17 @@
-import { Button, Modal, Typography } from "antd";
+import { Button, Modal } from "antd";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
-import { deleteOutcome, updateOutcome } from "../../api/core/Outcome";
-import { newOutcome } from "../../generators/emptyObjects";
-import { theme } from "../../Theme";
-import Alert from "../alert";
+import { IOutcome, TransactionType } from "../../../@types";
+import { deleteOutcome, updateOutcome } from "../../../api/core/Outcome";
+import { newOutcome } from "../../../generators/emptyObjects";
+import { theme } from "../../../Theme";
+import Alert from "../../alert";
 import { OutcomeForm } from "./OutcomeForm";
+import { FontText } from "../../../atoms/text";
+import { capitalizeFirst } from "../../../utils";
+import styled from "styled-components";
 
-export const OutcomeUpdate = ({
+const OutcomeUpdate = ({
   outcome,
   open,
   type,
@@ -27,6 +30,7 @@ export const OutcomeUpdate = ({
   const [deleting, setDeleting] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState<IOutcome>(newOutcome(type));
+  const [enableEdit, setEnableEdit] = useState(false);
 
   const handleSubmitUpdate = useCallback(async () => {
     if (Object.values(values).some(val => val === '')) {
@@ -41,13 +45,24 @@ export const OutcomeUpdate = ({
 
     try {
       const outcome = await updateOutcome({
-        ...values, transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD')
+        ...values,
+        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
+        categorizations_attributes: [{
+          category_id: values.categories[0].id
+        }],
+        billing_transactions_attributes: [{
+          billing_id: values.billings[0].id
+        }]
       } as IOutcome);
       setTimeout(async () => {
         await handleUpdate(outcome);
-        setValues(newOutcome(type));
+        setValues(outcome);
         setLoading(false);
-        closeModal();
+        setEnableEdit(false);
+        Alert({
+          icon: 'success',
+          text: 'Outcome updated successfully'
+        })
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
@@ -59,6 +74,7 @@ export const OutcomeUpdate = ({
         });
         setValues(newOutcome(type));
         setLoading(false);
+        setEnableEdit(false);
         closeModal();
       }, 1000);
     }
@@ -92,6 +108,7 @@ export const OutcomeUpdate = ({
 
   const handleCancel = () => {
     setValues(newOutcome(type));
+    setEnableEdit(false);
     closeModal();
   };
 
@@ -102,50 +119,12 @@ export const OutcomeUpdate = ({
   const footerComponents = [
     <Button
       key="cancel"
-      onClick={handleCancel}
+      onClick={enableEdit ? () => setEnableEdit(false) : handleCancel}
       disabled={loading || deleting}
     >
-      <Typography.Text style={{ ...theme.texts.brandFont }}>
-        Cancel
-      </Typography.Text>
-    </Button>,
-    <Button
-      key="submit"
-      type="primary"
-      loading={loading}
-      disabled={deleting}
-      onClick={handleSubmitUpdate}
-      style={{ backgroundColor: theme.colors.blues.normal }}
-    >
-      <Typography.Text style={{
-        ...theme.texts.brandFont,
-        color: theme.colors.whites.normal
-      }}
-      >
-        Update
-      </Typography.Text>
+      {FontText(`${enableEdit ? 'Cancel' : 'Close'}`)}
     </Button>
   ];
-
-  if (handleDelete) {
-    footerComponents.push(<Button style={{
-      backgroundColor: theme.colors.warning
-    }}
-      key="delete"
-      onClick={() => setConfirm(true)}
-      disabled={loading}
-      loading={deleting}
-    >
-    <Typography.Text
-      style={{
-        ...theme.texts.brandFont,
-        color: theme.colors.whites.normal
-      }}
-    >
-      Delete
-    </Typography.Text>
-  </Button>);
-  }
 
   if (confirm) Alert({
     icon: 'warning',
@@ -158,16 +137,49 @@ export const OutcomeUpdate = ({
     }
   });
 
+  if (enableEdit) {
+    if (handleDelete) {
+      footerComponents.unshift(<Button style={{
+        backgroundColor: theme.colors.warning
+      }}
+        key="delete"
+        onClick={() => setConfirm(true)}
+        disabled={loading}
+        loading={deleting}
+      >
+        {FontText('Delete', { color: theme.colors.whites.normal })}
+    </Button>);
+    }
+
+    footerComponents.unshift(
+      <Button
+        key="submit"
+        type="primary"
+        loading={loading}
+        onClick={handleSubmitUpdate}
+      >
+        {FontText('Update', { color: theme.colors.whites.normal })}
+      </Button>
+    );
+  }
+
   return (
     <Modal
       destroyOnClose
       maskClosable={false}
       closable={false}
       open={open}
-      title={<Typography.Text
-        style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > Update {outcome.transaction_type} outcome
-        </Typography.Text>}
+      title={<TitleContainer>
+        {FontText(`${capitalizeFirst(outcome.transaction_type || '')} outcome details`, { fontWeight: 'normal' })}
+        <Button
+          key="edit"
+          onClick={() => setEnableEdit(true)}
+          style={{ backgroundColor: enableEdit ? theme.colors.grays.normal : theme.colors.blues.normal }}
+          disabled={enableEdit}
+        >
+          {FontText('Edit', { color: theme.colors.whites.normal })}
+        </Button>
+      </TitleContainer>}
       style={{
         maxWidth: 360,
         position: 'relative'
@@ -175,9 +187,18 @@ export const OutcomeUpdate = ({
       footer={footerComponents}
     >
       <OutcomeForm
+        editable={enableEdit}
         values={values}
         setValues={setValues}
       />
     </Modal>
   );
 };
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export default OutcomeUpdate;

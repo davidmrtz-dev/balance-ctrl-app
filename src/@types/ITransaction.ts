@@ -11,6 +11,4 @@ export interface ITransaction {
   transaction_type: TransactionType;
   operation_type : OperationType;
   transaction_date?: string | Dayjs;
-  quotas?: number;
-  frequency?: string;
 }

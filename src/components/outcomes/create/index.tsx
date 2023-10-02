@@ -1,14 +1,14 @@
 import { Button, Modal, Typography } from "antd";
 import { useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
-import { createOutcome } from "../../api/core/Outcome";
-import { theme } from "../../Theme";
-import Alert from "../alert";
+import { IOutcome, TransactionType } from "../../../@types";
+import { createOutcome } from "../../../api/core/Outcome";
+import { theme } from "../../../Theme";
+import Alert from "../../alert";
 import { OutcomeForm } from "./OutcomeForm";
-import { newOutcome } from '../../generators/emptyObjects/index';
+import { newOutcome } from '../../../generators/emptyObjects/index';
 import dayjs from "dayjs";
 
-export const OutcomeCreate = ({
+const OutcomeCreate = ({
   open,
   type,
   closeModal,
@@ -23,11 +23,25 @@ export const OutcomeCreate = ({
   const [values, setValues] = useState<IOutcome>(newOutcome(type));
 
   const handleSubmit = async () => {
+    let valid = true;
+    let errorText = '';
     if (Object.values(values).some(val => val === '')) {
+      valid = false;
+      errorText = 'All fields are required';
+    } else if (
+      values.categories.length === 0 ||
+      values.billings.length === 0
+    ) {
+      valid = false;
+      errorText = 'You must have to select a category and a payment method'
+    }
+
+    if (!valid) {
       Alert({
         icon: 'error',
-        text: 'All fields are required'
+        text: errorText
       });
+
       return;
     }
 
@@ -35,7 +49,10 @@ export const OutcomeCreate = ({
 
     try {
       const outcome = await createOutcome({
-        ...values, transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD')
+        ...values,
+        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
+        category_id: values.categories[0].id,
+        billing_id: values.billings[0].id
       } as IOutcome);
       setTimeout(async () => {
         await handleCreate(outcome);
@@ -98,3 +115,5 @@ export const OutcomeCreate = ({
     </Modal>
   );
 };
+
+export default OutcomeCreate;

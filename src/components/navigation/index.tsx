@@ -8,13 +8,13 @@ import { useStyletron } from "styletron-react";
 import { useAuthContext } from '../../context/AuthContext';
 import Alert from '../alert';
 import { NavigationContainer } from '../containers';
+import dayjs from 'dayjs';
 
 const Navigation = (): JSX.Element => {
   const auth = useAuthContext();
   const history = useHistory();
   const [css] = useStyletron();
   const [show, setShow] = useState(false);
-  const [date] = useState(new Date());
 
   const menuBtnStyles = css({
     ...theme.texts.brandSubFont,
@@ -51,7 +51,7 @@ const Navigation = (): JSX.Element => {
 
   return (
     <NavigationContainer>
-      <Typography className={dateStyles}>Today, {date.toLocaleDateString()}</Typography>
+      <Typography className={dateStyles}>Today, {dayjs().format("DD-MM-YYYY")}</Typography>
       {!show && (<FontAwesomeIcon
         color={theme.colors.blacks.normal}
         size='lg'

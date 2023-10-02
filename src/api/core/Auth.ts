@@ -2,7 +2,7 @@ import * as Http from '../Http';
 import { IUser, Login } from '../../@types';
 
 export const login = async (params: Login): Promise<IUser> => {
-  const result: any = await Http.post('/api/auth/sign_in', params);
+  const result: any = await Http.post('/api/v1/auth/sign_in', params);
   if (result.headers['access-token']) {
     sessionStorage.setItem('authorization:token', result.headers['access-token']);
   }
@@ -16,7 +16,7 @@ export const login = async (params: Login): Promise<IUser> => {
 };
 
 export const logout = async (): Promise<void> => {
-  await Http.destroy('/api/auth/sign_out', {}, {
+  await Http.destroy('/api/v1/auth/sign_out', null, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || '',
@@ -24,6 +24,6 @@ export const logout = async (): Promise<void> => {
 };
 
 export const ping = async (): Promise<any> => {
-  return await Http.get('/api/user/ping');
+  return await Http.get('/api/v1/user/ping');
 };
 

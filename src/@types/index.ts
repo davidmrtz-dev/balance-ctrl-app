@@ -4,10 +4,17 @@ export type { ITransaction, TransactionType } from './ITransaction';
 export type {
   IOutcome,
   IOutcomes,
-  OutcomesHash,
-  OutcomesPagination
+  OutcomesHash
 } from './IOutcome';
 export type {
   IIncome,
   IIncomes
 } from './IIncome';
+export type { IPayment } from './IPayment';
+export type { IBilling } from './IBilling';
+
+
+export type ICategory = {
+  id: number;
+  name: string;
+};
