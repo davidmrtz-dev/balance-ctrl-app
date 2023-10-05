@@ -29,7 +29,7 @@ export const BillingSelector = ({
     setLoading(true);
     try {
       const data = await getBillings();
-      setBillings(data.billings);
+      setBillings(data.billings.filter(billing => billing.id !== values.billings[0].id));
       setTimeout(() => setLoading(false), 1000);
     } catch (error: any) {
       setTimeout(() => Alert({
