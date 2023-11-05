@@ -68,9 +68,7 @@ const OutcomeCreate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again later.'),
         });
-        setValues(newOutcome(type));
         setLoading(false);
-        closeModal();
       }, 1000);
     }
   };

@@ -44,19 +44,19 @@ const OutcomeUpdate = ({
     setLoading(true);
 
     try {
-      const outcome = await updateOutcome({
+      const updatedOutcome = await updateOutcome({
         ...values,
         transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
-        categorizations_attributes: [{
+        categorizations_attributes: outcome.categories[0].id !== values.categories[0].id ? [{
           category_id: values.categories[0].id
-        }],
-        billing_transactions_attributes: [{
+        }] : undefined,
+        billing_transactions_attributes: outcome.billings[0].id !== values.billings[0].id ? [{
           billing_id: values.billings[0].id
-        }]
+        }] : undefined
       } as IOutcome);
       setTimeout(async () => {
-        await handleUpdate(outcome);
-        setValues(outcome);
+        await handleUpdate(updatedOutcome);
+        setValues(updatedOutcome);
         setLoading(false);
         setEnableEdit(false);
         Alert({
@@ -72,12 +72,10 @@ const OutcomeUpdate = ({
           icon: 'error',
           text: (error || 'There was an error, please try again later.')
         });
-        setValues(newOutcome(type));
         setLoading(false);
-        setEnableEdit(false);
-        closeModal();
       }, 1000);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closeModal, handleUpdate, values, type]);
 
   const handleSubmitDelete = async () => {
