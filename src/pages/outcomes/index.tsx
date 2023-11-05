@@ -84,22 +84,24 @@ const Outcomes = (): JSX.Element => {
   };
 
   const handleCreate = async (outcome: IOutcome) => {
-    if (outcomes.length) {
-      setOutcomes(outcomes => [outcome, ...outcomes]);
-    }
+    // if (outcomes.length) {
+    //   setOutcomes(outcomes => [outcome, ...outcomes]);
+    // }
+    await fetchOutcomes();
   };
 
   const handleUpdate = async (outcome: IOutcome) => {
-    if (outcomes.length) {
-      const updatedOutcomes = outcomes.map(out => {
-        if (out.id === outcome.id) {
-          return outcome;
-        } else {
-          return out;
-        }
-      });
-      setOutcomes(updatedOutcomes);
-    }
+    // if (outcomes.length) {
+    //   const updatedOutcomes = outcomes.map(out => {
+    //     if (out.id === outcome.id) {
+    //       return outcome;
+    //     } else {
+    //       return out;
+    //     }
+    //   });
+    //   setOutcomes(updatedOutcomes);
+    // }
+    await fetchOutcomes();
   };
 
   const handleDelete = (id: number) => {
