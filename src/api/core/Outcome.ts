@@ -20,6 +20,22 @@ export const getOutcomes = async ({
   return result.data;
 };
 
+export const getOutcomesIndex = async ({
+  page,
+  pageSize = 10,
+}: {
+  page: number;
+  pageSize: number;
+}): Promise<IOutcomes> => {
+  const result = await Http.get('/api/v1/outcomes', { page, page_size: pageSize }, {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  });
+
+  return result.data;
+};
+
 export const createOutcome = async (values: IOutcome): Promise<IOutcome> => {
   const result = await Http.post('/api/v1/outcomes/', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
