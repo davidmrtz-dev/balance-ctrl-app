@@ -78,8 +78,9 @@ const Outcomes = (): JSX.Element => {
   }, [page]);
 
   const search = useCallback(async (keyword: string, dates: string []): Promise<void> => {
+    setLoading(true);
+
     try {
-      setLoading(true);
       const data = await searchOutcomes({
         offset: 0,
         limit: 20,
@@ -157,13 +158,11 @@ const Outcomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-  // useEffect(() => {
-  //   if (searchTerm || dates.every(d => d)) {
-  //     search(searchTerm, dates);
-  //   } else {
-  //     fetchOutcomes();
-  //   }
-  // }, [searchTerm, dates, search]);
+  useEffect(() => {
+    if (searchTerm || dates.every(d => d)) {
+      search(searchTerm, dates);
+    }
+  }, [searchTerm, dates, search]);
 
   return(<>
     {Title('Outcomes', handleAddOpen)}
