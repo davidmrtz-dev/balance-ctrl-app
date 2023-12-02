@@ -23,15 +23,17 @@ export const getOutcomes = async ({
 export const getOutcomesIndex = async ({
   page,
   pageSize = 10,
+  signal
 }: {
   page: number;
   pageSize: number;
+  signal?: AbortSignal | undefined;
 }): Promise<IOutcomes> => {
   const result = await Http.get('/api/v1/outcomes', { page, page_size: pageSize }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
-  });
+  }, signal);
 
   return result.data;
 };
@@ -69,19 +71,21 @@ export const searchOutcomes = async ({
   keyword,
   start_date,
   end_date,
-  limit = 5
+  limit = 5,
+  signal
 }: {
   offset: number;
   keyword: string;
   start_date: string;
   end_date: string;
   limit?: number;
+  signal?: AbortSignal | undefined;
 }): Promise<IOutcomes> => {
   const result = await Http.get('/api/v1/outcomes/search', { limit, offset, keyword, start_date, end_date }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
-  });
+  }, signal);
 
   return result.data;
 };
