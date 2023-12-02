@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
-import { getOutcomes, searchOutcomes } from "../../api/core/Outcome";
+import { getOutcomesIndex, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "./Outcome";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
@@ -10,6 +10,9 @@ import Search from "./search";
 import Title from "../../components/title";
 import { OutcomeCreate, OutcomeUpdate } from "../../components/outcomes";
 import { newOutcome } from "../../generators/emptyObjects";
+import { Button } from "antd";
+import { FontText } from "../../atoms/text";
+import NotFound from "../not-found";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -19,6 +22,7 @@ const OutcomesContainer = styled.div<{ reveal: boolean }>`
 
 const Outcomes = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
+  const [loadMore, setLoadMore] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [selectedType, setSelectedType] = useState<TransactionType>('' as TransactionType);
@@ -28,20 +32,56 @@ const Outcomes = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
   const [type, setType] = useState<TransactionType | ''>('');
+  const [page, setPage] = useState<number>(1);
+  const [meta, setMeta] = useState<{
+    current_page: number,
+    per_page: number,
+    total_pages: number,
+    total_per_page: number
+  }>({
+    current_page: 0,
+    per_page: 0,
+    total_pages: 0,
+    total_per_page: 0
+  });
+  const abortController = useRef<AbortController | null>(null);
 
   const displayOutcomes = () => {
     if (type) {
       return outcomes.filter(i => i.transaction_type === type);
     } else {
-      return outcomes
+      return outcomes;
     }
   };
 
-  const fetchOutcomes = async (): Promise<void> => {
+  const fetchOutcomes = useCallback(async (): Promise<void> => {
+    if (page > 1) setLoadMore(true);
+
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
+    const newAbortController = new AbortController();
+    abortController.current = newAbortController;
+
     try {
-      const data = await getOutcomes({ offset: 0, limit: 20 });
-      setOutcomes(data.outcomes);
-      setTimeout(() => setLoading(false), 1500);
+      const data = await getOutcomesIndex({
+        page,
+        pageSize: 10,
+        signal: newAbortController.signal
+      });
+
+      if (page > 1) {
+        setOutcomes(outcomes => [...outcomes, ...data.outcomes]);
+        setMeta(data.meta);
+      } else {
+        setOutcomes(data.outcomes);
+        setMeta(data.meta);
+      }
+      setTimeout(() => {
+        setLoading(false);
+        setLoadMore(false);
+      }, 1500);
     } catch (err: any) {
       setTimeout(() => Alert({
         icon: 'error',
@@ -49,18 +89,28 @@ const Outcomes = (): JSX.Element => {
         text: err.error || 'There was an error, please try again later'
       }), 1000);
     }
-  };
+  }, [page]);
 
   const search = useCallback(async (keyword: string, dates: string []): Promise<void> => {
+    setLoading(true);
+
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
+    const newAbortController = new AbortController();
+    abortController.current = newAbortController;
+
     try {
-      setLoading(true);
       const data = await searchOutcomes({
         offset: 0,
         limit: 20,
         keyword,
         start_date: dates[0],
-        end_date: dates[1]
+        end_date: dates[1],
+        signal: newAbortController.signal
       });
+
       setOutcomes(data.outcomes);
       setTimeout(() => setLoading(false), 1000);
     } catch (err: any) {
@@ -123,7 +173,7 @@ const Outcomes = (): JSX.Element => {
 
   useEffect(() => {
     fetchOutcomes();
-  }, []);
+  }, [fetchOutcomes]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
@@ -135,7 +185,7 @@ const Outcomes = (): JSX.Element => {
     } else {
       fetchOutcomes();
     }
-  }, [searchTerm, dates, search]);
+  }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<>
     {Title('Outcomes', handleAddOpen)}
@@ -155,6 +205,22 @@ const Outcomes = (): JSX.Element => {
               onClick={() => handleOutcomeClick(outcome)}
             />
           )}
+          {(outcomes.length > 0 && !loadMore && page < meta.total_pages) &&
+            <Button
+              onClick={() => {
+                if(page < meta.total_pages) setPage(page + 1);
+              }}
+              style={{ width: '100%', margin: '16px 0' }}
+            >
+              {FontText('Load more')}
+            </Button>
+          }
+          {(loadMore) &&
+            <div style={{ width: '100%', margin: '16px 0'}}>
+              <LoadingMask width={35} height={35} />
+            </div>
+          }
+          {outcomes.length === 0 && <NotFound /> }
         </OutcomesContainer>
     }
     {selectedType && (<OutcomeCreate

@@ -9,8 +9,16 @@ export interface IOutcome extends ITransaction {
   status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown' | 'cancelled';
 }
 
+export interface IMeta {
+  current_page: number;
+  per_page: number;
+  total_pages: number;
+  total_per_page: number;
+}
+
 export interface IOutcomes {
   outcomes: IOutcome [];
+  meta: IMeta;
   total_pages: number;
 }
 
