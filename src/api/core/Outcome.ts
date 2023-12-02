@@ -23,15 +23,17 @@ export const getOutcomes = async ({
 export const getOutcomesIndex = async ({
   page,
   pageSize = 10,
+  signal
 }: {
   page: number;
   pageSize: number;
+  signal?: AbortSignal | undefined;
 }): Promise<IOutcomes> => {
   const result = await Http.get('/api/v1/outcomes', { page, page_size: pageSize }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
-  });
+  }, signal);
 
   return result.data;
 };

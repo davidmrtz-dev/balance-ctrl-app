@@ -57,8 +57,20 @@ const Outcomes = (): JSX.Element => {
   const fetchOutcomes = useCallback(async (): Promise<void> => {
     if (page > 1) setLoadMore(true);
 
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
+    const newAbortController = new AbortController();
+    abortController.current = newAbortController;
+
     try {
-      const data = await getOutcomesIndex({ page, pageSize: 10 });
+      const data = await getOutcomesIndex({
+        page,
+        pageSize: 10,
+        signal: newAbortController.signal
+      });
+
       if (page > 1) {
         setOutcomes(outcomes => [...outcomes, ...data.outcomes]);
         setMeta(data.meta);
