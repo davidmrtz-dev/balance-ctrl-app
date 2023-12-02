@@ -23,8 +23,8 @@ axiosClient.interceptors.response.use(function (response) {
 });
 
 
-export const get = async (path: string, data?: any, headers?: any): Promise<HttpResult> => {
-  return axiosClient.get(path, { params: data, headers });
+export const get = async (path: string, data?: any, headers?: any, signal?: AbortSignal): Promise<HttpResult> => {
+  return axiosClient.get(path, { params: data, headers, signal });
 };
 
 export const post = async (path: string, data?: any, headers?: any): Promise<HttpResult> => {

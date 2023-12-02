@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IOutcome, TransactionType } from "../../@types";
 import { getOutcomesIndex, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
@@ -12,6 +12,7 @@ import { OutcomeCreate, OutcomeUpdate } from "../../components/outcomes";
 import { newOutcome } from "../../generators/emptyObjects";
 import { Button } from "antd";
 import { FontText } from "../../atoms/text";
+import NotFound from "../not-found";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -43,6 +44,7 @@ const Outcomes = (): JSX.Element => {
     total_pages: 0,
     total_per_page: 0
   });
+  const abortController = useRef<AbortController | null>(null);
 
   const displayOutcomes = () => {
     if (type) {
@@ -80,14 +82,23 @@ const Outcomes = (): JSX.Element => {
   const search = useCallback(async (keyword: string, dates: string []): Promise<void> => {
     setLoading(true);
 
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
+    const newAbortController = new AbortController();
+    abortController.current = newAbortController;
+
     try {
       const data = await searchOutcomes({
         offset: 0,
         limit: 20,
         keyword,
         start_date: dates[0],
-        end_date: dates[1]
+        end_date: dates[1],
+        signal: newAbortController.signal
       });
+
       setOutcomes(data.outcomes);
       setTimeout(() => setLoading(false), 1000);
     } catch (err: any) {
@@ -161,8 +172,10 @@ const Outcomes = (): JSX.Element => {
   useEffect(() => {
     if (searchTerm || dates.every(d => d)) {
       search(searchTerm, dates);
+    } else {
+      fetchOutcomes();
     }
-  }, [searchTerm, dates, search]);
+  }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<>
     {Title('Outcomes', handleAddOpen)}
@@ -197,6 +210,7 @@ const Outcomes = (): JSX.Element => {
               <LoadingMask width={35} height={35} />
             </div>
           }
+          {outcomes.length === 0 && <NotFound /> }
         </OutcomesContainer>
     }
     {selectedType && (<OutcomeCreate
