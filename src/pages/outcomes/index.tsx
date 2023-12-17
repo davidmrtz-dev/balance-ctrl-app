@@ -48,11 +48,17 @@ const Outcomes = (): JSX.Element => {
   const abortController = useRef<AbortController | null>(null);
 
   const displayOutcomes = () => {
+    let filteredOutcomes = outcomes;
+
     if (type) {
-      return outcomes.filter(i => i.transaction_type === type);
-    } else {
-      return outcomes;
+      filteredOutcomes = outcomes.filter(i => i.transaction_type === type);
     }
+
+    if (category) {
+      filteredOutcomes = outcomes.filter(i => i.categories[0].id === category.id);
+    }
+
+    return filteredOutcomes;
   };
 
   const fetchOutcomes = useCallback(async (): Promise<void> => {

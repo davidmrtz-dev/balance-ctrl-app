@@ -32,7 +32,7 @@ const Search = ({
   setSearch: (value: string) => void;
 	setDates: (values: string []) => void;
 	setType: (value: TransactionType | '') => void;
-	setCategory: (value: ICategory) => void;
+	setCategory: (value: ICategory | null) => void;
 }): JSX.Element => {
 	const [showFilters, setShowFilters] = useState(false);
 	return (<>
@@ -70,7 +70,6 @@ const Search = ({
 		<Filters
 			visible={showFilters}
 			setDates={setDates}
-			onApply={() => setShowFilters(false)}
 			setType={setType}
 			setCategory={setCategory}
 		/>

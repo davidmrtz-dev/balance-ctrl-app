@@ -28,15 +28,13 @@ const FiltersContainer = styled.div<{ visible: boolean }>`
 export const Filters = ({
 	visible,
   setDates,
-  onApply,
   setType,
   setCategory
 }: {
 	visible: boolean;
   setDates: (values: string []) => void;
-  onApply: () => void;
   setType: (value: TransactionType | '') => void;
-  setCategory: (value: ICategory) => void;
+  setCategory: (value: ICategory | null) => void;
 }): JSX.Element => {
   const [selection, setSelection] = useState<string []>(['', '']);
   const [filter, setFilter] = useState<TransactionType | ''>('');
@@ -45,6 +43,7 @@ export const Filters = ({
       categories: ICategory[],
       options: { value: number; label: string }[]
     }>({ categories: [], options: [] });
+  const [internalCategory, setInternalCategory] = useState<ICategory | null>(null);
 
   const fetchCategories = async () => {
     try {
@@ -75,15 +74,8 @@ export const Filters = ({
 
     if (!category) return;
 
-    setCategory(category);
+    setInternalCategory(category);
   };
-
-  useEffect(() => {
-    const collapse = () => { if (!filter && selection.every(e => !e)) onApply() };
-
-    collapse();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selection, filter]);
 
   useEffect(() => {
     if (!selectorData.categories.length) {
@@ -129,18 +121,23 @@ export const Filters = ({
       ]}
     />
     <Select
+      allowClear
+      onClear={() => {
+        setInternalCategory(null);
+        setCategory(null);
+      }}
       placeholder={'Category'}
       onChange={handleSelectorChange}
       style={{ width: '100%', paddingTop: '5px', paddingBottom: '10px' }}
       options={selectorData.options}
     />
     <Button
-      disabled={selection.some(s => !s) && !filter}
+      disabled={selection.some(s => !s) && !filter && !internalCategory}
       type='primary'
       onClick={() => {
         setDates(selection);
         setType(filter);
-        onApply();
+        setCategory(internalCategory);
       }}
     >
       Apply
