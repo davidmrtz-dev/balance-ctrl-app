@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { theme } from "../../Theme";
 import { FontText } from "../../atoms/text";
 
-const AboutContainer = styled.div`
+const CategoriesContainer = styled.div`
   display: flex;
   width: 100%;
   height; 100%;
@@ -13,8 +13,8 @@ const AboutContainer = styled.div`
   cursor: default;
 `;
 
-const About = (): JSX.Element => {
-  return (<AboutContainer>
+const Categories = (): JSX.Element => {
+  return (<CategoriesContainer>
     <Typography style={{
       ...theme.texts.brandH1
     }}
@@ -40,7 +40,7 @@ const About = (): JSX.Element => {
         text=' Portfolio'
       />
     </Typography>
-</AboutContainer>);
+</CategoriesContainer>);
 };
 
 const LinkComponent = ({
@@ -58,4 +58,4 @@ const LinkComponent = ({
   {text}
 </a>;
 
-export default About;
+export default Categories;
