@@ -9,10 +9,9 @@ import { Billing } from "../billings/Billing";
 import { SubFontText } from "../../../atoms/text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { CategorySelector } from "../categories/CategorySelector";
+import { CategorySelector, BillingSelector } from "..";
 import { capitalizeFirst } from "../../../utils";
 import { Status } from "../Status";
-import { BillingSelector } from "../billings/BillingSelector";
 
 const FormContentWrapper = styled.div`
   border: 1px solid ${theme.colors.grays.light};
