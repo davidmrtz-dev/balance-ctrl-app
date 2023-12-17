@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IOutcome, TransactionType } from "../../@types";
+import { ICategory, IOutcome, TransactionType } from "../../@types";
 import { getOutcomesIndex, searchOutcomes } from "../../api/core/Outcome";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Outcome } from "./Outcome";
@@ -31,6 +31,7 @@ const Outcomes = (): JSX.Element => {
   const [outcomes, setOutcomes] = useState<IOutcome []>([]);
   const [searchTerm, setSearchTerm] = useDebouncedState<string>('', 100);
   const [dates, setDates] = useState<string []>(['', '']);
+  const [category, setCategory] = useState<ICategory | null>(null);
   const [type, setType] = useState<TransactionType | ''>('');
   const [page, setPage] = useState<number>(1);
   const [meta, setMeta] = useState<{
@@ -47,11 +48,17 @@ const Outcomes = (): JSX.Element => {
   const abortController = useRef<AbortController | null>(null);
 
   const displayOutcomes = () => {
+    let filteredOutcomes = outcomes;
+
     if (type) {
-      return outcomes.filter(i => i.transaction_type === type);
-    } else {
-      return outcomes;
+      filteredOutcomes = outcomes.filter(i => i.transaction_type === type);
     }
+
+    if (category) {
+      filteredOutcomes = outcomes.filter(i => i.categories[0].id === category.id);
+    }
+
+    return filteredOutcomes;
   };
 
   const fetchOutcomes = useCallback(async (): Promise<void> => {
@@ -83,6 +90,8 @@ const Outcomes = (): JSX.Element => {
         setLoadMore(false);
       }, 1500);
     } catch (err: any) {
+      if (err === undefined) return;
+
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
@@ -187,6 +196,10 @@ const Outcomes = (): JSX.Element => {
     }
   }, [searchTerm, dates, search, fetchOutcomes]);
 
+  useEffect(() => {
+    console.log('category', category);
+  }, [category]);
+
   return(<>
     {Title('Outcomes', handleAddOpen)}
     <Search
@@ -194,6 +207,7 @@ const Outcomes = (): JSX.Element => {
       setSearch={setSearchTerm}
       setDates={setDates}
       setType={setType}
+      setCategory={setCategory}
     />
     {loading
       ? <LoadingMask fixed />
