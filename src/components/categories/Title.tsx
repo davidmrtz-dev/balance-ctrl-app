@@ -1,7 +1,5 @@
-import { Button, Popover, Typography } from "antd";
-import { useState } from "react";
+import { Button, Typography } from "antd";
 import styled from "styled-components"
-import { TransactionType } from "../../@types";
 import { theme } from "../../Theme";
 
 const TitleWrapper = styled.div`
