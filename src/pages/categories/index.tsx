@@ -1,8 +1,5 @@
-import { Typography } from "antd";
-import styled from "styled-components";
-import { theme } from "../../Theme";
-import { FontText } from "../../atoms/text";
-// import Title from "../../components/outcomes/title";
+// import styled from "styled-components";
+import { Title } from "./Title";
 import { useState } from "react";
 import { CategoryCreate } from "../../components/categories";
 
@@ -13,27 +10,12 @@ import { CategoryCreate } from "../../components/categories";
 // `;
 
 const Categories = (): JSX.Element => {
-  const [showNew, setShowNew] = useState(true);
+  const [showNew, setShowNew] = useState(false);
 
   return (<>
-    {/* {Title('Categories', () => {})} */}
+    {Title('Categories', () => setShowNew(true))}
     <CategoryCreate open={showNew} closeModal={() => setShowNew(false)} />
   </>);
 };
-
-const LinkComponent = ({
-  href,
-  text
-}: {
-  href: string;
-  text: string;
-}): JSX.Element => <a
-    target='_blank'
-    rel="noreferrer"
-    style={{ color: 'inherit' }}
-    href={href}
-  >
-  {text}
-</a>;
 
 export default Categories;
