@@ -1,8 +1,8 @@
 import { Button, Popover, Typography } from "antd";
 import { useState } from "react";
 import styled from "styled-components"
-import { TransactionType } from "../../@types";
-import { theme } from "../../Theme";
+import { TransactionType } from "../../../@types";
+import { theme } from "../../../Theme";
 
 const TitleWrapper = styled.div`
   background-color: ${p => p.theme.colors.grays.light};
@@ -16,7 +16,7 @@ const TitleWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const Title = (text: string, setType: (type: TransactionType) => void): JSX.Element => {
+export const Title = (text: string, setType: (type: TransactionType) => void): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   return(<TitleWrapper>
@@ -70,5 +70,3 @@ const Title = (text: string, setType: (type: TransactionType) => void): JSX.Elem
     </Popover>
   </TitleWrapper>);
 };
-
-export default Title;

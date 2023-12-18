@@ -107,7 +107,6 @@ export const Filters = ({
         setFilter('');
         setType('');
       }}
-      disabled={false}
       placeholder={'Type'}
       style={{
         width: '100%',
@@ -127,8 +126,8 @@ export const Filters = ({
         setCategory(null);
       }}
       placeholder={'Category'}
-      onChange={handleSelectorChange}
       style={{ width: '100%', paddingTop: '5px', paddingBottom: '10px' }}
+      onSelect={handleSelectorChange}
       options={selectorData.options}
     />
     <Button
