@@ -1,28 +1,56 @@
 import { Button, Form, Input, Modal, Typography } from "antd";
 import { useState } from "react";
 import { theme } from "../../../Theme";
+import Alert from "../../alert";
+import { createCategory } from "../../../api/core/Category";
+import { ICategory } from "../../../@types";
 
 const CategoryCreate = ({
   open,
   closeModal,
+  handleCreate
 }: {
   open: boolean;
   closeModal: () => void;
+  handleCreate: (category: ICategory) => Promise<void>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const [form] = Form.useForm();
 
-  const handleClose = () => {
+  const handleCancel = () => {
     closeModal();
     form.resetFields();
   };
 
   const handleSubmit = async () => {
+    if (!name) {
+      Alert({
+        icon: 'error',
+        text: 'Name is required'
+      });
+    }
+
     setLoading(true);
-    console.log('submit', name);
-    setLoading(false);
-    handleClose();
+
+    try {
+      const category = await createCategory(name);
+      setTimeout(async () => {
+        await handleCreate(category);
+        setLoading(false);
+        closeModal();
+      }, 1000);
+    } catch(err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length && err.errors.join(', ');
+
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again later.'),
+        });
+        setLoading(false);
+      }, 1000);
+    }
   }
 
   return (
@@ -39,7 +67,7 @@ const CategoryCreate = ({
         maxWidth: 360
       }}
       footer={[
-        <Button key="cancel" onClick={handleClose} disabled={loading}>
+        <Button key="cancel" onClick={handleCancel} disabled={loading}>
           <Typography.Text style={{ ...theme.texts.brandFont }}>
             Cancel
           </Typography.Text>

@@ -10,3 +10,17 @@ export const getCategories = async(): Promise<{ categories: ICategory [] }> => {
 
   return result.data;
 };
+
+export const createCategory = async (name: string): Promise<ICategory> => {
+  const result = await Http.post('/api/v1/categories/', {
+    category: {
+      name
+    }
+  }, { headers: {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  }});
+
+  return result.data.category;
+};

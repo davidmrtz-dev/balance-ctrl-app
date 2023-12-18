@@ -39,6 +39,12 @@ const Categories = (): JSX.Element => {
     }
   }, []);
 
+  const handleCreate = async (category: ICategory) => {
+    if (categories.length) {
+      setCategories(categories => [category, ...categories]);
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
@@ -57,7 +63,11 @@ const Categories = (): JSX.Element => {
         )}
       </CategoriesContainer>
     }
-    <CategoryCreate open={showNew} closeModal={() => setShowNew(false)} />
+    <CategoryCreate
+      open={showNew}
+      closeModal={() => setShowNew(false)}
+      handleCreate={handleCreate}
+    />
   </>);
 };
 
