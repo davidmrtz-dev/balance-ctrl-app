@@ -28,6 +28,22 @@ export const AppMainContainer = styled.div`
   min-height: 100vh;
 `;
 
+export const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const FormItemWrapper = styled.div`
+  border: 1px solid ${props => props.theme.colors.grays.light};
+  padding: 4px 11px;
+  border-radius: 6px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
 export default LayoutContainer;
 
 export { TransactionContainer } from './TransactionContainer';

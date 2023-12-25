@@ -1,7 +1,7 @@
 import { Typography } from "antd";
 import styled from "styled-components";
 import { theme } from "../../Theme";
-import { FontText, SubFontText } from "../../atoms/text";
+import { FontText } from "../../atoms/text";
 
 const AboutContainer = styled.div`
   display: flex;

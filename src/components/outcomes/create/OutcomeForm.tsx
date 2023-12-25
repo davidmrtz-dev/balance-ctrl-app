@@ -3,11 +3,10 @@ import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import { IOutcome } from "../../../@types";
 import { theme } from "../../../Theme";
-import { CategorySelector } from "../categories/CategorySelector";
-import { BillingSelector } from "../billings/BillingSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Billing } from "../billings/Billing";
+import { CategorySelector, BillingSelector } from "..";
 
 export const OutcomeForm = ({
   values,

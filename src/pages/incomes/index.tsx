@@ -5,9 +5,9 @@ import { getIncomes } from "../../api/core/Income";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import Alert from "../../components/alert";
 import { Income } from "./Income";
-import Title from "../../components/title";
 import { IncomeCreate, IncomeUpdate } from "../../components/incomes";
 import { newIncome } from "../../generators/emptyObjects";
+import { Title } from "../../components/outcomes";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
