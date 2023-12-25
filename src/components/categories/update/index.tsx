@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { theme } from "../../../Theme";
 import Alert from "../../alert";
-import { createCategory } from "../../../api/core/Category";
+import { createCategory, deleteCategory, updateCategory } from "../../../api/core/Category";
 import { ICategory } from "../../../@types";
 import styled from "styled-components";
 import { FontText } from "../../../atoms/text";
@@ -13,10 +13,14 @@ const CategoryUpdate = ({
   category,
   open,
   closeModal,
+  handleUpdate,
+  handleDelete
 }: {
   category: ICategory;
   open: boolean;
   closeModal: () => void;
+  handleUpdate: (category: ICategory) => Promise<void>;
+  handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -24,6 +28,71 @@ const CategoryUpdate = ({
   const [name, setName] = useState('');
   const [enableEdit, setEnableEdit] = useState(false);
   const [form] = Form.useForm();
+
+  const handleSumbitUpdate = async () => {
+    if (!name) {
+      Alert({
+        icon: 'error',
+        text: 'Name is required'
+      });
+    }
+
+    setLoading(true);
+
+    try {
+      const updatedCategory = await updateCategory(category.id, name);
+      setTimeout(async () => {
+        await handleUpdate(updatedCategory);
+        setName(updatedCategory.name);
+        setLoading(false);
+        setEnableEdit(false);
+        Alert({
+          icon: 'success',
+          text: 'Category updated successfully'
+        })
+      }, 1000);
+    } catch (err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length && err.errors.join(', ');
+
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again later.'),
+        });
+        setLoading(false);
+      }, 1000);
+    }
+  };
+
+  const handleSubmitDelete = async () => {
+    setDeleting(true);
+
+    try {
+      await deleteCategory(category.id);
+      setTimeout(async () => {
+        handleDelete && await handleDelete(category.id);
+        setName('');
+        setDeleting(false);
+        closeModal();
+        Alert({
+          icon: 'success',
+          text: 'Category deleted successfully'
+        });
+      }, 1000);
+    } catch (err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length && err.errors.join(', ');
+
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again later.'),
+        });
+        setName('');
+        setDeleting(false);
+        closeModal();
+      }, 1000);
+    }
+  };
 
   const handleCancel = () => {
     closeModal();
@@ -52,12 +121,12 @@ const CategoryUpdate = ({
   }).then(result => {
     setConfirmDeletion(false);
     if (result.isConfirmed) {
-      console.log('delete');
+      handleSubmitDelete();
     }
   });
 
   if (enableEdit) {
-    if (true) {
+    if (handleDelete) {
       footerComponents.unshift(<Button style={{
         backgroundColor: theme.colors.warning
       }}
@@ -75,7 +144,7 @@ const CategoryUpdate = ({
         key="submit"
         type="primary"
         loading={loading}
-        onClick={() => console.log('update')}
+        onClick={handleSumbitUpdate}
       >
         {FontText('Update', { color: theme.colors.whites.normal })}
       </Button>
@@ -119,7 +188,7 @@ const CategoryUpdate = ({
             name='name'>
             {enableEdit ?
               (<Input maxLength={20} style={{ ...theme.texts.brandSubFont }} />)
-              : (<FormItemWrapper>{category.name}</FormItemWrapper>)}
+              : (<FormItemWrapper>{name}</FormItemWrapper>)}
           </Form.Item>
         </Form>
     </Modal>

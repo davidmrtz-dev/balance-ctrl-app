@@ -57,6 +57,20 @@ const Categories = (): JSX.Element => {
     }
   };
 
+  const handleUpdate = useCallback(async (category: ICategory) => {
+    if (!categories.length) return;
+
+    const updatedCategories = categories.map(c => c.id === category.id ? category : c);
+    setCategories(updatedCategories);
+  }, [categories]);
+
+  const handleDelete = useCallback(async (id: number) => {
+    if (!categories.length) return;
+
+    const updatedCategories = categories.filter(c => c.id !== id);
+    setCategories(updatedCategories);
+  }, [categories]);
+
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
@@ -84,6 +98,8 @@ const Categories = (): JSX.Element => {
       category={category}
       open={showUpdate}
       closeModal={handleUpdateClose}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
     />}
   </>);
 };

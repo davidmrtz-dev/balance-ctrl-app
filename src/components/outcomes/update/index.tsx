@@ -89,6 +89,10 @@ const OutcomeUpdate = ({
         setValues(newOutcome(type));
         setDeleting(false);
         closeModal();
+        Alert({
+          icon: 'success',
+          text: 'Outcome deleted successfully'
+        });
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
