@@ -10,6 +10,7 @@ import { OutcomeForm } from "./OutcomeForm";
 import { FontText } from "../../../atoms/text";
 import { capitalizeFirst } from "../../../utils";
 import styled from "styled-components";
+import { TitleWrapper } from "../../containers";
 
 const OutcomeUpdate = ({
   outcome,
@@ -167,7 +168,7 @@ const OutcomeUpdate = ({
       maskClosable={false}
       closable={false}
       open={open}
-      title={<TitleContainer>
+      title={<TitleWrapper>
         {FontText(`${capitalizeFirst(outcome.transaction_type || '')} outcome details`, { fontWeight: 'normal' })}
         <Button
           key="edit"
@@ -177,7 +178,7 @@ const OutcomeUpdate = ({
         >
           {FontText('Edit', { color: theme.colors.whites.normal })}
         </Button>
-      </TitleContainer>}
+      </TitleWrapper>}
       style={{
         maxWidth: 360,
         position: 'relative'
@@ -192,11 +193,5 @@ const OutcomeUpdate = ({
     </Modal>
   );
 };
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 export default OutcomeUpdate;

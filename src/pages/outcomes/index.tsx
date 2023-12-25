@@ -195,10 +195,6 @@ const Outcomes = (): JSX.Element => {
     }
   }, [searchTerm, dates, search, fetchOutcomes]);
 
-  useEffect(() => {
-    console.log('category', category);
-  }, [category]);
-
   return(<>
     {Title('Outcomes', handleAddOpen)}
     <Search
