@@ -9,20 +9,10 @@ import { Billing } from "../billings/Billing";
 import { SubFontText } from "../../../atoms/text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { CategorySelector } from "../categories/CategorySelector";
+import { CategorySelector, BillingSelector } from "..";
 import { capitalizeFirst } from "../../../utils";
 import { Status } from "../Status";
-import { BillingSelector } from "../billings/BillingSelector";
-
-const FormContentWrapper = styled.div`
-  border: 1px solid ${theme.colors.grays.light};
-  padding: 4px 11px;
-  border-radius: 6px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-`;
+import { FormItemWrapper } from "../../containers";
 
 const { Panel } = Collapse;
 
@@ -62,13 +52,13 @@ export const OutcomeForm = ({
         {editable ? (<Input
           maxLength={50}
           style={{ ...theme.texts.brandSubFont }}
-        />): (<FormContentWrapper>{values.description}</FormContentWrapper>)}
+        />) : (<FormItemWrapper>{values.description}</FormItemWrapper>)}
       </Form.Item>
       <Form.Item label='Status' name='status'>
-        <FormContentWrapper style={{ justifyContent: 'space-between'}}>
+        <FormItemWrapper style={{ justifyContent: 'space-between'}}>
           {capitalizeFirst(values.status)}
           <Status status={values.status} />
-        </FormContentWrapper>
+        </FormItemWrapper>
       </Form.Item>
       <Form.Item label={
           <span>
@@ -84,7 +74,7 @@ export const OutcomeForm = ({
           style={{ width: '100%', ...theme.texts.brandSubFont }}
           formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           parser={(value) => value!.replace(/\$\s?|(,*)/g, '') as unknown as 1}
-        />) : (<FormContentWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</FormContentWrapper>)}
+        />) : (<FormItemWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</FormItemWrapper>)}
       </Form.Item>
       {values.transaction_type === 'fixed' && (
         <Form.Item label={
@@ -105,14 +95,14 @@ export const OutcomeForm = ({
               { value: 12, label: '12' },
               { value: 24, label: '24' }
             ]}
-          />) : (<FormContentWrapper>{values.quotas}</FormContentWrapper>)}
+          />) : (<FormItemWrapper>{values.quotas}</FormItemWrapper>)}
         </Form.Item>
       )}
       <Form.Item label="Purchase date" name='transaction_date'>
         {editable ? (<DatePicker
           style={{ width: '100%' }}
           disabledDate={disabledDate}
-        />) : (<FormContentWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</FormContentWrapper>)}
+        />) : (<FormItemWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</FormItemWrapper>)}
       </Form.Item>
       <Collapse expandIconPosition='end' style={{ marginBottom: '24px' }}>
         <Panel header={SubFontText('Related Payments')} key={1}>

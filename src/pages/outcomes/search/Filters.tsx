@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { theme } from "../../../Theme";
 import dayjs from 'dayjs';
 import { useEffect, useState } from "react";
-import { TransactionType } from "../../../@types";
+import { ICategory, TransactionType } from "../../../@types";
+import { getCategories } from "../../../api/core/Category";
+import Alert from "../../../components/alert";
 
 const { RangePicker } = DatePicker;
 
 const FiltersContainer = styled.div<{ visible: boolean }>`
   background-color: ${p => p.theme.colors.grays.light};
   width: 100%;
-  height: ${p => p.visible ? '126' : '0'}px;
+  height: ${p => p.visible ? '158' : '0'}px;
 	overflow: hidden;
 	transition: height .5s ease-in-out;
 	border-bottom-left-radius: 10px;
@@ -26,23 +28,60 @@ const FiltersContainer = styled.div<{ visible: boolean }>`
 export const Filters = ({
 	visible,
   setDates,
-  onApply,
-  setType
+  setType,
+  setCategory
 }: {
 	visible: boolean;
   setDates: (values: string []) => void;
-  onApply: () => void;
   setType: (value: TransactionType | '') => void;
+  setCategory: (value: ICategory | null) => void;
 }): JSX.Element => {
   const [selection, setSelection] = useState<string []>(['', '']);
   const [filter, setFilter] = useState<TransactionType | ''>('');
+  const [selectorData, setSelectorData] =
+    useState<{
+      categories: ICategory[],
+      options: { value: number; label: string }[]
+    }>({ categories: [], options: [] });
+  const [internalCategory, setInternalCategory] = useState<ICategory | null>(null);
+
+  const fetchCategories = async () => {
+    try {
+      const storedCategories = localStorage.getItem('categories');
+
+      if (storedCategories) {
+        const parsedCategories = JSON.parse(storedCategories);
+        const selectorOptions = parsedCategories.map((cat: ICategory) => ({ value: cat.id, label: cat.name }));
+        setSelectorData({ categories: parsedCategories, options: selectorOptions });
+      } else {
+        const data = await getCategories();
+        const selectorOptions = data.categories.map((cat: ICategory) => ({ value: cat.id, label: cat.name }));
+        setSelectorData({ categories: data.categories, options: selectorOptions });
+
+        localStorage.setItem('categories', JSON.stringify(data.categories));
+      }
+    } catch (error: any) {
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: (error.message || 'There was an error, please try again later')
+      }), 1000);
+    }
+  };
+
+  const handleSelectorChange = (value: number) => {
+    const category = selectorData.categories.find(cat => cat.id === value);
+
+    if (!category) return;
+
+    setInternalCategory(category);
+  };
 
   useEffect(() => {
-    const collapse = () => { if (!filter && selection.every(e => !e)) onApply() };
-
-    collapse();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selection, filter]);
+    if (!selectorData.categories.length) {
+      fetchCategories();
+    }
+  }, [selectorData.categories]);
 
   return(<FiltersContainer visible={visible}>
     <RangePicker
@@ -68,11 +107,10 @@ export const Filters = ({
         setFilter('');
         setType('');
       }}
-      disabled={false}
       placeholder={'Type'}
       style={{
         width: '100%',
-        padding: '10px 0'
+        paddingTop: '5px'
       }}
       dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
       onSelect={setFilter}
@@ -81,13 +119,24 @@ export const Filters = ({
         { value: 'fixed', label: 'Fixed' }
       ]}
     />
+    <Select
+      allowClear
+      onClear={() => {
+        setInternalCategory(null);
+        setCategory(null);
+      }}
+      placeholder={'Category'}
+      style={{ width: '100%', paddingTop: '5px', paddingBottom: '10px' }}
+      onSelect={handleSelectorChange}
+      options={selectorData.options}
+    />
     <Button
-      disabled={selection.some(s => !s) && !filter}
+      disabled={selection.some(s => !s) && !filter && !internalCategory}
       type='primary'
       onClick={() => {
         setDates(selection);
         setType(filter);
-        onApply();
+        setCategory(internalCategory);
       }}
     >
       Apply

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Input } from "antd";
 import { useState } from "react";
 import styled from "styled-components";
-import { TransactionType } from "../../../@types";
+import { ICategory, TransactionType } from "../../../@types";
 import { theme } from "../../../Theme";
 import { Filters } from "./Filters";
 
@@ -25,12 +25,14 @@ const Search = ({
   search,
   setSearch,
 	setDates,
-	setType
+	setType,
+	setCategory
 }: {
   search: string;
   setSearch: (value: string) => void;
 	setDates: (values: string []) => void;
 	setType: (value: TransactionType | '') => void;
+	setCategory: (value: ICategory | null) => void;
 }): JSX.Element => {
 	const [showFilters, setShowFilters] = useState(false);
 	return (<>
@@ -68,8 +70,8 @@ const Search = ({
 		<Filters
 			visible={showFilters}
 			setDates={setDates}
-			onApply={() => setShowFilters(false)}
 			setType={setType}
+			setCategory={setCategory}
 		/>
 	</>);
 };
