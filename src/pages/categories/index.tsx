@@ -1,6 +1,6 @@
 // import styled from "styled-components";
 import { useCallback, useEffect, useState } from "react";
-import { CategoryCreate, Title } from "../../components/categories";
+import { CategoryCreate, CategoryUpdate, Title } from "../../components/categories";
 import { getCategories } from "../../api/core/Category";
 import { ICategory } from "../../@types";
 import Alert from "../../components/alert";
@@ -15,7 +15,9 @@ const CategoriesContainer = styled.div<{ reveal: boolean }>`
 `;
 
 const Categories = (): JSX.Element => {
+  const [category, setCategory] = useState<ICategory | null>(null);
   const [showNew, setShowNew] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [categories, setCategories] = useState<ICategory []>([]);
@@ -39,11 +41,35 @@ const Categories = (): JSX.Element => {
     }
   }, []);
 
+  const handleCategoryClick = (category: ICategory) => {
+    setCategory(category);
+    setShowUpdate(true);
+  }
+
+  const handleUpdateClose = () => {
+    setShowUpdate(false);
+    setCategory(null);
+  }
+
   const handleCreate = async (category: ICategory) => {
     if (categories.length) {
       setCategories(categories => [category, ...categories]);
     }
   };
+
+  const handleUpdate = useCallback(async (category: ICategory) => {
+    if (!categories.length) return;
+
+    const updatedCategories = categories.map(c => c.id === category.id ? category : c);
+    setCategories(updatedCategories);
+  }, [categories]);
+
+  const handleDelete = useCallback(async (id: number) => {
+    if (!categories.length) return;
+
+    const updatedCategories = categories.filter(c => c.id !== id);
+    setCategories(updatedCategories);
+  }, [categories]);
 
   useEffect(() => {
     fetchCategories();
@@ -59,7 +85,7 @@ const Categories = (): JSX.Element => {
       ? <LoadingMask fixed />
       : <CategoriesContainer reveal={reveal}>
         {(categories || []).map(category =>
-          <Category key={category.id} category={category} onClick={() => {}} />
+          <Category key={category.id} category={category} onClick={() => handleCategoryClick(category)} />
         )}
       </CategoriesContainer>
     }
@@ -68,6 +94,13 @@ const Categories = (): JSX.Element => {
       closeModal={() => setShowNew(false)}
       handleCreate={handleCreate}
     />
+    {category && <CategoryUpdate
+      category={category}
+      open={showUpdate}
+      closeModal={handleUpdateClose}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />}
   </>);
 };
 

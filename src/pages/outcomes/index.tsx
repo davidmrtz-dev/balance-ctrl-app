@@ -148,16 +148,10 @@ const Outcomes = (): JSX.Element => {
   };
 
   const handleUpdate = async (outcome: IOutcome) => {
-    if (outcomes.length) {
-      const updatedOutcomes = outcomes.map(out => {
-        if (out.id === outcome.id) {
-          return outcome;
-        } else {
-          return out;
-        }
-      });
-      setOutcomes(updatedOutcomes);
-    }
+    if (!outcomes.length) return;
+
+    const updatedOutcomes = outcomes.map(o => o.id === outcome.id ? outcome : o);
+    setOutcomes(updatedOutcomes);
   };
 
   const handleDelete = (id: number) => {
@@ -194,10 +188,6 @@ const Outcomes = (): JSX.Element => {
       fetchOutcomes();
     }
   }, [searchTerm, dates, search, fetchOutcomes]);
-
-  useEffect(() => {
-    console.log('category', category);
-  }, [category]);
 
   return(<>
     {Title('Outcomes', handleAddOpen)}

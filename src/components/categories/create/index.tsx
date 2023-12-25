@@ -85,10 +85,7 @@ const CategoryCreate = ({
         name='outcome-form'
         form={form}
         layout='vertical'
-        onValuesChange={e => {
-          console.log(e);
-          setName(e.name);
-        }}
+        onValuesChange={e => setName(e.name)}
         style={{ width: '100%' }}
         >
           <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>

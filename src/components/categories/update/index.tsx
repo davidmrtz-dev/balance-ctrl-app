@@ -1,68 +1,54 @@
-import { Button, Modal } from "antd";
-import dayjs from "dayjs";
-import { useCallback, useEffect, useState } from "react";
-import { IOutcome, TransactionType } from "../../../@types";
-import { deleteOutcome, updateOutcome } from "../../../api/core/Outcome";
-import { newOutcome } from "../../../generators/emptyObjects";
+import { Button, Form, Input, Modal, Typography } from "antd";
+import { useEffect, useState } from "react";
 import { theme } from "../../../Theme";
 import Alert from "../../alert";
-import { OutcomeForm } from "./OutcomeForm";
+import { createCategory, deleteCategory, updateCategory } from "../../../api/core/Category";
+import { ICategory } from "../../../@types";
+import styled from "styled-components";
 import { FontText } from "../../../atoms/text";
 import { capitalizeFirst } from "../../../utils";
-import styled from "styled-components";
-import { TitleWrapper } from "../../containers";
+import { FormItemWrapper, TitleWrapper } from "../../containers";
 
-const OutcomeUpdate = ({
-  outcome,
+const CategoryUpdate = ({
+  category,
   open,
-  type,
   closeModal,
   handleUpdate,
   handleDelete
 }: {
-  outcome: IOutcome;
+  category: ICategory;
   open: boolean;
-  type: TransactionType;
   closeModal: () => void;
-  handleUpdate: (outcome: IOutcome) => Promise<void>;
+  handleUpdate: (category: ICategory) => Promise<void>;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [confirm, setConfirm] = useState(false);
-  const [values, setValues] = useState<IOutcome>(newOutcome(type));
+  const [confirmDeletion, setConfirmDeletion] = useState(false);
+  const [name, setName] = useState('');
   const [enableEdit, setEnableEdit] = useState(false);
+  const [form] = Form.useForm();
 
-  const handleSubmitUpdate = useCallback(async () => {
-    if (Object.values(values).some(val => val === '')) {
+  const handleSumbitUpdate = async () => {
+    if (!name) {
       Alert({
         icon: 'error',
-        text: 'All fields are required'
+        text: 'Name is required'
       });
-      return;
     }
 
     setLoading(true);
 
     try {
-      const updatedOutcome = await updateOutcome({
-        ...values,
-        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
-        categorizations_attributes: outcome.categories[0].id !== values.categories[0].id ? [{
-          category_id: values.categories[0].id
-        }] : undefined,
-        billing_transactions_attributes: outcome.billings[0].id !== values.billings[0].id ? [{
-          billing_id: values.billings[0].id
-        }] : undefined
-      } as IOutcome);
+      const updatedCategory = await updateCategory(category.id, name);
       setTimeout(async () => {
-        await handleUpdate(updatedOutcome);
-        setValues(updatedOutcome);
+        await handleUpdate(updatedCategory);
+        setName(updatedCategory.name);
         setLoading(false);
         setEnableEdit(false);
         Alert({
           icon: 'success',
-          text: 'Outcome updated successfully'
+          text: 'Category updated successfully'
         })
       }, 1000);
     } catch (err: any) {
@@ -71,38 +57,37 @@ const OutcomeUpdate = ({
 
         Alert({
           icon: 'error',
-          text: (error || 'There was an error, please try again later.')
+          text: (error || 'There was an error, please try again later.'),
         });
         setLoading(false);
       }, 1000);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [closeModal, handleUpdate, values, type]);
+  };
 
   const handleSubmitDelete = async () => {
     setDeleting(true);
 
     try {
-      await deleteOutcome(outcome.id);
+      await deleteCategory(category.id);
       setTimeout(async () => {
-        handleDelete && handleDelete(outcome.id);
-        setValues(newOutcome(type));
+        handleDelete && await handleDelete(category.id);
+        setName('');
         setDeleting(false);
         closeModal();
         Alert({
           icon: 'success',
-          text: 'Outcome deleted successfully'
+          text: 'Category deleted successfully'
         });
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
-        const error = err.errors?.length && err.errors;
+        const error = err.errors && err.errors.length && err.errors.join(', ');
 
         Alert({
           icon: 'error',
-          text: (error || 'There was an error, please try again later.')
+          text: (error || 'There was an error, please try again later.'),
         });
-        setValues(newOutcome(type));
+        setName('');
         setDeleting(false);
         closeModal();
       }, 1000);
@@ -110,14 +95,14 @@ const OutcomeUpdate = ({
   };
 
   const handleCancel = () => {
-    setValues(newOutcome(type));
-    setEnableEdit(false);
     closeModal();
+    setEnableEdit(false);
+    form.resetFields();
   };
 
   useEffect(() => {
-    setValues({ ...outcome, transaction_date: dayjs(outcome.transaction_date) });
-  }, [outcome]);
+    setName(category.name);
+  }, [category]);
 
   const footerComponents = [
     <Button
@@ -129,12 +114,12 @@ const OutcomeUpdate = ({
     </Button>
   ];
 
-  if (confirm) Alert({
+  if (confirmDeletion) Alert({
     icon: 'warning',
     text: 'Are you sure you want to delete this transaction?',
     showCancelButton: true
   }).then(result => {
-    setConfirm(false);
+    setConfirmDeletion(false);
     if (result.isConfirmed) {
       handleSubmitDelete();
     }
@@ -146,7 +131,7 @@ const OutcomeUpdate = ({
         backgroundColor: theme.colors.warning
       }}
         key="delete"
-        onClick={() => setConfirm(true)}
+        onClick={() => setConfirmDeletion(true)}
         disabled={loading}
         loading={deleting}
       >
@@ -159,7 +144,7 @@ const OutcomeUpdate = ({
         key="submit"
         type="primary"
         loading={loading}
-        onClick={handleSubmitUpdate}
+        onClick={handleSumbitUpdate}
       >
         {FontText('Update', { color: theme.colors.whites.normal })}
       </Button>
@@ -173,7 +158,7 @@ const OutcomeUpdate = ({
       closable={false}
       open={open}
       title={<TitleWrapper>
-        {FontText(`${capitalizeFirst(outcome.transaction_type || '')} outcome details`, { fontWeight: 'normal' })}
+        {FontText('Category details', { fontWeight: 'normal' })}
         <Button
           key="edit"
           onClick={() => setEnableEdit(true)}
@@ -189,13 +174,25 @@ const OutcomeUpdate = ({
       }}
       footer={footerComponents}
     >
-      <OutcomeForm
-        editable={enableEdit}
-        values={values}
-        setValues={setValues}
-      />
+      <Form
+        name='outcome-form'
+        form={form}
+        layout='vertical'
+        initialValues={{ name: category.name }}
+        onValuesChange={e => setName(e.name)}
+        style={{ width: '100%' }}
+        >
+          <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
+            Name
+          </Typography.Text>}
+            name='name'>
+            {enableEdit ?
+              (<Input maxLength={20} style={{ ...theme.texts.brandSubFont }} />)
+              : (<FormItemWrapper>{name}</FormItemWrapper>)}
+          </Form.Item>
+        </Form>
     </Modal>
   );
 };
 
-export default OutcomeUpdate;
+export default CategoryUpdate;
