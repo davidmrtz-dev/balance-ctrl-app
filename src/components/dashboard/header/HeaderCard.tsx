@@ -1,10 +1,10 @@
 import { Typography } from "antd";
 import styled from "styled-components";
-import { theme } from "../../Theme";
+import { theme } from "../../../Theme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChartPie, faChevronRight, faDatabase } from '@fortawesome/free-solid-svg-icons';
-import { LoadingMask } from "../../atoms/LoadingMask";
-import { LoadingWrapper } from "../containers";
+import { LoadingMask } from "../../../atoms/LoadingMask";
+import { LoadingWrapper } from "../../containers";
 import { useEffect, useState } from "react";
 
 type Variation = 'data' | 'graph';
