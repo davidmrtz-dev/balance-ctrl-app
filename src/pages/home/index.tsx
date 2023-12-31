@@ -1,28 +1,18 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { IBalance, TransactionType } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
 import { getOutcomes } from "../../api/core/Outcome";
-import { HeaderCard } from "../../components/dashboard";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
-import styled from "styled-components";
 import Alert from "../../components/alert";
 import { Outcomes } from "../../components/dashboard/outcomes";
-
-const HeaderContainer = styled.div`
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 8px;
-`;
+import Header from "../../components/dashboard/header";
 
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
-  const history = useHistory();
 
   const fetchBalance = useCallback(async (): Promise<void> => {
     try {
@@ -53,29 +43,14 @@ const Home = (): JSX.Element => {
     <>
       <Typography style={{
         ...theme.texts.brandH5,
-        marginTop: '16px'
+        margin: '16px 0'
       }}>
         Hi, {auth.user?.name}
       </Typography>
-      <br />
-      <HeaderContainer>
-        <HeaderCard
-          concept='Income'
-          variation='data'
-          value={balance?.total_incomes || '0'}
-          onClick={() => history.push('/incomes')}
-          loading={loading}
-        />
-        <HeaderCard
-          concept='Outcomes'
-          variation='data'
-          value={balance?.total_outcomes || '0'}
-          onClick={() => history.push('/outcomes')}
-          loading={loading}
-        />
-        <HeaderCard concept='Balance' variation='data' value={balance?.current_amount || '0'} loading={loading} />
-        <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
-      </HeaderContainer>
+      <Header
+        balance={balance}
+        loading={loading}
+      />
       <Outcomes
         fetchData={fetchOutcomes}
         updateBalance={fetchBalance}
