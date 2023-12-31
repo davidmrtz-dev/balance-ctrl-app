@@ -39,32 +39,30 @@ const Home = (): JSX.Element => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <>
-      <Typography style={{
-        ...theme.texts.brandH5,
-        margin: '16px 0'
-      }}>
-        Hi, {auth.user?.name}
-      </Typography>
-      <Header
-        balance={balance}
-        loading={loading}
-      />
-      <Outcomes
-        fetchData={fetchOutcomes}
-        updateBalance={fetchBalance}
-        category='Recent Outcomes'
-        type='current'
-      />
-      <Outcomes
-        fetchData={fetchOutcomes}
-        updateBalance={fetchBalance}
-        category='Recurring Outcomes'
-        type='fixed'
-      />
-    </>
-  );
+  return (<>
+    <Typography style={{
+      ...theme.texts.brandH5,
+      margin: '16px 0'
+    }}>
+      Hi, {auth.user?.name}
+    </Typography>
+    <Header
+      balance={balance}
+      loading={loading}
+    />
+    <Outcomes
+      fetchData={fetchOutcomes}
+      updateBalance={fetchBalance}
+      category='Recent Outcomes'
+      type='current'
+    />
+    <Outcomes
+      fetchData={fetchOutcomes}
+      updateBalance={fetchBalance}
+      category='Recurring Outcomes'
+      type='fixed'
+    />
+  </>);
 };
 
 export default Home;
