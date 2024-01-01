@@ -1,3 +1,5 @@
+import { faCreditCard, faDollarSign, faMoneyBill, faQuestion } from "@fortawesome/free-solid-svg-icons";
+
 export const toCelsius = (n: number | undefined, fix?: number ) =>
   n ? (Math.abs(n) - 273.15).toFixed(fix || 2) : 0;
 
@@ -14,3 +16,15 @@ export const formatCurrency = (value: string) => new Intl.NumberFormat('en-US',
   { style: 'currency', currency: 'USD' }
 ).format(parseFloat(value));
 
+export const billingIcon = (billingType: string) => {
+  switch (billingType) {
+    case 'cash':
+      return faDollarSign;
+    case 'credit':
+      return faCreditCard;
+    case 'debit':
+      return faMoneyBill;
+    default:
+      return faQuestion;
+  }
+};

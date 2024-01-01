@@ -29,10 +29,13 @@ export const BillingSelector = ({
     setLoading(true);
     try {
       const data = await getBillings();
+      const updatedBillings = values.transaction_type === 'fixed' ?
+        data.billings.filter(billing => billing.billing_type === 'credit') :
+        data.billings.filter(billing => billing.billing_type === 'debit' || billing.billing_type === 'cash');
       setBillings(
         values.billings.length > 0
-          ? data.billings.filter(billing => billing.id !== values.billings[0].id) 
-          : data.billings
+          ? updatedBillings.filter(billing => billing.id !== values.billings[0].id)
+          : updatedBillings
       );
       setTimeout(() => setLoading(false), 1000);
     } catch (error: any) {
