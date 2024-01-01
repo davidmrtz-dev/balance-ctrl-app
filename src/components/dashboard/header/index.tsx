@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import HeaderCard from "./HeaderCard";
+import HeaderCard from "../../shared/HeaderCard";
 import { useHistory } from "react-router-dom";
 import { IBalance } from "../../../@types";
+import { faArrowDown, faArrowUp, faChartLine, faChartPie } from "@fortawesome/free-solid-svg-icons";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -21,21 +22,41 @@ const Header = ({
   return(
     <HeaderContainer>
         <HeaderCard
-          concept='Income'
-          variation='data'
-          value={balance?.total_incomes || '0'}
+          concept='Incomes'
+          variation='green'
+          value={balance?.total_incomes || '0.0'}
           onClick={() => history.push('/incomes')}
           loading={loading}
+          icon={faArrowUp}
+          prefix="$"
         />
         <HeaderCard
           concept='Outcomes'
-          variation='data'
-          value={balance?.total_outcomes || '0'}
+          variation='red'
+          value={balance?.total_outcomes || '0.0'}
           onClick={() => history.push('/outcomes')}
           loading={loading}
+          icon={faArrowDown}
+          prefix="$"
         />
-        <HeaderCard concept='Balance' variation='data' value={balance?.current_amount || '0'} loading={loading} />
-        <HeaderCard concept='Analytics' variation='graph' value={'+ 25'} loading={loading} />
+        <HeaderCard
+          concept='Balance'
+          variation='blue'
+          value={balance?.current_amount || '0.0'}
+          onClick={() => history.push('/balances/current')}
+          loading={loading}
+          icon={faChartLine}
+          prefix="$"
+        />
+        <HeaderCard
+          concept='Analytics'
+          variation='yellow'
+          value={'+ 25'}
+          onClick={() => history.push('/balances/current')}
+          loading={loading}
+          icon={faChartPie}
+          suffix="%"
+        />
       </HeaderContainer>
   );
 };
