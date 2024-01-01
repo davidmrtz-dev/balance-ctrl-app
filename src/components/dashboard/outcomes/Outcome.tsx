@@ -3,9 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "antd";
 import { theme } from "../../../Theme";
 import { IOutcome } from "../../../@types";
-import { formatCurrency } from "../../../utils";
+import { billingIcon, formatCurrency } from "../../../utils";
 import dayjs from "dayjs";
-import { faMoneyBill1Wave, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { Status } from "../../outcomes/Status";
 
 const OutcomeContainer = styled.div`
@@ -59,7 +58,7 @@ export const Outcome = ({
         <FontAwesomeIcon
           color={theme.colors.grays.darker}
           size="2x"
-          icon={item.transaction_type === "current" ? faMoneyBill1Wave : faRepeat}
+          icon={billingIcon(item.billings[0].billing_type)}
         />
       </OutcomeIcon>
       <OutcomeDetails>
