@@ -1,8 +1,8 @@
 import styled from "styled-components"
-import { theme } from "../../Theme"
-import { SubFontText } from "../../atoms/text";
-import { IPayment } from "../../@types";
-import { capitalizeFirst, formatCurrency } from "../../utils";
+import { theme } from "../../../Theme"
+import { SubFontText } from "../../../atoms/text";
+import { IPayment } from "../../../@types";
+import { capitalizeFirst, formatCurrency } from "../../../utils";
 
 const PaymentWrapper = styled.div`
   display: flex;

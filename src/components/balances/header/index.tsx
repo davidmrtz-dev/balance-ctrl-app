@@ -8,6 +8,7 @@ const HeaderContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(5, 1fr);
   grid-gap: 8px;
+  max-height: 384px;
 `;
 
 const Header = ({

@@ -3,6 +3,7 @@ import { IBalance } from "../../../@types";
 import { getBalance } from "../../../api/core/Balance";
 import Alert from "../../../components/alert";
 import Header from "../../../components/balances/header";
+import { Payments } from "../payments/Payments";
 
 const BalanceCurrent = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,7 @@ const BalanceCurrent = (): JSX.Element => {
       balance={balance}
       loading={loading}
     />
+    <Payments />
   </>);
 };
 
