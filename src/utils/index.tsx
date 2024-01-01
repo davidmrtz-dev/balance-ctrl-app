@@ -12,10 +12,6 @@ export const capitalizeFirst = (str: string) => {
 
 export const parsedInt = (value = '0') => parseInt(value, 10);
 
-export const formatCurrency = (value: string) => new Intl.NumberFormat('en-US',
-  { style: 'currency', currency: 'USD' }
-).format(parseFloat(value));
-
 export const billingIcon = (billingType: string) => {
   switch (billingType) {
     case 'cash':
@@ -27,4 +23,19 @@ export const billingIcon = (billingType: string) => {
     default:
       return faQuestion;
   }
+};
+
+export const formatCurrency = (amount: string | null | undefined) => {
+  if (!amount) {
+    return '$0.00';
+  }
+
+  const fAmount = parseFloat(amount);
+
+  return fAmount.toLocaleString('es-MX', {
+    style: 'currency',
+    currency: 'MXN',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 };
