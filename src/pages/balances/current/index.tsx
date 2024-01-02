@@ -35,7 +35,12 @@ const BalanceCurrent = (): JSX.Element => {
       balance={balance}
       loading={loading}
     />
-    <Payments />
+    <Payments
+      headerText='Paid'
+    />
+    <Payments
+      headerText='To Be Paid'
+    />
   </>);
 };
 

@@ -67,7 +67,11 @@ const hardPayment = {
   paymentable: outcome
 } as IPayment;
 
-export const Payments = (): JSX.Element => {
+export const Payments = ({
+  headerText
+}: {
+  headerText: string;
+}): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
@@ -93,7 +97,7 @@ export const Payments = (): JSX.Element => {
         collapsible='disabled'
         expandIcon={() => <></>}
       >
-        <Panel header={FontText('Payments')} key='payments' >
+        <Panel header={FontText(headerText)} key='payments' >
           <PanelWrapper>
             {loading
               ? (<LoadingWrapper height='450px'>
