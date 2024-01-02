@@ -6,16 +6,9 @@ import { LoadingWrapper } from "../../../components/containers";
 import { LoadingMask } from "../../../atoms/LoadingMask";
 import { Payment } from "./Payment";
 import { useEffect, useState } from "react";
-import { IPayment } from "../../../@types";
+import { IOutcome, IPayment } from "../../../@types";
+import { PaymentDetails } from "./PaymentDetail";
 const { Panel } = Collapse;
-
-const PanelWrapper = styled.div`
-  width: 100%;
-  min-height: 460px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const PaymentsContainer = styled.div<{
   reveal: boolean;
@@ -26,16 +19,64 @@ const PaymentsContainer = styled.div<{
   width: 100%;
 `;
 
-const payment = {
-  amount: '150.00',
+const PanelWrapper = styled.div`
+  width: 100%;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const outcome = {
+  "id": 6,
+  "transaction_type": "current",
+  "amount": "2000.0",
+  "description": "Heavy Duty Silk Coat",
+  "frequency": null,
+  "transaction_date": "2024-01-01",
+  "discarded_at": null,
+  "status": "paid",
+  "payments": [
+      {
+          "id": 5,
+          "amount": "2000.0",
+          "status": "applied"
+      }
+  ],
+  "billings": [
+      {
+          "id": 3,
+          "name": "Cash",
+          "state_date": null,
+          "billing_type": "cash"
+      }
+  ],
+  "categories": [
+      {
+          "id": 1,
+          "name": "Games"
+      }
+  ]
+} as IOutcome;
+
+const hardPayment = {
+  amount: '2000.00',
   status: 'applied',
-  id: 1,
-  refund_id: null
-};
+  id: 5,
+  refund_id: null,
+  paymentable: outcome
+} as IPayment;
 
 export const Payments = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [payment, setPayment] = useState<IPayment | null>(null);
+
+  const handlePaymentClick = (payment: IPayment) => {
+    setPayment(payment);
+    setShowDetail(true);
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,13 +100,18 @@ export const Payments = (): JSX.Element => {
                   <LoadingMask />
                 </LoadingWrapper>)
               : (<PaymentsContainer reveal={reveal}>
-                  <Payment {...payment as IPayment} />
+                  <Payment payment={hardPayment} onClick={() => handlePaymentClick(hardPayment)} />
                 </PaymentsContainer>
               )
             }
           </PanelWrapper>
         </Panel>
       </Collapse>
+      {payment && (<PaymentDetails
+        payment={payment}
+        open={showDetail}
+        close={() => setShowDetail(false)}
+      />)}
     </>
   );
 };

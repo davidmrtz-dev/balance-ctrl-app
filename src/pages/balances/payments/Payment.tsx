@@ -4,7 +4,7 @@ import { SubFontText } from "../../../atoms/text";
 import { IPayment } from "../../../@types";
 import { capitalizeFirst, formatCurrency } from "../../../utils";
 
-const PaymentWrapper = styled.div`
+const PaymentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 4px 11px;
@@ -12,6 +12,7 @@ const PaymentWrapper = styled.div`
   margin: 8px 0;
   background-color: ${theme.colors.whites.normal};
   border: 1px solid ${theme.colors.grays.light};
+  cursor: pointer;
 `;
 
 const PaymentContentWrapper = styled.div`
@@ -26,7 +27,13 @@ const StatusCircle = styled.div`
   margin-right: 8px;
 `;
 
-export const Payment = (payment: IPayment): JSX.Element => {
+export const Payment = ({
+  payment,
+  onClick
+}: {
+  payment: IPayment;
+  onClick: () => void;
+}): JSX.Element => {
   const getStatusColor = () => {
     switch (payment.status) {
       case 'hold':
@@ -44,10 +51,14 @@ export const Payment = (payment: IPayment): JSX.Element => {
     };
   };
 
-  return (<PaymentWrapper>
+  return (<PaymentContainer onClick={onClick}>
       <PaymentContentWrapper>
         {SubFontText('Amount:')}
         {SubFontText(formatCurrency(payment.amount))}
+      </PaymentContentWrapper>
+      <PaymentContentWrapper>
+        {SubFontText('Purchase:')}
+        {SubFontText(payment.paymentable?.description || 'N/A')}
       </PaymentContentWrapper>
       <PaymentContentWrapper>
         {SubFontText('Status:')}
@@ -56,5 +67,5 @@ export const Payment = (payment: IPayment): JSX.Element => {
           {SubFontText(capitalizeFirst(payment.status))}
         </div>
       </PaymentContentWrapper>
-  </PaymentWrapper>);
+  </PaymentContainer>);
 };

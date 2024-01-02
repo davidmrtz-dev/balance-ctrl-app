@@ -17,5 +17,5 @@ export type { IBilling } from './IBilling';
 export type ICategory = {
   id: number;
   name: string;
-  'discarded?': boolean;
+  'discarded?'?: boolean;
 };
