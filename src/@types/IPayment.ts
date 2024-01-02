@@ -1,3 +1,4 @@
+import { IMeta } from ".";
 import { IIncome } from "./IIncome";
 import { IOutcome } from "./IOutcome";
 
@@ -8,3 +9,9 @@ export interface IPayment {
   refund_id?: null | number;
   paymentable?: IOutcome | IIncome;
 };
+
+export interface IPayments {
+  payments: IPayment [];
+  meta: IMeta;
+  total_pages: number;
+}

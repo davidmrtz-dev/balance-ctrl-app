@@ -5,9 +5,10 @@ import { theme } from "../../../Theme";
 import { LoadingWrapper } from "../../../components/containers";
 import { LoadingMask } from "../../../atoms/LoadingMask";
 import { Payment } from "./Payment";
-import { useEffect, useState } from "react";
-import { IOutcome, IPayment } from "../../../@types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { IPayment } from "../../../@types";
 import { PaymentDetails } from "./PaymentDetail";
+import Alert from "../../../components/alert";
 const { Panel } = Collapse;
 
 const PaymentsContainer = styled.div<{
@@ -27,56 +28,87 @@ const PanelWrapper = styled.div`
   justify-content: center;
 `;
 
-const outcome = {
-  "id": 6,
-  "transaction_type": "current",
-  "amount": "2000.0",
-  "description": "Heavy Duty Silk Coat",
-  "frequency": null,
-  "transaction_date": "2024-01-01",
-  "quotas": null,
-  "discarded_at": null,
-  "status": "paid",
-  "payments": [
-      {
-          "id": 5,
-          "amount": "2000.0",
-          "status": "applied"
-      }
-  ],
-  "billings": [
-      {
-          "id": 3,
-          "name": "Cash",
-          "state_date": null,
-          "billing_type": "cash"
-      }
-  ],
-  "categories": [
-      {
-          "id": 1,
-          "name": "Games"
-      }
-  ]
-} as IOutcome;
-
-const hardPayment = {
-  amount: '2000.00',
-  status: 'applied',
-  id: 5,
-  refund_id: null,
-  paymentable: outcome
-} as IPayment;
-
 export const Payments = ({
-  headerText
+  headerText,
+  getPayments
 }: {
   headerText: string;
+  getPayments: ({
+    page,
+    pageSize,
+    signal
+  }: {
+    page: number,
+    pageSize: number,
+    signal: AbortSignal
+  }) => Promise<{
+    payments: IPayment [],
+    meta: {
+      current_page: number,
+      per_page: number,
+      total_pages: number,
+      total_per_page: number
+    }
+  }>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
+  const [loadMore, setLoadMore] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [payment, setPayment] = useState<IPayment | null>(null);
+  const [payments, setPayments] = useState<IPayment []>([]);
+  const [page, setPage] = useState<number>(1);
+  const [meta, setMeta] = useState<{
+    current_page: number,
+    per_page: number,
+    total_pages: number,
+    total_per_page: number
+  }>({
+    current_page: 0,
+    per_page: 0,
+    total_pages: 0,
+    total_per_page: 0
+  });
+  const abortController = useRef<AbortController | null>(null);
+
+  const fetchPayments = useCallback(async (): Promise<void> => {
+    if (page > 1) setLoadMore(true);
+
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
+    const newAbortController = new AbortController();
+    abortController.current = newAbortController;
+
+    try {
+      const data = await getPayments({
+        page,
+        pageSize: 10,
+        signal: newAbortController.signal
+      });
+
+      if (page > 1) {
+        setPayments(payments => [...payments, ...data.payments]);
+        setMeta(data.meta);
+      } else {
+        setPayments(data.payments);
+        setMeta(data.meta);
+      }
+      setTimeout(() => {
+        setLoading(false);
+        setLoadMore(false);
+      }, 1500);
+    } catch (err: any) {
+      if (err === undefined) return;
+
+      setTimeout(() => Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: err.error || 'There was an error, please try again later'
+      }), 1000);
+    }
+  }, [page, getPayments]);
 
   const handlePaymentClick = (payment: IPayment) => {
     setPayment(payment);
@@ -84,11 +116,12 @@ export const Payments = ({
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-      setReveal(true);
-    }, 2000);
-  }, []);
+    fetchPayments();
+  }, [fetchPayments]);
+
+  useEffect(() => {
+    if (!loading) setTimeout(() => setReveal(true), 250);
+  }, [loading]);
 
   return(
     <>
@@ -105,7 +138,9 @@ export const Payments = ({
                   <LoadingMask />
                 </LoadingWrapper>)
               : (<PaymentsContainer reveal={reveal}>
-                  <Payment payment={hardPayment} onClick={() => handlePaymentClick(hardPayment)} />
+                  {(payments || []).map(payment =>
+                    <Payment payment={payment} onClick={() => handlePaymentClick(payment)} key={payment.id} />
+                  )}
                 </PaymentsContainer>
               )
             }

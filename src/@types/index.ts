@@ -13,9 +13,15 @@ export type {
 export type { IPayment } from './IPayment';
 export type { IBilling } from './IBilling';
 
-
 export type ICategory = {
   id: number;
   name: string;
   'discarded?'?: boolean;
 };
+
+export interface IMeta {
+  current_page: number;
+  per_page: number;
+  total_pages: number;
+  total_per_page: number;
+}

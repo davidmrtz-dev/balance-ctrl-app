@@ -1,4 +1,4 @@
-import { ITransaction, IPayment, ICategory, IBilling } from "./";
+import { ITransaction, IPayment, ICategory, IBilling, IMeta } from ".";
 
 export interface IOutcome extends ITransaction {
   quotas: number | null;
@@ -6,13 +6,6 @@ export interface IOutcome extends ITransaction {
   payments: IPayment [];
   categories: ICategory [];
   status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown' | 'cancelled';
-}
-
-export interface IMeta {
-  current_page: number;
-  per_page: number;
-  total_pages: number;
-  total_per_page: number;
 }
 
 export interface IOutcomes {
