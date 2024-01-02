@@ -4,6 +4,7 @@ import { getBalance } from "../../../api/core/Balance";
 import Alert from "../../../components/alert";
 import Header from "../../../components/balances/header";
 import { Payments } from "../payments/Payments";
+import { getPaymentsApplied, getPaymentsPending } from "../../../api/core/Payment";
 
 const BalanceCurrent = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,30 @@ const BalanceCurrent = (): JSX.Element => {
     }
   }, []);
 
+  const fetchPaymentsApplied = useCallback(async ({
+    page,
+    pageSize,
+    signal
+  }: {
+    page: number,
+    pageSize: number,
+    signal: AbortSignal
+  }) => {
+    return getPaymentsApplied({ page, pageSize, signal });
+  }, []);
+
+  const fetchPaymentsPending = useCallback(async ({
+    page,
+    pageSize,
+    signal
+  }: {
+    page: number,
+    pageSize: number,
+    signal: AbortSignal
+  }) => {
+    return getPaymentsPending({ page, pageSize, signal });
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       fetchBalance();
@@ -36,10 +61,12 @@ const BalanceCurrent = (): JSX.Element => {
       loading={loading}
     />
     <Payments
-      headerText='Paid'
+      headerText='Applied Payments'
+      getPayments={fetchPaymentsApplied}
     />
     <Payments
-      headerText='To Be Paid'
+      headerText='Pending Payments'
+      getPayments={fetchPaymentsPending}
     />
   </>);
 };

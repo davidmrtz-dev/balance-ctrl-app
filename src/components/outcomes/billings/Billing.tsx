@@ -59,7 +59,7 @@ export const Billing = ({
     <BillingDataWrapper>
       <BillingRow>
         <BillingRowWrapper>
-          {SubFontText('Payment Type: ')}
+          {SubFontText('Name: ')}
         </BillingRowWrapper>
         <BillingRowWrapper>
           {SubFontText(billing.name)}
@@ -75,7 +75,7 @@ export const Billing = ({
       </BillingRow>
       <BillingRow>
         <BillingRowWrapper>
-          {SubFontText('Card Type: ')}
+          {SubFontText('Type: ')}
         </BillingRowWrapper>
         <BillingRowWrapper>
           {SubFontText(capitalizeFirst(billing.billing_type))}

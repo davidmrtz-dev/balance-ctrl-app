@@ -5,6 +5,17 @@ import { IOutcome, IPayment } from "../../../@types";
 import { capitalizeFirst, formatCurrency } from "../../../utils";
 import { OutcomeDetail } from "./Outcome";
 import { Status } from "../../../components/payments/Status";
+import styled from "styled-components";
+
+const Circle = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: ${p => p.theme.colors.blues.normal};
+  color: #fff;
+  border-radius: 50%;
+  padding: 5px 10px;
+`;
 
 export const PaymentDetails = ({
   payment,
@@ -32,6 +43,7 @@ export const PaymentDetails = ({
       open={open}
       title={<TitleWrapper>
         {FontText('Payment details', { fontWeight: 'normal' })}
+        <Circle>{payment.payment_number}</Circle>
       </TitleWrapper>}
       style={{
         maxWidth: 360,
