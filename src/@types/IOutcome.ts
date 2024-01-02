@@ -1,7 +1,7 @@
 import { ITransaction, IPayment, ICategory, IBilling } from "./";
 
 export interface IOutcome extends ITransaction {
-  quotas?: number;
+  quotas: number | null;
   billings: IBilling [];
   payments: IPayment [];
   categories: ICategory [];

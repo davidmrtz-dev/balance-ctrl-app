@@ -34,6 +34,7 @@ const outcome = {
   "description": "Heavy Duty Silk Coat",
   "frequency": null,
   "transaction_date": "2024-01-01",
+  "quotas": null,
   "discarded_at": null,
   "status": "paid",
   "payments": [
