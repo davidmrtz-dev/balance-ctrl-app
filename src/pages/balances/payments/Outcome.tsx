@@ -44,11 +44,6 @@ export const OutcomeDetail = ({
       <Form.Item label='Purchase Amount' name='amount'>
         <FormItemWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</FormItemWrapper>
       </Form.Item>
-      {values.transaction_type === 'fixed' && (
-        <Form.Item label='Payments' name='quotas'>
-          <FormItemWrapper>{values.quotas}</FormItemWrapper>
-        </Form.Item>
-      )}
       <Form.Item label="Purchase date" name='transaction_date'>
         <FormItemWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</FormItemWrapper>
       </Form.Item>
