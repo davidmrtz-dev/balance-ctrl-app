@@ -8,7 +8,7 @@ const HeaderContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(5, 1fr);
   grid-gap: 8px;
-  max-height: 384px;
+  max-height: 383.4px;
 `;
 
 const Header = ({
@@ -35,14 +35,14 @@ const Header = ({
         style={{ gridArea: '2 / 1 / 3 / 3'}}
       />
       <HeaderCard
-        concept='Paid'
+        concept='Applied payments'
         variation='yellow'
         value={formatCurrency(balance?.amount_paid)}
         loading={loading}
         style={{ gridArea: '3 / 1 / 4 / 2'}}
       />
       <HeaderCard
-        concept='To be paid'
+        concept='Pending payments'
         variation='yellow'
         value={formatCurrency(balance?.amount_to_be_paid)}
         loading={loading}

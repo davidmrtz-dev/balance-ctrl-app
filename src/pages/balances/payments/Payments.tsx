@@ -16,13 +16,11 @@ const PaymentsContainer = styled.div<{
 }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  height: 460px;
   width: 100%;
 `;
 
 const PanelWrapper = styled.div`
   width: 100%;
-  min-height: 460px;
   display: flex;
   align-items: center;
   justify-content: center;

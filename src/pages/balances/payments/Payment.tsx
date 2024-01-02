@@ -67,5 +67,9 @@ export const Payment = ({
           {SubFontText(capitalizeFirst(payment.status))}
         </div>
       </PaymentContentWrapper>
+      <PaymentContentWrapper>
+        {SubFontText('Payment Number:')}
+        {SubFontText(payment.payment_number || '')}
+      </PaymentContentWrapper>
   </PaymentContainer>);
 };

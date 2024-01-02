@@ -6,6 +6,7 @@ export interface IPayment {
   id: number;
   amount: string;
   status: 'hold' | 'pending' | 'applied' | 'expired' | 'cancelled';
+  payment_number?: string;
   refund_id?: null | number;
   paymentable?: IOutcome | IIncome;
 };
