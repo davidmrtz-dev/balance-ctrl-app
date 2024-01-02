@@ -8,8 +8,6 @@ import { theme } from "../../../Theme";
 import Alert from "../../alert";
 import { OutcomeForm } from "./OutcomeForm";
 import { FontText } from "../../../atoms/text";
-import { capitalizeFirst } from "../../../utils";
-import styled from "styled-components";
 import { TitleWrapper } from "../../containers";
 
 const OutcomeUpdate = ({
@@ -173,7 +171,7 @@ const OutcomeUpdate = ({
       closable={false}
       open={open}
       title={<TitleWrapper>
-        {FontText(`${capitalizeFirst(outcome.transaction_type || '')} outcome details`, { fontWeight: 'normal' })}
+        {FontText('Purchase details', { fontWeight: 'normal' })}
         <Button
           key="edit"
           onClick={() => setEnableEdit(true)}

@@ -54,7 +54,6 @@ const HeaderCard = ({
   loading,
   icon,
   style,
-  prefix,
   suffix
 }: {
   variation: Variation;
@@ -64,7 +63,6 @@ const HeaderCard = ({
   loading?: boolean;
   icon?: IconDefinition;
   style?: React.CSSProperties;
-  prefix?: string;
   suffix?: string;
 }): JSX.Element => {
   const [reveal, setReveal] = useState(false);
@@ -105,7 +103,7 @@ const HeaderCard = ({
       ...theme.texts.brandFont,
       color: getVariation(variation).color,
     }}>
-      {prefix} {value}{suffix}
+      {value}{suffix}
     </Typography>
   </CardContainer>);
 }
