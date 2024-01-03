@@ -78,7 +78,7 @@ export const OutcomeForm = ({
       {(values.billings.length > 0) && (<Form.Item label={
           <span>
             Billing Information
-            {(values.transaction_type === 'fixed')&& <Tooltip title="Once a fixed outcome is created, it is not possible to change the payment method">
+            {(values.transaction_type === 'fixed')&& <Tooltip title="Once a credit paid purchase is created, it is not possible to change the payment method">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
             </Tooltip>}
           </span>

@@ -6,10 +6,13 @@ import { LoadingWrapper } from "../../../components/containers";
 import { LoadingMask } from "../../../atoms/LoadingMask";
 import { Payment } from "./Payment";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IPayment } from "../../../@types";
-import { PaymentDetails } from "./PaymentDetail";
+import { IPayment, IPayments, PaymentsHash } from "../../../@types";
 import Alert from "../../../components/alert";
+import { PaymentsNavigation } from "../../../components/payments/PaymentsNavigation";
+import { PaymentDetail } from "../../../components/payments";
 const { Panel } = Collapse;
+
+const panelMinHeight = '538px';
 
 const PaymentsContainer = styled.div<{
   reveal: boolean;
@@ -17,6 +20,7 @@ const PaymentsContainer = styled.div<{
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
   width: 100%;
+  min-height: ${panelMinHeight};
 `;
 
 const PanelWrapper = styled.div`
@@ -39,22 +43,13 @@ export const Payments = ({
     page: number,
     pageSize: number,
     signal: AbortSignal
-  }) => Promise<{
-    payments: IPayment [],
-    meta: {
-      current_page: number,
-      per_page: number,
-      total_pages: number,
-      total_per_page: number
-    }
-  }>;
+  }) => Promise<IPayments>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
-  const [loadMore, setLoadMore] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+  const [payments, setPayments] = useState<PaymentsHash>({});
   const [payment, setPayment] = useState<IPayment | null>(null);
-  const [payments, setPayments] = useState<IPayment []>([]);
   const [page, setPage] = useState<number>(1);
   const [meta, setMeta] = useState<{
     current_page: number,
@@ -70,8 +65,6 @@ export const Payments = ({
   const abortController = useRef<AbortController | null>(null);
 
   const fetchPayments = useCallback(async (): Promise<void> => {
-    if (page > 1) setLoadMore(true);
-
     if (abortController.current) {
       abortController.current.abort();
     }
@@ -82,21 +75,13 @@ export const Payments = ({
     try {
       const data = await getPayments({
         page,
-        pageSize: 10,
+        pageSize: 5,
         signal: newAbortController.signal
       });
 
-      if (page > 1) {
-        setPayments(payments => [...payments, ...data.payments]);
-        setMeta(data.meta);
-      } else {
-        setPayments(data.payments);
-        setMeta(data.meta);
-      }
-      setTimeout(() => {
-        setLoading(false);
-        setLoadMore(false);
-      }, 1500);
+      setPayments(payments => ({...payments, [page]: data.payments }));
+      setMeta(data.meta);
+      setTimeout(() => setLoading(false), 1500);
     } catch (err: any) {
       if (err === undefined) return;
 
@@ -114,8 +99,11 @@ export const Payments = ({
   }
 
   useEffect(() => {
-    fetchPayments();
-  }, [fetchPayments]);
+    if (!payments[page]) {
+      setLoading(true);
+      fetchPayments();
+    }
+  }, [page, payments, fetchPayments]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
@@ -132,20 +120,27 @@ export const Payments = ({
         <Panel header={FontText(headerText)} key='payments' >
           <PanelWrapper>
             {loading
-              ? (<LoadingWrapper height='450px'>
+              ? (<LoadingWrapper height={panelMinHeight}>
                   <LoadingMask />
                 </LoadingWrapper>)
               : (<PaymentsContainer reveal={reveal}>
-                  {(payments || []).map(payment =>
+                  {(payments[page] || []).map(payment =>
                     <Payment payment={payment} onClick={() => handlePaymentClick(payment)} key={payment.id} />
                   )}
                 </PaymentsContainer>
               )
             }
           </PanelWrapper>
+          <PaymentsNavigation
+            currentPage={page}
+            leftClick={() => setPage(page - 1)}
+            rightClick={() => setPage(page + 1)}
+            leftDisabled={page === 1}
+            rightDisabled={page === meta.total_pages}
+          />
         </Panel>
       </Collapse>
-      {payment && (<PaymentDetails
+      {payment && (<PaymentDetail
         payment={payment}
         open={showDetail}
         close={() => setShowDetail(false)}
