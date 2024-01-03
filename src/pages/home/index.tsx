@@ -73,13 +73,13 @@ const Home = (): JSX.Element => {
     <Outcomes
       getOutcomes={fetchOutcomesCurrent}
       updateBalance={fetchBalance}
-      category='Paid Purchases'
+      category='Cash and debit'
       type='current'
     />
     <Outcomes
       getOutcomes={fetchOutcomesFixed}
       updateBalance={fetchBalance}
-      category='To Pay Purchases'
+      category='Credit'
       type='fixed'
     />
   </>);

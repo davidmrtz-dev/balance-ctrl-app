@@ -1,11 +1,13 @@
 import { ITransaction, IPayment, ICategory, IBilling, IMeta } from ".";
 
+export type OutcomeStatus = 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown';
+
 export interface IOutcome extends ITransaction {
   quotas: number | null;
   billings: IBilling [];
   payments: IPayment [];
   categories: ICategory [];
-  status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown' | 'cancelled';
+  status: OutcomeStatus;
 }
 
 export interface IOutcomes {

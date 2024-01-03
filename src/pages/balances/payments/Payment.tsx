@@ -3,6 +3,7 @@ import { theme } from "../../../Theme"
 import { SubFontText } from "../../../atoms/text";
 import { IPayment } from "../../../@types";
 import { capitalizeFirst, formatCurrency } from "../../../utils";
+import { getPaymentStatusColor } from "../../../components/payments";
 
 const PaymentContainer = styled.div`
   display: flex;
@@ -33,43 +34,24 @@ export const Payment = ({
 }: {
   payment: IPayment;
   onClick: () => void;
-}): JSX.Element => {
-  const getStatusColor = () => {
-    switch (payment.status) {
-      case 'hold':
-        return theme.colors.grays.normal;
-      case 'pending':
-        return theme.colors.yellows.normal;
-      case 'applied':
-        return theme.colors.greens.normal;
-      case 'expired':
-        return theme.colors.reds.normal;
-      case 'cancelled':
-        return theme.colors.reds.normal;
-      default:
-        return theme.colors.grays.light;
-    };
-  };
-
-  return (<PaymentContainer onClick={onClick}>
-      <PaymentContentWrapper>
-        {SubFontText('Amount:')}
-        {SubFontText(formatCurrency(payment.amount))}
-      </PaymentContentWrapper>
-      <PaymentContentWrapper>
-        {SubFontText('Purchase:')}
-        {SubFontText(payment.paymentable?.description || 'N/A')}
-      </PaymentContentWrapper>
-      <PaymentContentWrapper>
-        {SubFontText('Status:')}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <StatusCircle style={{ backgroundColor: getStatusColor() }} />
-          {SubFontText(capitalizeFirst(payment.status))}
-        </div>
-      </PaymentContentWrapper>
-      <PaymentContentWrapper>
-        {SubFontText('Payment Number:')}
-        {SubFontText(payment.payment_number || '')}
-      </PaymentContentWrapper>
-  </PaymentContainer>);
-};
+}): JSX.Element => <PaymentContainer onClick={onClick}>
+    <PaymentContentWrapper>
+      {SubFontText('Amount:')}
+      {SubFontText(formatCurrency(payment.amount))}
+    </PaymentContentWrapper>
+    <PaymentContentWrapper>
+      {SubFontText('Purchase:')}
+      {SubFontText(payment.paymentable?.description || 'N/A')}
+    </PaymentContentWrapper>
+    <PaymentContentWrapper>
+      {SubFontText('Status:')}
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <StatusCircle style={{ backgroundColor: getPaymentStatusColor(payment.status) }} />
+        {SubFontText(capitalizeFirst(payment.status))}
+      </div>
+    </PaymentContentWrapper>
+    <PaymentContentWrapper>
+      {SubFontText('Payment Number:')}
+      {SubFontText(payment.payment_number || '')}
+    </PaymentContentWrapper>
+</PaymentContainer>;

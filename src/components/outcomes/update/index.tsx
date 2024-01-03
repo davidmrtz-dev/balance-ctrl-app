@@ -60,8 +60,8 @@ const OutcomeUpdate = ({
         setEnableEdit(false);
         Alert({
           icon: 'success',
-          text: 'Outcome updated successfully'
-        })
+          text: 'Purchase updated successfully'
+        });
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
@@ -89,7 +89,7 @@ const OutcomeUpdate = ({
         closeModal();
         Alert({
           icon: 'success',
-          text: 'Outcome deleted successfully'
+          text: 'Purchase deleted successfully'
         });
       }, 1000);
     } catch (err: any) {

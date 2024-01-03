@@ -59,6 +59,10 @@ const OutcomeCreate = ({
         setValues(newOutcome(type));
         setLoading(false);
         closeModal();
+        Alert({
+          icon: 'success',
+          text: 'Purchase created successfully'
+        });
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
@@ -86,7 +90,7 @@ const OutcomeCreate = ({
       open={open}
       title={<Typography.Text
         style={{...theme.texts.brandFont, fontWeight: 'normal'}}
-        > New {type} outcome
+        > Add purchase
         </Typography.Text>}
       style={{
         maxWidth: 360
