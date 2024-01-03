@@ -10,7 +10,7 @@ export type {
   IIncome,
   IIncomes
 } from './IIncome';
-export type { IPayment, PaymentsHash } from './IPayment';
+export type { IPayment, IPayments, PaymentsHash } from './IPayment';
 export type { IBilling } from './IBilling';
 
 export type ICategory = {

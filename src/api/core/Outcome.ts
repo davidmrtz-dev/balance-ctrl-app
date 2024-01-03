@@ -1,24 +1,41 @@
 import * as Http from '../Http';
-import { IOutcome, IOutcomes, TransactionType } from '../../@types';
+import { IOutcome, IOutcomes } from '../../@types';
 
-export const getOutcomes = async ({
-  offset,
-  limit = 5,
-  type
+export const getOutcomesCurrent = async ({
+  page,
+  pageSize = 5,
+  signal
 }: {
-  offset: number;
-  limit?: number;
-  type?: TransactionType;
+  page: number;
+  pageSize: number;
+  signal?: AbortSignal | undefined;
 }): Promise<IOutcomes> => {
-  const route = type ? `/api/v1/outcomes/${type}` : '/api/v1/outcomes'
-  const result = await Http.get(route, { limit, offset }, {
+  const result = await Http.get('/api/v1/outcomes/current', { page, page_size: pageSize }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
-  });
+  }, signal);
 
   return result.data;
 };
+
+export const getOutcomesFixed = async ({
+  page,
+  pageSize = 5,
+  signal
+}: {
+  page: number;
+  pageSize: number;
+  signal?: AbortSignal | undefined;
+}): Promise<IOutcomes> => {
+  const result = await Http.get('/api/v1/outcomes/fixed', { page, page_size: pageSize }, {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  }, signal);
+
+  return result.data;
+}
 
 export const getOutcomesIndex = async ({
   page,

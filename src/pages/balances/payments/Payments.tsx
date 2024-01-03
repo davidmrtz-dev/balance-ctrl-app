@@ -6,7 +6,7 @@ import { LoadingWrapper } from "../../../components/containers";
 import { LoadingMask } from "../../../atoms/LoadingMask";
 import { Payment } from "./Payment";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IPayment, PaymentsHash } from "../../../@types";
+import { IPayment, IPayments, PaymentsHash } from "../../../@types";
 import Alert from "../../../components/alert";
 import { PaymentsNavigation } from "../../../components/payments/PaymentsNavigation";
 import { PaymentDetail } from "../../../components/payments";
@@ -43,21 +43,13 @@ export const Payments = ({
     page: number,
     pageSize: number,
     signal: AbortSignal
-  }) => Promise<{
-    payments: IPayment [],
-    meta: {
-      current_page: number,
-      per_page: number,
-      total_pages: number,
-      total_per_page: number
-    }
-  }>;
+  }) => Promise<IPayments>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
-  const [payment, setPayment] = useState<IPayment | null>(null);
   const [payments, setPayments] = useState<PaymentsHash>({});
+  const [payment, setPayment] = useState<IPayment | null>(null);
   const [page, setPage] = useState<number>(1);
   const [meta, setMeta] = useState<{
     current_page: number,
