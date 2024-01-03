@@ -61,7 +61,7 @@ const OutcomeCreate = ({
         closeModal();
         Alert({
           icon: 'success',
-          text: 'Purchase created successfully'
+          text: 'Purchase added successfully'
         });
       }, 1000);
     } catch (err: any) {

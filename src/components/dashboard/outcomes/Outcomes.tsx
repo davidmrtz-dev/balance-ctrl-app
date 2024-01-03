@@ -123,14 +123,8 @@ export const Outcomes = ({
 
   const handleUpdate = useCallback(async (outcome: IOutcome) => {
     if (outcomes && outcomes[page].length) {
-      const updatedOutcomes = outcomes[page].map(out => {
-        if (out.id === outcome.id) {
-          return outcome;
-        } else {
-          return out;
-        }
-      });
-      setOutcomes({ ...outcomes, [page]: updatedOutcomes });
+      const updatedOutcomes = outcomes[page].map(o => o.id === outcome.id ? outcome : o);
+      setOutcomes(outcomes => ({ ...outcomes, [page]: updatedOutcomes }));
       await updateBalance();
     }
   }, [outcomes, page, updateBalance]);

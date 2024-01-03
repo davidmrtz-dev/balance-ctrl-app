@@ -6,6 +6,10 @@ import { capitalizeFirst, formatCurrency } from "../../utils";
 import { OutcomeDetail } from "./OutcomeDetail";
 import { Status } from "./Status";
 import styled from "styled-components";
+import { theme } from "../../Theme";
+import { useCallback, useState } from "react";
+import { updatePayment } from "../../api/core/Payment";
+import Alert from "../alert";
 
 const Circle = styled.div`
   position: absolute;
@@ -19,13 +23,46 @@ const Circle = styled.div`
 
 export const PaymentDetail = ({
   payment,
+  setPayment,
   open,
   close,
+  setRefresh
 }: {
   payment: IPayment;
+  setPayment: (payment: IPayment | null) => void;
   open: boolean;
   close: () => void;
+  setRefresh?: (refresh: boolean) => void;
 }): JSX.Element => {
+  const [confirm, setConfirm] = useState(false);
+
+  const handleSubmitUpdate = useCallback(async () => {
+    try {
+      const updatedPayment = await updatePayment({
+        ...payment,
+        status: 'applied'
+      });
+      setTimeout(async () => {
+        setRefresh && setRefresh(true);
+        setPayment(updatedPayment);
+        Alert({
+          icon: 'success',
+          text: 'Payment status updated successfully'
+        });
+      }, 1000);
+    } catch (err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length && err.errors.join(', ');
+
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again later.')
+        });
+      }, 1000);
+    }
+  }, [payment, setPayment, setRefresh]);
+
+
   const footerComponents = [
     <Button
       key="cancel"
@@ -34,6 +71,30 @@ export const PaymentDetail = ({
       {FontText('Close')}
     </Button>
   ];
+
+  if (payment.status === 'pending') {
+    footerComponents.unshift(
+      <Button
+        key="submit"
+        type="primary"
+        onClick={() => setConfirm(true)}
+        style={{ backgroundColor: theme.colors.yellows.normal }}
+      >
+        {FontText('Apply', { color: theme.colors.whites.normal })}
+      </Button>
+    );
+  }
+
+  if (confirm) Alert({
+    icon: 'warning',
+    text: 'Are you sure you want to apply this payment?',
+    showCancelButton: true
+  }).then(result => {
+    setConfirm(false);
+    if (result.isConfirmed) {
+      handleSubmitUpdate();
+    }
+  });
 
   return(
     <Modal
