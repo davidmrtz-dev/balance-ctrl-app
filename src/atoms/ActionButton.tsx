@@ -1,4 +1,4 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { theme } from "../Theme";
 
@@ -15,5 +15,5 @@ export const ActionButton = ({
     cursor: 'pointer'
   }}
   color={theme.colors.blacks.normal}
-  icon={faEdit}
+  icon={faInfoCircle}
 />

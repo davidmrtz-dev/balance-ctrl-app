@@ -41,7 +41,7 @@ export const Title = (text: string, setType: (type: TransactionType) => void): J
           setOpen(false);
         }}
         >
-          Current
+          Cash & Debit
         </Button>
         <Button style={{
           ...theme.texts.brandSubFont
@@ -51,10 +51,10 @@ export const Title = (text: string, setType: (type: TransactionType) => void): J
           setOpen(false);
         }}
         >
-          Fixed
+          Credit
         </Button>
       </div>}
-      title={`${text.slice(0, -1)} type`}
+      title={'Payment method'}
       trigger="click"
       overlayStyle={{ width: 150 }}
     >

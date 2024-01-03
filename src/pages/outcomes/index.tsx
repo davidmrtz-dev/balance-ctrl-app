@@ -190,7 +190,7 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<>
-    {Title('Outcomes', handleAddOpen)}
+    {Title('Purchases', handleAddOpen)}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}

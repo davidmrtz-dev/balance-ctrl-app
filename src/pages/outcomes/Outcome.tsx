@@ -6,6 +6,7 @@ import { ActionButton } from "../../atoms/ActionButton";
 import { theme } from "../../Theme";
 import { formatCurrency, capitalizeFirst } from "../../utils";
 import { TransactionContainer as OutcomeContainer } from "../../components/containers";
+import { Status } from "../../components/outcomes/Status";
 
 const OutcomeGrid = styled.div`
   display: grid;
@@ -100,12 +101,8 @@ export const Outcome = ({
           <strong>Status:</strong>
         </Typography.Text>
       </div>
-      <div style={{ gridArea: '6 / 2 / 7 / 3', textAlign: 'center' }}>
-        <Typography.Text style={{
-          ...theme.texts.brandSubFont
-        }}>
-          Active
-        </Typography.Text>
+      <div style={{ gridArea: '6 / 2 / 7 / 3', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Status status={outcome.status} />
       </div>
     </OutcomeGrid>
   </div>

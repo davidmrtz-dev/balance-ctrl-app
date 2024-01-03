@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { theme } from "../../Theme";
+import { OutcomeStatus } from "../../@types";
 
 const StatusCircle = styled.div`
   width: 15px;
@@ -8,7 +9,7 @@ const StatusCircle = styled.div`
   margin: 0 4px;
 `;
 
-export const Status = ({ status }: { status: string }): JSX.Element => {
+export const Status = ({ status }: { status: OutcomeStatus }): JSX.Element => {
   const getStatusColor = () => {
     switch (status) {
       case 'hold':
@@ -20,8 +21,6 @@ export const Status = ({ status }: { status: string }): JSX.Element => {
       case 'paid':
         return theme.colors.greens.normal;
       case 'expired':
-        return theme.colors.reds.normal;
-      case 'cancelled':
         return theme.colors.reds.normal;
       default:
         return theme.colors.grays.light;
