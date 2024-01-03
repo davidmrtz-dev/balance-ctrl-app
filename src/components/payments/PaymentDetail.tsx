@@ -1,10 +1,10 @@
 import { Button, Form, Modal } from "antd";
-import { FormItemWrapper, TitleWrapper } from "../../../components/containers";
-import { FontText } from "../../../atoms/text";
-import { IOutcome, IPayment } from "../../../@types";
-import { capitalizeFirst, formatCurrency } from "../../../utils";
-import { OutcomeDetail } from "./Outcome";
-import { Status } from "../../../components/payments/Status";
+import { FormItemWrapper, TitleWrapper } from "../containers";
+import { FontText } from "../../atoms/text";
+import { IOutcome, IPayment } from "../../@types";
+import { capitalizeFirst, formatCurrency } from "../../utils";
+import { OutcomeDetail } from "./OutcomeDetail";
+import { Status } from "./Status";
 import styled from "styled-components";
 
 const Circle = styled.div`
@@ -17,7 +17,7 @@ const Circle = styled.div`
   padding: 5px 10px;
 `;
 
-export const PaymentDetails = ({
+export const PaymentDetail = ({
   payment,
   open,
   close,

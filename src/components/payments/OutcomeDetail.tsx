@@ -1,12 +1,12 @@
 import { Form } from "antd";
 import dayjs from "dayjs";
-import { IOutcome } from "../../../@types";
-import { theme } from "../../../Theme";
-import { Billing } from "../../../components/outcomes/billings/Billing";
-import { CategorySelector } from "../../../components/outcomes";
-import { capitalizeFirst } from "../../../utils";
-import { Status } from "../../../components/outcomes/Status";
-import { FormItemWrapper } from "../../../components/containers";
+import { IOutcome } from "../../@types";
+import { theme } from "../../Theme";
+import { Billing } from "../outcomes/billings/Billing";
+import { CategorySelector } from "../outcomes";
+import { capitalizeFirst } from "../../utils";
+import { Status } from "../outcomes/Status";
+import { FormItemWrapper } from "../containers";
 
 export const OutcomeDetail = ({
   values,
