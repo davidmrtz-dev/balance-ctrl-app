@@ -32,7 +32,9 @@ const PanelWrapper = styled.div`
 
 export const Payments = ({
   headerText,
-  getPayments
+  getPayments,
+  refresh,
+  setRefresh
 }: {
   headerText: string;
   getPayments: ({
@@ -44,6 +46,8 @@ export const Payments = ({
     pageSize: number,
     signal: AbortSignal
   }) => Promise<IPayments>;
+  refresh?: boolean;
+  setRefresh?: (refresh: boolean) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -64,7 +68,7 @@ export const Payments = ({
   });
   const abortController = useRef<AbortController | null>(null);
 
-  const fetchPayments = useCallback(async (): Promise<void> => {
+  const fetchPayments = useCallback(async (page: number): Promise<void> => {
     if (abortController.current) {
       abortController.current.abort();
     }
@@ -91,7 +95,7 @@ export const Payments = ({
         text: err.error || 'There was an error, please try again later'
       }), 1000);
     }
-  }, [page, getPayments]);
+  }, [getPayments]);
 
   const handlePaymentClick = (payment: IPayment) => {
     setPayment(payment);
@@ -101,13 +105,26 @@ export const Payments = ({
   useEffect(() => {
     if (!payments[page]) {
       setLoading(true);
-      fetchPayments();
+      fetchPayments(page);
     }
   }, [page, payments, fetchPayments]);
 
   useEffect(() => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
+
+  useEffect(() => {
+    const handleUpdate = async () => {
+      setLoading(true);
+      await fetchPayments(1);
+      setPage(1);
+      setRefresh && setRefresh(false);
+    };
+
+    if (refresh) {
+      handleUpdate();
+    }
+  }, [refresh, setRefresh, fetchPayments]);
 
   return(
     <>
@@ -142,8 +159,10 @@ export const Payments = ({
       </Collapse>
       {payment && (<PaymentDetail
         payment={payment}
+        setPayment={setPayment}
         open={showDetail}
         close={() => setShowDetail(false)}
+        setRefresh={setRefresh}
       />)}
     </>
   );

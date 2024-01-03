@@ -9,6 +9,7 @@ import { getPaymentsApplied, getPaymentsPending } from "../../../api/core/Paymen
 const BalanceCurrent = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
+  const [refresh, setRefresh] = useState(false);
 
   const fetchBalance = useCallback(async (): Promise<void> => {
     try {
@@ -52,8 +53,7 @@ const BalanceCurrent = (): JSX.Element => {
     setTimeout(() => {
       fetchBalance();
     }, 2000);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchBalance]);
 
   return(<>
     <Header
@@ -63,10 +63,13 @@ const BalanceCurrent = (): JSX.Element => {
     <Payments
       headerText='Applied Payments'
       getPayments={fetchPaymentsApplied}
+      refresh={refresh}
     />
     <Payments
       headerText='Pending Payments'
       getPayments={fetchPaymentsPending}
+      refresh={refresh}
+      setRefresh={setRefresh}
     />
   </>);
 };
