@@ -63,7 +63,7 @@ export const OutcomeForm = ({
       <Form.Item label={
           <span>
             Amount
-            {(values.transaction_type === 'fixed' && editable) && <Tooltip title="Once a fixed outcome is created, it is not possible to change the amount">
+            {(values.transaction_type === 'fixed' && editable) && <Tooltip title="Once a credit paid purchase is created, it is not possible to change the amount">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
             </Tooltip>}
           </span>
@@ -80,7 +80,7 @@ export const OutcomeForm = ({
         <Form.Item label={
           <span>
             Payments
-            {editable && <Tooltip title="Once a fixed outcome is created, it is not possible to change the number of payments">
+            {editable && <Tooltip title="Once a credit paid purchase is created, it is not possible to change the number of payments">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
             </Tooltip>}
           </span>
@@ -114,7 +114,7 @@ export const OutcomeForm = ({
       <Form.Item label={
           <span>
             Payment Method
-            {(values.transaction_type === 'fixed' && editable) && <Tooltip title="Once a fixed outcome is created, it is not possible to change the payment method">
+            {(values.transaction_type === 'fixed' && editable) && <Tooltip title="Once a credit paid purchase is created, it is not possible to change the payment method">
               <FontAwesomeIcon icon={faInfoCircle} style={{ padding: '0 5px'}} size="1x" />
             </Tooltip>}
           </span>

@@ -1,13 +1,13 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { IBalance, TransactionType } from "../../@types";
+import { IBalance } from "../../@types";
 import { getBalance } from "../../api/core/Balance";
-import { getOutcomes } from "../../api/core/Outcome";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 import Alert from "../../components/alert";
 import { Outcomes } from "../../components/dashboard/outcomes";
 import Header from "../../components/dashboard/header";
+import { getOutcomesCurrent, getOutcomesFixed } from "../../api/core/Outcome";
 
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
@@ -28,8 +28,28 @@ const Home = (): JSX.Element => {
     }
   }, []);
 
-  const fetchOutcomes = useCallback(async (offset: number, type: TransactionType) => {
-    return getOutcomes({ offset, type });
+  const fetchOutcomesCurrent = useCallback(async ({
+    page,
+    pageSize,
+    signal
+  }: {
+    page: number,
+    pageSize: number,
+    signal: AbortSignal
+  }) => {
+    return getOutcomesCurrent({ page, pageSize, signal });
+  }, []);
+
+  const fetchOutcomesFixed = useCallback(async ({
+    page,
+    pageSize,
+    signal
+  }: {
+    page: number,
+    pageSize: number,
+    signal: AbortSignal
+  }) => {
+    return getOutcomesFixed({ page, pageSize, signal });
   }, []);
 
   useEffect(() => {
@@ -51,13 +71,13 @@ const Home = (): JSX.Element => {
       loading={loading}
     />
     <Outcomes
-      fetchData={fetchOutcomes}
+      getOutcomes={fetchOutcomesCurrent}
       updateBalance={fetchBalance}
       category='Paid Purchases'
       type='current'
     />
     <Outcomes
-      fetchData={fetchOutcomes}
+      getOutcomes={fetchOutcomesFixed}
       updateBalance={fetchBalance}
       category='To Pay Purchases'
       type='fixed'

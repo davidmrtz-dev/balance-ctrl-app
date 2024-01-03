@@ -3,7 +3,7 @@ import { IPayments } from '../../@types/IPayment';
 
 export const getPaymentsApplied = async ({
   page,
-  pageSize = 10,
+  pageSize = 5,
   signal
 }: {
   page: number;
@@ -21,7 +21,7 @@ export const getPaymentsApplied = async ({
 
 export const getPaymentsPending = async ({
   page,
-  pageSize = 10,
+  pageSize = 5,
   signal
 }: {
   page: number;
