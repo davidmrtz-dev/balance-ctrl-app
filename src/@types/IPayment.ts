@@ -16,3 +16,5 @@ export interface IPayments {
   meta: IMeta;
   total_pages: number;
 }
+
+export interface PaymentsHash { [key: number]: IPayment [] };
