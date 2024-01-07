@@ -46,8 +46,8 @@ export const Payments = ({
     pageSize: number,
     signal: AbortSignal
   }) => Promise<IPayments>;
-  refresh?: boolean;
-  setRefresh?: (refresh: boolean) => void;
+  refresh: boolean;
+  setRefresh: (refresh: boolean) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -92,7 +92,7 @@ export const Payments = ({
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: err.error || 'There was an error, please try again later'
+        text: err.errors || 'There was an error, please try again later'
       }), 1000);
     }
   }, [getPayments]);
@@ -103,6 +103,10 @@ export const Payments = ({
   }
 
   useEffect(() => {
+    if (!loading) setTimeout(() => setReveal(true), 250);
+  }, [loading]);
+
+  useEffect(() => {
     if (!payments[page]) {
       setLoading(true);
       fetchPayments(page);
@@ -110,21 +114,20 @@ export const Payments = ({
   }, [page, payments, fetchPayments]);
 
   useEffect(() => {
-    if (!loading) setTimeout(() => setReveal(true), 250);
-  }, [loading]);
-
-  useEffect(() => {
     const handleUpdate = async () => {
       setLoading(true);
+      setPayments({});
       await fetchPayments(1);
       setPage(1);
-      setRefresh && setRefresh(false);
+      setRefresh(false);
     };
 
     if (refresh) {
       handleUpdate();
     }
   }, [refresh, setRefresh, fetchPayments]);
+
+  // if (!payments[page]?.length && !loading) return (<></>);
 
   return(
     <>

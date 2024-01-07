@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { IBalance } from "../../../@types";
-import HeaderCard from "../../shared/HeaderCard";
+import HeaderCard from "../../../components/shared/HeaderCard";
 import { formatCurrency } from "../../../utils";
 
 const HeaderContainer = styled.div`
@@ -11,7 +11,7 @@ const HeaderContainer = styled.div`
   max-height: 383.4px;
 `;
 
-const Header = ({
+export const Header = ({
   balance,
   loading
 }: {
@@ -66,5 +66,3 @@ const Header = ({
     </HeaderContainer>
   );
 };
-
-export default Header;

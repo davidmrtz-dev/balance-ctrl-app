@@ -1,7 +1,7 @@
 import { Typography } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { IBalance } from "../../@types";
-import { getBalance } from "../../api/core/Balance";
+import { getCurrentBalance } from "../../api/core/Balance";
 import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 import Alert from "../../components/alert";
@@ -16,7 +16,7 @@ const Home = (): JSX.Element => {
 
   const fetchBalance = useCallback(async (): Promise<void> => {
     try {
-      const balance = await getBalance();
+      const balance = await getCurrentBalance();
       setBalance(balance);
       setLoading(false);
     } catch (err: any) {
