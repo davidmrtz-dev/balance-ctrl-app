@@ -2,15 +2,17 @@ import * as Http from '../Http';
 import { IPayment, IPayments } from '../../@types/IPayment';
 
 export const getPaymentsApplied = async ({
+  balanceId,
   page,
   pageSize = 5,
   signal
 }: {
+  balanceId: number | undefined;
   page: number;
   pageSize: number;
   signal?: AbortSignal | undefined;
 }): Promise<IPayments> => {
-  const result = await Http.get('/api/v1/payments/applied', { page, page_size: pageSize }, {
+  const result = await Http.get('/api/v1/payments/applied', { balance_id: balanceId, page, page_size: pageSize }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''

@@ -8,4 +8,11 @@ export interface IBalance {
   amount_to_be_paid: string;
   amount_for_payments: string;
   current_amount: string;
+  'is_current?': boolean;
+  month: number;
+  year: number;
+}
+
+export interface IBalances {
+  balances: IBalance [];
 }

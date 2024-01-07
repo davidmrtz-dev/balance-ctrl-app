@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { IBalance } from "../../@types";
-import { getBalance } from "../../api/core/Balance";
-import Alert from "../../components/alert";
 import { Header } from "./header/Header";
 import { Payments } from "./payments/Payments";
 import { getPaymentsApplied, getPaymentsPending } from "../../api/core/Payment";
@@ -12,21 +10,13 @@ const Balance = (): JSX.Element => {
   const [balance, setBalance] = useState<IBalance | null>(null);
   const [refresh, setRefresh] = useState(false);
 
-  const fetchBalance = useCallback(async (): Promise<void> => {
-    try {
-      const balance = await getBalance();
-      setBalance(balance);
-      setLoading(false);
-    } catch (err: any) {
-      setTimeout(() => Alert({
-        icon: 'error',
-        title: 'Ops!',
-        text: err.error || 'There was an error, please try again later'
-      }), 1000);
-    }
-  }, []);
+  const handleBalance = (balance: IBalance) => {
+    setBalance(balance);
+    setLoading(false);
+    setRefresh(true);
+  };
 
-  const fetchPaymentsApplied = useCallback(async ({
+  const fetchPaymentsApplied = async ({
     page,
     pageSize,
     signal
@@ -35,8 +25,8 @@ const Balance = (): JSX.Element => {
     pageSize: number,
     signal: AbortSignal
   }) => {
-    return getPaymentsApplied({ page, pageSize, signal });
-  }, []);
+    return getPaymentsApplied({ balanceId: balance?.id, page, pageSize, signal });
+  };
 
   const fetchPaymentsPending = useCallback(async ({
     page,
@@ -50,29 +40,26 @@ const Balance = (): JSX.Element => {
     return getPaymentsPending({ page, pageSize, signal });
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      fetchBalance();
-    }, 2000);
-  }, [fetchBalance]);
-
   return(<>
-    <Selector />
+    <Selector
+      handleBalance={handleBalance}
+    />
     <Header
       balance={balance}
       loading={loading}
     />
-    <Payments
+    {balance && <Payments
       headerText='Applied Payments'
       getPayments={fetchPaymentsApplied}
       refresh={refresh}
-    />
-    <Payments
+      setRefresh={setRefresh}
+    />}
+    {balance?.["is_current?"] && <Payments
       headerText='Pending Payments'
       getPayments={fetchPaymentsPending}
       refresh={refresh}
       setRefresh={setRefresh}
-    />
+    />}
   </>);
 };
 
