@@ -54,7 +54,7 @@ const Balance = (): JSX.Element => {
       refresh={refresh}
       setRefresh={setRefresh}
     />}
-    {balance?.["is_current?"] && <Payments
+    {balance?.["current?"] && <Payments
       headerText='Pending Payments'
       getPayments={fetchPaymentsPending}
       refresh={refresh}
