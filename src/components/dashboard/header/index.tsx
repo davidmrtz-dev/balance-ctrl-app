@@ -42,7 +42,7 @@ const Header = ({
           concept='Balance'
           variation='blue'
           value={formatCurrency(balance?.current_amount)}
-          onClick={() => history.push('/balances/current')}
+          onClick={() => history.push('/balance')}
           loading={loading}
           icon={faChartLine}
         />
@@ -50,7 +50,7 @@ const Header = ({
           concept='Analytics'
           variation='yellow'
           value={'+25'}
-          onClick={() => history.push('/balances/current')}
+          onClick={() => history.push('/balance')}
           loading={loading}
           icon={faChartPie}
           suffix="%"

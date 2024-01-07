@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { IBalance } from "../../../@types";
-import { getBalance } from "../../../api/core/Balance";
-import Alert from "../../../components/alert";
-import Header from "../../../components/balances/header";
-import { Payments } from "../payments/Payments";
-import { getPaymentsApplied, getPaymentsPending } from "../../../api/core/Payment";
+import { IBalance } from "../../@types";
+import { getBalance } from "../../api/core/Balance";
+import Alert from "../../components/alert";
+import { Header } from "./header/Header";
+import { Payments } from "./payments/Payments";
+import { getPaymentsApplied, getPaymentsPending } from "../../api/core/Payment";
+import { Selector } from "./Selector";
 
-const BalanceCurrent = (): JSX.Element => {
+const Balance = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState<IBalance | null>(null);
   const [refresh, setRefresh] = useState(false);
@@ -56,6 +57,7 @@ const BalanceCurrent = (): JSX.Element => {
   }, [fetchBalance]);
 
   return(<>
+    <Selector />
     <Header
       balance={balance}
       loading={loading}
@@ -74,4 +76,4 @@ const BalanceCurrent = (): JSX.Element => {
   </>);
 };
 
-export default BalanceCurrent;
+export default Balance;
