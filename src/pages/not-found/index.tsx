@@ -6,12 +6,13 @@ const NotFoundContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: calc(25vh - 64px);
 `;
 
 const NotFound = (): JSX.Element => {
   return (
     <NotFoundContainer>
-      {FontText('Not Found')}
+      {FontText('Not found purchases')}
     </NotFoundContainer>
   );
 };

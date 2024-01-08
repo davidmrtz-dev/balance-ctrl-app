@@ -127,7 +127,7 @@ export const Payments = ({
     }
   }, [refresh, setRefresh, fetchPayments]);
 
-  // if (!payments[page]?.length && !loading) return (<></>);
+  if (!payments[page]?.length && !loading) return (<></>);
 
   return(
     <>
