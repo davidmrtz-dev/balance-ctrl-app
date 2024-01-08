@@ -1,5 +1,5 @@
 import { Button, Collapse, Tooltip } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   IOutcome,
@@ -21,11 +21,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 const { Panel } = Collapse;
 
-type BtnStatus = {
-  left: boolean;
-  right: boolean;
-};
-
 const OutcomesContainer = styled.div<{
   reveal: boolean;
 }>`
@@ -46,45 +41,41 @@ const PanelWrapper = styled.div`
 export const Outcomes = ({
   category,
   type,
-  fetchData,
-  updateBalance
+  updateBalance,
+  getOutcomes
 }: {
   category: string;
   type: TransactionType;
-  fetchData: (offset: number, type: TransactionType) => Promise<IOutcomes>;
   updateBalance: () => Promise<void>;
+  getOutcomes: ({
+    page,
+    pageSize,
+    signal
+  }: {
+    page: number,
+    pageSize: number,
+    signal: AbortSignal
+  }) => Promise<IOutcomes>;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
-  const [outcomes, setOutcomes] = useState<OutcomesHash>({});
-  const [pages, setPages] = useState(0);
-  const [page, setPage] = useState(1);
-  const [disableBtns, setDisableBtns] = useState<BtnStatus>({ left: false, right: false });
   const [showNew, setShowNew] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [outcomes, setOutcomes] = useState<OutcomesHash>({});
   const [outcome, setOutcome] = useState<IOutcome>({} as IOutcome);
-
-  const handleLeftClick = () => page > 1 && setPage(page - 1);
-
-  const handleRightClick = () => page < pages && setPage(page + 1);
-
-  const handleBlock = useCallback(() => {
-    if (!loading) {
-      if (page === 1) {
-        if (pages > 1) {
-          setDisableBtns({ left: true, right: false });
-        } else {
-          setDisableBtns({ left: true, right: true });
-        }
-      } else if (page === pages) {
-        setDisableBtns({ left: false, right: true });
-      } else {
-        setDisableBtns({ left: false, right: false });
-      }
-    } else {
-      setDisableBtns({ left: true, right: true });
-    }
-  }, [loading, page, pages]);
+  const [page, setPage] = useState<number>(1);
+  const [meta, setMeta] = useState<{
+    current_page: number,
+    per_page: number,
+    total_pages: number,
+    total_per_page: number
+  }>({
+    current_page: 0,
+    per_page: 0,
+    total_pages: 0,
+    total_per_page: 0
+  });
+  const abortController = useRef<AbortController | null>(null);
 
   const handleOutcomeClick = (outcome: IOutcome) => {
     setOutcome(outcome);
@@ -96,55 +87,58 @@ export const Outcomes = ({
     setOutcome({} as IOutcome);
   };
 
-  const fetchOutcomes = useCallback(async (page: number, offset: number): Promise<void> => {
+  const fetchOutcomes = useCallback(async (): Promise<void> => {
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
+    const newAbortController = new AbortController();
+    abortController.current = newAbortController;
+
     try {
-      setLoading(true);
-      const data = await fetchData(offset, type);
-      setOutcomes({...outcomes,  [page]: data.outcomes });
-      setPages(data.total_pages);
+      const data = await getOutcomes({
+        page,
+        pageSize: 5,
+        signal: newAbortController.signal
+      });
+
+      setOutcomes(outcomes => ({...outcomes,  [page]: data.outcomes }));
+      setMeta(data.meta);
       setTimeout(() => setLoading(false), 1500);
-    } catch (error) {
+    } catch (err: any) {
+      if (err === undefined) return;
+
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: 'There was an error, please try again later'
+        text: err.error || 'There was an error, please try again later'
       }), 1000);
     }
-  }, [fetchData, outcomes, type]);
+  }, [page, getOutcomes]);
 
   const handleCreate = useCallback(async (_outcome: IOutcome) => {
-    await fetchOutcomes(page, (page * 5) - 5);
+    await fetchOutcomes();
     await updateBalance();
-  }, [fetchOutcomes, updateBalance, page]);
+  }, [fetchOutcomes, updateBalance]);
 
   const handleUpdate = useCallback(async (outcome: IOutcome) => {
     if (outcomes && outcomes[page].length) {
-      const updatedOutcomes = outcomes[page].map(out => {
-        if (out.id === outcome.id) {
-          return outcome;
-        } else {
-          return out;
-        }
-      });
-      setOutcomes({ ...outcomes, [page]: updatedOutcomes });
+      const updatedOutcomes = outcomes[page].map(o => o.id === outcome.id ? outcome : o);
+      setOutcomes(outcomes => ({ ...outcomes, [page]: updatedOutcomes }));
       await updateBalance();
     }
   }, [outcomes, page, updateBalance]);
 
   useEffect(() => {
-    if (!loading) setTimeout(() => setReveal(true), 250);
-  }, [loading]);
-
-  useEffect(() => {
-    if (page && !outcomes[page]) {
-      setReveal(false);
-      fetchOutcomes(page, (page * 5) - 5);
+    if (!outcomes[page]) {
+      setLoading(true);
+      fetchOutcomes();
     }
   }, [page, outcomes, fetchOutcomes]);
 
   useEffect(() => {
-    handleBlock();
-  }, [page, handleBlock]);
+    if (!loading) setTimeout(() => setReveal(true), 250);
+  }, [loading]);
 
   return (
     <>
@@ -154,7 +148,7 @@ export const Outcomes = ({
         collapsible='disabled'
         expandIcon={() =>
           <AddOutcome
-            disabled={(!disableBtns.left && !disableBtns.right) || !disableBtns.left}
+            disabled={page !== 1}
             onClick={() => setShowNew(true)}
           />
         }
@@ -178,11 +172,11 @@ export const Outcomes = ({
             }
           </PanelWrapper>
           <OutcomesNavigation
-            leftClick={handleLeftClick}
-            rightClick={handleRightClick}
-            leftDisabled={disableBtns.left}
-            rightDisabled={disableBtns.right}
             currentPage={page}
+            leftClick={() => setPage(page - 1)}
+            rightClick={() => setPage(page + 1)}
+            leftDisabled={page === 1}
+            rightDisabled={page === meta.total_pages}
           />
         </Panel>
       </Collapse>
@@ -212,7 +206,7 @@ const AddOutcome = ({
 }): JSX.Element => (
   <>
     <Tooltip
-      title="Outcome creation is only available in the most recent page"
+      title="Purchase addition available only on the first page of paid purchases."
     >
       <FontAwesomeIcon
         icon={faInfoCircle}

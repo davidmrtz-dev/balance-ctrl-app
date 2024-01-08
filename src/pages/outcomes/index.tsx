@@ -87,7 +87,7 @@ const Outcomes = (): JSX.Element => {
       setTimeout(() => {
         setLoading(false);
         setLoadMore(false);
-      }, 1500);
+      }, 1000);
     } catch (err: any) {
       if (err === undefined) return;
 
@@ -111,8 +111,8 @@ const Outcomes = (): JSX.Element => {
 
     try {
       const data = await searchOutcomes({
-        offset: 0,
-        limit: 20,
+        page: 1,
+        pageSize: 50,
         keyword,
         start_date: dates[0],
         end_date: dates[1],
@@ -120,6 +120,7 @@ const Outcomes = (): JSX.Element => {
       });
 
       setOutcomes(data.outcomes);
+      setMeta(data.meta);
       setTimeout(() => setLoading(false), 1000);
     } catch (err: any) {
       const error = err.errors && err.errors.length && err.errors[0];
@@ -190,7 +191,7 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<>
-    {Title('Outcomes', handleAddOpen)}
+    {Title('Purchases', handleAddOpen)}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}
@@ -208,7 +209,7 @@ const Outcomes = (): JSX.Element => {
               onClick={() => handleOutcomeClick(outcome)}
             />
           )}
-          {(outcomes.length > 0 && !loadMore && page < meta.total_pages) &&
+          {(displayOutcomes().length > 0 && !loadMore && page < meta.total_pages) &&
             <Button
               onClick={() => {
                 if(page < meta.total_pages) setPage(page + 1);
@@ -223,7 +224,7 @@ const Outcomes = (): JSX.Element => {
               <LoadingMask width={35} height={35} />
             </div>
           }
-          {outcomes.length === 0 && <NotFound /> }
+          {displayOutcomes().length === 0 && <NotFound /> }
         </OutcomesContainer>
     }
     {selectedType && (<OutcomeCreate

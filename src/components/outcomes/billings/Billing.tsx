@@ -2,10 +2,9 @@ import styled from "styled-components";
 import { theme } from "../../../Theme";
 import { IBilling } from "../../../@types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { SubFontText } from "../../../atoms/text";
 import dayjs from "dayjs";
-import { capitalizeFirst } from "../../../utils";
+import { billingIcon, capitalizeFirst } from "../../../utils";
 
 const BillingWrapper = styled.div<{
   selectable: boolean;
@@ -55,12 +54,12 @@ export const Billing = ({
 }): JSX.Element => {
   return (<BillingWrapper selectable={selectable || false} onClick={onClick}>
     <BillingIconWrapper>
-      <FontAwesomeIcon icon={faCreditCard} style={{ color: theme.colors.blues.normal }} size="3x"/>
+      <FontAwesomeIcon icon={billingIcon(billing.billing_type)} style={{ color: theme.colors.blues.normal }} size="3x"/>
     </BillingIconWrapper>
     <BillingDataWrapper>
       <BillingRow>
         <BillingRowWrapper>
-          {SubFontText('Card Name: ')}
+          {SubFontText('Name: ')}
         </BillingRowWrapper>
         <BillingRowWrapper>
           {SubFontText(billing.name)}
@@ -71,12 +70,12 @@ export const Billing = ({
           {SubFontText('State Date: ')}
         </BillingRowWrapper>
         <BillingRowWrapper>
-          {SubFontText(dayjs(billing.state_date).format('YYYY-MM-DD'))}
+          {billing.state_date ? SubFontText(dayjs(billing.state_date).format('YYYY-MM-DD')) : 'N/A'}
         </BillingRowWrapper>
       </BillingRow>
       <BillingRow>
         <BillingRowWrapper>
-          {SubFontText('Card Type: ')}
+          {SubFontText('Type: ')}
         </BillingRowWrapper>
         <BillingRowWrapper>
           {SubFontText(capitalizeFirst(billing.billing_type))}

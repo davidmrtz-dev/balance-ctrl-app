@@ -11,7 +11,7 @@ export const newOutcome = <T extends TransactionType>(type: T): IOutcome => {
     payments: [],
     status: 'unknown',
     billings: [],
-    operation_type: 'outcome'
+    quotas: null
   };
 
   if (type === 'current') {

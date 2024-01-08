@@ -8,8 +8,6 @@ import { theme } from "../../../Theme";
 import Alert from "../../alert";
 import { OutcomeForm } from "./OutcomeForm";
 import { FontText } from "../../../atoms/text";
-import { capitalizeFirst } from "../../../utils";
-import styled from "styled-components";
 import { TitleWrapper } from "../../containers";
 
 const OutcomeUpdate = ({
@@ -62,8 +60,8 @@ const OutcomeUpdate = ({
         setEnableEdit(false);
         Alert({
           icon: 'success',
-          text: 'Outcome updated successfully'
-        })
+          text: 'Purchase updated successfully'
+        });
       }, 1000);
     } catch (err: any) {
       setTimeout(() => {
@@ -91,7 +89,7 @@ const OutcomeUpdate = ({
         closeModal();
         Alert({
           icon: 'success',
-          text: 'Outcome deleted successfully'
+          text: 'Purchase deleted successfully'
         });
       }, 1000);
     } catch (err: any) {
@@ -173,7 +171,7 @@ const OutcomeUpdate = ({
       closable={false}
       open={open}
       title={<TitleWrapper>
-        {FontText(`${capitalizeFirst(outcome.transaction_type || '')} outcome details`, { fontWeight: 'normal' })}
+        {FontText('Purchase details', { fontWeight: 'normal' })}
         <Button
           key="edit"
           onClick={() => setEnableEdit(true)}

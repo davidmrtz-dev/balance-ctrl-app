@@ -1,24 +1,41 @@
 import * as Http from '../Http';
-import { IOutcome, IOutcomes, TransactionType } from '../../@types';
+import { IOutcome, IOutcomes } from '../../@types';
 
-export const getOutcomes = async ({
-  offset,
-  limit = 5,
-  type
+export const getOutcomesCurrent = async ({
+  page,
+  pageSize = 5,
+  signal
 }: {
-  offset: number;
-  limit?: number;
-  type?: TransactionType;
+  page: number;
+  pageSize: number;
+  signal?: AbortSignal | undefined;
 }): Promise<IOutcomes> => {
-  const route = type ? `/api/v1/outcomes/${type}` : '/api/v1/outcomes'
-  const result = await Http.get(route, { limit, offset }, {
+  const result = await Http.get('/api/v1/outcomes/current', { page, page_size: pageSize }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''
-  });
+  }, signal);
 
   return result.data;
 };
+
+export const getOutcomesFixed = async ({
+  page,
+  pageSize = 5,
+  signal
+}: {
+  page: number;
+  pageSize: number;
+  signal?: AbortSignal | undefined;
+}): Promise<IOutcomes> => {
+  const result = await Http.get('/api/v1/outcomes/fixed', { page, page_size: pageSize }, {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  }, signal);
+
+  return result.data;
+}
 
 export const getOutcomesIndex = async ({
   page,
@@ -67,21 +84,21 @@ export const deleteOutcome = async (id: number): Promise<void> => {
 };
 
 export const searchOutcomes = async ({
-  offset,
+  page,
+  pageSize = 10,
   keyword,
   start_date,
   end_date,
-  limit = 5,
   signal
 }: {
-  offset: number;
+  page: number;
+  pageSize: number;
   keyword: string;
   start_date: string;
   end_date: string;
-  limit?: number;
   signal?: AbortSignal | undefined;
 }): Promise<IOutcomes> => {
-  const result = await Http.get('/api/v1/outcomes/search', { limit, offset, keyword, start_date, end_date }, {
+  const result = await Http.get('/api/v1/outcomes/search', { page, page_size: pageSize, keyword, start_date, end_date }, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''

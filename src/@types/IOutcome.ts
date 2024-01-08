@@ -1,19 +1,13 @@
-import { ITransaction, IPayment, ICategory, IBilling } from "./";
+import { ITransaction, IPayment, ICategory, IBilling, IMeta } from ".";
+
+export type OutcomeStatus = 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown';
 
 export interface IOutcome extends ITransaction {
-  operation_type: 'outcome';
-  quotas?: number;
+  quotas: number | null;
   billings: IBilling [];
   payments: IPayment [];
   categories: ICategory [];
-  status: 'expired' | 'pending' | 'hold' | 'paid' | 'ok' | 'unknown' | 'cancelled';
-}
-
-export interface IMeta {
-  current_page: number;
-  per_page: number;
-  total_pages: number;
-  total_per_page: number;
+  status: OutcomeStatus;
 }
 
 export interface IOutcomes {
