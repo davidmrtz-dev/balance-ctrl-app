@@ -17,14 +17,8 @@ export type {
   PaymentsHash,
   PaymentStatus
 } from './IPayment';
-export type { IBilling } from './IBilling';
-
-export type ICategory = {
-  id: number;
-  name: string;
-  'discarded?'?: boolean;
-};
-
+export type { IBilling, IBillings } from './IBilling';
+export type { ICategory, ICategories } from './ICategory';
 export interface IMeta {
   current_page: number;
   per_page: number;

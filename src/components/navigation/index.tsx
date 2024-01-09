@@ -128,6 +128,15 @@ const Navigation = (): JSX.Element => {
                 Incomes
               </Button>
             </Link>
+            <Link to='/billings'>
+              <Button
+                block
+                onClick={() => setShow(false)}
+                className={menuBtnStyles}
+              >
+                Billings
+              </Button>
+            </Link>
             <Link to='/about'>
               <Button
                 block

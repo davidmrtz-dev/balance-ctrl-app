@@ -8,6 +8,7 @@ import Login from './login';
 import About from './about';
 import Categories from './categories';
 import Balance from './balances';
+import Billings from './billings';
 
 const GeneralRoute = (_props: RouteProps, auth: IAuthContext) => (
   <Route exact key='default' path='*'>
@@ -28,6 +29,7 @@ const Router = (props: RouteProps) => {
     <PrivateRoute exact key='outcomes' path='/outcomes' component={Outcomes} />
     <PrivateRoute exact key='categories' path='/categories' component={Categories} />
     <PrivateRoute exact key='incomes' path='/incomes' component={Incomes} />
+    <PrivateRoute exact key='billings' path='/billings' component={Billings} />
     <Route exact key='login' path='/login' component={Login} />
     <Route exact key='about' path='/about' component={About} />
     {GeneralRoute(props, auth)}

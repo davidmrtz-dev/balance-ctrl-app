@@ -1,12 +1,13 @@
 // import styled from "styled-components";
 import { useCallback, useEffect, useState } from "react";
-import { CategoryCreate, CategoryUpdate, Title } from "../../components/categories";
+import { CategoryCreate, CategoryUpdate } from "../../components/categories";
 import { getCategories } from "../../api/core/Category";
 import { ICategory } from "../../@types";
 import Alert from "../../components/alert";
 import styled from "styled-components";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Category } from "./Category";
+import { Title } from "../../components/title/Title";
 
 const CategoriesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -36,7 +37,7 @@ const Categories = (): JSX.Element => {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: err.error || 'There was an error, please try again later'
+        text: err.errors || 'There was an error, please try again later'
       }), 1000);
     }
   }, []);
