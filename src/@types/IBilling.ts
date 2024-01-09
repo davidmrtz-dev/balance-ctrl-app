@@ -5,3 +5,7 @@ export interface IBilling {
   payment_due_date: string | null;
   billing_type: string;
 };
+
+export interface IBillings {
+  billings: IBilling [];
+};

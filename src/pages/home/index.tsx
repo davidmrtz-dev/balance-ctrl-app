@@ -23,7 +23,7 @@ const Home = (): JSX.Element => {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: err.error || 'There was an error, please try again later'
+        text: err.errors || 'There was an error, please try again later'
       }), 1000);
     }
   }, []);
