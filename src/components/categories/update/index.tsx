@@ -2,11 +2,9 @@ import { Button, Form, Input, Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { theme } from "../../../Theme";
 import Alert from "../../alert";
-import { createCategory, deleteCategory, updateCategory } from "../../../api/core/Category";
+import { deleteCategory, updateCategory } from "../../../api/core/Category";
 import { ICategory } from "../../../@types";
-import styled from "styled-components";
 import { FontText } from "../../../atoms/text";
-import { capitalizeFirst } from "../../../utils";
 import { FormItemWrapper, TitleWrapper } from "../../containers";
 
 const CategoryUpdate = ({
@@ -19,7 +17,7 @@ const CategoryUpdate = ({
   category: ICategory;
   open: boolean;
   closeModal: () => void;
-  handleUpdate: (category: ICategory) => Promise<void>;
+  handleUpdate: (category: ICategory) => void;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
@@ -42,7 +40,7 @@ const CategoryUpdate = ({
     try {
       const updatedCategory = await updateCategory(category.id, name);
       setTimeout(async () => {
-        await handleUpdate(updatedCategory);
+        handleUpdate(updatedCategory);
         setName(updatedCategory.name);
         setLoading(false);
         setEnableEdit(false);
@@ -70,7 +68,7 @@ const CategoryUpdate = ({
     try {
       await deleteCategory(category.id);
       setTimeout(async () => {
-        handleDelete && await handleDelete(category.id);
+        handleDelete && handleDelete(category.id);
         setName('');
         setDeleting(false);
         closeModal();

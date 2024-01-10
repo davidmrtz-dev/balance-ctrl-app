@@ -142,13 +142,11 @@ const Outcomes = (): JSX.Element => {
     setOutcome(newOutcome('current'));
   };
 
-  const handleCreate = async (outcome: IOutcome) => {
-    if (outcomes.length) {
-      setOutcomes(outcomes => [outcome, ...outcomes]);
-    }
+  const handleCreate = (outcome: IOutcome) => {
+    setOutcomes(outcomes => [outcome, ...outcomes]);
   };
 
-  const handleUpdate = async (outcome: IOutcome) => {
+  const handleUpdate = (outcome: IOutcome) => {
     if (!outcomes.length) return;
 
     const updatedOutcomes = outcomes.map(o => o.id === outcome.id ? outcome : o);
@@ -156,10 +154,10 @@ const Outcomes = (): JSX.Element => {
   };
 
   const handleDelete = (id: number) => {
-    if (outcomes.length) {
-      const updatedOutcomes = outcomes.filter(out => out.id !== id);
-      setOutcomes(updatedOutcomes);
-    }
+    if (!outcomes.length) return;
+
+    const updatedOutcomes = outcomes.filter(out => out.id !== id);
+    setOutcomes(updatedOutcomes);
   };
 
   const handleAddOpen = (type: TransactionType) => {

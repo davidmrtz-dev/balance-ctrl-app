@@ -60,30 +60,22 @@ const Incomes = (): JSX.Element => {
     setShowUpdate(true);
   };
 
-  const handleCreate = async (income: IIncome) => {
-    if (incomes.length) {
-      setIncomes(incomes => [income, ...incomes]);
-    }
+  const handleCreate = (income: IIncome) => {
+    setIncomes(incomes => [income, ...incomes]);
   };
 
-  const handleUpdate = async (income: IIncome) => {
-    if (incomes.length) {
-      const updatedIncomes = incomes.map(inc => {
-        if (inc.id === income.id) {
-          return income;
-        } else {
-          return inc;
-        }
-      });
-      setIncomes(updatedIncomes);
-    }
+  const handleUpdate = (income: IIncome) => {
+    if (!incomes.length) return;
+
+    const updatedIncomes = incomes.map(i => i.id === income.id ? income : i);
+    setIncomes(updatedIncomes);
   };
 
   const handleDelete = (id: number) => {
-    if (incomes.length) {
-      const updatedIncomes = incomes.filter(inc => inc.id !== id);
-      setIncomes(updatedIncomes);
-    }
+    if (!incomes.length) return;
+
+    const updatedIncomes = incomes.filter(inc => inc.id !== id);
+    setIncomes(updatedIncomes);
   };
 
   useEffect(() => {
