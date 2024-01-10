@@ -52,25 +52,23 @@ const Categories = (): JSX.Element => {
     setCategory(null);
   }
 
-  const handleCreate = async (category: ICategory) => {
-    if (categories.length) {
-      setCategories(categories => [category, ...categories]);
-    }
+  const handleCreate = (category: ICategory) => {
+    setCategories(categories => [category, ...categories]);
   };
 
-  const handleUpdate = useCallback(async (category: ICategory) => {
+  const handleUpdate = (category: ICategory) => {
     if (!categories.length) return;
 
     const updatedCategories = categories.map(c => c.id === category.id ? category : c);
     setCategories(updatedCategories);
-  }, [categories]);
+  };
 
-  const handleDelete = useCallback(async (id: number) => {
+  const handleDelete = (id: number) => {
     if (!categories.length) return;
 
     const updatedCategories = categories.filter(c => c.id !== id);
     setCategories(updatedCategories);
-  }, [categories]);
+  };
 
   useEffect(() => {
     fetchCategories();

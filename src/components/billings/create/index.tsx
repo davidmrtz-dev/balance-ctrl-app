@@ -3,7 +3,7 @@ import { useState } from "react";
 import { theme } from "../../../Theme";
 import Alert from "../../alert";
 import { createCategory } from "../../../api/core/Category";
-import { ICategory } from "../../../@types";
+import { IBilling } from "../../../@types";
 
 const CategoryCreate = ({
   open,
@@ -12,7 +12,7 @@ const CategoryCreate = ({
 }: {
   open: boolean;
   closeModal: () => void;
-  handleCreate: (category: ICategory) => void;
+  handleCreate: (billing: IBilling) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
@@ -36,7 +36,7 @@ const CategoryCreate = ({
     try {
       const category = await createCategory(name);
       setTimeout(async () => {
-        handleCreate(category);
+        // handleCreate(category);
         setLoading(false);
         closeModal();
       }, 1000);

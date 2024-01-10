@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Billing } from "./Billing";
 import { Title } from "../../components/title/Title";
+import { BillingCreate } from "../../components/billings";
 
 const BillingsContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -14,9 +15,12 @@ const BillingsContainer = styled.div<{ reveal: boolean }>`
 `;
 
 const Billings = ():JSX.Element => {
+  const [billing, setBilling] = useState<IBilling | null>(null);
   const [billings, setBillings] = useState<IBilling []>([]);
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   const fetchBillings = useCallback(async (): Promise<void> => {
     try {
@@ -37,6 +41,15 @@ const Billings = ():JSX.Element => {
     }
   }, []);
 
+  const handleBillingClick = (billing: IBilling) => {
+    setBilling(billing);
+    setShowUpdate(true);
+  };
+
+  const handleCreate = (billing: IBilling) => {
+    setBillings(billings => [billing, ...billings]);
+  };
+
   useEffect(() => {
     fetchBillings();
   }, [fetchBillings]);
@@ -46,15 +59,20 @@ const Billings = ():JSX.Element => {
   }, [loading]);
 
   return (<>
-    {Title('Payment methods', () => {})}
+    {Title('Payment methods', () => setShowNew(true))}
     {loading
       ? <LoadingMask fixed />
       : <BillingsContainer reveal={reveal}>
         {(billings || []).map(billing =>
-          <Billing key={billing.id} billing={billing} onClick={() => {}} />
+          <Billing key={billing.id} billing={billing} onClick={() => handleBillingClick(billing)} />
         )}
       </BillingsContainer>
     }
+    <BillingCreate
+      open={showNew}
+      closeModal={() => setShowNew(false)}
+      handleCreate={handleCreate}
+    />
   </>);
 };
 
