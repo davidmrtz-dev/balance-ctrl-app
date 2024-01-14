@@ -173,7 +173,7 @@ const CategoryUpdate = ({
       footer={footerComponents}
     >
       <Form
-        name='outcome-form'
+        name='category-update-form'
         form={form}
         layout='vertical'
         initialValues={{ name: category.name }}

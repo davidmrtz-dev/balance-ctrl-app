@@ -82,7 +82,7 @@ const CategoryCreate = ({
       ]}
     >
       <Form
-        name='outcome-form'
+        name='category-create-form'
         form={form}
         layout='vertical'
         onValuesChange={e => setName(e.name)}
