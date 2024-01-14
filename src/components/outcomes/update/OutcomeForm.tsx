@@ -34,7 +34,7 @@ export const OutcomeForm = ({
 
   return (
     <Form
-      name='outcome-form'
+      name='outcome-update-form'
       form={form}
       layout='vertical'
       initialValues={values}
