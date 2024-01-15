@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Billing } from "./Billing";
 import { Title } from "../../components/title/Title";
-import { BillingCreate } from "../../components/billings";
+import { BillingCreate, BillingUpdate } from "../../components/billings";
 
 const BillingsContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -46,6 +46,11 @@ const Billings = ():JSX.Element => {
     setShowUpdate(true);
   };
 
+  const handleUpdateClose = () => {
+    setShowUpdate(false);
+    setBilling(null);
+  };
+
   const handleCreate = (billing: IBilling) => {
     setBillings(billings => [billing, ...billings]);
   };
@@ -73,6 +78,12 @@ const Billings = ():JSX.Element => {
       closeModal={() => setShowNew(false)}
       handleCreate={handleCreate}
     />
+    {billing && <BillingUpdate
+      billing={billing}
+      open={showUpdate}
+      closeModal={handleUpdateClose}
+      handleUpdate={async () => {}}
+    />}
   </>);
 };
 
