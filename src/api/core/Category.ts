@@ -12,7 +12,7 @@ export const getCategories = async(): Promise<ICategories> => {
 };
 
 export const createCategory = async (name: string): Promise<ICategory> => {
-  const result = await Http.post('/api/v1/categories/', {
+  const result = await Http.post('/api/v1/categories', {
     category: {
       name
     }

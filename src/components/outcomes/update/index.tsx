@@ -60,7 +60,7 @@ const OutcomeUpdate = ({
         setEnableEdit(false);
         Alert({
           icon: 'success',
-          text: 'Purchase updated successfully'
+          text: 'Purchase successfully updated'
         });
       }, 1000);
     } catch (err: any) {
@@ -89,7 +89,7 @@ const OutcomeUpdate = ({
         closeModal();
         Alert({
           icon: 'success',
-          text: 'Purchase deleted successfully'
+          text: 'Purchase successfully removed'
         });
       }, 1000);
     } catch (err: any) {

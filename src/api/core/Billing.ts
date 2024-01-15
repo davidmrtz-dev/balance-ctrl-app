@@ -1,4 +1,4 @@
-import { IBillings } from "../../@types";
+import { IBilling, IBillings } from "../../@types";
 import * as Http from '../Http';
 
 export const getBillings = async(): Promise<IBillings> => {
@@ -9,4 +9,14 @@ export const getBillings = async(): Promise<IBillings> => {
   });
 
   return result.data;
+};
+
+export const createBilling = async (values: IBilling): Promise<IBilling> => {
+  const result = await Http.post('/api/v1/billings', { billing: values }, { headers: {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  }});
+
+  return result.data.billing;
 };

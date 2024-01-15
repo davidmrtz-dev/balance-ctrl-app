@@ -1,7 +1,10 @@
 import { Button, DatePicker, Form, Input, Modal, Select, Typography } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { theme } from "../../../Theme";
 import { IBilling } from "../../../@types";
+import Alert from "../../alert";
+import { createBilling } from "../../../api/core/Billing";
+import { emptyBilling } from "../../../generators/emptyObjects";
 
 const BillingCreate = ({
   open,
@@ -13,13 +16,53 @@ const BillingCreate = ({
   handleCreate: (billing: IBilling) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<IBilling>({} as IBilling);
+  const [values, setValues] = useState<IBilling>(emptyBilling());
   const [form] = Form.useForm();
 
   const handleCancel = () => {
     closeModal();
-    setValues({} as IBilling);
+    setValues(emptyBilling());
     form.resetFields();
+  };
+
+  const handleSubmit = async () => {
+    console.log('values', values);
+    if (Object.values(values).some(val => val === '' || val === null)) {
+      Alert({
+        icon: 'error',
+        text: 'All fields are required'
+      });
+
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const billing = await createBilling(values);
+      setTimeout(async () => {
+        handleCreate(billing);
+        setValues(emptyBilling());
+        form.resetFields();
+        setLoading(false);
+        closeModal();
+        Alert({
+          icon: 'success',
+          text: 'Payment method successfully added'
+        });
+      }, 1000);
+    } catch(err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length &&
+          Array.isArray(err.errors) ? err.errors.join(', ') : err.errors;
+
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again later.'),
+        });
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -41,7 +84,7 @@ const BillingCreate = ({
             Cancel
           </Typography.Text>
         </Button>,
-        <Button key="submit" type="primary" loading={loading} onClick={() => {}}>
+        <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
           <Typography.Text
             style={{ ...theme.texts.brandFont, color: theme.colors.whites.normal }}
           >
@@ -54,7 +97,7 @@ const BillingCreate = ({
         name='billing-create-form'
         form={form}
         layout='vertical'
-        initialValues={{} as IBilling}
+        initialValues={values}
         onValuesChange={e => setValues({...values, ...e})}
         style={{ width: '100%' }}
       >

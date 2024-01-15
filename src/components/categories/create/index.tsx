@@ -20,6 +20,7 @@ const CategoryCreate = ({
 
   const handleCancel = () => {
     closeModal();
+    setName('');
     form.resetFields();
   };
 
@@ -29,6 +30,8 @@ const CategoryCreate = ({
         icon: 'error',
         text: 'Name is required'
       });
+
+      return;
     }
 
     setLoading(true);
@@ -51,7 +54,7 @@ const CategoryCreate = ({
         setLoading(false);
       }, 1000);
     }
-  }
+  };
 
   return (
     <Modal
