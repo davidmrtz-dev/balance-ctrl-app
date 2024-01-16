@@ -9,6 +9,7 @@ import { FontText } from "../../../atoms/text";
 import { capitalizeFirst } from "../../../utils";
 import { FormItemWrapper, TitleWrapper } from "../../containers";
 import dayjs from "dayjs";
+import { updateBilling } from "../../../api/core/Billing";
 
 const BillingUpdate = ({
   billing,
@@ -20,7 +21,7 @@ const BillingUpdate = ({
   billing: IBilling;
   open: boolean;
   closeModal: () => void;
-  handleUpdate: (category: IBilling) => Promise<void>;
+  handleUpdate: (category: IBilling) => void;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
@@ -30,40 +31,55 @@ const BillingUpdate = ({
   const [enableEdit, setEnableEdit] = useState(false);
   const [form] = Form.useForm();
 
-  // const handleSumbitUpdate = async () => {
-  //   if (!name) {
-  //     Alert({
-  //       icon: 'error',
-  //       text: 'Name is required'
-  //     });
-  //   }
+  useEffect(() => {
+    console.log('valuessss', values);
+  }, [values]);
 
-  //   setLoading(true);
+  const handleSumbitUpdate = async () => {
+    console.log('validation', values);
+    if (Object.values(values).some(val => val === '' || val === null)) {
+      Alert({
+        icon: 'error',
+        text: 'All fields are required'
+      });
 
-  //   try {
-  //     const updatedCategory = await updateCategory(category.id, name);
-  //     setTimeout(async () => {
-  //       await handleUpdate(updatedCategory);
-  //       setName(updatedCategory.name);
-  //       setLoading(false);
-  //       setEnableEdit(false);
-  //       Alert({
-  //         icon: 'success',
-  //         text: 'Category updated successfully'
-  //       })
-  //     }, 1000);
-  //   } catch (err: any) {
-  //     setTimeout(() => {
-  //       const error = err.errors && err.errors.length && err.errors.join(', ');
+      return;
+    }
 
-  //       Alert({
-  //         icon: 'error',
-  //         text: (error || 'There was an error, please try again later.'),
-  //       });
-  //       setLoading(false);
-  //     }, 1000);
-  //   }
-  // };
+    setLoading(true);
+
+    try {
+      const updatedCategory = await updateBilling(
+        values.id,
+        {
+          ...values,
+          cycle_end_date: dayjs(values.cycle_end_date).format('YYYY-MM-DD'),
+          payment_due_date: dayjs(values.payment_due_date).format('YYYY-MM-DD')
+      });
+      setTimeout(async () => {
+        handleUpdate(updatedCategory);
+        setValues(updatedCategory);
+        form.resetFields();
+        setEnableEdit(false);
+        setLoading(false);
+        Alert({
+          icon: 'success',
+          text: 'Payment method successfully updated'
+        })
+      }, 1000);
+    } catch (err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length &&
+          Array.isArray(err.errors) ? err.errors.join(', ') : err.errors;
+
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again later.'),
+        });
+        setLoading(false);
+      }, 1000);
+    }
+  };
 
   // const handleSubmitDelete = async () => {
   //   setDeleting(true);
@@ -100,10 +116,6 @@ const BillingUpdate = ({
     setEnableEdit(false);
     form.resetFields();
   };
-
-  // useEffect(() => {
-  //   setName(category.name);
-  // }, [category]);
 
   const footerComponents = [
     <Button
@@ -145,7 +157,7 @@ const BillingUpdate = ({
         key="submit"
         type="primary"
         loading={loading}
-        onClick={() => {}}
+        onClick={handleSumbitUpdate}
       >
         {FontText('Update', { color: theme.colors.whites.normal })}
       </Button>
@@ -179,7 +191,7 @@ const BillingUpdate = ({
         name='billing-update-form'
         form={form}
         layout='vertical'
-        initialValues={{...billing, cycle_end_date: dayjs(billing.cycle_end_date), payment_due_date: dayjs(billing.payment_due_date)}}
+        initialValues={{...values, cycle_end_date: dayjs(values.cycle_end_date), payment_due_date: dayjs(values.payment_due_date)}}
         onValuesChange={e => setValues({...values, ...e})}
         style={{ width: '100%' }}
         >
@@ -187,22 +199,31 @@ const BillingUpdate = ({
             Name
           </Typography.Text>}
             name='name'>
-            <Input disabled={!enableEdit} maxLength={20} style={{ ...theme.texts.brandSubFont }} />
+              {enableEdit
+                ? (<Input maxLength={20} style={{ ...theme.texts.brandSubFont }}/>)
+                : (<FormItemWrapper>{values.name}</FormItemWrapper>)}
+          </Form.Item>
+          <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
+            Credit card number
+          </Typography.Text>}
+            name='credit_card_number'>
+              {enableEdit
+                ? (<Input maxLength={20} style={{ ...theme.texts.brandSubFont }}/>)
+                : (<FormItemWrapper>{values.credit_card_number}</FormItemWrapper>)}
           </Form.Item>
           <Form.Item label="Cycle end date" name='cycle_end_date'>
-            <DatePicker
-              disabled={!enableEdit}
-              style={{ width: '100%' }}
-            />
+            {enableEdit
+              ? (<DatePicker disabled={!enableEdit} style={{ width: '100%' }} />)
+              : (<FormItemWrapper>{dayjs(values.cycle_end_date).format('YYYY-MM-DD')}</FormItemWrapper>)}
           </Form.Item>
           <Form.Item label="Payment due date" name='payment_due_date'>
-            <DatePicker
-              disabled={!enableEdit}
-              style={{ width: '100%' }}
-            />
+            {enableEdit
+            ? (<DatePicker disabled={!enableEdit} style={{ width: '100%' }} />)
+            : (<FormItemWrapper>{dayjs(values.payment_due_date).format('YYYY-MM-DD')}</FormItemWrapper>)}
           </Form.Item>
           <Form.Item label='Type' name='billing_type'>
-            <Select
+            {enableEdit
+              ? (<Select
               disabled={!enableEdit}
               style={{ width: '100%' }}
               options={[
@@ -210,7 +231,8 @@ const BillingUpdate = ({
                 { value: 'debit', label: 'Debit' },
                 { value: 'cash', label: 'Cash' }
               ]}
-            />
+            />)
+            : (<FormItemWrapper>{capitalizeFirst(values.billing_type)}</FormItemWrapper>)}
           </Form.Item>
         </Form>
     </Modal>

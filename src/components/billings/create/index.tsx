@@ -26,7 +26,6 @@ const BillingCreate = ({
   };
 
   const handleSubmit = async () => {
-    console.log('values', values);
     if (Object.values(values).some(val => val === '' || val === null)) {
       Alert({
         icon: 'error',
@@ -97,7 +96,7 @@ const BillingCreate = ({
         name='billing-create-form'
         form={form}
         layout='vertical'
-        initialValues={values}
+        initialValues={emptyBilling()}
         onValuesChange={e => setValues({...values, ...e})}
         style={{ width: '100%' }}
       >
@@ -106,6 +105,12 @@ const BillingCreate = ({
         </Typography.Text>}
           name='name'>
           <Input maxLength={20} style={{ ...theme.texts.brandSubFont }} />
+        </Form.Item>
+        <Form.Item label={<Typography.Text style={{ ...theme.texts.brandSubFont }}>
+          Credit card number
+        </Typography.Text>}
+          name='credit_card_number'>
+          <Input maxLength={19} style={{ ...theme.texts.brandSubFont }} />
         </Form.Item>
         <Form.Item label="Cycle end date" name='cycle_end_date'>
           <DatePicker

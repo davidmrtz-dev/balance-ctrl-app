@@ -55,6 +55,12 @@ const Billings = ():JSX.Element => {
     setBillings(billings => [billing, ...billings]);
   };
 
+  const handleUpdate = (billing: IBilling) => {
+    setBillings(
+      billings => billings.map(b => b.id === billing.id ? billing : b)
+    );
+  }
+
   useEffect(() => {
     fetchBillings();
   }, [fetchBillings]);
@@ -82,7 +88,7 @@ const Billings = ():JSX.Element => {
       billing={billing}
       open={showUpdate}
       closeModal={handleUpdateClose}
-      handleUpdate={async () => {}}
+      handleUpdate={handleUpdate}
     />}
   </>);
 };
