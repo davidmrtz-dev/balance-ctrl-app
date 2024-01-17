@@ -59,7 +59,11 @@ const Billings = ():JSX.Element => {
     setBillings(
       billings => billings.map(b => b.id === billing.id ? billing : b)
     );
-  }
+  };
+
+  const handleDelete = (id: number) => {
+    setBillings(billings => billings.filter(b => b.id !== id));
+  };
 
   useEffect(() => {
     fetchBillings();
@@ -89,6 +93,7 @@ const Billings = ():JSX.Element => {
       open={showUpdate}
       closeModal={handleUpdateClose}
       handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
     />}
   </>);
 };

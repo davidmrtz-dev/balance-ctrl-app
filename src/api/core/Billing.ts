@@ -30,3 +30,11 @@ export const updateBilling = async (id: number, values: IBilling): Promise<IBill
 
   return result.data.billing;
 };
+
+export const deleteBilling = async (id: number): Promise<void> => {
+  await Http.destroy(`/api/v1/billings/${id}`, undefined, {
+    'access-token': sessionStorage.getItem('authorization:token') || '',
+    client: sessionStorage.getItem('authorization:client') || '',
+    uid: sessionStorage.getItem('authorization:uid') || ''
+  });
+};
