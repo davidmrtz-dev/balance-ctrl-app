@@ -2,14 +2,12 @@ import { Button, DatePicker, Form, Input, Modal, Select, Typography } from "antd
 import { useEffect, useState } from "react";
 import { theme } from "../../../Theme";
 import Alert from "../../alert";
-import { createCategory, deleteCategory, updateCategory } from "../../../api/core/Category";
-import { IBilling, ICategory } from "../../../@types";
-import styled from "styled-components";
+import { IBilling } from "../../../@types";
 import { FontText } from "../../../atoms/text";
 import { capitalizeFirst } from "../../../utils";
 import { FormItemWrapper, TitleWrapper } from "../../containers";
 import dayjs from "dayjs";
-import { updateBilling } from "../../../api/core/Billing";
+import { deleteBilling, updateBilling } from "../../../api/core/Billing";
 
 const BillingUpdate = ({
   billing,
@@ -81,35 +79,34 @@ const BillingUpdate = ({
     }
   };
 
-  // const handleSubmitDelete = async () => {
-  //   setDeleting(true);
+  const handleSubmitDelete = async () => {
+    setDeleting(true);
 
-  //   try {
-  //     await deleteCategory(category.id);
-  //     setTimeout(async () => {
-  //       handleDelete && await handleDelete(category.id);
-  //       setName('');
-  //       setDeleting(false);
-  //       closeModal();
-  //       Alert({
-  //         icon: 'success',
-  //         text: 'Category deleted successfully'
-  //       });
-  //     }, 1000);
-  //   } catch (err: any) {
-  //     setTimeout(() => {
-  //       const error = err.errors && err.errors.length && err.errors.join(', ');
+    try {
+      await deleteBilling(billing.id);
+      setTimeout(async () => {
+        handleDelete && await handleDelete(billing.id);
+        setDeleting(false);
+        closeModal();
+        Alert({
+          icon: 'success',
+          text: 'Purchase method deleted successfully'
+        });
+      }, 1000);
+    } catch (err: any) {
+      setTimeout(() => {
+        const error = err.errors && err.errors.length &&
+          Array.isArray(err.errors) ? err.errors.join(', ') : err.errors;
 
-  //       Alert({
-  //         icon: 'error',
-  //         text: (error || 'There was an error, please try again later.'),
-  //       });
-  //       setName('');
-  //       setDeleting(false);
-  //       closeModal();
-  //     }, 1000);
-  //   }
-  // };
+        Alert({
+          icon: 'error',
+          text: (error || 'There was an error, please try again later.'),
+        });
+        setDeleting(false);
+        closeModal();
+      }, 1000);
+    }
+  };
 
   const handleCancel = () => {
     closeModal();
@@ -134,7 +131,7 @@ const BillingUpdate = ({
   }).then(result => {
     setConfirmDeletion(false);
     if (result.isConfirmed) {
-      // handleSubmitDelete();
+      handleSubmitDelete();
     }
   });
 
