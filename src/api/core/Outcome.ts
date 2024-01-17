@@ -56,7 +56,7 @@ export const getOutcomesIndex = async ({
 };
 
 export const createOutcome = async (values: IOutcome): Promise<IOutcome> => {
-  const result = await Http.post('/api/v1/outcomes/', { outcome: values }, { headers: {
+  const result = await Http.post('/api/v1/outcomes', { outcome: values }, { headers: {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
     uid: sessionStorage.getItem('authorization:uid') || ''

@@ -17,7 +17,7 @@ const OutcomeCreate = ({
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleCreate: (outcome: IOutcome) => Promise<void>;
+  handleCreate: (outcome: IOutcome) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IOutcome>(newOutcome(type));
@@ -55,13 +55,13 @@ const OutcomeCreate = ({
         billing_id: values.billings[0].id
       } as IOutcome);
       setTimeout(async () => {
-        await handleCreate(outcome);
+        handleCreate(outcome);
         setValues(newOutcome(type));
         setLoading(false);
         closeModal();
         Alert({
           icon: 'success',
-          text: 'Purchase added successfully'
+          text: 'Purchase successfully added'
         });
       }, 1000);
     } catch (err: any) {

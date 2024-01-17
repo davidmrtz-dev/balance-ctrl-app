@@ -12,7 +12,7 @@ const CategoryCreate = ({
 }: {
   open: boolean;
   closeModal: () => void;
-  handleCreate: (category: ICategory) => Promise<void>;
+  handleCreate: (category: ICategory) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
@@ -20,6 +20,7 @@ const CategoryCreate = ({
 
   const handleCancel = () => {
     closeModal();
+    setName('');
     form.resetFields();
   };
 
@@ -29,6 +30,8 @@ const CategoryCreate = ({
         icon: 'error',
         text: 'Name is required'
       });
+
+      return;
     }
 
     setLoading(true);
@@ -36,7 +39,7 @@ const CategoryCreate = ({
     try {
       const category = await createCategory(name);
       setTimeout(async () => {
-        await handleCreate(category);
+        handleCreate(category);
         setLoading(false);
         closeModal();
       }, 1000);
@@ -51,7 +54,7 @@ const CategoryCreate = ({
         setLoading(false);
       }, 1000);
     }
-  }
+  };
 
   return (
     <Modal
@@ -82,7 +85,7 @@ const CategoryCreate = ({
       ]}
     >
       <Form
-        name='outcome-form'
+        name='category-create-form'
         form={form}
         layout='vertical'
         onValuesChange={e => setName(e.name)}

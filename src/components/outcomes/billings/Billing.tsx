@@ -70,7 +70,7 @@ export const Billing = ({
           {SubFontText('State Date: ')}
         </BillingRowWrapper>
         <BillingRowWrapper>
-          {billing.state_date ? SubFontText(dayjs(billing.state_date).format('YYYY-MM-DD')) : 'N/A'}
+          {billing.cycle_end_date ? SubFontText(dayjs(billing.cycle_end_date).format('YYYY-MM-DD')) : 'N/A'}
         </BillingRowWrapper>
       </BillingRow>
       <BillingRow>

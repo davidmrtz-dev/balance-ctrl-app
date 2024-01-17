@@ -25,33 +25,33 @@ export const BillingSelector = ({
   const [loading, setLoading] = useState(false);
   const [billings, setBillings] = useState<IBilling []>([]);
 
-  const fetchBillings = async () => {
-    setLoading(true);
-    try {
-      const data = await getBillings();
-      const updatedBillings = values.transaction_type === 'fixed' ?
-        data.billings.filter(billing => billing.billing_type === 'credit') :
-        data.billings.filter(billing => billing.billing_type === 'debit' || billing.billing_type === 'cash');
-      setBillings(
-        values.billings.length > 0
-          ? updatedBillings.filter(billing => billing.id !== values.billings[0].id)
-          : updatedBillings
-      );
-      setTimeout(() => setLoading(false), 1000);
-    } catch (error: any) {
-      setTimeout(() => Alert({
-        icon: 'error',
-        title: 'Ops!',
-        text: (error.message || 'There was an error, please try again later')
-      }), 1000);
-    }
-  };
-
   useEffect(() => {
+    const fetchBillings = async () => {
+      setLoading(true);
+      try {
+        const data = await getBillings();
+        const updatedBillings = values.transaction_type === 'fixed' ?
+          data.billings.filter(billing => billing.billing_type === 'credit') :
+          data.billings.filter(billing => billing.billing_type === 'debit' || billing.billing_type === 'cash');
+        setBillings(
+          values.billings.length > 0
+            ? updatedBillings.filter(billing => billing.id !== values.billings[0].id)
+            : updatedBillings
+        );
+        setTimeout(() => setLoading(false), 1000);
+      } catch (error: any) {
+        setTimeout(() => Alert({
+          icon: 'error',
+          title: 'Ops!',
+          text: (error.message || 'There was an error, please try again later')
+        }), 1000);
+      }
+    };
+
     if (showList && !billings.length) {
       fetchBillings();
     }
-  }, [showList, billings]);
+  }, [showList, billings, values]);
 
   const handleBillingChange = (billing: IBilling) => {
     setValues({ ...values, billings: [billing] });
