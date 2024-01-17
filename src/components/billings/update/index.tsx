@@ -29,12 +29,7 @@ const BillingUpdate = ({
   const [enableEdit, setEnableEdit] = useState(false);
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    console.log('valuessss', values);
-  }, [values]);
-
   const handleSumbitUpdate = async () => {
-    console.log('validation', values);
     if (Object.values(values).some(val => val === '' || val === null)) {
       Alert({
         icon: 'error',
