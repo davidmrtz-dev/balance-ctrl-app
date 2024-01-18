@@ -7,7 +7,7 @@ import Alert from "../../components/alert";
 import { Income } from "./Income";
 import { IncomeCreate, IncomeUpdate } from "../../components/incomes";
 import { newIncome } from "../../generators/emptyObjects";
-import { Title } from "../../components/outcomes";
+import { TwoOptsTitle } from "../../components/title/TwoOptsTitle";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -87,7 +87,7 @@ const Incomes = (): JSX.Element => {
   }, [loading]);
 
   return(<>
-    {Title('Incomes', handleAddOpen)}
+    {TwoOptsTitle('Incomes', handleAddOpen, 'Current', 'Fixed')}
     {loading
       ? <LoadingMask fixed />
       : (<IncomesContainer reveal={reveal}>

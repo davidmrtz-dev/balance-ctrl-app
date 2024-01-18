@@ -7,11 +7,12 @@ import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
-import { OutcomeCreate, OutcomeUpdate, Title } from "../../components/outcomes";
+import { OutcomeCreate, OutcomeUpdate } from "../../components/outcomes";
 import { newOutcome } from "../../generators/emptyObjects";
 import { Button } from "antd";
 import { FontText } from "../../atoms/text";
 import NotFound from "../not-found";
+import { TwoOptsTitle } from "../../components/title/TwoOptsTitle";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -189,7 +190,7 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<>
-    {Title('Purchases', handleAddOpen)}
+    {TwoOptsTitle('Purchases', handleAddOpen, 'Cash & Debit', 'Credit')}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}
