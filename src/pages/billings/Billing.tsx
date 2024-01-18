@@ -1,5 +1,4 @@
 import { Typography } from "antd";
-import dayjs from "dayjs";
 import styled from "styled-components";
 import { IBilling } from "../../@types";
 import { ActionButton } from "../../atoms/ActionButton";
