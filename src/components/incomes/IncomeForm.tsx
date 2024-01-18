@@ -56,7 +56,7 @@ export const IncomeForm = ({
           />
         </Form.Item>
       )}
-      <Form.Item label={values.transaction_type === 'current' ? 'Income date' : 'Last income date'} name='transaction_date'>
+      <Form.Item label={'Income date'} name='transaction_date'>
         <DatePicker
           style={{ width: '100%' }}
           disabledDate={disabledDate}
