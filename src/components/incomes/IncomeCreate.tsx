@@ -16,7 +16,7 @@ export const IncomeCreate = ({
   open: boolean;
   type: TransactionType;
   close: () => void;
-  handleCreate: (income: IIncome) => Promise<void>;
+  handleCreate: (income: IIncome) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState<IIncome>(newIncome(type));
@@ -37,7 +37,7 @@ export const IncomeCreate = ({
         ...values
       } as IIncome);
       setTimeout(async () => {
-        await handleCreate(income);
+        handleCreate(income);
         setValues(newIncome(type));
         setLoading(false);
         close();

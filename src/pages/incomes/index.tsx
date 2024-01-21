@@ -7,7 +7,7 @@ import Alert from "../../components/alert";
 import { Income } from "./Income";
 import { IncomeCreate, IncomeUpdate } from "../../components/incomes";
 import { newIncome } from "../../generators/emptyObjects";
-import { Title } from "../../components/outcomes";
+import { TwoOptsTitle } from "../../components/title/TwoOptsTitle";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -33,7 +33,7 @@ const Incomes = (): JSX.Element => {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: err.error || 'There was an error, please try again later'
+        text: err.errors || 'There was an error, please try again later'
       }), 1000);
     }
   };
@@ -60,30 +60,22 @@ const Incomes = (): JSX.Element => {
     setShowUpdate(true);
   };
 
-  const handleCreate = async (income: IIncome) => {
-    if (incomes.length) {
-      setIncomes(incomes => [income, ...incomes]);
-    }
+  const handleCreate = (income: IIncome) => {
+    setIncomes(incomes => [income, ...incomes]);
   };
 
-  const handleUpdate = async (income: IIncome) => {
-    if (incomes.length) {
-      const updatedIncomes = incomes.map(inc => {
-        if (inc.id === income.id) {
-          return income;
-        } else {
-          return inc;
-        }
-      });
-      setIncomes(updatedIncomes);
-    }
+  const handleUpdate = (income: IIncome) => {
+    if (!incomes.length) return;
+
+    const updatedIncomes = incomes.map(i => i.id === income.id ? income : i);
+    setIncomes(updatedIncomes);
   };
 
   const handleDelete = (id: number) => {
-    if (incomes.length) {
-      const updatedIncomes = incomes.filter(inc => inc.id !== id);
-      setIncomes(updatedIncomes);
-    }
+    if (!incomes.length) return;
+
+    const updatedIncomes = incomes.filter(inc => inc.id !== id);
+    setIncomes(updatedIncomes);
   };
 
   useEffect(() => {
@@ -95,7 +87,7 @@ const Incomes = (): JSX.Element => {
   }, [loading]);
 
   return(<>
-    {Title('Incomes', handleAddOpen)}
+    {TwoOptsTitle('Incomes', handleAddOpen, 'Current', 'Fixed')}
     {loading
       ? <LoadingMask fixed />
       : (<IncomesContainer reveal={reveal}>

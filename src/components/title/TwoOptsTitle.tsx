@@ -1,8 +1,8 @@
 import { Button, Popover, Typography } from "antd";
 import { useState } from "react";
 import styled from "styled-components"
-import { TransactionType } from "../../../@types";
-import { theme } from "../../../Theme";
+import { TransactionType } from "../../@types";
+import { theme } from "../../Theme";
 
 const TitleWrapper = styled.div`
   background-color: ${p => p.theme.colors.grays.light};
@@ -16,7 +16,12 @@ const TitleWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-export const Title = (text: string, setType: (type: TransactionType) => void): JSX.Element => {
+export const TwoOptsTitle = (
+  text: string,
+  setType: (type: TransactionType) => void,
+  opt_1: string,
+  opt_2: string
+): JSX.Element => {
   const [open, setOpen] = useState(false);
 
   return(<TitleWrapper>
@@ -41,7 +46,7 @@ export const Title = (text: string, setType: (type: TransactionType) => void): J
           setOpen(false);
         }}
         >
-          Cash & Debit
+          {opt_1}
         </Button>
         <Button style={{
           ...theme.texts.brandSubFont
@@ -51,7 +56,7 @@ export const Title = (text: string, setType: (type: TransactionType) => void): J
           setOpen(false);
         }}
         >
-          Credit
+          {opt_2}
         </Button>
       </div>}
       title={'Payment method'}

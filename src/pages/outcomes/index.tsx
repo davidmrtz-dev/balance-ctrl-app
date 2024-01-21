@@ -7,11 +7,12 @@ import { useDebouncedState } from "../../hooks/useDebouncedState";
 import Alert from "../../components/alert";
 import styled from "styled-components";
 import Search from "./search";
-import { OutcomeCreate, OutcomeUpdate, Title } from "../../components/outcomes";
+import { OutcomeCreate, OutcomeUpdate } from "../../components/outcomes";
 import { newOutcome } from "../../generators/emptyObjects";
 import { Button } from "antd";
 import { FontText } from "../../atoms/text";
 import NotFound from "../not-found";
+import { TwoOptsTitle } from "../../components/title/TwoOptsTitle";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -94,7 +95,7 @@ const Outcomes = (): JSX.Element => {
       setTimeout(() => Alert({
         icon: 'error',
         title: 'Ops!',
-        text: err.error || 'There was an error, please try again later'
+        text: err.errors || 'There was an error, please try again later'
       }), 1000);
     }
   }, [page]);
@@ -142,13 +143,11 @@ const Outcomes = (): JSX.Element => {
     setOutcome(newOutcome('current'));
   };
 
-  const handleCreate = async (outcome: IOutcome) => {
-    if (outcomes.length) {
-      setOutcomes(outcomes => [outcome, ...outcomes]);
-    }
+  const handleCreate = (outcome: IOutcome) => {
+    setOutcomes(outcomes => [outcome, ...outcomes]);
   };
 
-  const handleUpdate = async (outcome: IOutcome) => {
+  const handleUpdate = (outcome: IOutcome) => {
     if (!outcomes.length) return;
 
     const updatedOutcomes = outcomes.map(o => o.id === outcome.id ? outcome : o);
@@ -156,10 +155,10 @@ const Outcomes = (): JSX.Element => {
   };
 
   const handleDelete = (id: number) => {
-    if (outcomes.length) {
-      const updatedOutcomes = outcomes.filter(out => out.id !== id);
-      setOutcomes(updatedOutcomes);
-    }
+    if (!outcomes.length) return;
+
+    const updatedOutcomes = outcomes.filter(out => out.id !== id);
+    setOutcomes(updatedOutcomes);
   };
 
   const handleAddOpen = (type: TransactionType) => {
@@ -191,7 +190,7 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<>
-    {Title('Purchases', handleAddOpen)}
+    {TwoOptsTitle('Purchases', handleAddOpen, 'Cash & Debit', 'Credit')}
     <Search
       search={searchTerm}
       setSearch={setSearchTerm}

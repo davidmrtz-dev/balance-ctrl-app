@@ -22,7 +22,7 @@ const OutcomeUpdate = ({
   open: boolean;
   type: TransactionType;
   closeModal: () => void;
-  handleUpdate: (outcome: IOutcome) => Promise<void>;
+  handleUpdate: (outcome: IOutcome) => void;
   handleDelete?: (id: number) => void;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
@@ -54,13 +54,13 @@ const OutcomeUpdate = ({
         }] : undefined
       } as IOutcome);
       setTimeout(async () => {
-        await handleUpdate(updatedOutcome);
+        handleUpdate(updatedOutcome);
         setValues(updatedOutcome);
         setLoading(false);
         setEnableEdit(false);
         Alert({
           icon: 'success',
-          text: 'Purchase updated successfully'
+          text: 'Purchase successfully updated'
         });
       }, 1000);
     } catch (err: any) {
@@ -89,7 +89,7 @@ const OutcomeUpdate = ({
         closeModal();
         Alert({
           icon: 'success',
-          text: 'Purchase deleted successfully'
+          text: 'Purchase successfully removed'
         });
       }, 1000);
     } catch (err: any) {

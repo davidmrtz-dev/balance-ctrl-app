@@ -1,7 +1,7 @@
-import { ICategory } from "../../@types";
+import { ICategories, ICategory } from "../../@types";
 import * as Http from '../Http';
 
-export const getCategories = async(): Promise<{ categories: ICategory [] }> => {
+export const getCategories = async(): Promise<ICategories> => {
   const result = await Http.get('/api/v1/categories', null, {
     'access-token': sessionStorage.getItem('authorization:token') || '',
     client: sessionStorage.getItem('authorization:client') || '',
@@ -12,7 +12,7 @@ export const getCategories = async(): Promise<{ categories: ICategory [] }> => {
 };
 
 export const createCategory = async (name: string): Promise<ICategory> => {
-  const result = await Http.post('/api/v1/categories/', {
+  const result = await Http.post('/api/v1/categories', {
     category: {
       name
     }

@@ -24,7 +24,7 @@ export const OutcomeForm = ({
 
   return (
     <Form
-      name='outcome-form'
+      name='outcome-create-form'
       form={form}
       layout='vertical'
       initialValues={values}
