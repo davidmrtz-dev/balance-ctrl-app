@@ -12,7 +12,7 @@ const HeaderContainer = styled.div`
   grid-gap: 8px;
 `;
 
-const Header = ({
+export const Header = ({
   balance,
   loading
 }: {
@@ -33,7 +33,7 @@ const Header = ({
         <HeaderCard
           concept='Outcomes'
           variation='red'
-          value={formatCurrency(balance?.amount_outcomes)}
+          value={formatCurrency(balance?.amount_for_payments)}
           onClick={() => history.push('/outcomes')}
           loading={loading}
           icon={faArrowDown}
