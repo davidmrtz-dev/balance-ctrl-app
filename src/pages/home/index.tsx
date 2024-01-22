@@ -6,8 +6,8 @@ import { useAuthContext } from "../../context/AuthContext";
 import { theme } from "../../Theme";
 import Alert from "../../components/alert";
 import { Outcomes } from "../../components/dashboard/outcomes";
-import Header from "../../components/dashboard/header";
 import { getOutcomesCurrent, getOutcomesFixed } from "../../api/core/Outcome";
+import Header from "../../components/dashboard/header/Header";
 
 const Home = (): JSX.Element => {
   const auth = useAuthContext();

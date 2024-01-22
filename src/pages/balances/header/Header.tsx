@@ -21,7 +21,7 @@ export const Header = ({
   return(
     <HeaderContainer>
       <HeaderCard
-        concept='Current amount'
+        concept='Amount incomes'
         variation='gray'
         value={formatCurrency(balance?.amount_incomes)}
         loading={loading}
@@ -49,7 +49,7 @@ export const Header = ({
         style={{ gridArea: '3 / 2 / 4 / 3'}}
       />
       <HeaderCard
-        concept='Amount after payments'
+        concept='Current amount'
         variation='blue'
         value={formatCurrency(balance?.current_amount)}
         loading={loading}
