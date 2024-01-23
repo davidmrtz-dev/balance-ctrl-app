@@ -10,6 +10,7 @@ import { theme } from "../../Theme";
 import { useCallback, useState } from "react";
 import { updatePayment } from "../../api/core/Payment";
 import Alert from "../alert";
+import dayjs from "dayjs";
 
 const Circle = styled.div`
   position: absolute;
@@ -40,7 +41,8 @@ export const PaymentDetail = ({
     try {
       const updatedPayment = await updatePayment({
         ...payment,
-        status: 'applied'
+        status: 'applied',
+        paid_at: dayjs().format('YYYY-MM-DD')
       });
       setTimeout(async () => {
         setRefresh && setRefresh(true);
