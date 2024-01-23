@@ -42,7 +42,7 @@ export const PaymentDetail = ({
       const updatedPayment = await updatePayment({
         ...payment,
         status: 'applied',
-        paid_at: dayjs().format('YYYY-MM-DD')
+        paid_at: dayjs().format('YYYY-MM-DDTHH:mm:ss[Z]')
       });
       setTimeout(async () => {
         setRefresh && setRefresh(true);
