@@ -4,6 +4,7 @@ import { SubFontText } from "../../../atoms/text";
 import { IPayment } from "../../../@types";
 import { capitalizeFirst, formatCurrency } from "../../../utils";
 import { getPaymentStatusColor } from "../../../components/payments";
+import dayjs from "dayjs";
 
 const PaymentContainer = styled.div`
   display: flex;
@@ -54,4 +55,8 @@ export const Payment = ({
       {SubFontText('Payment Number:')}
       {SubFontText(payment.payment_number || '')}
     </PaymentContentWrapper>
+    {payment.paid_at && (<PaymentContentWrapper>
+      {SubFontText('Paid at:')}
+      {SubFontText(dayjs(payment.paid_at).format('YYYY-MM-DD'))}
+    </PaymentContentWrapper>)}
 </PaymentContainer>;
