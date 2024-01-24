@@ -11,7 +11,8 @@ export interface IPayment {
   payment_number?: string;
   refund_id?: null | number;
   paymentable?: IOutcome | IIncome;
-  paid_at: string | Dayjs;
+  paid_at: string | Dayjs | null;
+  folio: string;
 };
 
 export interface IPayments {

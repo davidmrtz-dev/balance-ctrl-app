@@ -128,6 +128,12 @@ export const PaymentDetail = ({
             <Status status={payment.status} />
           </FormItemWrapper>
         </Form.Item>
+        {payment.paid_at && (<Form.Item label='Paid At' name='paid_at'>
+          <FormItemWrapper>{dayjs(payment.paid_at).format('YYYY-MM-DD')}</FormItemWrapper>
+        </Form.Item>)}
+        <Form.Item label='Folio' name='folio'>
+          <FormItemWrapper>{payment.folio}</FormItemWrapper>
+        </Form.Item>
         <Form.Item label='Purchase' name='purchase'>
           <OutcomeDetail
             values={payment.paymentable as IOutcome}

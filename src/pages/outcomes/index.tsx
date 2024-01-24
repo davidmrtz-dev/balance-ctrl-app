@@ -173,7 +173,10 @@ const Outcomes = (): JSX.Element => {
     );
   };
 
+  console.log('page', page);
+
   useEffect(() => {
+    console.log('useEffect 1');
     fetchOutcomes();
   }, [fetchOutcomes]);
 
@@ -182,9 +185,10 @@ const Outcomes = (): JSX.Element => {
   }, [loading]);
 
   useEffect(() => {
+    console.log('useEffect 2');
     if (searchTerm || dates.every(d => d)) {
       search(searchTerm, dates);
-    } else {
+    } else if (outcomes.length === 0) {
       fetchOutcomes();
     }
   }, [searchTerm, dates, search, fetchOutcomes]);
@@ -208,7 +212,7 @@ const Outcomes = (): JSX.Element => {
               onClick={() => handleOutcomeClick(outcome)}
             />
           )}
-          {(displayOutcomes().length > 0 && !loadMore && page < meta.total_pages) &&
+          {(displayOutcomes().length > 9 && !loadMore && page < meta.total_pages) &&
             <Button
               onClick={() => {
                 if(page < meta.total_pages) setPage(page + 1);
