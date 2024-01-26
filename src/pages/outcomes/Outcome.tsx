@@ -49,7 +49,7 @@ export const Outcome = ({
         <Typography.Text style={{
           ...theme.texts.brandSubFont
         }}>
-          {dayjs(outcome.transaction_date).format('YYYY-MM-DD')}
+          {dayjs(outcome.transaction_date).format('YYYY-MM-DD HH:mm:ss')}
         </Typography.Text>
       </div>
       <div style={{ gridArea: '3 / 1 / 4 / 2' }}>

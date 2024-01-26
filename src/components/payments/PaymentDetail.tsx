@@ -129,7 +129,7 @@ export const PaymentDetail = ({
           </FormItemWrapper>
         </Form.Item>
         {payment.paid_at && (<Form.Item label='Paid At' name='paid_at'>
-          <FormItemWrapper>{dayjs(payment.paid_at).format('YYYY-MM-DD')}</FormItemWrapper>
+          <FormItemWrapper>{dayjs(payment.paid_at).format('YYYY-MM-DD HH:mm:ss')}</FormItemWrapper>
         </Form.Item>)}
         <Form.Item label='Folio' name='folio'>
           <FormItemWrapper>{payment.folio}</FormItemWrapper>

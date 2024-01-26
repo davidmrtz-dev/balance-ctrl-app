@@ -50,7 +50,7 @@ const OutcomeCreate = ({
     try {
       const outcome = await createOutcome({
         ...values,
-        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
+        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD HH:mm:ss'),
         category_id: values.categories[0].id,
         billing_id: values.billings[0].id
       } as IOutcome);

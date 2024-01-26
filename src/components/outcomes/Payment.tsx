@@ -42,6 +42,6 @@ export const Payment = (payment: IPayment): JSX.Element => <PaymentWrapper>
     </PaymentContentWrapper>
     {payment.paid_at && (<PaymentContentWrapper>
       {SubFontText('Paid at:')}
-      {SubFontText(dayjs(payment.paid_at).format('YYYY-MM-DD'))}
+      {SubFontText(dayjs(payment.paid_at).format('YYYY-MM-DD HH:mm:ss'))}
     </PaymentContentWrapper>)}
 </PaymentWrapper>;
