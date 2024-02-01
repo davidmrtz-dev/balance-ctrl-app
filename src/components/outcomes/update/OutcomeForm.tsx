@@ -102,7 +102,7 @@ export const OutcomeForm = ({
         {editable ? (<DatePicker
           style={{ width: '100%' }}
           disabledDate={disabledDate}
-        />) : (<FormItemWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</FormItemWrapper>)}
+        />) : (<FormItemWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD HH:mm:ss')}</FormItemWrapper>)}
       </Form.Item>
       <Collapse expandIconPosition='end' style={{ marginBottom: '24px' }}>
         <Panel header={SubFontText('Related Payments')} key={1}>
