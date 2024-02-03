@@ -50,7 +50,7 @@ export const Header = ({
           concept='Analytics'
           variation='yellow'
           value={'+25'}
-          onClick={() => history.push('/balance')}
+          onClick={() => history.push('/metrics')}
           loading={loading}
           icon={faChartPie}
           suffix="%"

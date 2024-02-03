@@ -1,6 +1,6 @@
 import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faBalanceScale } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faBalanceScale, faHome } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { Button, Drawer, Space, Typography } from 'antd';
 import { theme } from '../../Theme';
@@ -50,8 +50,18 @@ const Navigation = (): JSX.Element => {
   }
 
   return (
-    <NavigationContainer>
-      <Typography className={dateStyles}>Today, {dayjs().format("DD-MM-YYYY")}</Typography>
+    <NavigationContainer flexEnd={!auth.isAuthenticated}>
+      {auth.isAuthenticated && (<><Link to='/'>
+        <FontAwesomeIcon
+          color={theme.colors.grays.darker}
+          size='lg'
+          style={{ cursor: 'pointer' }}
+          icon={faHome}
+        />
+      </Link>
+      <Typography className={dateStyles}>
+        Today, {dayjs().format("DD-MM-YYYY")}
+      </Typography></>)}
       {!show && (<FontAwesomeIcon
         color={theme.colors.blacks.normal}
         size='lg'
