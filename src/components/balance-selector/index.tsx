@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { IBalance } from "../../@types";
 import { Select } from "antd";
-import Alert from "../../components/alert";
+import Alert from "../alert";
 import { getBalances } from "../../api/core/Balance";
 
 const formatSelectorLabel = (balance: IBalance): string => {
@@ -16,7 +16,7 @@ const formatSelectorLabel = (balance: IBalance): string => {
   return `${formattedMonth} ${formattedYear}`;
 };
 
-export const Selector = ({
+const BalanceSelector = ({
   handleBalance
 }: {
   handleBalance: (balance: IBalance) => void;
@@ -65,3 +65,5 @@ export const Selector = ({
     options={selectorData.options}
   />);
 };
+
+export default BalanceSelector;

@@ -1,4 +1,32 @@
 import { Column, Line, Pie } from '@ant-design/charts';
+import BalanceSelector from '../../components/balance-selector';
+import { IBalance } from '../../@types';
+import { useState } from 'react';
+import { Header } from './header/Header';
+import { Collapse } from 'antd';
+import { theme } from '../../Theme';
+import styled from 'styled-components';
+import { LoadingWrapper } from '../../components/containers';
+import { LoadingMask } from '../../atoms/LoadingMask';
+import { FontText } from '../../atoms/text';
+const { Panel } = Collapse;
+
+const PaymentsContainer = styled.div<{
+  type: 'applied' | 'pending';
+  reveal: boolean;
+}>`
+  opacity: ${p => p.reveal ? 1 : 0};
+  transition: opacity 1s ease-in-out;
+  width: 100%;
+  min-height: ${p => p.type === 'applied' ? '648' : '538'}px;
+`;
+
+const PanelWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const DemoColumn = () => {
   const data = [
@@ -168,7 +196,15 @@ const DemoPie = () => {
   return <Pie {...config} />;
 };
 
-const Metrics = (): JSX.Element => {
+const Stats = (): JSX.Element => {
+  const [loading, setLoading] = useState(true);
+  const [balance, setBalance] = useState<IBalance | null>(null);
+
+  const handleBalance = (balance: IBalance) => {
+    setBalance(balance);
+    setLoading(false);
+  };
+
   const data = [
     { year: '1991', value: 3 },
     { year: '1992', value: 4 },
@@ -187,13 +223,42 @@ const Metrics = (): JSX.Element => {
     yField: 'value',
   };
 
-  return(
-    <>
-      <DemoPie />
-      <Line {...props} />
-      <DemoColumn />
-    </>
-  )
+  return(<>
+    <BalanceSelector
+      handleBalance={handleBalance}
+    />
+    <Header
+      balance={balance}
+      loading={loading}
+    />
+    <Collapse
+      style={{ margin: '16px 0', backgroundColor: theme.colors.grays.light }}
+      defaultActiveKey={['payments']}
+      collapsible='disabled'
+      expandIcon={() => <></>}
+    >
+      <Panel header={FontText('Stats')} key='payments' >
+        <PanelWrapper>
+          {loading
+            ? (<LoadingWrapper height={'648px'} >
+                <LoadingMask />
+              </LoadingWrapper>)
+            : (<div style={{
+              display: 'flex',
+              maxWidth: '326px !important',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <DemoPie />
+              <Line {...props} />
+              <DemoColumn />
+            </div>)
+          }
+        </PanelWrapper>
+      </Panel>
+    </Collapse>
+  </>);
 };
 
-export default Metrics;
+export default Stats;

@@ -3,7 +3,7 @@ import { IBalance } from "../../@types";
 import { Header } from "./header/Header";
 import { Payments } from "./payments/Payments";
 import { getPaymentsApplied, getPaymentsPending } from "../../api/core/Payment";
-import { Selector } from "./Selector";
+import BalanceSelector from "../../components/balance-selector";
 
 const Balance = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ const Balance = (): JSX.Element => {
   }, []);
 
   return(<>
-    <Selector
+    <BalanceSelector
       handleBalance={handleBalance}
     />
     <Header

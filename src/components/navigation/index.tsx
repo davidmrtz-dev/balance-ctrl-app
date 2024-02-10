@@ -89,15 +89,17 @@ const Navigation = (): JSX.Element => {
           marginLeft: 'auto',
           marginRight: 'auto'
         }}
-        bodyStyle={{
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: 'none !important',
-          backgroundColor: `${theme.colors.whites.lighter}`,
-          padding: 16
-        }}
-        contentWrapperStyle={{
-          boxShadow: 'none'
+        styles={{
+          body: {
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: 'none !important',
+            backgroundColor: `${theme.colors.whites.lighter}`,
+            padding: 16
+          },
+          wrapper: {
+            boxShadow: 'none'
+          }
         }}
       >
         {auth.isAuthenticated ?
