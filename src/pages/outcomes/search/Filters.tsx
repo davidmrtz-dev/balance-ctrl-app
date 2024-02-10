@@ -12,7 +12,7 @@ const { RangePicker } = DatePicker;
 const FiltersContainer = styled.div<{ visible: boolean }>`
   background-color: ${p => p.theme.colors.grays.light};
   width: 100%;
-  height: ${p => p.visible ? '158' : '0'}px;
+  height: ${p => p.visible ? '168' : '0'}px;
 	overflow: hidden;
 	transition: height .5s ease-in-out;
 	border-bottom-left-radius: 10px;
@@ -108,10 +108,7 @@ export const Filters = ({
         setType('');
       }}
       placeholder={'Type'}
-      style={{
-        width: '100%',
-        paddingTop: '5px'
-      }}
+      style={{ width: '100%', marginTop: '10px' }}
       dropdownStyle={{ backgroundColor: theme.colors.grays.light }}
       onSelect={setFilter}
       options={[
@@ -126,12 +123,13 @@ export const Filters = ({
         setCategory(null);
       }}
       placeholder={'Category'}
-      style={{ width: '100%', paddingTop: '5px', paddingBottom: '10px' }}
+      style={{ width: '100%', marginTop: '10px' }}
       onSelect={handleSelectorChange}
       options={selectorData.options}
     />
     <Button
       disabled={selection.some(s => !s) && !filter && !internalCategory}
+      style={{ width: '100%', margin: '10px 0' }}
       type='primary'
       onClick={() => {
         setDates(selection);
