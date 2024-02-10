@@ -173,10 +173,7 @@ const Outcomes = (): JSX.Element => {
     );
   };
 
-  console.log('page', page);
-
   useEffect(() => {
-    console.log('useEffect 1');
     fetchOutcomes();
   }, [fetchOutcomes]);
 
@@ -185,7 +182,6 @@ const Outcomes = (): JSX.Element => {
   }, [loading]);
 
   useEffect(() => {
-    console.log('useEffect 2');
     if (searchTerm || dates.every(d => d)) {
       search(searchTerm, dates);
     } else if (outcomes.length === 0) {

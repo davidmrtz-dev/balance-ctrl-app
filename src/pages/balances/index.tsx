@@ -53,12 +53,14 @@ const Balance = (): JSX.Element => {
       getPayments={fetchPaymentsApplied}
       refresh={refresh}
       setRefresh={setRefresh}
+      type='applied'
     />}
     {balance?.["current?"] && <Payments
       headerText='Pending Payments'
       getPayments={fetchPaymentsPending}
       refresh={refresh}
       setRefresh={setRefresh}
+      type='pending'
     />}
   </>);
 };
