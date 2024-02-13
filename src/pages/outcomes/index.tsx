@@ -187,6 +187,7 @@ const Outcomes = (): JSX.Element => {
     } else if (outcomes.length === 0) {
       fetchOutcomes();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<>

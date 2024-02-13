@@ -22,21 +22,21 @@ export const Header = ({
     <HeaderContainer>
       <HeaderCard
         concept='Amount incomes'
-        variation='gray'
+        variation='green'
         value={formatCurrency(balance?.amount_incomes)}
         loading={loading}
         style={{ gridArea: '1 / 1 / 2 / 3'}}
       />
       <HeaderCard
         concept='Amount for payments'
-        variation='yellow'
+        variation='red'
         value={formatCurrency(balance?.amount_for_payments)}
         loading={loading}
         style={{ gridArea: '2 / 1 / 3 / 3'}}
       />
       <HeaderCard
         concept='Applied payments'
-        variation='yellow'
+        variation='red'
         value={formatCurrency(balance?.amount_paid)}
         loading={loading}
         style={{ gridArea: '3 / 1 / 4 / 2'}}
@@ -50,7 +50,7 @@ export const Header = ({
       />
       <HeaderCard
         concept='Current amount'
-        variation='blue'
+        variation='gray'
         value={formatCurrency(balance?.current_amount)}
         loading={loading}
         style={{ gridArea: '4 / 1 / 5 / 3'}}
