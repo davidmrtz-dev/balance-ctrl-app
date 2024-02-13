@@ -12,15 +12,14 @@ import { PaymentsNavigation } from "../../../components/payments/PaymentsNavigat
 import { PaymentDetail } from "../../../components/payments";
 const { Panel } = Collapse;
 
-const panelMinHeight = '538px';
-
 const PaymentsContainer = styled.div<{
+  type: 'applied' | 'pending';
   reveal: boolean;
 }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
   width: 100%;
-  min-height: ${panelMinHeight};
+  min-height: ${p => p.type === 'applied' ? '648' : '538'}px;
 `;
 
 const PanelWrapper = styled.div`
@@ -34,7 +33,8 @@ export const Payments = ({
   headerText,
   getPayments,
   refresh,
-  setRefresh
+  setRefresh,
+  type
 }: {
   headerText: string;
   getPayments: ({
@@ -48,6 +48,7 @@ export const Payments = ({
   }) => Promise<IPayments>;
   refresh: boolean;
   setRefresh: (refresh: boolean) => void;
+  type: 'applied' | 'pending';
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -140,10 +141,10 @@ export const Payments = ({
         <Panel header={FontText(headerText)} key='payments' >
           <PanelWrapper>
             {loading
-              ? (<LoadingWrapper height={panelMinHeight}>
+              ? (<LoadingWrapper height={type === 'applied' ? '648px' : '538px'}>
                   <LoadingMask />
                 </LoadingWrapper>)
-              : (<PaymentsContainer reveal={reveal}>
+              : (<PaymentsContainer type={type} reveal={reveal}>
                   {(payments[page] || []).map(payment =>
                     <Payment payment={payment} onClick={() => handlePaymentClick(payment)} key={payment.id} />
                   )}

@@ -54,14 +54,13 @@ export const Header = ({
         value={formatCurrency(balance?.current_amount)}
         loading={loading}
         style={{ gridArea: '4 / 1 / 5 / 3'}}
-      />
+        />
       <HeaderCard
-        concept='Savings this month'
-        variation='green'
-        value={'+25'}
+        concept='Amount after payments'
+        variation='blue'
+        value={formatCurrency(balance?.amount_after_payments)}
         loading={loading}
         style={{ gridArea: '5 / 1 / 6 / 3'}}
-        suffix="%"
       />
     </HeaderContainer>
   );
