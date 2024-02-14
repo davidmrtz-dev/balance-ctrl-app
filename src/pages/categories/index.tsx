@@ -78,7 +78,7 @@ const Categories = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-  return (<>
+  return (<div style={{ marginTop: '20px' }}>
     {Title('Categories', () => setShowNew(true))}
     {loading
       ? <LoadingMask fixed />
@@ -100,7 +100,7 @@ const Categories = (): JSX.Element => {
       handleUpdate={handleUpdate}
       handleDelete={handleDelete}
     />}
-  </>);
+  </div>);
 };
 
 export default Categories;

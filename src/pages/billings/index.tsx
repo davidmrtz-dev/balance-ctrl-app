@@ -73,7 +73,7 @@ const Billings = ():JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-  return (<>
+  return (<div style={{ marginTop: '20px' }}>
     {Title('Payment methods', () => setShowNew(true))}
     {loading
       ? <LoadingMask fixed />
@@ -95,7 +95,7 @@ const Billings = ():JSX.Element => {
       handleUpdate={handleUpdate}
       handleDelete={handleDelete}
     />}
-  </>);
+  </div>);
 };
 
 export default Billings;
