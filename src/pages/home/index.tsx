@@ -76,12 +76,12 @@ const Home = (): JSX.Element => {
       category='Cash and debit'
       type='current'
     />
-    {/* <Outcomes
+    <Outcomes
       getOutcomes={fetchOutcomesFixed}
       updateBalance={fetchBalance}
       category='Credit'
       type='fixed'
-    /> */}
+    />
   </>);
 };
 
