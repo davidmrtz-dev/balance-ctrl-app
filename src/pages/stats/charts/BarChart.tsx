@@ -1,4 +1,4 @@
-import { Bar, Pie } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import {
   Chart as ChartJS,

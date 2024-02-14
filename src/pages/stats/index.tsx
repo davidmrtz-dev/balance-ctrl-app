@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { LoadingWrapper } from '../../components/containers';
 import { LoadingMask } from '../../atoms/LoadingMask';
 import { FontText } from '../../atoms/text';
-import { BarChart, PieChart } from './charts';
+import { BarChart, LineChart, PieChart, PolarAreaChart } from './charts';
 const { Panel } = Collapse;
 
 const PanelWrapper = styled.div`
@@ -83,7 +83,9 @@ const Stats = (): JSX.Element => {
                 <LoadingMask />
               </LoadingWrapper>)
             : (<ChartsContainer>
-              <PieChart {...pieChartData} />
+              <PieChart chartData={pieChartData} />
+              <LineChart chartData={balance?.line_chart_data || {}} />
+              <PolarAreaChart chartData={pieChartData} />
               <BarChart {...barChartA} />
               <BarChart {...barChartB} />
             </ChartsContainer>)

@@ -1,10 +1,16 @@
-import { Pie } from "react-chartjs-2";
 import styled from "styled-components";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { PolarArea } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
-const PieChartContainer = styled.div`
+const PolarAreaChartContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -15,7 +21,7 @@ const PieChartContainer = styled.div`
   border-radius: 4px;
 `;
 
-export const PieChart = ({ chartData }: { chartData: string []}): JSX.Element => {
+export const PolarAreaChart = ({ chartData }: { chartData: string []}): JSX.Element => {
   const data = {
     labels: ['Income', 'Current', 'Fixed'],
     datasets: [
@@ -37,8 +43,8 @@ export const PieChart = ({ chartData }: { chartData: string []}): JSX.Element =>
     ],
   };
 
-  return(<PieChartContainer>
-    <Pie data={data} />
-  </PieChartContainer>
+  return(<PolarAreaChartContainer>
+    <PolarArea data={data} />
+  </PolarAreaChartContainer>
   );
 }

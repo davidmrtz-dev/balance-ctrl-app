@@ -6,6 +6,7 @@ export interface IBalance {
   amount_outcomes_current?: string;
   amount_outcomes_fixed?: string;
   amount_after_payments?: string;
+  line_chart_data?: {[key: string]: string []};
   amount_paid: string;
   amount_to_be_paid: string;
   amount_for_payments: string;
