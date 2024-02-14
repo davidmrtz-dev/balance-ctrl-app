@@ -86,7 +86,7 @@ const Incomes = (): JSX.Element => {
     if (!loading) setTimeout(() => setReveal(true), 250);
   }, [loading]);
 
-  return(<>
+  return(<div style={{ marginTop: '20px' }}>
     {TwoOptsTitle('Incomes', handleAddOpen, 'Current', 'Fixed')}
     {loading
       ? <LoadingMask fixed />
@@ -113,7 +113,7 @@ const Incomes = (): JSX.Element => {
       handleUpdate={handleUpdate}
       handleDelete={handleDelete}
     />
-  </>);
+  </div>);
 };
 
 export default Incomes;

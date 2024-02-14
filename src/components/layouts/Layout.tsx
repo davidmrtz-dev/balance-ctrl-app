@@ -5,6 +5,14 @@ import InitialScreen from "../../atoms/InitialScreen";
 import Alert from "../alert";
 import LayoutContainer, { LayoutContent } from "../containers";
 import Navigation from "../navigation";
+import styled from "styled-components";
+
+const Offset = styled.div`
+  width: 360px;
+  height: 5em;
+  background-color: ${props => props.theme.colors.whites.lighter};
+  padding: 0 30px;
+`;
 
 const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
   const [showInit, setShowInit] = useState(true);
@@ -41,6 +49,7 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
   return (
     <LayoutContainer>
       <InitialScreen open={showInit} />
+      <Offset />
       <Navigation />
       <LayoutContent>
         {children}

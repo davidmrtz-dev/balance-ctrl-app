@@ -9,4 +9,8 @@ export const NavigationContainer = styled.div<{ flexEnd: boolean}>`
   align-items: center;
   padding: 0 30px;
   cursor: default;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 0 5px 0 ${props => props.theme.colors.grays.normal};
 `;
