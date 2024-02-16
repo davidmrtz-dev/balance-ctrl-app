@@ -4,6 +4,7 @@ import { Header } from "./header/Header";
 import { Payments } from "./payments/Payments";
 import { getPaymentsApplied, getPaymentsPending } from "../../api/core/Payment";
 import BalanceSelector from "../../components/balance-selector";
+import { Offset } from "../../atoms/Offset";
 
 const Balance = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ const Balance = (): JSX.Element => {
   }, []);
 
   return(<>
+    <Offset />
     <BalanceSelector
       handleBalance={handleBalance}
     />

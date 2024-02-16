@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { IBalance } from "../../../@types";
 import HeaderCard from "../../../components/shared/HeaderCard";
-import { formatCurrency } from "../../../utils";
+import { analyticsColor, formatCurrency } from "../../../utils";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -57,11 +57,11 @@ export const Header = ({
       />
       <HeaderCard
         concept='Savings this month'
-        variation='green'
-        value={'+25'}
+        variation={analyticsColor(balance?.comparison_percentage || '')}
+        value={balance?.comparison_percentage || '0'}
         loading={loading}
         style={{ gridArea: '5 / 1 / 6 / 3'}}
-        suffix="%"
+        suffix=" %"
       />
     </HeaderContainer>
   );
