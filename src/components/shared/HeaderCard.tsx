@@ -6,8 +6,7 @@ import { IconDefinition, faChevronRight } from '@fortawesome/free-solid-svg-icon
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
 import { useEffect, useState } from "react";
-
-type Variation = 'blue' | 'yellow' | 'gray' | 'green' | 'red' | 'lightRed' | 'orange' | 'lightOrange';
+import { Variation } from "../../@types";
 
 type Variations = {
   [key: string]: {

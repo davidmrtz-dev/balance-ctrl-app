@@ -3,16 +3,7 @@ import { IBalance } from "../../@types";
 import { Select } from "antd";
 import Alert from "../alert";
 import { getBalances } from "../../api/core/Balance";
-import styled from "styled-components";
 import { theme } from "../../Theme";
-
-const Offset = styled.div`
-  height: 32px;
-  width: 100%;
-  background-color: ${props => props.theme.colors.whites.lighter};
-  margin-top: 15px;
-  margin-bottom: 30px;
-`;
 
 const formatSelectorLabel = (balance: IBalance): string => {
   const monthNames = [
@@ -68,35 +59,30 @@ const BalanceSelector = ({
 
   if (!selectorData.balances.length) return <></>;
 
-  return (
-    <>
-      <Offset />
-      <div
-        style={{
-          padding: '15px 0',
-          position: 'fixed',
-          top: 80,
-          left: 0,
-          right: 0,
-          margin: '0 auto',
-          width: '360px',
-          backgroundColor: `${theme.colors.whites.lighter}`,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 100,
-          boxShadow: `0 4px 5px -2px ${theme.colors.grays.normal}`
-        }}
-      >
-        <Select
-          style={{ width: '328px' }}
-          defaultValue={selectorData.options[0].value}
-          onChange={handleSelect}
-          options={selectorData.options}
-        />
-      </div>
-    </>
-  );
+  return (<div
+    style={{
+      padding: '15px 0',
+      position: 'fixed',
+      top: 80,
+      left: 0,
+      right: 0,
+      margin: '0 auto',
+      width: '360px',
+      backgroundColor: `${theme.colors.whites.lighter}`,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 100,
+      boxShadow: `0 4px 5px -2px ${theme.colors.grays.normal}`
+    }}
+  >
+    <Select
+      style={{ width: '328px' }}
+      defaultValue={selectorData.options[0].value}
+      onChange={handleSelect}
+      options={selectorData.options}
+    />
+  </div>);
 };
 
 export default BalanceSelector;

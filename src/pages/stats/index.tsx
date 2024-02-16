@@ -9,6 +9,7 @@ import { LoadingWrapper } from '../../components/containers';
 import { LoadingMask } from '../../atoms/LoadingMask';
 import { FontText } from '../../atoms/text';
 import { BarChart, LineChart, PieChart, PolarAreaChart } from './charts';
+import { Offset } from '../../atoms/Offset';
 const { Panel } = Collapse;
 
 const PanelWrapper = styled.div`
@@ -63,6 +64,7 @@ const Stats = (): JSX.Element => {
   };
 
   return(<>
+    <Offset />
     <BalanceSelector
       handleBalance={handleBalance}
     />

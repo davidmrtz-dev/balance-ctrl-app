@@ -1,4 +1,5 @@
 import { faCreditCard, faDollarSign, faMoneyBill, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { Variation } from "../@types";
 
 export const toCelsius = (n: number | undefined, fix?: number ) =>
   n ? (Math.abs(n) - 273.15).toFixed(fix || 2) : 0;
@@ -39,3 +40,9 @@ export const formatCurrency = (amount: string | null | undefined) => {
     maximumFractionDigits: 2,
   });
 };
+
+export const analyticsColor = (percentage: string): Variation => {
+  if (!percentage) return 'gray';
+
+  return percentage.includes('-') ? 'red' : 'green';
+}

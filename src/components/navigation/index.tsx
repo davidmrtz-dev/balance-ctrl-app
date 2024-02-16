@@ -104,13 +104,22 @@ const Navigation = (): JSX.Element => {
       >
         {auth.isAuthenticated ?
           <Space direction="vertical">
-            <Link to='/'>
+            <Link to='/balance'>
               <Button
                 block
                 onClick={() => setShow(false)}
                 className={menuBtnStyles}
               >
-                Dashboard
+                Balance
+              </Button>
+            </Link>
+            <Link to='/stats'>
+              <Button
+                block
+                onClick={() => setShow(false)}
+                className={menuBtnStyles}
+              >
+                Analytics
               </Button>
             </Link>
             <Link to='/outcomes'>
@@ -120,15 +129,6 @@ const Navigation = (): JSX.Element => {
                 className={menuBtnStyles}
               >
                 Outcomes
-              </Button>
-            </Link>
-            <Link to='/categories'>
-              <Button
-                block
-                onClick={() => setShow(false)}
-                className={menuBtnStyles}
-              >
-                Categories
               </Button>
             </Link>
             <Link to='/incomes'>
@@ -147,6 +147,15 @@ const Navigation = (): JSX.Element => {
                 className={menuBtnStyles}
               >
                 Billings
+              </Button>
+            </Link>
+            <Link to='/categories'>
+              <Button
+                block
+                onClick={() => setShow(false)}
+                className={menuBtnStyles}
+              >
+                Categories
               </Button>
             </Link>
             <Link to='/about'>
