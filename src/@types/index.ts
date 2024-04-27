@@ -25,3 +25,5 @@ export interface IMeta {
   total_pages: number;
   total_per_page: number;
 }
+
+export type Variation = 'blue' | 'yellow' | 'gray' | 'green' | 'red' | 'lightRed' | 'orange' | 'lightOrange';

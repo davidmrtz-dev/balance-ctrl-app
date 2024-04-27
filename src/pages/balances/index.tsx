@@ -3,7 +3,8 @@ import { IBalance } from "../../@types";
 import { Header } from "./header/Header";
 import { Payments } from "./payments/Payments";
 import { getPaymentsApplied, getPaymentsPending } from "../../api/core/Payment";
-import { Selector } from "./Selector";
+import BalanceSelector from "../../components/balance-selector";
+import { Offset } from "../../atoms/Offset";
 
 const Balance = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -41,7 +42,8 @@ const Balance = (): JSX.Element => {
   }, []);
 
   return(<>
-    <Selector
+    <Offset />
+    <BalanceSelector
       handleBalance={handleBalance}
     />
     <Header
@@ -53,12 +55,14 @@ const Balance = (): JSX.Element => {
       getPayments={fetchPaymentsApplied}
       refresh={refresh}
       setRefresh={setRefresh}
+      type='applied'
     />}
     {balance?.["current?"] && <Payments
       headerText='Pending Payments'
       getPayments={fetchPaymentsPending}
       refresh={refresh}
       setRefresh={setRefresh}
+      type='pending'
     />}
   </>);
 };

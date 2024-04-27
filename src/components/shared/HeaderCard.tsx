@@ -6,8 +6,7 @@ import { IconDefinition, faChevronRight } from '@fortawesome/free-solid-svg-icon
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { LoadingWrapper } from "../containers";
 import { useEffect, useState } from "react";
-
-type Variation = 'blue' | 'yellow' | 'gray' | 'green' | 'red';
+import { Variation } from "../../@types";
 
 type Variations = {
   [key: string]: {
@@ -26,7 +25,10 @@ const variations: Variations = {
   yellow: { background: theme.colors.yellows.normal, color: theme.colors.blacks.normal },
   gray: { background: theme.colors.grays.light, color: theme.colors.blacks.normal },
   green: { background: theme.colors.greens.normal, color: theme.colors.blacks.normal },
-  red: { background: theme.colors.reds.normal, color: theme.colors.blacks.normal }
+  red: { background: theme.colors.reds.normal, color: theme.colors.blacks.normal },
+  lightRed: { background: theme.colors.reds.light, color: theme.colors.blacks.normal },
+  orange: { background: theme.colors.oranges.normal, color: theme.colors.blacks.normal },
+  lightOrange: { background: theme.colors.oranges.light, color: theme.colors.blacks.normal }
 }
 
 const getVariation = (variation: Variation) => variations[variation];

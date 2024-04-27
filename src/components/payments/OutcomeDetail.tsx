@@ -45,7 +45,7 @@ export const OutcomeDetail = ({
         <FormItemWrapper>{`$ ${values.amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</FormItemWrapper>
       </Form.Item>
       <Form.Item label="Purchase date" name='transaction_date'>
-        <FormItemWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD')}</FormItemWrapper>
+        <FormItemWrapper>{dayjs(values.transaction_date).format('YYYY-MM-DD HH:mm:ss')}</FormItemWrapper>
       </Form.Item>
       <Form.Item label='Payment Method' name='payment_method'>
         {(values.billings || []).map(billing => <Billing billing={billing} key={billing.id} />)}

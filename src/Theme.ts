@@ -28,9 +28,19 @@ export const theme = {
       darker: '#3f3f3f'
     },
     yellows: {
-      light: '#ffb121',
-      normal: '#E9A011',
-      dark: '#c4850f'
+      light: '#ffea96',
+      normal: '#ffce56',
+      dark: '#d9b024'
+    },
+    oranges: {
+      light: '#ffd9bf',
+      normal: '#ff9f40',
+      dark: '#cc7a21'
+    },
+    greenBlue: {
+      light: '#a3e8e8',
+      normal: '#4bc0c0',
+      dark: '#2f9e9e'
     },
     blacks: {
       normal: '#101313'

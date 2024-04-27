@@ -45,7 +45,7 @@ const OutcomeUpdate = ({
     try {
       const updatedOutcome = await updateOutcome({
         ...values,
-        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD'),
+        transaction_date: dayjs(values.transaction_date).format('YYYY-MM-DD HH:mm:ss'),
         categorizations_attributes: outcome.categories[0].id !== values.categories[0].id ? [{
           category_id: values.categories[0].id
         }] : undefined,

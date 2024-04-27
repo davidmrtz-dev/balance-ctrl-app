@@ -3,7 +3,7 @@ import HeaderCard from "../../shared/HeaderCard";
 import { useHistory } from "react-router-dom";
 import { IBalance } from "../../../@types";
 import { faArrowDown, faArrowUp, faChartLine, faChartPie } from "@fortawesome/free-solid-svg-icons";
-import { formatCurrency } from "../../../utils";
+import { analyticsColor, formatCurrency } from "../../../utils";
 
 const HeaderContainer = styled.div`
   display: grid;
@@ -48,12 +48,12 @@ export const Header = ({
         />
         <HeaderCard
           concept='Analytics'
-          variation='yellow'
-          value={'+25'}
-          onClick={() => history.push('/balance')}
+          variation={analyticsColor(balance?.comparison_percentage || '')}
+          value={balance?.comparison_percentage || '0'}
+          onClick={() => history.push('/stats')}
           loading={loading}
           icon={faChartPie}
-          suffix="%"
+          suffix=" %"
         />
       </HeaderContainer>
   );

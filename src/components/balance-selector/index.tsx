@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { IBalance } from "../../@types";
 import { Select } from "antd";
-import Alert from "../../components/alert";
+import Alert from "../alert";
 import { getBalances } from "../../api/core/Balance";
+import { theme } from "../../Theme";
 
 const formatSelectorLabel = (balance: IBalance): string => {
   const monthNames = [
@@ -16,7 +17,7 @@ const formatSelectorLabel = (balance: IBalance): string => {
   return `${formattedMonth} ${formattedYear}`;
 };
 
-export const Selector = ({
+const BalanceSelector = ({
   handleBalance
 }: {
   handleBalance: (balance: IBalance) => void;
@@ -58,10 +59,30 @@ export const Selector = ({
 
   if (!selectorData.balances.length) return <></>;
 
-  return (<Select
-    defaultValue={selectorData.options[0].value}
-    onChange={handleSelect}
-    style={{ width: '100%', margin: '8px 0' }}
-    options={selectorData.options}
-  />);
+  return (<div
+    style={{
+      padding: '15px 0',
+      position: 'fixed',
+      top: 80,
+      left: 0,
+      right: 0,
+      margin: '0 auto',
+      width: '360px',
+      backgroundColor: `${theme.colors.whites.lighter}`,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 100,
+      boxShadow: `0 4px 5px -2px ${theme.colors.grays.normal}`
+    }}
+  >
+    <Select
+      style={{ width: '328px' }}
+      defaultValue={selectorData.options[0].value}
+      onChange={handleSelect}
+      options={selectorData.options}
+    />
+  </div>);
 };
+
+export default BalanceSelector;

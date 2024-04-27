@@ -9,6 +9,7 @@ import About from './about';
 import Categories from './categories';
 import Balance from './balances';
 import Billings from './billings';
+import Stats from './stats';
 
 const GeneralRoute = (_props: RouteProps, auth: IAuthContext) => (
   <Route exact key='default' path='*'>
@@ -26,6 +27,7 @@ const Router = (props: RouteProps) => {
   return (<Switch>
     <PrivateRoute exact key='home' path='/' component={Home} />
     <PrivateRoute exact key='balances_current' path='/balance' component={Balance} />
+    <PrivateRoute exact key='metrics' path='/stats' component={Stats} />
     <PrivateRoute exact key='outcomes' path='/outcomes' component={Outcomes} />
     <PrivateRoute exact key='categories' path='/categories' component={Categories} />
     <PrivateRoute exact key='incomes' path='/incomes' component={Incomes} />
