@@ -6,6 +6,8 @@ import Alert from "../alert";
 import LayoutContainer, { LayoutContent } from "../containers";
 import Navigation from "../navigation";
 import styled from "styled-components";
+import { useSessionContext } from "../../context/SessionContext";
+import SessionTimer from "../session";
 
 const Offset = styled.div`
   width: 360px;
@@ -16,13 +18,14 @@ const Offset = styled.div`
 
 const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
   const [showInit, setShowInit] = useState(true);
-  const auth = useAuthContext();
+  const { verifyLoggedIn, isAuthenticated, unauthenticate } = useAuthContext();
+  const { timerOn, timeLeft, showSessionAlert, setShowSessionAlert, resetTimer } = useSessionContext();
   const history = useHistory();
 
   useEffect(() => {
     const verify = async (): Promise<void> => {
       try {
-        await auth.verifyLoggedIn();
+        await verifyLoggedIn();
       } catch (err: any) {
         setTimeout(() => {
           const error = err.errors && err.errors.length && err.errors[0];
@@ -39,12 +42,28 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
     setTimeout(() => {
       setShowInit(false);
     }, 2000);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (auth.isAuthenticated) history.push('/');
-  }, [auth.isAuthenticated, history])
+    if (isAuthenticated) history.push('/');
+  }, [isAuthenticated, history]);
+
+  useEffect(() => {
+    const handleSessionExpiration = async () => {
+      if (showSessionAlert) {
+        Alert({
+          icon: 'warning',
+          text: 'Your demo session has expired, please log in again.'
+        });
+        await unauthenticate();
+        setShowSessionAlert(false);
+        resetTimer();
+        history.push('/login');
+      }
+    }
+
+    handleSessionExpiration();
+  }, [showSessionAlert]);
 
   return (
     <LayoutContainer>
@@ -54,6 +73,7 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
       <LayoutContent>
         {children}
       </LayoutContent>
+      {timerOn && <SessionTimer timeLeft={timeLeft} />}
     </LayoutContainer>
   )
 };
