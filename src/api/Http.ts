@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { logout } from './core/Auth';
 import Alert from '../components/alert';
 
 type HttpResult = {

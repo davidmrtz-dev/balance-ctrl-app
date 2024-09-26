@@ -42,6 +42,7 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
     setTimeout(() => {
       setShowInit(false);
     }, 2000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
     }
 
     handleSessionExpiration();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showSessionAlert]);
 
   return (
