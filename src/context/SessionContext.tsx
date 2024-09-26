@@ -1,7 +1,7 @@
 import { createContext, useContext, ReactNode, useState, useEffect } from "react";
 import Alert from "../components/alert";
 
-const DEFAULT_SESSION_TIME = 120;
+const DEFAULT_SESSION_TIME = 1800;
 
 export interface ISessionContext {
   timeLeft: number;

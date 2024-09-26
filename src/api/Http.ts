@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { logout } from './core/Auth';
+import Alert from '../components/alert';
 
 type HttpResult = {
   status: number,
@@ -16,12 +18,29 @@ const axiosClient = axios.create({
   }
 });
 
-axiosClient.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  return Promise.reject(error.response?.data);
-});
+axiosClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const { status } = error.response || {};
 
+    if (status === 401) {
+      Alert({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'You need to sign in or sign up before continuing.'
+      });
+      setTimeout(() => {
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.href = '/login';
+      }, 5000);
+    }
+
+    return Promise.reject(error.response?.data);
+  }
+);
 
 export const get = async (path: string, data?: any, headers?: any, signal?: AbortSignal): Promise<HttpResult> => {
   return axiosClient.get(path, { params: data, headers, signal });
