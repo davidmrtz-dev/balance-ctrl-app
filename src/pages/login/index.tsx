@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthContext } from "../../context/AuthContext";
+import { useSessionContext } from "../../context/SessionContext";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -13,7 +14,8 @@ const LoginContainer = styled.div`
 `
 
 const SignIn = () => {
-  const auth = useAuthContext();
+  const { authenticate } = useAuthContext();
+  const { beginTimer } = useSessionContext();
   const history = useHistory();
   const [form] = Form.useForm();
   const [error, setError] = useState('');
@@ -29,10 +31,10 @@ const SignIn = () => {
     }
 
     try {
-      await auth.authenticate(values);
+      await authenticate(values);
       history.push('/');
-    } catch (err: any) {
-      setError(err.errors[0] || 'There was an error, please try again later.')
+      beginTimer();
+    } catch (_err) {
       setValues({ email: '', password: ''});
       form.resetFields();
     }

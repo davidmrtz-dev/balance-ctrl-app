@@ -16,11 +16,12 @@ const Alert = ({
     icon,
     title,
     text,
-    width: 360,
+    width: '360px',
     color: theme.colors.blacks.normal,
     confirmButtonColor: icon === 'warning' ? theme.colors.warning : theme.colors.blues.normal,
     cancelButtonColor: theme.colors.grays.normal,
-    showCancelButton
+    showCancelButton,
+    position: 'center'
   });
 };
 

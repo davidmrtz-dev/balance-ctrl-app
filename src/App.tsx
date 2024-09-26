@@ -8,6 +8,7 @@ import 'antd/dist/reset.css';
 import './assets/css/App.css';
 import Router from "./pages/routes";
 import { AppMainContainer } from "./components/containers";
+import { SessionProvider } from "./context/SessionContext";
 import { AuthProvider } from "./context/AuthContext";
 import { ConfigProvider } from "antd";
 
@@ -29,18 +30,20 @@ const App = (): JSX.Element =>
   >
     <ThemeProvider theme={theme}>
       <AuthProvider>
-        <AppMainContainer>
-          <Layout>
-            <Helmet>
-              <title>Balance Ctrl</title>
-              <meta
-                name="description"
-                content="App that helps you take control of your finances."
-              />
-            </Helmet>
-            <Router />
-          </Layout>
-        </AppMainContainer>
+        <SessionProvider>
+          <AppMainContainer>
+            <Layout>
+              <Helmet>
+                <title>Balance Ctrl</title>
+                <meta
+                  name="description"
+                  content="App that helps you take control of your finances."
+                />
+              </Helmet>
+              <Router />
+            </Layout>
+          </AppMainContainer>
+        </SessionProvider>
       </AuthProvider>
     </ThemeProvider>
   </StyletronProvider>

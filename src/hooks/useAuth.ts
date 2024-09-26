@@ -23,12 +23,15 @@ export const useAuth =  () => {
       setUser(result);
       sessionStorage.setItem('UserAuth', JSON.stringify(result))
       setIsAuthenticated(true);
-    } catch (_err) {
+    } catch (err: any) {
+      const error = err.errors && err.errors.length && err.errors[0];
+
       Alert({
         icon: 'error',
-        title: 'Ops!',
-        text: 'There was an error, please try again later'
+        text: (error || 'There was an error, please try again later.')
       });
+
+      throw new Error(error);
     }
   };
 

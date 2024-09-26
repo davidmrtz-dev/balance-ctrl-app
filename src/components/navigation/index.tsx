@@ -9,9 +9,11 @@ import { useAuthContext } from '../../context/AuthContext';
 import Alert from '../alert';
 import { NavigationContainer } from '../containers';
 import dayjs from 'dayjs';
+import { useSessionContext } from '../../context/SessionContext';
 
 const Navigation = (): JSX.Element => {
-  const auth = useAuthContext();
+  const { unauthenticate, isAuthenticated } = useAuthContext();
+  const { resetTimer } = useSessionContext();
   const history = useHistory();
   const [css] = useStyletron();
   const [show, setShow] = useState(false);
@@ -35,7 +37,8 @@ const Navigation = (): JSX.Element => {
 
   const handleLogout = async () => {
     try {
-      await auth.unauthenticate();
+      await unauthenticate();
+      resetTimer();
       history.push('/login');
     } catch (err: any) {
       setTimeout(() => {
@@ -50,8 +53,8 @@ const Navigation = (): JSX.Element => {
   }
 
   return (
-    <NavigationContainer flexEnd={!auth.isAuthenticated}>
-      {auth.isAuthenticated && (<><Link to='/'>
+    <NavigationContainer flexEnd={!isAuthenticated}>
+      {isAuthenticated && (<><Link to='/'>
         <FontAwesomeIcon
           color={theme.colors.grays.darker}
           size='lg'
@@ -102,7 +105,7 @@ const Navigation = (): JSX.Element => {
           }
         }}
       >
-        {auth.isAuthenticated ?
+        {isAuthenticated ?
           <Space direction="vertical">
             <Link to='/balance'>
               <Button
