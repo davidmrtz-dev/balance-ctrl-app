@@ -47,7 +47,7 @@ export const Filters = ({
 
   const fetchCategories = async () => {
     try {
-      const storedCategories = localStorage.getItem('categories');
+      const storedCategories = sessionStorage.getItem('categories');
 
       if (storedCategories) {
         const parsedCategories = JSON.parse(storedCategories);
@@ -58,7 +58,7 @@ export const Filters = ({
         const selectorOptions = data.categories.map((cat: ICategory) => ({ value: cat.id, label: cat.name }));
         setSelectorData({ categories: data.categories, options: selectorOptions });
 
-        localStorage.setItem('categories', JSON.stringify(data.categories));
+        sessionStorage.setItem('categories', JSON.stringify(data.categories));
       }
     } catch (error: any) {
       setTimeout(() => Alert({

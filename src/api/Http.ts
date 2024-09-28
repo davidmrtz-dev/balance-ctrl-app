@@ -32,7 +32,6 @@ axiosClient.interceptors.response.use(
       });
       setTimeout(() => {
         sessionStorage.clear();
-        localStorage.clear();
         window.location.href = '/login';
       }, 5000);
     }
