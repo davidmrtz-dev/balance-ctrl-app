@@ -12,7 +12,6 @@ import { TwoOptsTitle } from "../../components/title/TwoOptsTitle";
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  min-height: 100vh;
 `;
 
 const Incomes = (): JSX.Element => {

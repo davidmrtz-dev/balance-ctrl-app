@@ -1,7 +1,5 @@
-// src/app/store.ts
-
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import onboardingReducer from '../features/onboarding/onboardingSlice';
 import {
   persistStore,
   persistReducer,
@@ -17,11 +15,11 @@ import storage from 'redux-persist/lib/storage';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['counter']
+  whitelist: ['onboarding']
 };
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
+  onboarding: onboardingReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

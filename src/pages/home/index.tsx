@@ -8,6 +8,7 @@ import Alert from "../../components/alert";
 import { Outcomes } from "../../components/dashboard/outcomes";
 import { getOutcomesCurrent, getOutcomesFixed } from "../../api/core/Outcome";
 import Header from "../../components/dashboard/header/Header";
+import Onboarding from "../../components/onboarding";
 
 const Home = (): JSX.Element => {
   const auth = useAuthContext();
@@ -60,6 +61,7 @@ const Home = (): JSX.Element => {
   }, []);
 
   return (<>
+    <Onboarding route="/" />
     <Typography style={{
       ...theme.texts.brandH5,
       margin: '16px 0'
@@ -69,18 +71,21 @@ const Home = (): JSX.Element => {
     <Header
       balance={balance}
       loading={loading}
+      id='home-header'
     />
     <Outcomes
       getOutcomes={fetchOutcomesCurrent}
       updateBalance={fetchBalance}
       category='Cash and debit'
       type='current'
+      id='home-current-outcomes'
     />
     <Outcomes
       getOutcomes={fetchOutcomesFixed}
       updateBalance={fetchBalance}
       category='Credit'
       type='fixed'
+      id='home-fixed-outcomes'
     />
   </>);
 };

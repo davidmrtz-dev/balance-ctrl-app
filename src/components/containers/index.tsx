@@ -22,7 +22,6 @@ export const LoadingWrapper = styled.div<{height?: string}>`
 `;
 
 export const AppMainContainer = styled.div`
-  background-color: ${props => props.theme.colors.grays.light};
   display: flex;
   justify-content: center;
   min-height: 100vh;
