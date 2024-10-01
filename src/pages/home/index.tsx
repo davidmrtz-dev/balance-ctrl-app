@@ -69,23 +69,27 @@ const Home = (): JSX.Element => {
       Hi, {auth.user?.name}
     </Typography>
     <Header
+      id='home-header'
       balance={balance}
       loading={loading}
-      id='home-header'
     />
     <Outcomes
+      id='home-current-outcomes'
+      idPagination="home-current-outcomes-pagination"
+      idAdd='home-current-outcomes-add'
       getOutcomes={fetchOutcomesCurrent}
       updateBalance={fetchBalance}
       category='Cash and debit'
       type='current'
-      id='home-current-outcomes'
     />
     <Outcomes
+      id='home-fixed-outcomes'
+      idPagination="home-fixed-outcomes-pagination"
+      idAdd='home-fixed-outcomes-add'
       getOutcomes={fetchOutcomesFixed}
       updateBalance={fetchBalance}
       category='Credit'
       type='fixed'
-      id='home-fixed-outcomes'
     />
   </>);
 };

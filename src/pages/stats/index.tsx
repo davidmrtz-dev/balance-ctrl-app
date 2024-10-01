@@ -66,6 +66,7 @@ const Stats = (): JSX.Element => {
   return(<>
     <Offset />
     <BalanceSelector
+      id='balance-selector'
       handleBalance={handleBalance}
     />
     <Header

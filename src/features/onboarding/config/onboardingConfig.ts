@@ -11,20 +11,77 @@ export const onboardingConfig: IOnboardingConfig = {
     {
       id: 'dashboard-2',
       title: 'Cash and Debit Purchases',
-      description: 'Use the buttons to view this month’s purchases. Click on a purchase for more details. In the details view, you can also edit the purchase.',
+      description: 'View cash and debit purchases made this month, sorted by the most recent. Click on a purchase for more details. In the details view, you can also edit the purchase.',
       selector: '#home-current-outcomes',
     },
     {
       id: 'dashboard-3',
+      title: 'Add a Cash or Debit Purchase',
+      description: 'Click the “+” button to add a new cash or debit purchase. Fill in the details and click “Create” to add the purchase. You can also cancel the operation.',
+      selector: '#home-current-outcomes-add',
+    },
+    {
+      id: 'dashboard-4',
+      title: 'Navigate through Purchases',
+      description: 'Use the navigation buttons to view older purchases within the current month.',
+      selector: '#home-current-outcomes-pagination'
+    },
+    {
+      id: 'dashboard-5',
       title: 'Credit Purchases',
-      description: 'Click a credit purchase to see details. Navigate older items within this month using the buttons. In the details view, you can also edit the purchase.',
+      description: 'View credit purchases made this month, sorted by the most recent. Click a credit purchase to see details. Navigate older items within this month using the buttons. In the details view, you can also edit the purchase.',
       selector: '#home-fixed-outcomes',
     },
+    {
+      id: 'dashboard-6',
+      title: 'Add a Credit Purchase',
+      description: 'Click the “+” button to add a new credit purchase. Fill in the details and click “Create” to add the purchase. You can also cancel the operation.',
+      selector: '#home-fixed-outcomes-add',
+    },
+    {
+      id: 'dashboard-7',
+      title: 'Navigate through Credit Purchases',
+      description: 'Use the navigation buttons to view older purchases within the current month.',
+      selector: '#home-fixed-outcomes-pagination'
+    }
   ],
   '/balance': [
-    { id: 'balance-1', title: 'Tu Balance Actual', description: 'Revisa tu balance del mes actual.', selector: '#balance-card' },
-    { id: 'balance-2', title: 'Pagos Realizados', description: 'Consulta los pagos que ya has realizado.', selector: '#outcomes-card' },
-    { id: 'balance-3', title: 'Pagos Pendientes', description: 'Aquí puedes ver los pagos que están por hacer.', selector: '#outcomes-card' },
+    {
+      id: 'balance-1',
+      title: 'Balance Selector',
+      description: 'View your current month\'s balance and select previous balances for analysis.',
+      selector: '#balance-selector',
+    },
+    {
+      id: 'balance-2',
+      title: 'Balance Information',
+      description: 'See key balance info, including income, payments (cash and credit), applied payments, pending payments, current amount, and monthly savings.',
+      selector: '#balance-header',
+    },
+    {
+      id: 'balance-3',
+      title: 'Applied Payments',
+      description: 'View payments made this month. Click to see more information about each payment.',
+      selector: '#balance-applied',
+    },
+    {
+      id: 'balance-4',
+      title: 'Navigate through Applied Payments',
+      description: 'Use the navigation buttons to view more applied payments within the current month.',
+      selector: '#balance-applied-pagination'
+    },
+    {
+      id: 'balance-5',
+      title: 'Pending Payments',
+      description: 'View payments pending this month. Click for more info, and you can change the status to paid if you have completed the payment.',
+      selector: '#balance-pending',
+    },
+    {
+      id: 'balance-6',
+      title: 'Navigate through Pending Payments',
+      description: 'Use the navigation buttons to view more pending payments within the current month.',
+      selector: '#balance-pending-pagination'
+    }
   ],
   '/stats': [
     { id: 'stats-1', title: 'Estadísticas de Gastos', description: 'Visualiza tus gastos mensuales de manera clara.', selector: '#stats-chart' },
