@@ -84,7 +84,47 @@ export const onboardingConfig: IOnboardingConfig = {
     }
   ],
   '/stats': [
-    { id: 'stats-1', title: 'Estadísticas de Gastos', description: 'Visualiza tus gastos mensuales de manera clara.', selector: '#stats-chart' },
-    { id: 'stats-2', title: 'Comparativas', description: 'Compara tus gastos a lo largo de los meses.', selector: '#stats-chart' },
+    {
+      id: 'stats-1',
+      title: 'Stats Selector',
+      description: 'View analyses and statistics for the current month with the option to select previous months.',
+      selector: '#stats-selector',
+    },
+    {
+      id: 'stats-2',
+      title: 'Stats Information',
+      description: 'Visualize relevant information about the month\'s data, such as income, payments, applied payments, pending payments, current amount, and monthly savings.',
+      selector: '#stats-header',
+    },
+    {
+      id: 'stats-3',
+      title: 'Pie Chart',
+      description: 'This chart shows the distribution of income and payments for the selected month.',
+      selector: '#stats-pie-chart',
+    },
+    {
+      id: 'stats-4',
+      title: 'Line Chart',
+      description: 'This chart displays the trend of income and payments for the selected month.',
+      selector: '#stats-line-chart',
+    },
+    {
+      id: 'stats-5',
+      title: 'Polar Chart',
+      description: 'This chart illustrates the distribution of income and payments for the selected month.',
+      selector: '#stats-polar-chart',
+    },
+    {
+      id: 'stats-6',
+      title: 'Bar Chart (Expenses vs. Income)',
+      description: 'This chart compares expenses and income for the selected month.',
+      selector: '#stats-bar-chart-a',
+    },
+    {
+      id: 'stats-7',
+      title: 'Bar Chart (Fixed vs. Variable Expenses)',
+      description: 'This chart compares fixed expenses and variable expenses for the selected month.',
+      selector: '#stats-bar-chart-b',
+    }
   ],
 };

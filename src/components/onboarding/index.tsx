@@ -68,7 +68,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ route }) => {
           rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
         if (!isInView && !hasScrolled) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setHasScrolled(true);
 
           setTimeout(() => {

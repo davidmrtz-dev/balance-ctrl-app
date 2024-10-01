@@ -75,8 +75,8 @@ const Home = (): JSX.Element => {
     />
     <Outcomes
       id='home-current-outcomes'
-      idPagination="home-current-outcomes-pagination"
       idAdd='home-current-outcomes-add'
+      idPagination="home-current-outcomes-pagination"
       getOutcomes={fetchOutcomesCurrent}
       updateBalance={fetchBalance}
       category='Cash and debit'

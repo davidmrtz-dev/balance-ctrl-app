@@ -37,7 +37,7 @@ export const PieChart = ({ chartData }: { chartData: string []}): JSX.Element =>
     ],
   };
 
-  return(<PieChartContainer>
+  return(<PieChartContainer id='stats-pie-chart'>
     <Pie data={data} />
   </PieChartContainer>
   );
