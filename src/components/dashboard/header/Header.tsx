@@ -13,13 +13,13 @@ const HeaderContainer = styled.div`
 `;
 
 export const Header = ({
+  id,
   balance,
-  loading,
-  id
+  loading
 }: {
+  id: string;
   balance?: IBalance | null;
   loading?: boolean;
-  id: string;
 }): JSX.Element => {
   const history = useHistory();
   return(

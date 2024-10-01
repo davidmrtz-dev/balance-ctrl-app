@@ -3,7 +3,6 @@ export interface IOnboardingStep {
   title: string;
   description: string;
   selector: string;
-  // Puedes agregar más campos según tus necesidades, como componentes de ayuda, etc.
 }
 
 export interface IOnboardingConfig {

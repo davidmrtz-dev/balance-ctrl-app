@@ -5,6 +5,7 @@ import { Payments } from "./payments/Payments";
 import { getPaymentsApplied, getPaymentsPending } from "../../api/core/Payment";
 import BalanceSelector from "../../components/balance-selector";
 import { Offset } from "../../atoms/Offset";
+import Onboarding from "../../components/onboarding";
 
 const Balance = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
@@ -42,15 +43,20 @@ const Balance = (): JSX.Element => {
   }, []);
 
   return(<>
+    <Onboarding route="/balance" />
     <Offset />
     <BalanceSelector
+      id='balance-selector'
       handleBalance={handleBalance}
     />
     <Header
+      id='balance-header'
       balance={balance}
       loading={loading}
     />
     {balance && <Payments
+      id='balance-applied'
+      idPagination='balance-applied-pagination'
       headerText='Applied Payments'
       getPayments={fetchPaymentsApplied}
       refresh={refresh}
@@ -58,6 +64,8 @@ const Balance = (): JSX.Element => {
       type='applied'
     />}
     {balance?.["current?"] && <Payments
+      id='balance-pending'
+      idPagination='balance-pending-pagination'
       headerText='Pending Payments'
       getPayments={fetchPaymentsPending}
       refresh={refresh}

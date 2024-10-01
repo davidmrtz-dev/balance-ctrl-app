@@ -39,12 +39,17 @@ const PanelWrapper = styled.div`
 `;
 
 export const Outcomes = ({
+  id,
+  idPagination,
+  idAdd,
   category,
   type,
   updateBalance,
-  getOutcomes,
-  id
+  getOutcomes
 }: {
+  id: string;
+  idPagination: string;
+  idAdd: string;
   category: string;
   type: TransactionType;
   updateBalance: () => Promise<void>;
@@ -57,7 +62,6 @@ export const Outcomes = ({
     pageSize: number,
     signal: AbortSignal
   }) => Promise<IOutcomes>;
-  id: string;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -150,6 +154,7 @@ export const Outcomes = ({
         collapsible='disabled'
         expandIcon={() =>
           <AddOutcome
+            id={idAdd}
             disabled={page !== 1}
             onClick={() => setShowNew(true)}
           />
@@ -174,6 +179,7 @@ export const Outcomes = ({
             }
           </PanelWrapper>
           <OutcomesNavigation
+            id={idPagination}
             currentPage={page}
             leftClick={() => setPage(page - 1)}
             rightClick={() => setPage(page + 1)}
@@ -200,9 +206,11 @@ export const Outcomes = ({
 };
 
 const AddOutcome = ({
+  id,
   disabled,
   onClick
 }: {
+  id: string;
   disabled: boolean;
   onClick: () => void;
 }): JSX.Element => (
@@ -221,7 +229,7 @@ const AddOutcome = ({
         size="1x"
       />
     </Tooltip>
-    <Button disabled={disabled} onClick={onClick}>
+    <Button id={id} disabled={disabled} onClick={onClick}>
       +
     </Button>
   </>

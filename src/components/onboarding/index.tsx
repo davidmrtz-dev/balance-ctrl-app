@@ -20,7 +20,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ route }) => {
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [dialogPosition, setDialogPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const [hasScrolled, setHasScrolled] = useState(false);
-
   const windowSize = useWindowSize();
 
   const calculateDialogPosition = (rect: DOMRect) => {
@@ -44,6 +43,17 @@ const Onboarding: React.FC<OnboardingProps> = ({ route }) => {
     setDialogPosition({ top, left });
   };
 
+  const updatePosition = () => {
+    if (steps && steps[currentStep].selector) {
+      const element = document.querySelector(steps[currentStep].selector) as HTMLElement;
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        setTargetRect(rect);
+        calculateDialogPosition(rect);
+      }
+    }
+  };
+
   useEffect(() => {
     if (steps && steps[currentStep].selector) {
       const element = document.querySelector(steps[currentStep].selector) as HTMLElement;
@@ -58,14 +68,14 @@ const Onboarding: React.FC<OnboardingProps> = ({ route }) => {
           rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
         if (!isInView && !hasScrolled) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'end' });
           setHasScrolled(true);
 
           setTimeout(() => {
             const newRect = element.getBoundingClientRect();
             setTargetRect(newRect);
             calculateDialogPosition(newRect);
-          }, 500);
+          }, 1000);
         } else {
           calculateDialogPosition(rect);
         }
@@ -76,17 +86,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ route }) => {
   }, [currentStep, steps, hasScrolled]);
 
   useEffect(() => {
-    const updatePosition = () => {
-      if (steps && steps[currentStep].selector) {
-        const element = document.querySelector(steps[currentStep].selector) as HTMLElement;
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          setTargetRect(rect);
-          calculateDialogPosition(rect);
-        }
-      }
-    };
-
     window.addEventListener('resize', updatePosition);
     window.addEventListener('scroll', updatePosition);
 
@@ -97,8 +96,30 @@ const Onboarding: React.FC<OnboardingProps> = ({ route }) => {
   }, [currentStep, steps]);
 
   useEffect(() => {
+    if (steps) {
+      const timer = setTimeout(() => {
+        updatePosition();
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [route, steps]);
+
+  useEffect(() => {
     setHasScrolled(false);
   }, [currentStep]);
+
+  useEffect(() => {
+    if (completed || skipped || !steps || windowSize.width < 1100) {
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [completed, skipped, steps, windowSize]);
 
   if (completed || skipped || !steps || windowSize.width < 1100) {
     return null;
@@ -106,7 +127,10 @@ const Onboarding: React.FC<OnboardingProps> = ({ route }) => {
 
   const handleNext = () => {
     if (currentStep + 1 >= steps.length) {
-      dispatch(completeOnboarding(route));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        dispatch(completeOnboarding(route));
+      }, 500);
     } else {
       dispatch(setCurrentStep({ route, step: currentStep + 1 }));
     }
