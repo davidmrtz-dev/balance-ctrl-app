@@ -40,16 +40,16 @@ const PanelWrapper = styled.div`
 
 export const Outcomes = ({
   id,
-  idPagination,
   idAdd,
+  idPagination,
   category,
   type,
   updateBalance,
   getOutcomes
 }: {
   id: string;
-  idPagination: string;
   idAdd: string;
+  idPagination: string;
   category: string;
   type: TransactionType;
   updateBalance: () => Promise<void>;

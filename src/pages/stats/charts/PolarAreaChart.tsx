@@ -43,7 +43,7 @@ export const PolarAreaChart = ({ chartData }: { chartData: string []}): JSX.Elem
     ],
   };
 
-  return(<PolarAreaChartContainer>
+  return(<PolarAreaChartContainer id='stats-polar-chart'>
     <PolarArea data={data} />
   </PolarAreaChartContainer>
   );
