@@ -42,7 +42,8 @@ export const Outcomes = ({
   category,
   type,
   updateBalance,
-  getOutcomes
+  getOutcomes,
+  id
 }: {
   category: string;
   type: TransactionType;
@@ -56,6 +57,7 @@ export const Outcomes = ({
     pageSize: number,
     signal: AbortSignal
   }) => Promise<IOutcomes>;
+  id: string;
 }): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [reveal, setReveal] = useState(false);
@@ -141,7 +143,7 @@ export const Outcomes = ({
   }, [loading]);
 
   return (
-    <>
+    <div id={id}>
       <Collapse
         style={{ margin: '16px 0', backgroundColor: theme.colors.grays.light }}
         defaultActiveKey={category}
@@ -193,7 +195,7 @@ export const Outcomes = ({
         closeModal={handleCloseUpdate}
         handleUpdate={handleUpdate}
       />
-    </>
+    </div>
   );
 };
 

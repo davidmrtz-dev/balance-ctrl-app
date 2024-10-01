@@ -11,7 +11,6 @@ import { BillingCreate, BillingUpdate } from "../../components/billings";
 const BillingsContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  min-height: 100vh;
 `;
 
 const Billings = ():JSX.Element => {

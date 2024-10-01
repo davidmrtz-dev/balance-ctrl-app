@@ -12,7 +12,6 @@ import { Title } from "../../components/title/Title";
 const CategoriesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  min-height: 100vh;
 `;
 
 const Categories = (): JSX.Element => {

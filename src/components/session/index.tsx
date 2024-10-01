@@ -9,7 +9,7 @@ interface SessionTimerProps {
 const SessionContainer = styled.div`
   position: fixed;
   bottom: 0;
-  z-index: 101;
+  z-index: 1002;
   width: 360px;
   background-color: rgba(173, 216, 230, 0.8);
   text-align: center;

@@ -11,6 +11,6 @@ export const NavigationContainer = styled.div<{ flexEnd: boolean}>`
   cursor: default;
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 1001;
   box-shadow: 0 0 5px 0 ${props => props.theme.colors.grays.normal};
 `;
