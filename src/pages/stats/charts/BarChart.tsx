@@ -32,6 +32,7 @@ const BarChartContainer = styled.div`
 `;
 
 export const BarChart = ({
+  id,
   labelA,
   labelAData,
   labelAColor,
@@ -73,7 +74,7 @@ export const BarChart = ({
     ],
   };
 
-  return(<BarChartContainer>
+  return(<BarChartContainer id={id}>
     <Bar options={options} data={data} />
   </BarChartContainer>
   );

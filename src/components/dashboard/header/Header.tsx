@@ -13,15 +13,17 @@ const HeaderContainer = styled.div`
 `;
 
 export const Header = ({
+  id,
   balance,
   loading
 }: {
+  id: string;
   balance?: IBalance | null;
   loading?: boolean;
 }): JSX.Element => {
   const history = useHistory();
   return(
-    <HeaderContainer>
+    <HeaderContainer id={id}>
         <HeaderCard
           concept='Incomes'
           variation='green'

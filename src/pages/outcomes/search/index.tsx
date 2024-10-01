@@ -22,12 +22,14 @@ const SearchWrapper = styled.div<{ showFilters: boolean }>`
 `;
 
 const Search = ({
+	id,
   search,
   setSearch,
 	setDates,
 	setType,
 	setCategory
 }: {
+	id: string;
   search: string;
   setSearch: (value: string) => void;
 	setDates: (values: string []) => void;
@@ -36,7 +38,7 @@ const Search = ({
 }): JSX.Element => {
 	const [showFilters, setShowFilters] = useState(false);
 	return (<>
-		<SearchWrapper showFilters={showFilters}>
+		<SearchWrapper id={id} showFilters={showFilters}>
 			<Input
 				style={{ margin: '0 5px' }}
 				prefix={<FontAwesomeIcon

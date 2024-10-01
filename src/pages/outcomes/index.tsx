@@ -13,11 +13,11 @@ import { Button } from "antd";
 import { FontText } from "../../atoms/text";
 import NotFound from "../not-found";
 import { TwoOptsTitle } from "../../components/title/TwoOptsTitle";
+import Onboarding from "../../components/onboarding";
 
 const OutcomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  min-height: 100vh;
 `;
 
 const Outcomes = (): JSX.Element => {
@@ -191,8 +191,10 @@ const Outcomes = (): JSX.Element => {
   }, [searchTerm, dates, search, fetchOutcomes]);
 
   return(<div style={{ marginTop: '20px' }}>
-    {TwoOptsTitle('Purchases', handleAddOpen, 'Cash & Debit', 'Credit')}
+    <Onboarding route="/outcomes" />
+    <div id='outcomes-header'>{TwoOptsTitle('Purchases', handleAddOpen, 'Cash & Debit', 'Credit', 'outcomes-add')}</div>
     <Search
+      id='outcomes-search'
       search={searchTerm}
       setSearch={setSearchTerm}
       setDates={setDates}
@@ -201,7 +203,7 @@ const Outcomes = (): JSX.Element => {
     />
     {loading
       ? <LoadingMask fixed />
-      : <OutcomesContainer reveal={reveal}>
+      : <OutcomesContainer id='outcomes-list' reveal={reveal}>
           {(displayOutcomes() || []).map(outcome =>
             <Outcome
               key={outcome.id}

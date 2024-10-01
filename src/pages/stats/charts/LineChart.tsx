@@ -70,7 +70,7 @@ export const LineChart = ({
     ],
   };
 
-  return(<LineChartContainer>
+  return(<LineChartContainer id='stats-line-chart'>
     <Line options={options} data={data} />
   </LineChartContainer>
   );

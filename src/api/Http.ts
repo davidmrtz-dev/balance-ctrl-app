@@ -24,7 +24,7 @@ axiosClient.interceptors.response.use(
   async (error) => {
     const { status } = error.response || {};
 
-    if (status === 401) {
+    if (status === 401 && window.location.pathname !== '/login') {
       Alert({
         icon: 'error',
         title: 'Ops!',

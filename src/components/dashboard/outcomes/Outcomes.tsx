@@ -39,11 +39,17 @@ const PanelWrapper = styled.div`
 `;
 
 export const Outcomes = ({
+  id,
+  idAdd,
+  idPagination,
   category,
   type,
   updateBalance,
   getOutcomes
 }: {
+  id: string;
+  idAdd: string;
+  idPagination: string;
   category: string;
   type: TransactionType;
   updateBalance: () => Promise<void>;
@@ -141,13 +147,14 @@ export const Outcomes = ({
   }, [loading]);
 
   return (
-    <>
+    <div id={id}>
       <Collapse
         style={{ margin: '16px 0', backgroundColor: theme.colors.grays.light }}
         defaultActiveKey={category}
         collapsible='disabled'
         expandIcon={() =>
           <AddOutcome
+            id={idAdd}
             disabled={page !== 1}
             onClick={() => setShowNew(true)}
           />
@@ -172,6 +179,7 @@ export const Outcomes = ({
             }
           </PanelWrapper>
           <OutcomesNavigation
+            id={idPagination}
             currentPage={page}
             leftClick={() => setPage(page - 1)}
             rightClick={() => setPage(page + 1)}
@@ -193,14 +201,16 @@ export const Outcomes = ({
         closeModal={handleCloseUpdate}
         handleUpdate={handleUpdate}
       />
-    </>
+    </div>
   );
 };
 
 const AddOutcome = ({
+  id,
   disabled,
   onClick
 }: {
+  id: string;
   disabled: boolean;
   onClick: () => void;
 }): JSX.Element => (
@@ -219,7 +229,7 @@ const AddOutcome = ({
         size="1x"
       />
     </Tooltip>
-    <Button disabled={disabled} onClick={onClick}>
+    <Button id={id} disabled={disabled} onClick={onClick}>
       +
     </Button>
   </>

@@ -7,11 +7,11 @@ import { LoadingMask } from "../../atoms/LoadingMask";
 import { Billing } from "./Billing";
 import { Title } from "../../components/title/Title";
 import { BillingCreate, BillingUpdate } from "../../components/billings";
+import Onboarding from "../../components/onboarding";
 
 const BillingsContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  min-height: 100vh;
 `;
 
 const Billings = ():JSX.Element => {
@@ -74,10 +74,11 @@ const Billings = ():JSX.Element => {
   }, [loading]);
 
   return (<div style={{ marginTop: '20px' }}>
-    {Title('Payment methods', () => setShowNew(true))}
+    <Onboarding route="/billings" />
+    <div id='billings-header'>{Title('Payment methods', () => setShowNew(true), 'billings-add')}</div>
     {loading
       ? <LoadingMask fixed />
-      : <BillingsContainer reveal={reveal}>
+      : <BillingsContainer id='billings-list' reveal={reveal}>
         {(billings || []).map(billing =>
           <Billing key={billing.id} billing={billing} onClick={() => handleBillingClick(billing)} />
         )}
