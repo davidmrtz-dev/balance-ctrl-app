@@ -18,8 +18,10 @@ const formatSelectorLabel = (balance: IBalance): string => {
 };
 
 const BalanceSelector = ({
+  id,
   handleBalance
 }: {
+  id: string;
   handleBalance: (balance: IBalance) => void;
 }): JSX.Element => {
   const [selectorData, setSelectorData] =
@@ -72,9 +74,10 @@ const BalanceSelector = ({
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      zIndex: 100,
+      zIndex: 998,
       boxShadow: `0 4px 5px -2px ${theme.colors.grays.normal}`
     }}
+    id={id}
   >
     <Select
       style={{ width: '328px' }}

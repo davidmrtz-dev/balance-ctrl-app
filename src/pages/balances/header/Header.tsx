@@ -12,14 +12,16 @@ const HeaderContainer = styled.div`
 `;
 
 export const Header = ({
+  id,
   balance,
   loading
 }: {
+  id: string;
   balance?: IBalance | null;
   loading?: boolean;
 }): JSX.Element => {
   return(
-    <HeaderContainer>
+    <HeaderContainer id={id}>
       <HeaderCard
         concept='Amount incomes'
         variation='green'

@@ -20,7 +20,8 @@ export const TwoOptsTitle = (
   text: string,
   setType: (type: TransactionType) => void,
   opt_1: string,
-  opt_2: string
+  opt_2: string,
+  idAdd: string
 ): JSX.Element => {
   const [open, setOpen] = useState(false);
 
@@ -64,6 +65,7 @@ export const TwoOptsTitle = (
       overlayStyle={{ width: 150 }}
     >
       <Button
+        id={idAdd}
         style={{
           ...theme.texts.brandSubFont,
           width: 46

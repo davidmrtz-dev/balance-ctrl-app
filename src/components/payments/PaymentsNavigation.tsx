@@ -22,12 +22,14 @@ const CurrentWrapper = styled.div`
 `;
 
 export const PaymentsNavigation = ({
+  id,
   currentPage,
   leftClick,
   rightClick,
   leftDisabled,
   rightDisabled
 }: {
+  id: string;
   currentPage: number;
   leftClick: () => void;
   rightClick: () => void;
@@ -55,6 +57,7 @@ export const PaymentsNavigation = ({
       <Typography.Text>{currentPage}</Typography.Text>
     </CurrentWrapper>
     <Button
+      id={id}
       onClick={rightClick}
       disabled={rightDisabled}
       style={{

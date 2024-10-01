@@ -30,12 +30,16 @@ const PanelWrapper = styled.div`
 `;
 
 export const Payments = ({
+  id,
+  idPagination,
   headerText,
   getPayments,
   refresh,
   setRefresh,
   type
 }: {
+  id: string;
+  idPagination: string;
   headerText: string;
   getPayments: ({
     page,
@@ -131,14 +135,14 @@ export const Payments = ({
   if (!payments[page]?.length && !loading) return (<></>);
 
   return(
-    <>
+    <div id={id}>
       <Collapse
         style={{ margin: '16px 0', backgroundColor: theme.colors.grays.light }}
         defaultActiveKey={['payments']}
         collapsible='disabled'
         expandIcon={() => <></>}
       >
-        <Panel header={FontText(headerText)} key='payments' >
+        <Panel header={FontText(headerText)} key='payments'>
           <PanelWrapper>
             {loading
               ? (<LoadingWrapper height={type === 'applied' ? '648px' : '538px'}>
@@ -153,6 +157,7 @@ export const Payments = ({
             }
           </PanelWrapper>
           <PaymentsNavigation
+            id={idPagination}
             currentPage={page}
             leftClick={() => setPage(page - 1)}
             rightClick={() => setPage(page + 1)}
@@ -168,6 +173,6 @@ export const Payments = ({
         close={() => setShowDetail(false)}
         setRefresh={setRefresh}
       />)}
-    </>
+    </div>
   );
 };

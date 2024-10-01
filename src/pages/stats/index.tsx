@@ -10,6 +10,7 @@ import { LoadingMask } from '../../atoms/LoadingMask';
 import { FontText } from '../../atoms/text';
 import { BarChart, LineChart, PieChart, PolarAreaChart } from './charts';
 import { Offset } from '../../atoms/Offset';
+import Onboarding from '../../components/onboarding';
 const { Panel } = Collapse;
 
 const PanelWrapper = styled.div`
@@ -43,6 +44,7 @@ const Stats = (): JSX.Element => {
       balance.amount_outcomes_fixed || '0.0'
     ]);
     setBarChartA({
+      id: 'stats-bar-chart-a',
       labelA: 'Incomes',
       labelAData: balance.amount_incomes || '0.0',
       labelAColor: 'rgba(129, 199, 132, 0.5)',
@@ -52,6 +54,7 @@ const Stats = (): JSX.Element => {
       bottom: balance.title
     });
     setBarChartB({
+      id: 'stats-bar-chart-b',
       labelA: 'Current',
       labelAData: balance.amount_outcomes_current || '0.0',
       labelAColor: 'rgba(229, 115, 115, 0.5)',
@@ -64,11 +67,14 @@ const Stats = (): JSX.Element => {
   };
 
   return(<>
+    <Onboarding route="/stats" />
     <Offset />
     <BalanceSelector
+      id='stats-selector'
       handleBalance={handleBalance}
     />
     <Header
+      id='stats-header'
       balance={balance}
       loading={loading}
     />

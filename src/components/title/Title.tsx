@@ -14,7 +14,7 @@ const TitleWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-export const Title = (text: string, setShow: () => void): JSX.Element => {
+export const Title = (text: string, setShow: () => void, id: string): JSX.Element => {
   return(<TitleWrapper>
     <Typography.Text style={{
       ...theme.texts.brandH5,
@@ -23,6 +23,7 @@ export const Title = (text: string, setShow: () => void): JSX.Element => {
       {text}
     </Typography.Text>
     <Button
+      id={id}
       style={{
         ...theme.texts.brandSubFont,
         width: 46

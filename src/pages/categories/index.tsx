@@ -8,11 +8,11 @@ import styled from "styled-components";
 import { LoadingMask } from "../../atoms/LoadingMask";
 import { Category } from "./Category";
 import { Title } from "../../components/title/Title";
+import Onboarding from "../../components/onboarding";
 
 const CategoriesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
   transition: opacity 1s ease-in-out;
-  min-height: 100vh;
 `;
 
 const Categories = (): JSX.Element => {
@@ -79,10 +79,11 @@ const Categories = (): JSX.Element => {
   }, [loading]);
 
   return (<div style={{ marginTop: '20px' }}>
-    {Title('Categories', () => setShowNew(true))}
+    <Onboarding route="/categories" />
+    <div id='categories-header'>{Title('Categories', () => setShowNew(true), 'categories-add')}</div>
     {loading
       ? <LoadingMask fixed />
-      : <CategoriesContainer reveal={reveal}>
+      : <CategoriesContainer id='categories-list' reveal={reveal}>
         {(categories || []).map(category =>
           <Category key={category.id} category={category} onClick={() => handleCategoryClick(category)} />
         )}
