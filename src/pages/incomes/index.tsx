@@ -8,6 +8,7 @@ import { Income } from "./Income";
 import { IncomeCreate, IncomeUpdate } from "../../components/incomes";
 import { newIncome } from "../../generators/emptyObjects";
 import { TwoOptsTitle } from "../../components/title/TwoOptsTitle";
+import Onboarding from "../../components/onboarding";
 
 const IncomesContainer = styled.div<{ reveal: boolean }>`
   opacity: ${p => p.reveal ? 1 : 0};
@@ -86,10 +87,11 @@ const Incomes = (): JSX.Element => {
   }, [loading]);
 
   return(<div style={{ marginTop: '20px' }}>
-    {TwoOptsTitle('Incomes', handleAddOpen, 'Current', 'Fixed')}
+    <Onboarding route="/incomes" />
+    <div id='incomes-header'>{TwoOptsTitle('Incomes', handleAddOpen, 'Current', 'Fixed', 'incomes-add')}</div>
     {loading
       ? <LoadingMask fixed />
-      : (<IncomesContainer reveal={reveal}>
+      : (<IncomesContainer id='incomes-list' reveal={reveal}>
       {(incomes || []).map(income =>
         <Income
           key={income.id}

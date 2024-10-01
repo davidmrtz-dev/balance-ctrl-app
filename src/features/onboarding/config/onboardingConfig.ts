@@ -127,4 +127,90 @@ export const onboardingConfig: IOnboardingConfig = {
       selector: '#stats-bar-chart-b',
     }
   ],
+  '/outcomes': [
+    {
+      id: 'outcomes-1',
+      title: 'Purchases Overview',
+      description: 'In this section, you can view all purchases made, including cash, debit, and credit purchases.',
+      selector: '#outcomes-header',
+    },
+    {
+      id: 'outcomes-2',
+      title: 'Add a New Purchase',
+      description: 'Click the “+” button to add a new purchase. Fill in the details and click “Create” to add the purchase. You can also cancel the operation.',
+      selector: '#outcomes-add',
+    },
+    {
+      id: 'outcomes-3',
+      title: 'Search for Purchases',
+      description: 'Use the search bar to find specific purchases by name, date of purchase, type or category.',
+      selector: '#outcomes-search',
+    },
+    {
+      id: 'outcomes-4',
+      title: 'Purchase History',
+      description: 'View all purchases made, sorted by the most recent. Click on a purchase for more details. In the details view, you can also edit the purchase.',
+      selector: '#outcomes-list',
+    }
+  ],
+  '/incomes': [
+    {
+      id: 'incomes-1',
+      title: 'Incomes Overview',
+      description: 'In this section, you can view all incomes received, including salaries, bonuses, and other income sources.',
+      selector: '#incomes-header',
+    },
+    {
+      id: 'incomes-2',
+      title: 'Add a New Income',
+      description: 'Click the “+” button to add a new income. Fill in the details and click “Create” to add the income. You can also cancel the operation.',
+      selector: '#incomes-add',
+    },
+    {
+      id: 'incomes-3',
+      title: 'Income History',
+      description: 'View all incomes received, sorted by the most recent. Click on an income for more details. In the details view, you can also edit the income.',
+      selector: '#incomes-list',
+    }
+  ],
+  '/billings': [
+    {
+      id: 'billings-1',
+      title: 'Payment Methods Overview',
+      description: 'In this section, you can view all billings, including utilities, rent, and other recurring expenses.',
+      selector: '#billings-header',
+    },
+    {
+      id: 'billings-2',
+      title: 'Add a New Payment Method',
+      description: 'Click the “+” button to add a new billing. Fill in the details and click “Create” to add the billing. You can also cancel the operation.',
+      selector: '#billings-add',
+    },
+    {
+      id: 'billings-3',
+      title: 'Payment Method History',
+      description: 'View all billings, sorted by the most recent. Click on a billing for more details. In the details view, you can also edit the billing.',
+      selector: '#billings-list',
+    }
+  ],
+  '/categories': [
+    {
+      id: 'categories-1',
+      title: 'Categories Overview',
+      description: 'In this section, you can view all categories, including food, transportation, and other expense categories.',
+      selector: '#categories-header',
+    },
+    {
+      id: 'categories-2',
+      title: 'Add a New Category',
+      description: 'Click the “+” button to add a new category. Fill in the details and click “Create” to add the category. You can also cancel the operation.',
+      selector: '#categories-add',
+    },
+    {
+      id: 'categories-3',
+      title: 'Category History',
+      description: 'View all categories, sorted by the most recent. Click on a category for more details. In the details view, you can also edit the category.',
+      selector: '#categories-list',
+    }
+  ]
 };
