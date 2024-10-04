@@ -23,13 +23,13 @@ export const onboardingConfig: IOnboardingConfig = {
     {
       id: 'dashboard-4',
       title: 'Navigate through Purchases',
-      description: 'Use the navigation buttons to view older purchases within the current month.',
+      description: 'Use the navigation buttons to view other purchases within the current month.',
       selector: '#home-current-outcomes-pagination'
     },
     {
       id: 'dashboard-5',
       title: 'Credit Purchases',
-      description: 'View credit purchases made this month, sorted by the most recent. Click a credit purchase to see details. Navigate older items within this month using the buttons. In the details view, you can also edit the purchase.',
+      description: 'View active credit purchases, sorted by the most recent. Click on a purchase for more details.',
       selector: '#home-fixed-outcomes',
     },
     {
@@ -41,7 +41,7 @@ export const onboardingConfig: IOnboardingConfig = {
     {
       id: 'dashboard-7',
       title: 'Navigate through Credit Purchases',
-      description: 'Use the navigation buttons to view older purchases within the current month.',
+      description: 'Use the navigation buttons to view more active purchases.',
       selector: '#home-fixed-outcomes-pagination'
     }
   ],

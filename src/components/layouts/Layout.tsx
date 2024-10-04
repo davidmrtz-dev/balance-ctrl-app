@@ -18,8 +18,8 @@ const Offset = styled.div`
 
 const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
   const [showInit, setShowInit] = useState(true);
-  const { verifyLoggedIn, isAuthenticated, unauthenticate } = useAuthContext();
-  const { timerOn, timeLeft, showSessionAlert, setShowSessionAlert, resetTimer } = useSessionContext();
+  const { verifyLoggedIn, isAuthenticated } = useAuthContext();
+  const { timerOn, timeLeft } = useSessionContext();
   const history = useHistory();
 
   useEffect(() => {
@@ -48,24 +48,6 @@ const Layout = ({ children }: {children: React.ReactNode }): JSX.Element => {
   useEffect(() => {
     if (isAuthenticated) history.push('/');
   }, [isAuthenticated, history]);
-
-  useEffect(() => {
-    const handleSessionExpiration = async () => {
-      if (showSessionAlert) {
-        Alert({
-          icon: 'warning',
-          text: 'Your demo session has expired, please log in again.'
-        });
-        await unauthenticate();
-        setShowSessionAlert(false);
-        resetTimer();
-        history.push('/login');
-      }
-    }
-
-    handleSessionExpiration();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showSessionAlert]);
 
   return (
     <LayoutContainer>

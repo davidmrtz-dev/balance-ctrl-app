@@ -1,4 +1,3 @@
-// import styled from "styled-components";
 import { useCallback, useEffect, useState } from "react";
 import { CategoryCreate, CategoryUpdate } from "../../components/categories";
 import { getCategories } from "../../api/core/Category";

@@ -32,8 +32,8 @@ const SignIn = () => {
 
     try {
       await authenticate(values);
-      history.push('/');
       beginTimer();
+      history.push('/');
     } catch (_err) {
       setValues({ email: '', password: ''});
       form.resetFields();

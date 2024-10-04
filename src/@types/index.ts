@@ -20,6 +20,7 @@ export type {
 export type { IBilling, IBillings } from './IBilling';
 export type { ICategory, ICategories } from './ICategory';
 export type { IOnboardingConfig } from './IOnboarding';
+export type { ISession } from './ISession';
 export interface IMeta {
   current_page: number;
   per_page: number;
