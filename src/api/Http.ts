@@ -9,7 +9,7 @@ type HttpResult = {
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
-    'bypass-tunnel-reminder': 'true',
+    'ngrok-skip-browser-warning': '69420',
     'Content-Type': 'application/json',
     accept: 'application/json'
   },
